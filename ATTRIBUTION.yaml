@@ -1,0 +1,245 @@
+version: 1
+project: rsi-anything
+updated: 2026-10-17
+upstreams:
+  - id: karpathy/autoresearch
+    url: https://github.com/karpathy/autoresearch
+    relationship: inspiration
+    contributions:
+      - Git-as-ratchet experiment history
+      - Fixed-budget autonomous experiment loops and results ledgers
+    used_in:
+      - skills/rsi-loop
+      - docs/knowledge-base/01-what-is-rsi.md
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: morluto/rea
+    url: https://github.com/morluto/rea
+    relationship: inspiration
+    contributions:
+      - Portable agent skill and tool-bridge packaging
+      - Evidence-first verification conventions
+    used_in:
+      - README.md
+      - README_CN.md
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: anthropics/claude-code
+    url: https://github.com/anthropics/claude-code
+    relationship: inspiration
+    contributions:
+      - Continuous execution pattern from plugins/ralph-wiggum
+      - Completion gates for agent loops
+    used_in:
+      - skills/rsi-ralph-kanban
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: frankbria/ralph-claude-code
+    url: https://github.com/frankbria/ralph-claude-code
+    relationship: inspiration
+    contributions:
+      - Guardrailed Ralph loops
+      - Bounded retries and circuit breakers
+    used_in:
+      - skills/rsi-ralph-kanban
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: aaronsb/chief-wiggum
+    url: https://github.com/aaronsb/chief-wiggum
+    relationship: inspiration
+    contributions:
+      - Kanban task orchestration
+      - Isolated Git worktree workers
+    used_in:
+      - skills/rsi-ralph-kanban
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: wanshuiyin/Auto-claude-code-research-in-sleep
+    url: https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep
+    relationship: inspiration
+    contributions:
+      - Markdown-first research-in-sleep workflows
+      - Independent cross-model review gates
+    used_in:
+      - skills/rsi-deep-report
+      - skills/rsi-ralph-kanban
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: brycewang-stanford/Auto-Research-Skills
+    url: https://github.com/brycewang-stanford/Auto-Research-Skills
+    relationship: inspiration
+    contributions:
+      - Research skill discovery and curation
+      - Attribution-led ecosystem packaging
+    used_in:
+      - README.md
+      - UPSTREAM_CREDITS.md
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: Orchestra-Research/AI-Research-SKILLs
+    url: https://github.com/Orchestra-Research/AI-Research-SKILLs
+    relationship: inspiration
+    contributions:
+      - Two-loop research orchestration
+      - Reusable research skill organization
+    used_in:
+      - skills/rsi-deep-report
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: google-research/rrsi
+    url: https://github.com/google-research/rrsi
+    relationship: inspiration
+    contributions:
+      - Regularized recursive self-improvement
+      - Generalization-aware evaluator design
+    used_in:
+      - docs/knowledge-base/02-three-levels-of-rsi.md
+      - docs/knowledge-base/05-curated-reading-list.md
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: greyhaven-ai/autocontext
+    url: https://github.com/greyhaven-ai/autocontext
+    relationship: inspiration
+    contributions:
+      - Persistent cross-iteration context
+      - Experience distillation into reusable playbooks
+    used_in:
+      - skills/rsi-loop
+      - docs/knowledge-base/02-three-levels-of-rsi.md
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: A-EVO-Lab/a-evolve
+    url: https://github.com/A-EVO-Lab/a-evolve
+    relationship: inspiration
+    contributions:
+      - Evolutionary agent improvement
+      - Candidate generation and measured selection
+    used_in:
+      - docs/knowledge-base/02-three-levels-of-rsi.md
+      - docs/knowledge-base/05-curated-reading-list.md
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: zou-group/textgrad
+    url: https://github.com/zou-group/textgrad
+    relationship: inspiration
+    contributions:
+      - Textual feedback as an optimization signal
+      - Structured critique of language-model systems
+    used_in:
+      - skills/rsi-rubric
+      - docs/knowledge-base/05-curated-reading-list.md
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: stanfordnlp/dspy
+    url: https://github.com/stanfordnlp/dspy
+    relationship: inspiration
+    contributions:
+      - Declarative language-model programs
+      - Evaluation-driven reflective optimization
+    used_in:
+      - skills/rsi-rubric
+      - docs/knowledge-base/05-curated-reading-list.md
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: SakanaAI/AI-Scientist-v2
+    url: https://github.com/SakanaAI/AI-Scientist-v2
+    relationship: inspiration
+    contributions:
+      - End-to-end automated research workflows
+      - Iterative experimental critique and revision
+    used_in:
+      - skills/rsi-deep-report
+      - docs/knowledge-base/05-curated-reading-list.md
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: SamuelSchmidgall/AgentLaboratory
+    url: https://github.com/SamuelSchmidgall/AgentLaboratory
+    relationship: inspiration
+    contributions:
+      - Collaborative research-agent roles
+      - Structured scientific workflow automation
+    used_in:
+      - skills/rsi-deep-report
+      - docs/knowledge-base/05-curated-reading-list.md
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: jennyzzt/dgm
+    url: https://github.com/jennyzzt/dgm
+    relationship: inspiration
+    contributions:
+      - Darwin Goedel Machine open-ended agent improvement
+      - Archive-based retention of measured agent variants
+    used_in:
+      - docs/knowledge-base/02-three-levels-of-rsi.md
+      - docs/knowledge-base/05-curated-reading-list.md
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: stanford-oval/storm
+    url: https://github.com/stanford-oval/storm
+    relationship: inspiration
+    contributions:
+      - Multi-perspective report planning
+      - Citation-grounded long-form synthesis
+    used_in:
+      - skills/rsi-deep-report
+      - docs/knowledge-base/05-curated-reading-list.md
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: assafelovic/gpt-researcher
+    url: https://github.com/assafelovic/gpt-researcher
+    relationship: inspiration
+    contributions:
+      - Autonomous source-rich research synthesis
+      - Targeted web research workflows
+    used_in:
+      - skills/rsi-deep-report
+    license: verify-upstream
+    revision: null
+    notices: []
+
+  - id: Future-House/paper-qa
+    url: https://github.com/Future-House/paper-qa
+    relationship: inspiration
+    contributions:
+      - Evidence-grounded scientific question answering
+      - Source-aware literature retrieval
+    used_in:
+      - skills/rsi-deep-report
+      - docs/knowledge-base/05-curated-reading-list.md
+    license: verify-upstream
+    revision: null
+    notices: []
