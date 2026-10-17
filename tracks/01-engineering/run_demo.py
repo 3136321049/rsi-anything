@@ -91,9 +91,11 @@ LINEAR_MATCH = '''def match_and_settle_batch(orders):
         seen_order_ids.add(order_id)
         accepted.append(dict(order))
     risk_by_account = {}
+    gross_by_account = {}
     for row in accepted:
         signed = row["quantity"] if row["side"] == "buy" else -row["quantity"]
         risk_by_account[row["account"]] = risk_by_account.get(row["account"], 0) + signed
+        gross_by_account[row["account"]] = gross_by_account.get(row["account"], 0) + row["quantity"]
     fees = sum(
         settlement_fee_cents(row["price_cents"], row["quantity"],
                              row.get("fee_bps", 0), row.get("rebate_bps", 0))
@@ -105,6 +107,7 @@ LINEAR_MATCH = '''def match_and_settle_batch(orders):
         "fees_cents": fees,
         "vwap_cents": rolling_vwap(accepted),
         "risk_by_account": risk_by_account,
+        "gross_by_account": gross_by_account,
     }
 '''
 
@@ -114,6 +117,7 @@ SINGLE_PASS_MATCH = '''def match_and_settle_batch(orders):
     accepted = [None] * len(orders)
     count = total_quantity = fees = weighted_notional = 0
     risk_by_account = {}
+    gross_by_account = {}
     for order in orders:
         quantity = int(order["quantity"])
         order_id = order["order_id"]
@@ -129,12 +133,14 @@ SINGLE_PASS_MATCH = '''def match_and_settle_batch(orders):
         signed = quantity if order["side"] == "buy" else -quantity
         account = order["account"]
         risk_by_account[account] = risk_by_account.get(account, 0) + signed
+        gross_by_account[account] = gross_by_account.get(account, 0) + quantity
     return {
         "accepted_count": count,
         "total_quantity": total_quantity,
         "fees_cents": fees,
         "vwap_cents": weighted_notional / total_quantity if total_quantity else 0.0,
         "risk_by_account": risk_by_account,
+        "gross_by_account": gross_by_account,
     }
 '''
 

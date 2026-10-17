@@ -22,6 +22,7 @@ def rolling_vwap(trades):
 def match_and_settle_batch(orders):
     accepted = []
     risk_by_account = {}
+    gross_by_account = {}
     for order in orders:
         quantity = int(order["quantity"])
         if quantity <= 0:
@@ -34,6 +35,9 @@ def match_and_settle_batch(orders):
             (1 if row["side"] == "buy" else -1) * row["quantity"]
             for row in accepted
             if row["account"] == account
+        )
+        gross_by_account[account] = sum(
+            row["quantity"] for row in accepted if row["account"] == account
         )
     fees = sum(
         settlement_fee_cents(
@@ -50,4 +54,5 @@ def match_and_settle_batch(orders):
         "fees_cents": fees,
         "vwap_cents": rolling_vwap(accepted),
         "risk_by_account": risk_by_account,
+        "gross_by_account": gross_by_account,
     }

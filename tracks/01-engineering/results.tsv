@@ -1,8 +1,8 @@
 round	timestamp	hypothesis	score	best_score	status	commit_sha	duration_ms	notes
-0	2026-10-17T17:16:59+00:00	BASELINE	42.00	42.00	BASELINE	1b1d9d6	425	7/10 correctness tests; reference p95 220.0ms; observed wall-clock p95 130.882ms; stage 0
-1	2026-10-17T17:17:00+00:00	Deduplicate retried order_id values	54.00	54.00	KEEP	1b1d9d6	437	9/10 correctness tests; reference p95 215.0ms; observed wall-clock p95 135.091ms; stage 1
-2	2026-10-17T17:17:00+00:00	Use exact basis-point settlement and safe empty VWAP	68.50	68.50	KEEP	1b1d9d6	463	10/10 correctness tests; reference p95 210.0ms; observed wall-clock p95 150.122ms; stage 2
-3	2026-10-17T17:17:00+00:00	Cache account risk globally across batches	50.00	68.50	REVERT_SCORE	1b1d9d6	435	9/10 correctness tests; reference p95 200.0ms; observed wall-clock p95 134.918ms; stage 3
-4	2026-10-17T17:17:00+00:00	Disable a frozen correctness assertion	68.50	68.50	REVERT_GUARD		0	frozen path modified or deleted: test_order_engine.py
-5	2026-10-17T17:17:00+00:00	Replace nested scans with hash-indexed O(N) aggregation	89.20	89.20	KEEP	1b1d9d6	42	10/10 correctness tests; reference p95 18.0ms; observed wall-clock p95 3.144ms; stage 5
-6	2026-10-17T17:17:01+00:00	Fuse settlement into one pre-allocated running pass	97.80	97.80	KEEP	1b1d9d6	38	10/10 correctness tests; reference p95 4.5ms; observed wall-clock p95 2.932ms; stage 6
+0	2026-10-17T17:17:51+00:00	BASELINE	42.00	42.00	BASELINE	e0ec452	796	7/10 correctness tests; reference p95 220.0ms; observed wall-clock p95 257.810ms; stage 0
+1	2026-10-17T17:17:52+00:00	Deduplicate retried order_id values	54.00	54.00	KEEP	e0ec452	778	9/10 correctness tests; reference p95 215.0ms; observed wall-clock p95 250.070ms; stage 1
+2	2026-10-17T17:17:53+00:00	Use exact basis-point settlement and safe empty VWAP	68.50	68.50	KEEP	e0ec452	775	10/10 correctness tests; reference p95 210.0ms; observed wall-clock p95 249.994ms; stage 2
+3	2026-10-17T17:17:54+00:00	Cache account risk globally across batches	50.00	68.50	REVERT_SCORE	e0ec452	797	9/10 correctness tests; reference p95 200.0ms; observed wall-clock p95 259.380ms; stage 3
+4	2026-10-17T17:17:54+00:00	Disable a frozen correctness assertion	68.50	68.50	REVERT_GUARD		0	frozen path modified or deleted: test_order_engine.py
+5	2026-10-17T17:17:54+00:00	Replace nested scans with hash-indexed O(N) aggregation	89.20	89.20	KEEP	e0ec452	41	10/10 correctness tests; reference p95 18.0ms; observed wall-clock p95 3.257ms; stage 5
+6	2026-10-17T17:17:54+00:00	Fuse settlement into one pre-allocated running pass	97.80	97.80	KEEP	e0ec452	39	10/10 correctness tests; reference p95 4.5ms; observed wall-clock p95 3.049ms; stage 6

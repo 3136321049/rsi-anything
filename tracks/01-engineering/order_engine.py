@@ -24,6 +24,7 @@ def match_and_settle_batch(orders):
     accepted = [None] * len(orders)
     count = total_quantity = fees = weighted_notional = 0
     risk_by_account = {}
+    gross_by_account = {}
     for order in orders:
         quantity = int(order["quantity"])
         order_id = order["order_id"]
@@ -39,10 +40,12 @@ def match_and_settle_batch(orders):
         signed = quantity if order["side"] == "buy" else -quantity
         account = order["account"]
         risk_by_account[account] = risk_by_account.get(account, 0) + signed
+        gross_by_account[account] = gross_by_account.get(account, 0) + quantity
     return {
         "accepted_count": count,
         "total_quantity": total_quantity,
         "fees_cents": fees,
         "vwap_cents": weighted_notional / total_quantity if total_quantity else 0.0,
         "risk_by_account": risk_by_account,
+        "gross_by_account": gross_by_account,
     }
