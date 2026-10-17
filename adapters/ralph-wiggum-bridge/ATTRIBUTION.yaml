@@ -1,0 +1,29 @@
+version: 1
+project: rsi-anything
+updated: 2026-10-17
+upstreams:
+  - id: frankbria/ralph-claude-code
+    url: https://github.com/frankbria/ralph-claude-code
+    authors: [Frank Bria]
+    relationship: inspiration
+    contributions:
+      - Stop-hook style refusal to exit while checks are red
+      - Bounded retries instead of an unbounded agent loop
+    used_in:
+      - adapters/ralph-wiggum-bridge
+    license: verify-upstream
+    revision: null
+    notices:
+      - Geoffrey Huntley's Ralph loop and anthropics/claude-code plugins/ralph-wiggum are the wider lineage.
+  - id: aaronsb/chief-wiggum
+    url: https://github.com/aaronsb/chief-wiggum
+    authors: [Aaron SB]
+    relationship: inspiration
+    contributions:
+      - Kanban claim locks
+      - One git worktree per task
+    used_in:
+      - adapters/ralph-wiggum-bridge
+    license: verify-upstream
+    revision: null
+    notices: []

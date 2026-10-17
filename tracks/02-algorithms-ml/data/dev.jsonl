@@ -1,0 +1,8 @@
+{"text": "null pointer in the parser", "label": "defect"}
+{"text": "index off by one when slicing", "label": "defect"}
+{"text": "exception while decoding json", "label": "defect"}
+{"text": "flaky timeout under load", "label": "defect"}
+{"text": "warmup steps then cosine decay", "label": "config"}
+{"text": "raise the weight decay to 0.1", "label": "config"}
+{"text": "error bars on the validation plot", "label": "config"}
+{"text": "batch size 32 on one gpu", "label": "config"}

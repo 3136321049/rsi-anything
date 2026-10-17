@@ -1,0 +1,26 @@
+{
+  "name": "Adversarial redline and PRISMA checklist",
+  "profiles": {
+    "contract_redline": {
+      "weight": 50,
+      "hard_gates": ["every STATUTE- id exists in statutes.json", "no one-sided indemnity left unmarked"],
+      "attack_checks": ["unlimited liability on one party only", "automatic renewal without a notice window", "penalty with no cap"],
+      "dimensions": [
+        {"id": "citation_integrity", "points": 15},
+        {"id": "reciprocity", "points": 20},
+        {"id": "residual_attacks", "points": 15}
+      ]
+    },
+    "prisma": {
+      "weight": 50,
+      "required_sections": ["Question", "Eligibility", "Search", "Bias", "Limitation"],
+      "hard_gates": ["every PMID is on the frozen ledger", "eligibility is explicit"],
+      "dimensions": [
+        {"id": "question", "points": 10},
+        {"id": "methods", "points": 15},
+        {"id": "bias", "points": 15},
+        {"id": "traceable_pmids", "points": 10}
+      ]
+    }
+  }
+}

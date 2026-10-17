@@ -1,0 +1,64 @@
+{
+  "score": 84.0,
+  "passed_gates": true,
+  "summary": "84/100 gates=PASS debate=21 evidence=18 logic=17 structure=15 action=13",
+  "critique": {
+    "dimensions": {
+      "debate": {
+        "name": "核心论点与正反方博弈深度",
+        "weight": 25,
+        "score": 21.0
+      },
+      "evidence": {
+        "name": "一手数据与案例颗粒度",
+        "weight": 25,
+        "score": 18.0
+      },
+      "logic": {
+        "name": "逻辑链条严密性",
+        "weight": 20,
+        "score": 17.0
+      },
+      "structure": {
+        "name": "结构与图表信息密度",
+        "weight": 15,
+        "score": 15.0
+      },
+      "action": {
+        "name": "可行动洞察",
+        "weight": 15,
+        "score": 13.0
+      }
+    },
+    "violations": [],
+    "suggestions": [
+      "给出至少三条能被财报或出货数据打脸的证伪触发。",
+      "补上政策原文和一手渠道，不要停在公司年报。",
+      "补充独立渠道交叉验证：设备商交付周期与主机厂定点函。",
+      "同时写下乐观情景和悲观情景，并让TAM能由单价乘出货量复原。",
+      "增加主张、证据、反证交叉脚注表。",
+      "每条证伪触发都要对应一个可观察指标。",
+      "给出组合仓位上限与回撤约束，而不是只列跟踪指标。"
+    ],
+    "verified_citations": [
+      "SRC-11",
+      "SRC-12",
+      "SRC-01",
+      "SRC-03",
+      "SRC-04",
+      "SRC-05",
+      "SRC-06",
+      "SRC-07",
+      "SRC-08",
+      "SRC-09",
+      "SRC-02",
+      "SRC-13",
+      "SRC-14",
+      "SRC-10"
+    ],
+    "unknown_citations": [],
+    "banned_phrases": [],
+    "bear_chars": 638,
+    "hypothesis": "写深看空逻辑，并补上BOM与敏感性矩阵"
+  }
+}

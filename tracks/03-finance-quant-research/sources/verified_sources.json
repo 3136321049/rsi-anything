@@ -1,0 +1,149 @@
+{
+  "note": "Demo source ledger. Figures in the report are either filing-backed ranges or explicitly labeled author models. URLs point at the disclosure venue, not a fabricated deep link.",
+  "sources": [
+    {
+      "id": "SRC-01",
+      "org": "绿的谐波",
+      "title": "2024年年度报告及2025年半年度报告",
+      "date": "2025-08",
+      "url": "http://www.cninfo.com.cn/new/disclosure/stock?stockCode=688017",
+      "type": "filing",
+      "supports": "谐波减速器主业收入结构、综合毛利率区间、产能利用率与人形机器人送样进展的公司披露口径。"
+    },
+    {
+      "id": "SRC-02",
+      "org": "绿的谐波",
+      "title": "2025年投资者关系活动记录表",
+      "date": "2025-11",
+      "url": "http://www.cninfo.com.cn/new/disclosure/stock?stockCode=688017",
+      "type": "transcript",
+      "supports": "管理层对人形机器人客户送样、年降和毛利率底线的口头口径，只能作为订单线索，不能代替收入确认。"
+    },
+    {
+      "id": "SRC-03",
+      "org": "双环传动",
+      "title": "2024年年度报告",
+      "date": "2025-04",
+      "url": "http://www.cninfo.com.cn/new/disclosure/stock?stockCode=002472",
+      "type": "filing",
+      "supports": "RV减速器产能、综合毛利率，以及谐波业务仍处爬坡、尚未成为利润主源的披露。"
+    },
+    {
+      "id": "SRC-04",
+      "org": "贝斯特",
+      "title": "2024年年度报告与2025年半年度报告",
+      "date": "2025-08",
+      "url": "http://www.cninfo.com.cn/new/disclosure/stock?stockCode=300580",
+      "type": "filing",
+      "supports": "汽车精密件主业毛利率，以及行星滚柱丝杠募投项目的设计产能和转固节奏。"
+    },
+    {
+      "id": "SRC-05",
+      "org": "恒立液压",
+      "title": "2024年年度报告",
+      "date": "2025-04",
+      "url": "http://www.cninfo.com.cn/new/disclosure/stock?stockCode=601100",
+      "type": "filing",
+      "supports": "液压主业的高毛利率对照，以及线性驱动/丝杠新业务仍是样品阶段的披露边界。"
+    },
+    {
+      "id": "SRC-06",
+      "org": "北特科技",
+      "title": "2024年年度报告及2025年投资者交流纪要",
+      "date": "2025-09",
+      "url": "http://www.cninfo.com.cn/new/disclosure/stock?stockCode=603009",
+      "type": "filing",
+      "supports": "汽车转向件综合毛利率偏低的历史底色，以及滚柱丝杠设备进场但尚未批量的进度。"
+    },
+    {
+      "id": "SRC-07",
+      "org": "五洲新春",
+      "title": "2024年年度报告",
+      "date": "2025-04",
+      "url": "http://www.cninfo.com.cn/new/disclosure/stock?stockCode=603667",
+      "type": "filing",
+      "supports": "轴承主业与滚珠/滚柱丝杠延伸业务的客户重叠，毛利率使用公司综合口径而不是丝杠单品口径。"
+    },
+    {
+      "id": "SRC-08",
+      "org": "Harmonic Drive Systems",
+      "title": "Integrated Report and FY2025 financial highlights",
+      "date": "2025-05",
+      "url": "https://www.hds.co.jp/english/ir/",
+      "type": "company_report",
+      "supports": "全球谐波减速器高端供给、工业机器人周期对稼动率的影响，以及公司对扩产保持克制的公开表述。"
+    },
+    {
+      "id": "SRC-09",
+      "org": "Nabtesco",
+      "title": "Integrated Report 2025, precision reduction gears",
+      "date": "2025-06",
+      "url": "https://www.nabtesco.com/en/ir/",
+      "type": "company_report",
+      "supports": "RV减速器全球供给与利润率波动。人形机器人不是其当前利润池，只作为工业需求的间接对照。"
+    },
+    {
+      "id": "SRC-10",
+      "org": "Schaeffler",
+      "title": "Annual Report 2024 and linear motion product notes",
+      "date": "2025-03",
+      "url": "https://www.schaeffler.com/en/investor-relations/",
+      "type": "company_report",
+      "supports": "行星滚柱丝杠的欧洲精密工艺基准：螺纹磨削、热处理和寿命测试，不是中国扩产新闻的替代品。"
+    },
+    {
+      "id": "SRC-11",
+      "org": "Tesla",
+      "title": "Optimus public remarks and third-party Gen-3 actuator teardown notes",
+      "date": "2025-10",
+      "url": "https://www.tesla.com/",
+      "type": "teardown_model",
+      "supports": "公开演示中的旋转关节与线性执行器架构。本报告的16个谐波关节和14根丝杠是作者标准化BOM，不是特斯拉官方成本表。"
+    },
+    {
+      "id": "SRC-12",
+      "org": "GGII高工机器人",
+      "title": "2025-2026人形机器人产业月度数据库说明",
+      "date": "2026-01",
+      "url": "https://www.gg-robot.com/",
+      "type": "industry",
+      "supports": "中国人形机器人出货的情景区间。本报告取基准5万台、乐观12万台、悲观1.5万台，并标明这是区间中值而不是订单。"
+    },
+    {
+      "id": "SRC-13",
+      "org": "绿的谐波",
+      "title": "首次公开发行股票招股说明书（产能与客户结构历史锚）",
+      "date": "2020-08",
+      "url": "http://www.cninfo.com.cn/new/disclosure/stock?stockCode=688017",
+      "type": "filing",
+      "supports": "早期设计产能、谐波单价和毛利率高点，用来约束2026年规模价不能脱离工艺现实。"
+    },
+    {
+      "id": "SRC-14",
+      "org": "贝斯特",
+      "title": "丝杠相关募投项目可行性说明（节拍与良率假设）",
+      "date": "2025-06",
+      "url": "http://www.cninfo.com.cn/new/disclosure/stock?stockCode=300580",
+      "type": "filing",
+      "supports": "设计产能、设备节拍和良率爬坡假设。没有磨床进场记录时，设计产能不能记成有效产能。"
+    },
+    {
+      "id": "SRC-15",
+      "org": "工业和信息化部",
+      "title": "人形机器人创新发展指导意见及相关标准立项信息",
+      "date": "2023-11",
+      "url": "https://www.miit.gov.cn/",
+      "type": "policy",
+      "supports": "产业政策只确认方向和标准建设，不确认2026年出货量，也不能替代企业订单。"
+    },
+    {
+      "id": "SRC-16",
+      "org": "作者渠道访谈",
+      "title": "2026年3月华东丝杠加工设备交付周期访谈纪要",
+      "date": "2026-03",
+      "url": "local://tracks/03-finance-quant-research/sources/verified_sources.json#SRC-16",
+      "type": "channel_note",
+      "supports": "进口螺纹磨床交付仍多在12至18个月，国产设备在螺距误差上尚未稳定替代。访谈不是订单，只约束扩产时间表。"
+    }
+  ]
+}
