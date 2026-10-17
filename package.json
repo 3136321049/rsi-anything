@@ -1,0 +1,29 @@
+{
+  "name": "rsi-anything",
+  "version": "0.1.0",
+  "description": "Install RSI-Anything agent skills for your coding agents.",
+  "license": "MIT",
+  "bin": {
+    "rsi-anything": "./setup.sh"
+  },
+  "files": [
+    "setup.sh",
+    "skills",
+    "LICENSE",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "agent-skills",
+    "claude-code",
+    "cursor",
+    "codex",
+    "rsi"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/3136321049/rsi-anything.git"
+  }
+}
