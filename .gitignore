@@ -1,2 +1,11 @@
 .DS_Store
 agent-tools/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+**/.rsi/worktrees/
+**/.rsi/locks/
+**/.rsi/frozen.sha256

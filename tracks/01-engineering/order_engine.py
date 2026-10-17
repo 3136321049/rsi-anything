@@ -1,6 +1,4 @@
-"""Champion: exact, idempotent, empty-safe O(N) settlement kernel."""
-
-STAGE = 6
+"""Champion: exact, idempotent, empty-safe single-pass O(N) settlement kernel."""
 
 
 def reset_state():
@@ -19,28 +17,31 @@ def rolling_vwap(trades):
         return 0.0
     return sum(trade["price_cents"] * trade["quantity"] for trade in positive) / volume
 
+
 def match_and_settle_batch(orders):
     seen_order_ids = set()
-    accepted = [None] * len(orders)
+    seen_add = seen_order_ids.add
     count = total_quantity = fees = weighted_notional = 0
     risk_by_account = {}
     gross_by_account = {}
+    risk_get = risk_by_account.get
+    gross_get = gross_by_account.get
+    fee_fn = settlement_fee_cents
     for order in orders:
         quantity = int(order["quantity"])
         order_id = order["order_id"]
         if quantity <= 0 or order_id in seen_order_ids:
             continue
-        seen_order_ids.add(order_id)
-        accepted[count] = dict(order)
+        seen_add(order_id)
+        price = order["price_cents"]
         count += 1
         total_quantity += quantity
-        weighted_notional += order["price_cents"] * quantity
-        fees += settlement_fee_cents(order["price_cents"], quantity,
-                                     order.get("fee_bps", 0), order.get("rebate_bps", 0))
+        weighted_notional += price * quantity
+        fees += fee_fn(price, quantity, order.get("fee_bps", 0), order.get("rebate_bps", 0))
         signed = quantity if order["side"] == "buy" else -quantity
         account = order["account"]
-        risk_by_account[account] = risk_by_account.get(account, 0) + signed
-        gross_by_account[account] = gross_by_account.get(account, 0) + quantity
+        risk_by_account[account] = risk_get(account, 0) + signed
+        gross_by_account[account] = gross_get(account, 0) + quantity
     return {
         "accepted_count": count,
         "total_quantity": total_quantity,

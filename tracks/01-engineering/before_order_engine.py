@@ -1,7 +1,5 @@
 """Buggy baseline: correct happy path, but unsafe retries, money, and empty windows."""
 
-STAGE = 0
-
 
 def reset_state():
     """The baseline is stateless."""

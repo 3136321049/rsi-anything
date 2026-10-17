@@ -14,8 +14,8 @@ os.chdir(ROOT)
 
 for candidate in [
     Path(os.environ["RSI_ENGINE"]) if os.environ.get("RSI_ENGINE") else None,
-    Path("/tmp/rsi-candidates/grok47"),
-    ROOT.parents[2],
+    ROOT.parents[1],
+    ROOT.parents[2] if len(ROOT.parents) > 2 else None,
 ]:
     if candidate and (candidate / "core" / "controller.py").exists():
         sys.path.insert(0, str(candidate))

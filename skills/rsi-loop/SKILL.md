@@ -21,30 +21,31 @@ permission to widen its paths, edit its evaluator, or relax its gates.
    - stopping limits: iterations, cost/time, and stagnation
 3. If any field is missing or contradictory, stop and ask the user to freeze
    the contract. Do not infer destructive commands.
-4. Create `.rsi/` if needed. Keep `.rsi/lessons.md`, `.rsi/results.tsv`, and a
-   snapshot manifest there. Confirm these bookkeeping files are permitted.
+4. Create `.rsi/` if needed. Keep `.rsi/lessons.md`, `.rsi/frozen.sha256`, and
+   `results.tsv` synchronized with the track directory. Confirm these
+   bookkeeping files are permitted.
 
 ## Freeze the judge
 
 Before the baseline and before every candidate evaluation:
 
 ```bash
-sha256sum <each frozen file, in stable sorted order> > .rsi/frozen.sha256
-sha256sum --check .rsi/frozen.sha256
+python3 rsi.py verify-guard <track_dir>
 ```
 
 For directories, enumerate regular files in byte-sorted order. Include command
 configuration and hidden fixtures. A missing, added, or changed frozen file is
-a hard violation: discard the candidate, record `FROZEN_PATH_CHANGED`, and
+a hard violation: discard the candidate, record `REVERT_GUARD`, and
 stop if repository restoration is not unambiguous.
 
 ## Establish the champion
 
-Run `eval_cmd` without changing anything. Record the baseline score, hard-gate
-status, runtime, commit SHA, and evaluator hash in `.rsi/results.tsv`:
+Run `eval_cmd` without changing anything. Record the baseline score, best
+score, status (`BASELINE`), commit SHA, runtime, and evaluator notes in
+`results.tsv`:
 
 ```text
-iteration	timestamp	hypothesis	score	gates	status	commit	evaluator_sha
+round	timestamp	hypothesis	score	best_score	status	commit_sha	duration_ms	notes
 ```
 
 If the baseline cannot be evaluated reproducibly, stop. Never optimize a
@@ -66,12 +67,13 @@ broken or nondeterministic judge; first report the variance or failure.
 8. On acceptance:
    - stage only the allowed mutation and RSI ledger updates;
    - commit with `rsi: <hypothesis> (<old> -> <new>)`;
-   - mark the row `KEPT` and make this commit the champion.
+   - mark the row `KEEP` and make this commit the champion.
 9. On regression, tie, invalid score, timeout, or gate failure:
    - save the evidence needed for the ledger;
    - restore only this iteration's candidate changes to the known champion;
    - never erase pre-existing user work;
-   - mark the row `REVERTED`.
+   - mark the row `REVERT_SCORE` (or `REVERT_GUARD` when a frozen path or path
+     allowlist check fails).
 10. Append one short, generalizable lesson for every iteration:
     `round N — hypothesis — evidence — rule for future rounds`.
 

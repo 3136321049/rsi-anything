@@ -58,14 +58,13 @@
 <td valign="top">
 
 ```text
-Round  0  42.0 分 · 220.0ms   基线
-Round  2  67.4 分 · 118.0ms   保留 ✅
-Round  4  81.1 分 ·  42.0ms   保留 ✅
-Round  7  99.9 分 ·   0.1ms   回滚 ↩
-          返回空结果 = 奖励作弊
-Round  9  88.0 分 ·   7.2ms   回滚 ↩
-          回归测试失败
-Round 12  97.8 分 ·   4.5ms   冠军 🏆
+Round 0  42.0 分 · ~280ms  BASELINE        7/10 通过，O(N²) 逐单前缀扫描
+Round 1  63.2 分 · ~145ms  KEEP ✅         10/10 通过（幂等去重 + 整型基点）
+Round 2  70.0 分 ·  ~30ms  KEEP ✅         10/10 通过，按账户聚合（提速 ~5×）
+Round 3  48.0 分 ·  ~30ms  REVERT_SCORE ↩  8/10 通过，跨批次缓存泄漏被回滚
+Round 4  70.0 分 ·    —    REVERT_GUARD ↩  篡改冻结测试断言，门禁拦截
+Round 5  86.0 分 · ~3.5ms  KEEP ✅         10/10 通过，哈希索引 O(N) 聚合
+Round 6  97.8 分 · ~1.7ms  KEEP 🏆         10/10 通过，单遍零拷贝结算内核
 ```
 
 坏变异、破坏测试的捷径和 reward hacking 会自动回滚。只有**又快又正确**
@@ -75,11 +74,12 @@ Round 12  97.8 分 ·   4.5ms   冠军 🏆
 <td valign="top">
 
 ```text
-Round 0   58.0 分   AI 味空话
-Round 1   68.5 分   一手信源地图
-Round 3   82.0 分   公司横向对比
-Round 4   79.5 分   回滚 ↩ 数据过时
-Round 6   94.5 分   冠军 🏆
+Round 0  58.0 分   BASELINE        AI 味空话初稿
+Round 1  72.5 分   KEEP ✅         5 家竞品毛利率与产能对照表
+Round 2  64.5 分   REVERT_SCORE ↩  伪造 [SRC-99] 信源，一票否决
+Round 3  84.0 分   KEEP ✅         看空章节 (Bear Case) + BOM 拆解
+Round 4  84.0 分   REVERT_GUARD ↩  篡改 rubric.yaml 权重，门禁拦截
+Round 5  94.5 分   KEEP 🏆         16 条核验信源 + 份额交叉配平
 ```
 
 终稿是一篇关于 **2026 年人形机器人执行器与滚柱丝杠（Humanoid Robot

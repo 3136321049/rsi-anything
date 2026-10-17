@@ -65,15 +65,18 @@ def _competitor(md_text: str, gates: dict) -> bool:
 
 def _share_ok(md_text: str, gates: dict) -> bool:
     tolerance = float(gates.get("share_tolerance", 1.0))
+    checked = 0
     for header, rows in _tables(md_text):
         for col, name in enumerate(header):
             if not any(token in name for token in gates.get("share_headers", [])):
                 continue
             nums = [float(match.group(1)) for row in rows if col < len(row)
                     and (match := re.search(r"(-?\d+(?:\.\d+)?)\s*%", row[col]))]
-            if len(nums) >= 2 and abs(sum(nums) - 100) <= tolerance:
-                return True
-    return False
+            if len(nums) >= 2:
+                checked += 1
+                if abs(sum(nums) - 100) > tolerance:
+                    return False
+    return checked > 0
 
 
 def _fires(token: str, ctx: dict, signals: dict) -> bool:

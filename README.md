@@ -58,14 +58,13 @@ candidate. A higher score counts only when every hard gate still passes.
 <td valign="top">
 
 ```text
-Round  0  42.0 pts · 220.0ms   BASELINE
-Round  2  67.4 pts · 118.0ms   KEEP ✅
-Round  4  81.1 pts ·  42.0ms   KEEP ✅
-Round  7  99.9 pts ·   0.1ms   REVERT ↩
-          empty response = reward hacking
-Round  9  88.0 pts ·   7.2ms   REVERT ↩
-          regression test failed
-Round 12  97.8 pts ·   4.5ms   CHAMPION 🏆
+Round 0  42.0 pts · ~280ms  BASELINE        7/10 tests, O(N²) prefix scan
+Round 1  63.2 pts · ~145ms  KEEP ✅         10/10 tests (dedup + integer bps)
+Round 2  70.0 pts ·  ~30ms  KEEP ✅         10/10, per-account scan (~5× faster)
+Round 3  48.0 pts ·  ~30ms  REVERT_SCORE ↩  8/10, cross-batch risk leak blocked
+Round 4  70.0 pts ·    —    REVERT_GUARD ↩  frozen test tamper blocked
+Round 5  86.0 pts · ~3.5ms  KEEP ✅         10/10, O(N) hash aggregation
+Round 6  97.8 pts · ~1.7ms  KEEP 🏆         10/10, single-pass zero-copy kernel
 ```
 
 Bad mutations, broken tests, and reward-hacking shortcuts are automatically
@@ -75,11 +74,12 @@ rolled back. Only a faster **and correct** implementation advances the ratchet.
 <td valign="top">
 
 ```text
-Round 0   58.0 pts   "AI fluff"
-Round 1   68.5 pts   primary-source map
-Round 3   82.0 pts   company comparison
-Round 4   79.5 pts   REVERT ↩ stale figures
-Round 6   94.5 pts   CHAMPION 🏆
+Round 0  58.0 pts   BASELINE        "AI fluff" draft
+Round 1  72.5 pts   KEEP ✅         5-company comparison table
+Round 2  64.5 pts   REVERT_SCORE ↩  fabricated [SRC-99] blocked
+Round 3  84.0 pts   KEEP ✅         Bear Case + BOM sensitivity
+Round 4  84.0 pts   REVERT_GUARD ↩  rubric.yaml tamper blocked
+Round 5  94.5 pts   KEEP 🏆         16 verified sources + cross-foot
 ```
 
 The winner is an institutional-grade 2026 report on **Humanoid Robot
