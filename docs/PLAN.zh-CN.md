@@ -73,7 +73,15 @@
 
 ## 六、中美支持
 
-**编程助手（干活的）**：已接入 Claude Code、Codex、Cursor、Gemini CLI、Qwen Code、Kimi CLI、CodeBuddy、OpenCode，以及任意自定义命令。还有一个内置 API 助手，能直接用任何 OpenAI 兼容模型修改文本类产物。各命令行的无人值守参数正在按调研 B 逐个核对，iFlow 等其他国产助手随后补上。
+**编程助手（干活的）**：已按各家 2026-10 的文档接入十个：
+
+- 美国：Claude Code、Codex、Cursor、Gemini CLI、GitHub Copilot CLI。
+- 中美通用：OpenCode、Qwen Code、CodeBuddy、Qoder。
+- 中国：Kimi Code CLI。
+
+另外支持任意自定义命令，以及一个内置 API 助手：直接用任何 OpenAI 兼容模型修改文本类产物，没有编程助手也能跑。
+
+调研 B 推荐的首批是 Claude Code、Codex、OpenCode、Qwen Code、Cursor、CodeBuddy。其中 OpenCode 能接任意 OpenAI 或 Anthropic 兼容端点，并报告美元费用，是国内用户"海外工具外壳 + 国产模型"的最佳载体。iFlow 和 Roo Code 已停服，不适配。目前只用 Codex 真实跑过，其余助手的参数按文档实现，等有对应账号的机器实测。
 
 **评委模型**：
 
