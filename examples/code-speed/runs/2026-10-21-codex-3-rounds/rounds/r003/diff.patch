@@ -1,0 +1,64 @@
+diff --git a/search.py b/search.py
+index 14624d5..3de99cc 100644
+--- a/search.py
++++ b/search.py
+@@ -1,6 +1,30 @@
+ """Find the names closest to a query by edit distance (case-insensitive)."""
+ 
+ from bisect import insort
++from collections import Counter
++from functools import lru_cache
++
++
++@lru_cache(maxsize=4)
++def _prepare_names(names: tuple[str, ...]):
++    texts = [name.lower() for name in names]
++    counts = [Counter(text) for text in texts]
++    widths = {}
++    for count in counts:
++        for char, frequency in count.items():
++            widths[char] = max(widths.get(char, 0), frequency)
++    slots = {}
++    offset = 0
++    for char, width in widths.items():
++        slots[char] = (offset, width)
++        offset += width
++    prepared = []
++    for name, text, count in zip(names, texts, counts):
++        signature = 0
++        for char, frequency in count.items():
++            signature |= ((1 << frequency) - 1) << slots[char][0]
++        prepared.append((name, text, len(text), signature))
++    return slots, prepared
+ 
+ 
+ def _character_masks(pattern: str) -> dict[str, int]:
+@@ -47,16 +71,22 @@ def search(query: str, names: list[str], k: int = 5) -> list[str]:
+     if isinstance(k, int) and 0 <= k < len(names):
+         if k == 0:
+             return []
++        slots, prepared = _prepare_names(tuple(names))
++        signature = 0
++        for char, frequency in Counter(pattern).items():
++            slot = slots.get(char)
++            if slot is not None:
++                offset, width = slot
++                signature |= ((1 << min(frequency, width)) - 1) << offset
+         best = []
+-        for name in names:
+-            text = name.lower()
++        for name, text, text_length, text_signature in prepared:
+             if len(best) == k:
+                 worst = best[-1]
+-                if (abs(length - len(text)), name) >= worst:
++                if (abs(length - text_length), name) >= worst:
+                     continue
+-                # 匹配字符数不会超过此上限，因此其余字符至少各需一次编辑。
+-                matches = min(length, sum(char in masks for char in text))
+-                if (max(length, len(text)) - matches, name) >= worst:
++                # 每个字符按出现次数占位，交集位数就是可匹配字符数的上限。
++                matches = bin(signature & text_signature).count("1")
++                if (max(length, text_length) - matches, name) >= worst:
+                     continue
+             item = (_distance(masks, length, text), name)
+             if len(best) < k:

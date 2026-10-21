@@ -55,6 +55,16 @@ for query, pool, k in edge + [(q, names, 5) for q in queries]:
     want = reference(query, list(pool), k)
     if got != want:
         wrong.append(f"search({query!r}, <{len(pool)} names>, {k}) returned {str(got)[:120]}, expected {want}")
+# The same list object, changed in place between calls: caches must notice.
+mutable = names[:60]
+for step in range(3):
+    query = queries[step]
+    got, want = candidate.search(query, mutable, 4), reference(query, list(mutable), 4)
+    if got != want:
+        wrong.append(f"after the name list changed, search({query!r}) returned {got}, expected {want}")
+    mutable.append(query + "x")
+    mutable.pop(0)
+
 if wrong:
     report(0.0, False, f"{len(wrong)} wrong answers, e.g. " + " | ".join(wrong[:2]), {"seed": SEED})
     sys.exit(0)

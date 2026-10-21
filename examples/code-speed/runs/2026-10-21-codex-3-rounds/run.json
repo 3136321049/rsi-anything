@@ -1,0 +1,17 @@
+{
+  "run_id": "20261021-203321-fuzzy-search-speed",
+  "contract": "fuzzy-search-speed",
+  "contract_digest": "d9091a8b0ebe",
+  "goal": "Make `search()` in search.py as fast as possible while returning exactly the same results as before\nfor every input. Score = how many times faster it is than the original implementation.",
+  "base": "064eba57412849d2681747a95eb60f9675234eaa",
+  "branch": "rsi/20261021-203321-fuzzy-search-speed",
+  "project": ".",
+  "agent": "codex",
+  "judge": "command",
+  "jury": [],
+  "started": "2026-10-21T12:33:21+00:00",
+  "finished": "2026-10-21T12:39:36+00:00",
+  "champion": "c2bf959d886a4cd5b8b61cd957d13e087995d043",
+  "stop_reason": "reached 3 rounds",
+  "holdout": {}
+}

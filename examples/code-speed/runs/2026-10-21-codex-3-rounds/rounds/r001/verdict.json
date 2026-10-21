@@ -1,0 +1,14 @@
+{
+  "score": 4.45,
+  "gates": {
+    "correct": true,
+    "exit_code": true
+  },
+  "feedback": "correct on all 19 checks; 4.4x faster than the original (51.8 ms vs 230.4 ms for 15 queries over 1202 names)",
+  "metrics": {
+    "seed": 3329365049,
+    "candidate_ms": 51.83,
+    "reference_ms": 230.42
+  },
+  "error": ""
+}

@@ -1,7 +1,9 @@
 name: fuzzy-search-speed
 goal: |
   Make `search()` in search.py as fast as possible while returning exactly the same results as before
-  for every input. Score = how many times faster it is than the original implementation.
+  for every input. It is called many times over the same list of names, so precomputation that pays off
+  across calls is fair game, as long as every call still returns the right answer (also when the list changes).
+  Score = how many times faster it is than the original implementation.
 artifact:
   - search.py
 judge:

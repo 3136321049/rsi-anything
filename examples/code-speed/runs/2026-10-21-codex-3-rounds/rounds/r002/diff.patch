@@ -1,0 +1,40 @@
+diff --git a/search.py b/search.py
+index b8ee9d8..14624d5 100644
+--- a/search.py
++++ b/search.py
+@@ -1,5 +1,7 @@
+ """Find the names closest to a query by edit distance (case-insensitive)."""
+ 
++from bisect import insort
++
+ 
+ def _character_masks(pattern: str) -> dict[str, int]:
+     masks = {}
+@@ -42,6 +44,27 @@ def search(query: str, names: list[str], k: int = 5) -> list[str]:
+     pattern = query.lower()
+     masks = _character_masks(pattern)
+     length = len(pattern)
++    if isinstance(k, int) and 0 <= k < len(names):
++        if k == 0:
++            return []
++        best = []
++        for name in names:
++            text = name.lower()
++            if len(best) == k:
++                worst = best[-1]
++                if (abs(length - len(text)), name) >= worst:
++                    continue
++                # 匹配字符数不会超过此上限，因此其余字符至少各需一次编辑。
++                matches = min(length, sum(char in masks for char in text))
++                if (max(length, len(text)) - matches, name) >= worst:
++                    continue
++            item = (_distance(masks, length, text), name)
++            if len(best) < k:
++                insort(best, item)
++            elif item < best[-1]:
++                insort(best, item)
++                best.pop()
++        return [name for _, name in best]
+     scored = []
+     for name in names:
+         scored.append((_distance(masks, length, name.lower()), name))

@@ -144,6 +144,15 @@ def cmd_report(args) -> int:
     return 0
 
 
+def cmd_export(args) -> int:
+    from .export import export_run
+
+    store, repo = _store(args)
+    written = export_run(store, repo, Path(args.to).resolve(), with_logs=args.with_logs)
+    print(f"exported {len(written)} files to {args.to} (local paths scrubbed; review before publishing)")
+    return 0
+
+
 def cmd_agents(args) -> int:
     found = {spec.name for spec in detect()}
     print("coding-agent CLIs (use with `agent.use` or as judges via cli:<name>):")
@@ -218,6 +227,13 @@ def main(argv=None) -> int:
         p.add_argument("run", nargs="?")
         p.add_argument("--dir", default=".")
         p.set_defaults(func=func)
+
+    p = sub.add_parser("export", help="copy a run's ledger, diffs and report somewhere shareable")
+    p.add_argument("run", nargs="?")
+    p.add_argument("--to", required=True)
+    p.add_argument("--dir", default=".")
+    p.add_argument("--with-logs", action="store_true", help="include raw agent logs")
+    p.set_defaults(func=cmd_export)
 
     sub.add_parser("agents", help="list supported coding agents and detected API keys").set_defaults(func=cmd_agents)
     p = sub.add_parser("skill", help="install the /rsi skill into your coding agents, or print it")
