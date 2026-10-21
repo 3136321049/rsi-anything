@@ -64,6 +64,9 @@ class Ratchet:
         self.artifact = _prefix(self.rel_root, contract.artifact)
         self.frozen_patterns = _prefix(self.rel_root, contract.frozen_files)
         self.assets = _prefix(self.rel_root, contract.assets)
+        # Hold-out judge files are removed from the agent's worktree every round; only judges see them.
+        hidden = (contract.holdout.files + ([contract.holdout.rubric] if contract.holdout.rubric else [])) if contract.holdout else []
+        self.hidden = _prefix(self.rel_root, hidden)
 
     # ------------------------------------------------------------------ setup
 
@@ -86,7 +89,7 @@ class Ratchet:
         allowed, ignored = [], []
         for path in gitops.dirty_paths(worktree):
             path = normalize(path)
-            if matches(path, self.assets):
+            if matches(path, self.assets) or matches(path, self.hidden):
                 continue
             (allowed if matches(path, self.artifact) else ignored).append(path)
         return allowed, ignored
@@ -195,6 +198,7 @@ class Ratchet:
         round_dir = store.round_dir(number)
         gitops.reset_worktree(worktree, champion)
         workspace.link_assets(self.repo, worktree, self.assets)
+        workspace.remove_matching(worktree, self.hidden)
         text = briefing.build(self.contract, best, champion_verdict, rows,
                               ledger.read_lessons(self.repo, self.contract.name))
         (round_dir / "prompt.md").write_text(text, encoding="utf-8")

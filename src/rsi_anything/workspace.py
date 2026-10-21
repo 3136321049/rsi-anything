@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Optional
 
 from . import gitops
-from .paths import normalize
+from .paths import matches, normalize
 
 _CACHE_DIRS = {"__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
 
@@ -24,7 +24,6 @@ _CACHE_DIRS = {"__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
 def snapshot_frozen(repo: Path, commit: str, patterns: list[str]) -> dict[str, bytes]:
     """Read every committed file matching the frozen patterns at `commit`."""
     listed = gitops.git(repo, "ls-tree", "-r", "--name-only", commit)
-    from .paths import matches
 
     files = [path for path in listed.splitlines() if matches(path, patterns)]
     snapshot = {}
@@ -85,3 +84,15 @@ def link_assets(repo: Path, worktree: Path, assets: list[str]):
 
 def discard(path: Path):
     shutil.rmtree(path, ignore_errors=True)
+
+
+def remove_matching(root: Path, patterns: list[str]):
+    """Delete files under `root` that match `patterns` (used to hide hold-out data from the agent)."""
+    if not patterns:
+        return
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames[:] = [d for d in dirnames if d != ".git"]
+        for name in filenames:
+            path = Path(dirpath) / name
+            if matches(path.relative_to(root).as_posix(), patterns):
+                path.unlink()

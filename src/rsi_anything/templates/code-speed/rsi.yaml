@@ -8,7 +8,7 @@ artifact:
   - search.py
 judge:
   type: command
-  run: python3 judge/check.py
+  run: "{python} judge/check.py"
   files: [judge]
   direction: maximize
   min_gain: 5%        # timings are noisy: a new version must be at least 5% faster to count

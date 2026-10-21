@@ -1,0 +1,24 @@
+name: support-intent-prompt
+goal: |
+  Improve prompt.md, the instructions a language model follows to label a customer message of a food-delivery
+  app with exactly one intent. Score = accuracy (%) on the labeled examples in judge/dev.jsonl.
+  The prompt must work for any new message, so write general rules, not answers for specific examples.
+artifact:
+  - prompt.md
+judge:
+  type: command
+  run: "{python} judge/evaluate.py judge/dev.jsonl"
+  files: [judge]
+  direction: maximize
+  min_delta: 2          # one more correct example out of 40 is 2.5 points; smaller moves are noise
+holdout:                # never shown to the agent: tells you whether gains transfer to unseen messages
+  type: command
+  run: "{python} judge/evaluate.py holdout/test.jsonl"
+  files: [holdout]
+agent:
+  use: auto
+  timeout: 900
+budget:
+  rounds: 8
+  minutes: 120
+  stagnation: 3

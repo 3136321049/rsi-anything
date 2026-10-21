@@ -6,14 +6,17 @@ code under test cannot pose as a score. Write JSON to the path in `$RSI_RESULT`:
     {"score": 87.5, "gates": {"tests": true}, "feedback": "p95 still 4ms", "metrics": {...}}
 
 `rsi_anything.report_result(...)` does this for Python judges. A non-zero exit
-code fails the `exit_code` gate.
+code fails the `exit_code` gate. `{python}` in the command is replaced by the
+interpreter running rsi, so judges can `import rsi_anything` wherever rsi is installed.
 """
 from __future__ import annotations
 
 import json
 import os
+import shlex
 import statistics
 import subprocess
+import sys
 import tempfile
 import time
 from pathlib import Path
@@ -35,7 +38,8 @@ class CommandJudge(Judge):
         with tempfile.TemporaryDirectory(prefix="rsi-result-") as box:
             result_file = Path(box) / "result.json"
             try:
-                run = subprocess.run(self.spec.run, shell=True, cwd=workspace, env=judge_env(result_file, round_no),
+                command = self.spec.run.replace("{python}", shlex.quote(sys.executable))
+                run = subprocess.run(command, shell=True, cwd=workspace, env=judge_env(result_file, round_no),
                                      capture_output=True, text=True, timeout=self.spec.timeout)
             except subprocess.TimeoutExpired:
                 return Verdict(None, error=f"judge timed out after {self.spec.timeout}s",

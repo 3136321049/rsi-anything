@@ -118,3 +118,20 @@ def test_stress_check_catches_sabotage(toy):
     assert by_name["empty"].caught  # empty file scores 0 < 7
     assert not by_name["truncated"].caught  # "7" cut to its first character is still "7": a tie must be reported
     assert by_name["filler"].caught and by_name["evaluator_injection"].caught  # unscoreable text cannot win
+
+
+def test_holdout_files_are_hidden_from_the_agent_and_reported(toy, tmp_path):
+    spy = tmp_path / "seen.txt"
+    project = toy([{"write": {"value.txt": "5"}}], rounds=1)
+    (project / "secret").mkdir()
+    (project / "secret" / "judge2.py").write_text(
+        "import json, os\nv = int(open('value.txt').read())\njson.dump({'score': v * 10}, open(os.environ['RSI_RESULT'], 'w'))\n")
+    contract_text = (project / "rsi.yaml").read_text().replace(
+        "agent:", "holdout:\n  run: python3 secret/judge2.py\n  files: [secret]\nagent:")
+    contract_text = contract_text.replace('command: "python3', f'command: "ls -R > {spy}; python3')
+    (project / "rsi.yaml").write_text(contract_text)
+    git(project, "add", "-A")
+    git(project, "commit", "-qm", "holdout")
+    summary, rows = run(project)
+    assert "judge2.py" not in spy.read_text()          # the agent never saw the hold-out judge
+    assert rows[0]["holdout"] == 10 and summary.holdout["final"] == 50

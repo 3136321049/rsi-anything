@@ -38,7 +38,7 @@ goal: |
 artifact: [path/to/file]
 judge:
   type: command                 # or: rubric
-  run: python3 judge/score.py   # writes {"score", "gates", "feedback"} to $RSI_RESULT
+  run: "{python} judge/score.py"  # {python} = rsi's interpreter; writes {"score", "gates", "feedback"} to $RSI_RESULT
   files: [judge]                # frozen: the agent can never change these
   direction: maximize
   min_gain: 3%                  # ignore noise-sized gains
