@@ -34,7 +34,7 @@ def judge(models=("fake:a", "fake:b"), pairwise=True):
     return RubricJudge(spec)
 
 
-def fake_ask(score_by_model, manipulation=False, winner="A", seen=None):
+def fake_ask(score_by_model, manipulation=False, winner="A", seen=None, evidence="calm night desk"):
     def ask(ref, prompt, system="", images=None, timeout=600, json_mode=False):
         if seen is not None:
             seen.append(prompt)
@@ -42,7 +42,7 @@ def fake_ask(score_by_model, manipulation=False, winner="A", seen=None):
             return llm.Reply(json.dumps({"winner": winner(prompt) if callable(winner) else winner}))
         score = score_by_model[ref.raw]
         return llm.Reply(json.dumps({
-            "criteria": {"hook": {"score": score}, "facts": {"score": score}},
+            "criteria": {"hook": {"score": score, "evidence": evidence}, "facts": {"score": score, "evidence": evidence}},
             "checks": {"No invented numbers.": {"pass": True}},
             "manipulation": manipulation, "top_fix": "sharper first line"}))
     return ask
@@ -104,3 +104,16 @@ def test_empty_artifact_scores_zero(monkeypatch, workspace):
     monkeypatch.setattr(llm, "ask", fake_ask({"fake:a": 10, "fake:b": 10}))
     verdict = judge().evaluate(workspace, 1)
     assert verdict.score == 0.0 and not verdict.passed
+
+
+def test_praise_without_real_evidence_is_capped(monkeypatch, workspace):
+    monkeypatch.setattr(llm, "ask", fake_ask({"fake:a": 9, "fake:b": 9}, evidence="a sentence that is not in the post"))
+    verdict = judge().evaluate(workspace, 1)
+    assert verdict.score == 30.0 and verdict.metrics["unsupported_evidence"] == 4
+
+
+def test_degenerate_text_fails_before_models_matter(monkeypatch, workspace):
+    (workspace / "post.md").write_text("desk desk desk desk " * 40)
+    monkeypatch.setattr(llm, "ask", fake_ask({"fake:a": 10, "fake:b": 10}, evidence="desk desk"))
+    verdict = judge().evaluate(workspace, 1)
+    assert verdict.gates["not_repetitive"] is False and not verdict.passed

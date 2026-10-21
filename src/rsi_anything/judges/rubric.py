@@ -32,7 +32,7 @@ from typing import Any
 
 import yaml
 
-from .. import llm
+from .. import degenerate, llm
 from ..paths import matches
 from .base import Judge, Verdict
 
@@ -76,6 +76,19 @@ def code_gates(text: str, gates: dict[str, Any]) -> dict[str, bool]:
     for pattern in gates.get("regex_absent") or []:
         result[f"absent:{pattern}"] = re.search(pattern, text) is None
     return result
+
+
+def _quote_found(quote: str, artifact: str) -> bool:
+    """Is the judge's evidence really in the artifact? Compared without whitespace and quote marks."""
+    strip = re.compile(r"[\s\"'“”‘’「」『』…]+")
+    needle, hay = strip.sub("", str(quote)), strip.sub("", artifact)
+    if not needle:
+        return False
+    if needle in hay:
+        return True
+    # Judges often shorten long quotes with an ellipsis: accept when every long-enough fragment is present.
+    parts = [part for part in re.split(r"\.{3}|…", str(quote)) if len(strip.sub("", part)) >= 6]
+    return bool(parts) and all(strip.sub("", part) in hay for part in parts)
 
 
 def sample_frames(video: Path, count: int, dest: Path) -> list[Path]:
@@ -170,6 +183,10 @@ class RubricJudge(Judge):
             except (OSError, ValueError, llm.LLMError, subprocess.CalledProcessError) as exc:
                 return Verdict(None, error=f"cannot prepare rubric judging: {exc}")
             gates = code_gates(artifact, rubric["gates"])
+            problems: list[str] = []
+            if artifact.strip() and rubric["gates"].get("degenerate", True):
+                degenerate_gates, problems = degenerate.check(artifact)
+                gates.update(degenerate_gates)
             if not artifact.strip() and not images:
                 return Verdict(0.0, {**gates, "non_empty": False}, "artifact is empty", seconds=time.perf_counter() - started)
             prompt = self._score_prompt(rubric, artifact, bool(images))
@@ -188,12 +205,17 @@ class RubricJudge(Judge):
         weights = {c["name"]: float(c["weight"]) for c in rubric["criteria"]}
         per_criterion: dict[str, list[float]] = {name: [] for name in weights}
         totals, notes, fixes = [], [], []
+        unsupported = 0
         for data in results:
             got = data.get("criteria") or {}
             total = 0.0
             for name, weight in weights.items():
-                raw = (got.get(name) or {}).get("score", 1)
+                item = got.get(name) or {}
+                raw = item.get("score", 1)
                 value = min(10.0, max(1.0, float(raw))) if isinstance(raw, (int, float)) else 1.0
+                if value > 3 and not images and not _quote_found(item.get("evidence", ""), artifact):
+                    value = 3.0  # a judge that cannot point at the text it is praising does not get to praise it
+                    unsupported += 1
                 per_criterion[name].append(value)
                 total += weight * value / 10
             totals.append(100 * total / sum(weights.values()))
@@ -209,13 +231,14 @@ class RubricJudge(Judge):
             whys = [((d.get("criteria") or {}).get(name) or {}).get("why", "") for d in results]
             notes.append(f"{name} {statistics.mean(per_criterion[name]):.1f}/10: " + " / ".join(w for w in whys if w)[:300])
         failed = [name for name, ok in gates.items() if not ok]
-        feedback = "\n".join(([f"failed gates: {', '.join(failed)}"] if failed else []) + notes + fixes[:3])
+        feedback = "\n".join(([f"failed gates: {', '.join(failed)}"] if failed else []) + problems + notes + fixes[:3])
         costs = [d["_cost"] for d in results if isinstance(d.get("_cost"), (int, float))]
         metrics = {
             "criteria": {n: round(statistics.mean(v), 2) for n, v in per_criterion.items()},
             "jury": [d["_model"] for d in results],
             "spread": round(max(totals) - min(totals), 1),
             "judge_errors": errors,
+            "unsupported_evidence": unsupported,
             "cost_usd": round(sum(costs), 4) if costs else None,
         }
         return Verdict(round(statistics.mean(totals), 2), gates, feedback, metrics, time.perf_counter() - started)
