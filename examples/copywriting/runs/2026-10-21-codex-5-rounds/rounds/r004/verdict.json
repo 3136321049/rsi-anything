@@ -1,0 +1,36 @@
+{
+  "score": 95.5,
+  "gates": {
+    "min_chars": true,
+    "max_chars": true,
+    "includes:129": true,
+    "includes:夜间": true,
+    "excludes:最好": true,
+    "excludes:第一": true,
+    "excludes:100%": true,
+    "excludes:顶级": true,
+    "excludes:在这个快节奏的时代": true,
+    "excludes:让我们一起": true,
+    "absent:\\A[^\\n]{21,}": true,
+    "check:笔记中出现的所有价格、时间、数量、设施和福利都与资料一致，没有资料之外的数字、评价或承诺。": true,
+    "check:没有冒充真实用户的虚构经历或好评（可以用第二人称描述场景）。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "hook 9.0/10: 直接说中白天被工作或课程占满、只能晚上备考的处境，并用营业到凌晨2点给出继续阅读的理由。\ncredibility 9.0/10: 表达克制且主动提醒现实限制，全部事实均有资料支撑，但整体结构仍略带完整宣传稿感。\n[cli:codex:gpt-5.6-sol] 把标题改成“白天上班上课，晚上才轮到自己？这里能学到凌晨2点”，让上班族和学生都在信息流第一眼确认这是写给自己的。",
+  "metrics": {
+    "criteria": {
+      "hook": 9.0,
+      "concrete_value": 10.0,
+      "credibility": 9.0,
+      "platform_fit": 10.0,
+      "call_to_action": 10.0
+    },
+    "jury": [
+      "cli:codex:gpt-5.6-sol"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "cost_usd": null
+  },
+  "error": ""
+}

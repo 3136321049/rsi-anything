@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSI run 20261021-204217-xiaohongshu-post</title>
+<style>
+:root { --bg:#fbfaf7; --fg:#1d1d1b; --muted:#6b6a64; --line:#e4e1d8; --accent:#2f6fde; --keep:#1f9d55; --drop:#b7b3a6; }
+@media (prefers-color-scheme: dark) { :root { --bg:#161614; --fg:#ecebe6; --muted:#a3a198; --line:#2c2b27; --accent:#7aa7ff; --keep:#4cc38a; --drop:#5b5950; } }
+body { background:var(--bg); color:var(--fg); font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; margin:0; }
+main { max-width:960px; margin:0 auto; padding:32px 16px 64px; }
+h1 { font-size:22px; margin:0 0 4px; } .muted { color:var(--muted); }
+.stats { display:flex; gap:24px; flex-wrap:wrap; margin:20px 0; } .stat b { display:block; font-size:26px; }
+svg { width:100%; height:auto; border:1px solid var(--line); border-radius:8px; }
+.best { fill:none; stroke:var(--accent); stroke-width:2; } .kept { fill:var(--keep); } .dropped { fill:var(--drop); }
+.tick { fill:var(--muted); font-size:11px; }
+table { width:100%; border-collapse:collapse; margin-top:20px; font-size:14px; }
+td,th { border-bottom:1px solid var(--line); padding:6px 8px; text-align:left; vertical-align:top; }
+tr.s-keep td:nth-child(2) { color:var(--keep); font-weight:600; }
+pre { overflow-x:auto; background:color-mix(in srgb, var(--line) 40%, transparent); padding:12px; border-radius:8px; }
+</style></head><body><main>
+<h1>xiaohongshu-post</h1>
+<div class="muted">把 post.md 改成一篇能让目标读者停下来、愿意收藏和到店的小红书笔记。
+所有事实只能来自 judge/brief.md，不能编造价格、地址、福利或用户评价。</div>
+<div class="stats">
+<div class="stat"><span class="muted">baseline</span><b>16.5</b></div>
+<div class="stat"><span class="muted">best</span><b>96</b></div>
+<div class="stat"><span class="muted">rounds / kept</span><b>5 / 2</b></div>
+<div class="stat"><span class="muted">agent</span><b style="font-size:16px">codex</b></div>
+</div>
+<svg viewBox="0 0 720 260" role="img" aria-label="score by round"><polyline points="48.0,210.3 179.2,39.1 310.4,39.1 441.6,38.0 572.8,38.0 704.0,38.0" class="best"/><circle cx="48.0" cy="210.3" r="5" class="kept"><title>r0 BASELINE 16.5</title></circle><circle cx="179.2" cy="39.1" r="5" class="kept"><title>r1 KEEP 95.5</title></circle><circle cx="310.4" cy="33.7" r="3.5" class="dropped"><title>r2 REVERT 98</title></circle><circle cx="441.6" cy="38.0" r="5" class="kept"><title>r3 KEEP 96</title></circle><circle cx="572.8" cy="39.1" r="3.5" class="dropped"><title>r4 REVERT 95.5</title></circle><circle cx="704.0" cy="39.1" r="3.5" class="dropped"><title>r5 REVERT 95.5</title></circle><text x="40" y="210.3" class="tick" text-anchor="end">16.5</text><text x="40" y="122.0" class="tick" text-anchor="end">57.2</text><text x="40" y="33.7" class="tick" text-anchor="end">98</text><text x="48.0" y="250" class="tick" text-anchor="middle">r0</text><text x="179.2" y="250" class="tick" text-anchor="middle">r1</text><text x="310.4" y="250" class="tick" text-anchor="middle">r2</text><text x="441.6" y="250" class="tick" text-anchor="middle">r3</text><text x="572.8" y="250" class="tick" text-anchor="middle">r4</text><text x="704.0" y="250" class="tick" text-anchor="middle">r5</text></svg>
+<p class="muted">Line: best score so far. Green: kept. Grey: judged and thrown away.
+
+Stopped: reached 5 rounds.</p>
+<table><thead><tr><th>round</th><th>status</th><th>score</th><th>best</th><th>change</th><th>why</th></tr></thead>
+<tbody><tr class='s-baseline'><td>0</td><td>◆ BASELINE</td><td>16.5</td><td>16.5</td><td>baseline</td><td></td></tr><tr class='s-keep'><td>1</td><td>▲ KEEP</td><td>95.5</td><td>95.5</td><td>将 `post.md` 改为围绕下班、下课后备考的场景展开，用资料中的时间、设施、饮品和安全安排提供具体价值，以前 50 名首月 129 元及公众号回复方式引导预约，预计提升吸引力、可信度和到店意愿。</td><td>passes gates the current best fails (min_chars, includes:129, excludes:在这个快节奏的时代, excludes:让我们一起, check:笔记中出现的所有价格、时间、数量、设施和福利都与资料一致，没有资料之外的数字、评价或承诺。)</td></tr><tr class='s-revert'><td>2</td><td>· REVERT</td><td>98</td><td>95.5</td><td>将标题改为“下班刚翻开书，就怕自习室要关门？”，用具体动作和时间焦虑增强画面感，预计提高目标读者的停留意愿；标题字数及全文硬性门槛已通过检查。</td><td>higher score but lost head-to-head (1/2 votes)</td></tr><tr class='s-keep'><td>3</td><td>▲ KEEP</td><td>96</td><td>96</td><td>调整收尾，去掉重复促销，把收藏与核对时间、路程联系起来，集中呈现体验价和领取方式，预计提升可信度与行动意愿；字数、标题和禁词检查通过。</td><td>score 95.5 -&gt; 96; head-to-head 2/2</td></tr><tr class='s-revert'><td>4</td><td>· REVERT</td><td>95.5</td><td>96</td><td>仅将标题改为“下班才翻开书？这里能学到凌晨2点”，用具体画面和资料中的可用时段同时呈现处境与价值，预计提升停留意愿；字数、必含词和禁词检查通过。</td><td>score 95.5 is not better than 96 (required margin: 0 or 0%)</td></tr><tr class='s-revert'><td>5</td><td>· REVERT</td><td>95.5</td><td>96</td><td>仅调整 `post.md` 收尾排版，将收藏提示与领取方式分段、话题标签移至文末，预计提升手机阅读连贯性和预约入口辨识度；硬性检查通过，事实与措辞保持不变。</td><td>score 95.5 is not better than 96 (required margin: 0 or 0%)</td></tr></tbody></table>
+<h2>Champion vs. start</h2><pre>post.md | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)</pre>
+<p class="muted">Branch <code>rsi/20261021-204217-xiaohongshu-post</code>. Generated by RSI-Anything.</p>
+</main></body></html>

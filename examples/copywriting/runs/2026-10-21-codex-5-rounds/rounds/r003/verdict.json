@@ -1,0 +1,36 @@
+{
+  "score": 96.0,
+  "gates": {
+    "min_chars": true,
+    "max_chars": true,
+    "includes:129": true,
+    "includes:夜间": true,
+    "excludes:最好": true,
+    "excludes:第一": true,
+    "excludes:100%": true,
+    "excludes:顶级": true,
+    "excludes:在这个快节奏的时代": true,
+    "excludes:让我们一起": true,
+    "absent:\\A[^\\n]{21,}": true,
+    "check:笔记中出现的所有价格、时间、数量、设施和福利都与资料一致，没有资料之外的数字、评价或承诺。": true,
+    "check:没有冒充真实用户的虚构经历或好评（可以用第二人称描述场景）。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "hook 9.0/10: 直接点中只能晚上备考的处境，并用营业时间问题制造继续阅读的理由。\nplatform_fit 9.0/10: 短段落、小标题和表情使用适度，并配有5个相关话题标签，手机阅读层次清楚。\n[cli:codex:gpt-5.6-sol] 把标题进一步压缩成更有画面感的一句话，例如“下班才开始备考的人，终于不用刚翻开书就赶打烊”，会更直接地放大目标读者的真实痛点。",
+  "metrics": {
+    "criteria": {
+      "hook": 9.0,
+      "concrete_value": 10.0,
+      "credibility": 10.0,
+      "platform_fit": 9.0,
+      "call_to_action": 10.0
+    },
+    "jury": [
+      "cli:codex:gpt-5.6-sol"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "cost_usd": null
+  },
+  "error": ""
+}

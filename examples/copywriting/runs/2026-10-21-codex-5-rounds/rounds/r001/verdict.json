@@ -1,0 +1,36 @@
+{
+  "score": 95.5,
+  "gates": {
+    "min_chars": true,
+    "max_chars": true,
+    "includes:129": true,
+    "includes:夜间": true,
+    "excludes:最好": true,
+    "excludes:第一": true,
+    "excludes:100%": true,
+    "excludes:顶级": true,
+    "excludes:在这个快节奏的时代": true,
+    "excludes:让我们一起": true,
+    "absent:\\A[^\\n]{21,}": true,
+    "check:笔记中出现的所有价格、时间、数量、设施和福利都与资料一致，没有资料之外的数字、评价或承诺。": true,
+    "check:没有冒充真实用户的虚构经历或好评（可以用第二人称描述场景）。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "hook 9.0/10: 直接说中晚间备考者最现实的时间焦虑，并立刻用营业时段回应，但标题的画面感还能更强。\ncredibility 9.0/10: 表达克制且有现实提醒，没有虚构经历、夸大效果或加入资料外承诺，不过整体仍能看出推广文案的编排痕迹。\n[cli:codex:gpt-5.6-sol] 把标题改得更有具体画面，例如“下班后才开始备考，刚翻开书就怕自习室打烊？”，可进一步提高信息流中的停留率。",
+  "metrics": {
+    "criteria": {
+      "hook": 9.0,
+      "concrete_value": 10.0,
+      "credibility": 9.0,
+      "platform_fit": 10.0,
+      "call_to_action": 10.0
+    },
+    "jury": [
+      "cli:codex:gpt-5.6-sol"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "cost_usd": null
+  },
+  "error": ""
+}

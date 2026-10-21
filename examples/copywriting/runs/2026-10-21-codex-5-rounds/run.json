@@ -1,0 +1,19 @@
+{
+  "run_id": "20261021-204217-xiaohongshu-post",
+  "contract": "xiaohongshu-post",
+  "contract_digest": "59e78395afc1",
+  "goal": "把 post.md 改成一篇能让目标读者停下来、愿意收藏和到店的小红书笔记。\n所有事实只能来自 judge/brief.md，不能编造价格、地址、福利或用户评价。",
+  "base": "7ee9df2a04ed58f284696d70d786a83773284905",
+  "branch": "rsi/20261021-204217-xiaohongshu-post",
+  "project": ".",
+  "agent": "codex",
+  "judge": "rubric",
+  "jury": [
+    "cli:codex:gpt-5.6-sol"
+  ],
+  "started": "2026-10-21T12:42:17+00:00",
+  "finished": "2026-10-21T12:58:49+00:00",
+  "champion": "82ee5f18ee6beffef8c2e3d6b2db63618ad29e93",
+  "stop_reason": "reached 5 rounds",
+  "holdout": {}
+}
