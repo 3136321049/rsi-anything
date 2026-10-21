@@ -1,0 +1,19 @@
+name: fuzzy-search-speed
+goal: |
+  Make `search()` in search.py as fast as possible while returning exactly the same results as before
+  for every input. Score = how many times faster it is than the original implementation.
+artifact:
+  - search.py
+judge:
+  type: command
+  run: python3 judge/check.py
+  files: [judge]
+  direction: maximize
+  min_gain: 5%        # timings are noisy: a new version must be at least 5% faster to count
+agent:
+  use: auto           # or claude, codex, gemini, qwen, kimi, opencode, codebuddy, api
+  timeout: 900
+budget:
+  rounds: 8
+  minutes: 90
+  stagnation: 3

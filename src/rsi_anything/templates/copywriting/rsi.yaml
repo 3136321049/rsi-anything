@@ -1,0 +1,20 @@
+name: xiaohongshu-post
+goal: |
+  把 post.md 改成一篇能让目标读者停下来、愿意收藏和到店的小红书笔记。
+  所有事实只能来自 judge/brief.md，不能编造价格、地址、福利或用户评价。
+artifact:
+  - post.md
+judge:
+  type: rubric
+  rubric: judge/rubric.yaml
+  files: [judge]
+  models: [auto]      # e.g. [cli:codex, deepseek:deepseek-chat]; auto = up to two models you already have
+  samples: 1
+  pairwise: true      # a higher score must also win head-to-head against the current best
+agent:
+  use: auto           # api + model works too, e.g. use: api, model: deepseek:deepseek-chat
+  timeout: 600
+budget:
+  rounds: 6
+  minutes: 60
+  stagnation: 3
