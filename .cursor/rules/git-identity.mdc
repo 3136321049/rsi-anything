@@ -1,0 +1,23 @@
+---
+description: Git identity and privacy rules for this public-facing personal repository
+alwaysApply: true
+---
+
+# Git identity
+
+This is a personal open-source project. Every commit must use only this identity:
+
+- Author and committer: `3136321049 <3136321049@users.noreply.github.com>`
+- Any `Co-authored-by` trailer must use exactly `3136321049 <3136321049@users.noreply.github.com>`.
+
+Before committing, run `git config user.name` and `git config user.email`; if they differ, set them to the values above for this repository. Never add an author, committer or co-author line with any other personal or employer email address.
+
+# Keep work context out of the repo
+
+Do not write any of the following into files, commit messages, PR titles or PR descriptions:
+
+- Employer names, internal domains, intranet URLs, internal IP addresses or hostnames
+- Local machine paths that contain a username (for example `/Users/<name>/...`)
+- Passwords, API keys, tokens, cookies or SSH keys
+
+If such content is found in the repo, stop and tell the user instead of committing it.
