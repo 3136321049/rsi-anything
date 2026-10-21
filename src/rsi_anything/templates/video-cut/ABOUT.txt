@@ -1,0 +1,1 @@
+self-media: cut a 4-minute talk into a 60-second highlight; ffmpeg renders, an LLM jury judges

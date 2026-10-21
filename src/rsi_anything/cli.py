@@ -48,6 +48,11 @@ def cmd_init(args) -> int:
         return 2
     shutil.copytree(TEMPLATES / args.template, dest, ignore=shutil.ignore_patterns("ABOUT.txt", "__pycache__"),
                     dirs_exist_ok=True)
+    if (dest / "rsi_init.py").exists():  # templates that need media or data generated on this machine
+        print("preparing template files (this can take a minute)...")
+        if subprocess.run([sys.executable, "rsi_init.py"], cwd=dest).returncode != 0:
+            print("template setup failed; fix the problem above and rerun `python rsi_init.py` in", dest)
+            return 1
     inside_repo = subprocess.run(["git", "rev-parse"], cwd=dest, capture_output=True).returncode == 0
     if not inside_repo:
         for step in (["git", "init", "-q"], ["git", "add", "-A"],

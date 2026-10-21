@@ -117,3 +117,15 @@ def test_degenerate_text_fails_before_models_matter(monkeypatch, workspace):
     monkeypatch.setattr(llm, "ask", fake_ask({"fake:a": 10, "fake:b": 10}, evidence="desk desk"))
     verdict = judge().evaluate(workspace, 1)
     assert verdict.gates["not_repetitive"] is False and not verdict.passed
+
+
+def test_prepare_step_feeds_gates_and_short_circuits(monkeypatch, workspace):
+    calls = []
+    monkeypatch.setattr(llm, "ask", lambda *a, **k: calls.append(1) or llm.Reply("{}"))
+    (workspace / "prep.py").write_text(
+        "import json, pathlib\npathlib.Path('out').mkdir(exist_ok=True)\n"
+        "json.dump({'duration_ok': False}, open('out/gates.json', 'w'))\nopen('out/notes.txt', 'w').write('too long')\n")
+    spec = JudgeSpec(type="rubric", rubric="rubric.yaml", inputs=["post.md"], models=["fake:a"], prepare="{python} prep.py")
+    verdict = RubricJudge(spec).evaluate(workspace, 1)
+    assert verdict.gates == {"duration_ok": False} and verdict.feedback == "too long"
+    assert calls == []  # failed preparation gates mean no model calls at all

@@ -62,7 +62,7 @@ class CommandJudge(Judge):
             metrics["output_tail"] = tail
         return Verdict(score, gates, str(data.get("feedback", "")), metrics, seconds)
 
-    def evaluate(self, workspace: Path, round_no: int) -> Verdict:
+    def score(self, workspace: Path, round_no: int) -> Verdict:
         runs = [self._once(workspace, round_no) for _ in range(self.spec.repeats)]
         bad = next((v for v in runs if not v.ok), None)
         if bad:

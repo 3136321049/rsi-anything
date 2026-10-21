@@ -1,0 +1,22 @@
+name: talk-highlight
+goal: |
+  从一段约 4 分钟的分享里剪出一条 40 到 75 秒的竖屏高光：刷到的人前 3 秒愿意停下，看完能带走核心方法。
+  只能编辑 edit.json，用 judge/transcript.json 里的句子编号选择和排列原视频里的句子，不能改写内容。
+artifact:
+  - edit.json
+judge:
+  type: rubric
+  prepare: "{python} judge/render.py"   # renders out/cut.mp4 + out/cut.txt and checks duration and sentence count
+  rubric: judge/rubric.yaml
+  inputs: [out/cut.txt]                 # add out/cut.mp4 to let image-capable judges see sampled frames
+  files: [judge]
+  models: [auto]
+  pairwise: true
+assets: [assets]                        # the raw video (not committed); judges and the agent see it read-only
+agent:
+  use: auto
+  timeout: 600
+budget:
+  rounds: 8
+  minutes: 90
+  stagnation: 3

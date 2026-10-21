@@ -176,7 +176,7 @@ class RubricJudge(Judge):
         data["_cost"] = reply.cost_usd
         return data
 
-    def evaluate(self, workspace: Path, round_no: int) -> Verdict:
+    def score(self, workspace: Path, round_no: int) -> Verdict:
         started = time.perf_counter()
         with tempfile.TemporaryDirectory(prefix="rsi-rubric-") as scratch:
             try:

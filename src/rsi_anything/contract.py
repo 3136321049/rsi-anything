@@ -33,6 +33,9 @@ class JudgeSpec:
     timeout: int = 600
     # type: command
     run: str = ""
+    # any type: a command run in the judge workspace first (render a video, build a report...).
+    # It may write out/gates.json ({"name": bool}) and out/notes.txt, which join the verdict.
+    prepare: str = ""
     # type: rubric
     rubric: str = ""
     inputs: list[str] = field(default_factory=list)
@@ -118,6 +121,7 @@ def _judge(raw: Any, key: str) -> JudgeSpec:
         repeats=max(1, int(raw.get("repeats", 1))),
         timeout=int(raw.get("timeout", 600)),
         run=str(raw.get("run", "")),
+        prepare=str(raw.get("prepare", "")),
         rubric=normalize(raw["rubric"]) if raw.get("rubric") else "",
         inputs=_list(raw.get("inputs"), f"{key}.inputs"),
         models=[str(m) for m in (raw.get("models") or [])],

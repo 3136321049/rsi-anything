@@ -33,7 +33,49 @@ class Judge:
         self.spec = spec
 
     def evaluate(self, workspace: Path, round_no: int) -> Verdict:
+        """Run the optional `prepare` step, then score. Subclasses implement `score`."""
+        prepared = self._prepare(workspace, round_no)
+        if prepared is not None and (not prepared.ok or not all(prepared.gates.values())):
+            return prepared  # a broken or out-of-bounds candidate is not worth a model call
+        verdict = self.score(workspace, round_no)
+        if prepared is not None:
+            verdict.gates = {**prepared.gates, **verdict.gates}
+            verdict.feedback = "\n".join(x for x in (prepared.feedback, verdict.feedback) if x)
+            verdict.seconds += prepared.seconds
+        return verdict
+
+    def score(self, workspace: Path, round_no: int) -> Verdict:
         raise NotImplementedError
+
+    def _prepare(self, workspace: Path, round_no: int) -> Optional[Verdict]:
+        if not self.spec.prepare:
+            return None
+        import json
+        import shlex
+        import subprocess
+        import sys
+        import time
+
+        from .command import judge_env
+
+        started = time.perf_counter()
+        command = self.spec.prepare.replace("{python}", shlex.quote(sys.executable))
+        try:
+            run = subprocess.run(command, shell=True, cwd=workspace, env=judge_env(workspace / ".unused", round_no),
+                                 capture_output=True, text=True, timeout=self.spec.timeout)
+        except subprocess.TimeoutExpired:
+            return Verdict(None, error=f"prepare step timed out after {self.spec.timeout}s")
+        seconds = time.perf_counter() - started
+        if run.returncode != 0:
+            tail = (run.stdout[-800:] + "\n" + run.stderr[-800:]).strip()
+            return Verdict(0.0, {"prepare": False}, f"prepare step failed: {tail}", seconds=seconds)
+        gates, notes = {}, ""
+        gates_file, notes_file = workspace / "out" / "gates.json", workspace / "out" / "notes.txt"
+        if gates_file.exists():
+            gates = {str(k): bool(v) for k, v in json.loads(gates_file.read_text(encoding="utf-8")).items()}
+        if notes_file.exists():
+            notes = notes_file.read_text(encoding="utf-8").strip()
+        return Verdict(0.0, gates, notes, seconds=seconds)
 
     def prefers(self, candidate_ws: Path, champion_ws: Path, candidate: Verdict, champion: Verdict) -> tuple[bool, str]:
         """Should the candidate replace the champion? Returns (decision, reason)."""
