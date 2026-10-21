@@ -65,6 +65,11 @@ def cmd_init(args) -> int:
 def _contract(args):
     project = Path(args.dir).resolve()
     contract = load(project)
+    # Per-machine defaults for contracts that say `auto`, e.g. RSI_AGENT=codex RSI_JURY="cli:codex deepseek:deepseek-chat"
+    if contract.agent.use == "auto" and os.environ.get("RSI_AGENT"):
+        contract.agent.use = os.environ["RSI_AGENT"]
+    if contract.judge.models == ["auto"] and os.environ.get("RSI_JURY"):
+        contract.judge.models = os.environ["RSI_JURY"].split()
     if getattr(args, "agent", None):
         contract.agent.use = args.agent
     if getattr(args, "model", None):
