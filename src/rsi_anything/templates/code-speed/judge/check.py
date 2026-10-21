@@ -59,7 +59,11 @@ for query, pool, k in edge + [(q, names, 5) for q in queries]:
 mutable = names[:60]
 for step in range(3):
     query = queries[step]
-    got, want = candidate.search(query, mutable, 4), reference(query, list(mutable), 4)
+    try:
+        got = candidate.search(query, mutable, 4)
+    except Exception as exc:
+        got = f"raised {exc!r}"
+    want = reference(query, list(mutable), 4)
     if got != want:
         wrong.append(f"after the name list changed, search({query!r}) returned {got}, expected {want}")
     mutable.append(query + "x")

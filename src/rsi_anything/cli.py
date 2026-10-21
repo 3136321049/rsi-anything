@@ -106,7 +106,16 @@ def cmd_check(args) -> int:
     print(f"baseline score {verdict.score:g}; gates {verdict.gates}")
     if verdict.feedback:
         print("feedback:\n" + verdict.feedback)
-    return 0
+    if not args.stress:
+        return 0
+    from . import stress
+
+    print("\njudge health check: sabotaged copies of the artifact must all lose")
+    judge = make_judge(contract.judge)
+    probes = stress.run(repo, rel, gitops.head(repo), frozen, contract, judge, prefix(contract.assets))
+    missed = [p.name for p in probes if not p.caught]
+    print(f"caught {len(probes) - len(missed)}/{len(probes)}" + (f"; fix the judge before running: {', '.join(missed)}" if missed else ""))
+    return 1 if missed else 0
 
 
 def cmd_run(args) -> int:
@@ -217,6 +226,9 @@ def main(argv=None) -> int:
         p = sub.add_parser(name, help=text)
         p.add_argument("dir", nargs="?", default=".")
         p.add_argument("--jury", nargs="+", help="override judge models, e.g. cli:codex deepseek:deepseek-chat")
+        if name == "check":
+            p.add_argument("--stress", action="store_true",
+                           help="also check the judge against sabotaged copies (empty, truncated, stuffed, injected...)")
         if name == "run":
             p.add_argument("--agent", help="auto, api, command, or a CLI name (see `rsi agents`)")
             p.add_argument("--model", help="model for the agent")

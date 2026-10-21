@@ -101,3 +101,20 @@ def test_lessons_carry_over_between_runs(toy):
     run(project)
     lessons = ledger.read_lessons(project, "toy")
     assert any("try zero" in line for line in lessons)
+
+
+def test_stress_check_catches_sabotage(toy):
+    from rsi_anything import gitops, stress, workspace
+    from rsi_anything.judges import make_judge
+
+    project = toy([], rounds=0)
+    (project / "value.txt").write_text("7\n")
+    git(project, "commit", "-qam", "seven")
+    contract = load(project)
+    head = gitops.head(project)
+    frozen = workspace.snapshot_frozen(project, head, contract.frozen_files)
+    probes = stress.run(project, "", head, frozen, contract, make_judge(contract.judge), log=lambda _: None)
+    by_name = {p.name: p for p in probes}
+    assert by_name["empty"].caught  # empty file scores 0 < 7
+    assert not by_name["truncated"].caught  # "7" cut to its first character is still "7": a tie must be reported
+    assert by_name["filler"].caught and by_name["evaluator_injection"].caught  # unscoreable text cannot win
