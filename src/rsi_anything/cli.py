@@ -168,10 +168,11 @@ def cmd_export(args) -> int:
 
 
 def cmd_agents(args) -> int:
-    found = {spec.name for spec in detect()}
+    installed = {spec.name for spec in detect(check=False)}
+    responsive = {spec.name for spec in detect()}
     print("coding-agent CLIs (use with `agent.use` or as judges via cli:<name>):")
     for spec in CLI_AGENTS.values():
-        mark = "installed" if spec.name in found else "-"
+        mark = "ready" if spec.name in responsive else "installed, not responding to --version" if spec.name in installed else "-"
         print(f"  {spec.name:<10} {spec.title:<18} {spec.region:<10} {mark}")
     print("\nAPI keys found (use with `agent.use: api` or as judges via <provider>:<model>):")
     any_key = False

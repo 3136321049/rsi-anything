@@ -38,3 +38,11 @@
 {"text": "The noodles were way too salty to eat, refund please", "label": "refund"}
 {"text": "Love the new packaging, much less plastic. Great job", "label": "praise"}
 {"text": "建议你们加一个备注常用语的功能", "label": "other"}
+{"text": "能帮我把地址改成公司吗？订单刚下", "label": "cancel_order"}
+{"text": "Can you add a side of fries to the order I just placed?", "label": "cancel_order"}
+{"text": "麻烦备注一下不要香菜，刚才忘写了", "label": "cancel_order"}
+{"text": "配送费也太贵了吧，一份面条配送要八块", "label": "other"}
+{"text": "Your prices went up again, everything is so expensive now", "label": "other"}
+{"text": "骑手特别好，想给他加点小费，在哪里加", "label": "payment"}
+{"text": "The rider was amazing, how do I add a tip after delivery?", "label": "payment"}
+{"text": "怎么修改刚才的小费金额，手滑多给了", "label": "payment"}

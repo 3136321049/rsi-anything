@@ -22,3 +22,8 @@
 {"text": "I keep getting logged out every time I open the app", "label": "account"}
 {"text": "你们能不能和我们公司合作团餐", "label": "other"}
 {"text": "Where's my food? The tracker hasn't moved in 25 minutes", "label": "late_delivery"}
+{"text": "I need to change the delivery address, I put my old apartment", "label": "cancel_order"}
+{"text": "能不能帮我把奶茶改成去冰，订单还没做吧", "label": "cancel_order"}
+{"text": "Everything on this app costs twice as much as in the store", "label": "other"}
+{"text": "骑手冒雨送餐太辛苦了，我想补一个小费", "label": "payment"}
+{"text": "I accidentally tipped 50 instead of 5, can that be fixed?", "label": "payment"}

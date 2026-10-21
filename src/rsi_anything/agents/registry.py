@@ -20,6 +20,7 @@ from __future__ import annotations
 import json
 import os
 import shutil
+import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
@@ -203,8 +204,27 @@ CLI_AGENTS: dict[str, CLISpec] = {spec.name: spec for spec in [
 AUTO_ORDER = ["claude", "codex", "opencode", "qwen", "gemini", "cursor", "kimi", "codebuddy", "qoder", "copilot"]
 
 
-def detect() -> list[CLISpec]:
-    return [CLI_AGENTS[name] for name in AUTO_ORDER if shutil.which(CLI_AGENTS[name].binary)]
+_READY: dict[str, bool] = {}
+
+
+def ready(spec: CLISpec, timeout: float = 10) -> bool:
+    """Installed and answers `--version` quickly (some wrappers hang waiting for a login)."""
+    if spec.name not in _READY:
+        ok = False
+        if shutil.which(spec.binary):
+            try:
+                ok = subprocess.run([spec.binary, "--version"], stdin=subprocess.DEVNULL, capture_output=True,
+                                    timeout=timeout, env=spec.env()).returncode == 0
+            except (subprocess.TimeoutExpired, OSError):
+                ok = False
+        _READY[spec.name] = ok
+    return _READY[spec.name]
+
+
+def detect(check: bool = True) -> list[CLISpec]:
+    """CLIs to use when a contract says `auto`, in preference order. `check=False` only looks at PATH."""
+    found = [CLI_AGENTS[name] for name in AUTO_ORDER if shutil.which(CLI_AGENTS[name].binary)]
+    return [spec for spec in found if ready(spec)] if check else found
 
 
 def make_agent(spec, allow_commands: bool = False):

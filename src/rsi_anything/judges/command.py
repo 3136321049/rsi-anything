@@ -23,11 +23,12 @@ from pathlib import Path
 
 from .base import Judge, Verdict
 
-_SCRUB = ("RSI_", "CLAUDECODE", "CLAUDE_CODE_ENTRYPOINT")
+# Engine-internal variables never leak into a judge; user settings such as RSI_TASK_MODEL do.
+_INTERNAL = {"RSI_RESULT", "RSI_ROUND", "RSI_HYPOTHESIS", "RSI_LESSONS", "CLAUDECODE", "CLAUDE_CODE_ENTRYPOINT"}
 
 
 def judge_env(result_file: Path, round_no: int) -> dict[str, str]:
-    env = {k: v for k, v in os.environ.items() if not k.startswith(_SCRUB)}
+    env = {k: v for k, v in os.environ.items() if k not in _INTERNAL}
     env.update(RSI_RESULT=str(result_file), RSI_ROUND=str(round_no), PYTHONDONTWRITEBYTECODE="1")
     return env
 

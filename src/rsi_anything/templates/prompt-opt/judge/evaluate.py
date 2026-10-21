@@ -1,7 +1,9 @@
 """Label every example with the prompt under test and report accuracy.
 
 The task model comes from $RSI_TASK_MODEL (any rsi model reference, e.g. deepseek:deepseek-chat or
-cli:codex); by default the first model `rsi agents` can reach. Calls run in parallel.
+cli:codex); by default the first model `rsi agents` can reach. API models label one message per call,
+in parallel. Coding-agent CLIs are slow to start, so they label a batch of messages per call
+($RSI_TASK_BATCH, default 20) and return a JSON list.
 """
 import json
 import os
@@ -22,19 +24,43 @@ if len(prompt.strip()) < 10:
 model = llm.parse(os.environ.get("RSI_TASK_MODEL") or llm.resolve_models(["auto"])[0])
 
 
+def parse_label(reply):
+    found = [name for name in LABELS if re.search(rf"\b{name}\b", reply.lower())]
+    return found[-1] if found else "unparseable"
+
+
 def label(example):
     question = (f"{prompt}\n\n---\nCustomer message:\n{example['text']}\n---\n"
                 f"Reply with exactly one of: {', '.join(LABELS)}.")
     try:
-        reply = llm.ask(model, question, timeout=300).text.strip().lower()
+        reply = llm.ask(model, question, timeout=300).text
     except llm.LLMError as exc:
         return None, str(exc)
-    found = [name for name in LABELS if re.search(rf"\b{name}\b", reply)]
-    return (found[-1] if found else "unparseable"), reply[:80]
+    return parse_label(reply), reply[:80]
 
 
-with ThreadPoolExecutor(max_workers=int(os.environ.get("RSI_TASK_WORKERS", "6"))) as pool:
-    results = list(pool.map(label, examples))
+def label_batch(batch):
+    listing = "\n".join(f"{i + 1}. {json.dumps(e['text'], ensure_ascii=False)}" for i, e in enumerate(batch))
+    question = (f"{prompt}\n\n---\nApply the instructions above to each customer message below, independently.\n"
+                f"{listing}\n---\nReply with a JSON object {{\"labels\": [...]}} holding exactly {len(batch)} "
+                f"labels in the same order, each one of: {', '.join(LABELS)}.")
+    try:
+        labels = llm.extract_json(llm.ask(model, question, timeout=900).text).get("labels") or []
+    except llm.LLMError as exc:
+        return [(None, str(exc))] * len(batch)
+    if len(labels) != len(batch):
+        return [(None, f"expected {len(batch)} labels, got {len(labels)}")] * len(batch)
+    return [(parse_label(str(item)), str(item)) for item in labels]
+
+
+batch_size = int(os.environ.get("RSI_TASK_BATCH", "20" if model.kind == "cli" else "1"))
+workers = int(os.environ.get("RSI_TASK_WORKERS", "6"))
+with ThreadPoolExecutor(max_workers=workers) as pool:
+    if batch_size <= 1:
+        results = list(pool.map(label, examples))
+    else:
+        batches = [examples[i:i + batch_size] for i in range(0, len(examples), batch_size)]
+        results = [item for chunk in pool.map(label_batch, batches) for item in chunk]
 
 errors = [detail for got, detail in results if got is None]
 if len(errors) > len(examples) // 4:
