@@ -1,0 +1,14 @@
+{
+  "score": null,
+  "passed_gates": false,
+  "summary": "REVERT_GUARD before evaluation: frozen rubric.yaml was modified",
+  "critique": {
+    "status": "REVERT_GUARD",
+    "violations": [
+      "frozen path modified: rubric.yaml"
+    ],
+    "suggestions": [
+      "不要修改 eval_report.py、rubric.yaml 或 sources/verified_sources.json。"
+    ]
+  }
+}

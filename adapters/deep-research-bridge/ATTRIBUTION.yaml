@@ -1,0 +1,42 @@
+version: 1
+project: rsi-anything
+updated: 2026-10-17
+upstreams:
+  - id: stanford-oval/storm
+    url: https://github.com/stanford-oval/storm
+    authors: [Stanford OVAL]
+    relationship: inspiration
+    contributions:
+      - Multi-perspective outlines and citation-grounded reports
+    used_in:
+      - adapters/deep-research-bridge
+      - tracks/03-finance-quant-research
+      - tracks/04-humanities-social-sci
+    license: verify-upstream
+    revision: null
+    notices: []
+  - id: assafelovic/gpt-researcher
+    url: https://github.com/assafelovic/gpt-researcher
+    authors: [Assaf Elovic]
+    relationship: inspiration
+    contributions:
+      - Plan, retrieve, and synthesize with sources attached
+    used_in:
+      - adapters/deep-research-bridge
+      - tracks/03-finance-quant-research
+    license: verify-upstream
+    revision: null
+    notices: []
+  - id: Future-House/paper-qa
+    url: https://github.com/Future-House/paper-qa
+    authors: [Future House]
+    relationship: inspiration
+    contributions:
+      - Answer only from retrieved papers and keep the citation trail
+    used_in:
+      - adapters/deep-research-bridge
+      - tracks/04-humanities-social-sci
+      - tracks/05-law-medicine
+    license: verify-upstream
+    revision: null
+    notices: []

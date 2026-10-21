@@ -1,0 +1,16 @@
+{
+  "name": "Humanities literature review",
+  "domain": "humanities",
+  "hard_gates": {
+    "min_citations": 6,
+    "required_sections": ["Research Question", "Literature Map", "Counterargument", "Bibliography"],
+    "banned_phrases": ["众所周知", "未来可期", "不言而喻", "needless to say", "it is obvious"]
+  },
+  "dimensions": [
+    {"id": "question", "name": "可证伪的问题", "weight": 25, "criteria": "One sentence a source could falsify."},
+    {"id": "map", "name": "文献地图", "weight": 25, "criteria": "At least two schools, not a name list."},
+    {"id": "counter", "name": "反方", "weight": 20, "criteria": "A real objection, not a straw man."},
+    {"id": "evidence", "name": "证据粒度", "weight": 15, "criteria": "Primary or canonical sources with [SRC-] tags."},
+    {"id": "increment", "name": "增量", "weight": 15, "criteria": "What this review adds beyond a summary."}
+  ]
+}

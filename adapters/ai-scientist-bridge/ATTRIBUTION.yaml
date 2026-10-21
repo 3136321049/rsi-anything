@@ -1,0 +1,28 @@
+version: 1
+project: rsi-anything
+updated: 2026-10-17
+upstreams:
+  - id: SakanaAI/AI-Scientist-v2
+    url: https://github.com/SakanaAI/AI-Scientist-v2
+    authors: [Sakana AI]
+    relationship: inspiration
+    contributions:
+      - End-to-end loop from idea search through experiment writeup and review
+    used_in:
+      - adapters/ai-scientist-bridge
+      - tracks/02-algorithms-ml
+    license: verify-upstream
+    revision: null
+    notices:
+      - The judge in this repo stays frozen. The agent does not edit the evaluator the way an unbounded self-modifier might.
+  - id: SamuelSchmidgall/AgentLaboratory
+    url: https://github.com/SamuelSchmidgall/AgentLaboratory
+    authors: [Samuel Schmidgall]
+    relationship: inspiration
+    contributions:
+      - Split research labor across literature, experiment, and writeup roles
+    used_in:
+      - adapters/ai-scientist-bridge
+    license: verify-upstream
+    revision: null
+    notices: []

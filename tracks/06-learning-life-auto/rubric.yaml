@@ -1,0 +1,21 @@
+{
+  "name": "Feynman study guide and ATS resume",
+  "profiles": {
+    "feynman": {
+      "weight": 50,
+      "required": ["Plain restatement", "Example", "Check question", "Common mixup"],
+      "banned": ["显然", "不言而喻", "simply", "obviously"],
+      "note": "A novice should answer the check question from the page alone."
+    },
+    "ats_resume": {
+      "weight": 50,
+      "hard_gates": ["one page worth of bullets", "target role named", "no objective statement"],
+      "keyword_source": "job.txt",
+      "dimensions": [
+        {"id": "keyword_overlap", "points": 20},
+        {"id": "quantified_bullets", "points": 15},
+        {"id": "role_match", "points": 15}
+      ]
+    }
+  }
+}

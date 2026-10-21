@@ -1,0 +1,7 @@
+round	timestamp	hypothesis	score	best_score	status	commit_sha	duration_ms	notes
+0	2026-10-17T19:56:28+00:00	BASELINE	58.00	58.00	BASELINE	e8df800	22	58/100 gates=FAIL debate=14 evidence=12 logic=12 structure=10 action=10
+1	2026-10-17T19:56:28+00:00	补上八家毛利率/产能对照、份额加总与12条已核验引用	72.50	72.50	KEEP	e8df800	23	72.5/100 gates=PASS debate=17 evidence=16 logic=14 structure=14.5 action=11
+2	2026-10-17T19:56:28+00:00	用未登记的SRC-99和口头禅抄近路	64.50	72.50	REVERT_SCORE	e8df800	22	64.5/100 gates=FAIL debate=17 evidence=8 logic=14 structure=14.5 action=11
+3	2026-10-17T19:56:28+00:00	写深看空逻辑，并补上BOM与敏感性矩阵	84.00	84.00	KEEP	e8df800	22	84/100 gates=PASS debate=21 evidence=18 logic=17 structure=15 action=13
+4	2026-10-17T19:56:28+00:00	篡改冻结的rubric.yaml，企图把硬门禁改成满分	84.00	84.00	REVERT_GUARD		0	frozen path modified or deleted: rubric.yaml
+5	2026-10-17T19:56:28+00:00	在冻结裁判下补齐证伪触发、情景复原和跟踪指标	94.50	94.50	KEEP	e8df800	22	94.5/100 gates=PASS debate=25 evidence=22 logic=19 structure=15 action=13.5

@@ -1,0 +1,4 @@
+Role: Backend engineer
+Must have: python, sql, testing, api design
+Nice to have: observability, mentoring
+Constraint: one page, quantified outcomes, no objective statement

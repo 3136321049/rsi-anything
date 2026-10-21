@@ -1,0 +1,89 @@
+{
+  "name": "2026人形机器人核心零部件商业化拐点深度研报",
+  "domain": "finance",
+  "topic": "谐波减速器与行星滚柱丝杠",
+  "hard_gates": {
+    "min_verified_citations": 12,
+    "max_banned_phrases": 0,
+    "banned_phrases": ["众所周知", "未来可期", "不言而喻", "毫无疑问", "前景广阔"],
+    "bear_heading": "## 看空逻辑与核心风险 (Bear Case)",
+    "competitor_headers": ["毛利率", "产能"],
+    "competitor_min_rows": 4,
+    "share_headers": ["占比", "份额"],
+    "share_tolerance": 1.0
+  },
+  "signals": {
+    "bear_min_chars": 500,
+    "trigger_phrase": "证伪触发",
+    "trigger_min": 3,
+    "bom_phrase": "物料成本拆解",
+    "sensitivity_phrase": "敏感性矩阵",
+    "optimistic": "乐观情景",
+    "pessimistic": "悲观情景",
+    "bom_min_citations": 13,
+    "full_citations": 15,
+    "channel_phrase": "渠道交叉验证",
+    "cross_phrase": "交叉脚注表",
+    "position_phrase": "仓位上限"
+  },
+  "dimensions": [
+    {
+      "id": "debate",
+      "name": "核心论点与正反方博弈深度",
+      "weight": 25,
+      "rules": [
+        {"id": "base", "points": 14, "when": "always"},
+        {"id": "bear", "points": 3, "when": "bear_heading", "suggestion": "补上独立的看空章节，不要把风险写成一句展望。"},
+        {"id": "bear_deep", "points": 4, "when": "bear_deep", "suggestion": "把看空写到需求、良率、设备和客户集中度，而不是只留标题。"},
+        {"id": "triggers", "points": 4, "when": "triggers3", "suggestion": "给出至少三条能被财报或出货数据打脸的证伪触发。"}
+      ]
+    },
+    {
+      "id": "evidence",
+      "name": "一手数据与案例颗粒度",
+      "weight": 25,
+      "rules": [
+        {"id": "cites3", "points": 12, "when": "verified3", "suggestion": "至少用三条已核验来源支撑核心判断。"},
+        {"id": "cites12", "points": 4, "when": "verified12_clean", "suggestion": "把已核验引用补到12条以上，并删除来源表中不存在的编号。"},
+        {"id": "unknown", "points": -4, "when": "unknown", "suggestion": "删除来源表中不存在的引用，不要用未登记编号走捷径。"},
+        {"id": "bom", "points": 2, "when": "bom_clean", "suggestion": "用标准化BOM把单台价值量拆开，并配上可回溯的产能或募投来源。"},
+        {"id": "cites15", "points": 4, "when": "cites15_clean", "suggestion": "补上政策原文和一手渠道，不要停在公司年报。"},
+        {"id": "channel", "points": 3, "when": "channel_check", "suggestion": "补充独立渠道交叉验证：设备商交付周期与主机厂定点函。"}
+      ]
+    },
+    {
+      "id": "logic",
+      "name": "逻辑链条严密性",
+      "weight": 20,
+      "rules": [
+        {"id": "base", "points": 12, "when": "always"},
+        {"id": "table", "points": 2, "when": "comp_table", "suggestion": "做一张同时列出毛利率和产能的竞品对照表。"},
+        {"id": "sensitivity", "points": 3, "when": "sensitivity", "suggestion": "给ASP与出货量做敏感性矩阵，不要只给一个点估计。"},
+        {"id": "scenarios", "points": 2, "when": "scenarios", "suggestion": "同时写下乐观情景和悲观情景，并让TAM能由单价乘出货量复原。"},
+        {"id": "cross", "points": 1, "when": "cross_foot", "suggestion": "增加主张、证据、反证交叉脚注表。"}
+      ]
+    },
+    {
+      "id": "structure",
+      "name": "结构与图表信息密度",
+      "weight": 15,
+      "rules": [
+        {"id": "base", "points": 10, "when": "always"},
+        {"id": "table", "points": 4.5, "when": "comp_table", "suggestion": "用表格而不是形容词呈现八家厂商的产能和毛利率。"},
+        {"id": "sensitivity", "points": 0.5, "when": "sensitivity", "suggestion": "敏感性矩阵要用表格，方便复核加减乘除。"}
+      ]
+    },
+    {
+      "id": "action",
+      "name": "可行动洞察",
+      "weight": 15,
+      "rules": [
+        {"id": "base", "points": 10, "when": "always"},
+        {"id": "bear", "points": 1, "when": "bear_heading", "suggestion": "看空章节要能指导跟踪，而不是只作姿态。"},
+        {"id": "sensitivity", "points": 2, "when": "sensitivity", "suggestion": "把敏感性结果写成可执行的跟踪阈值。"},
+        {"id": "triggers", "points": 0.5, "when": "triggers3", "suggestion": "每条证伪触发都要对应一个可观察指标。"},
+        {"id": "position", "points": 1.5, "when": "position_limit", "suggestion": "给出组合仓位上限与回撤约束，而不是只列跟踪指标。"}
+      ]
+    }
+  ]
+}

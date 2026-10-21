@@ -1,0 +1,20 @@
+version: 1
+project: rsi-anything
+updated: 2026-10-17
+upstreams:
+  - id: karpathy/autoresearch
+    url: https://github.com/karpathy/autoresearch
+    authors: [Andrej Karpathy]
+    relationship: inspiration
+    contributions:
+      - Fixed-budget modify, measure, keep-or-reset loop
+      - Human-written program or goal file instead of hand-edited business code
+      - Append-only results ledger
+    used_in:
+      - adapters/autoresearch-bridge
+      - tracks/03-finance-quant-research
+      - tracks/02-algorithms-ml
+    license: verify-upstream
+    revision: null
+    notices:
+      - Independently implemented. Confirm the upstream license before copying its files.

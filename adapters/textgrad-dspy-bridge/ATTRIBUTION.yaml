@@ -1,0 +1,30 @@
+version: 1
+project: rsi-anything
+updated: 2026-10-17
+upstreams:
+  - id: zou-group/textgrad
+    url: https://github.com/zou-group/textgrad
+    authors: [Zou group]
+    relationship: inspiration
+    contributions:
+      - Treat a natural-language critique as a gradient toward a local edit
+    used_in:
+      - adapters/textgrad-dspy-bridge
+      - tracks/02-algorithms-ml
+      - tracks/06-learning-life-auto
+    license: verify-upstream
+    revision: null
+    notices:
+      - Suggestions in critique JSON are the local stand-in. This repo does not import TextGrad.
+  - id: stanfordnlp/dspy
+    url: https://github.com/stanfordnlp/dspy
+    authors: [Stanford NLP]
+    relationship: inspiration
+    contributions:
+      - Reflective prompt and program optimization, including GEPA-style search
+    used_in:
+      - adapters/textgrad-dspy-bridge
+      - tracks/02-algorithms-ml
+    license: verify-upstream
+    revision: null
+    notices: []
