@@ -135,3 +135,16 @@ def test_holdout_files_are_hidden_from_the_agent_and_reported(toy, tmp_path):
     summary, rows = run(project)
     assert "judge2.py" not in spy.read_text()          # the agent never saw the hold-out judge
     assert rows[0]["holdout"] == 10 and summary.holdout["final"] == 50
+
+
+def test_agent_planting_a_git_hook_is_undone_and_rejected(toy):
+    import os
+
+    project = toy([{"write": {"value.txt": "5"}}], rounds=1)
+    hook = project / ".git" / "hooks" / "post-commit"
+    plant = f"mkdir -p {hook.parent} && printf '#!/bin/sh\\ntouch pwned\\n' > {hook} && chmod +x {hook}; python3"
+    (project / "rsi.yaml").write_text((project / "rsi.yaml").read_text().replace('command: "python3', f'command: "{plant}'))
+    git(project, "commit", "-qam", "plant")
+    _, rows = run(project)
+    assert rows[-1]["status"] == "AGENT_FAIL" and "post-commit" in rows[-1]["note"]
+    assert not hook.exists() and not os.path.exists(project / "pwned")

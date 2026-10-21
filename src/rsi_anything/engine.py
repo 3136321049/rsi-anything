@@ -203,7 +203,13 @@ class Ratchet:
                               ledger.read_lessons(self.repo, self.contract.name))
         (round_dir / "prompt.md").write_text(text, encoding="utf-8")
         self.log(f"r{number}  {self.agent.name} is working...")
+        control = gitops.control_files(self.repo)
         result = self.agent.run(self._sub(worktree), text, round_dir, self.contract.agent.timeout)
+        tampered = gitops.restore_control_files(control, gitops.control_files(self.repo))
+        if tampered:
+            return Row(number, ledger.AGENT_FAIL, result.hypothesis, best=best, agent_seconds=result.seconds,
+                       cost_usd=result.cost_usd, note="agent changed git config or hooks (restored): "
+                       + ", ".join(tampered)), None
         if not result.ok:
             return Row(number, ledger.AGENT_FAIL, result.hypothesis, best=best, agent_seconds=result.seconds,
                        cost_usd=result.cost_usd, note=result.error[:300]), None

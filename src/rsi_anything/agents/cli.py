@@ -31,9 +31,9 @@ class CLIAgent(Agent):
         if not shutil.which(self.spec.binary):
             return AgentResult(False, error=f"`{self.spec.binary}` not found on PATH")
         out_file = round_dir / "agent-final.txt"
-        argv, stdin, out = self.spec.round_command(prompt, self.model, workdir, self.allow_commands,
-                                                   self.extra_args, out_file)
-        run, seconds = _run(argv, workdir, stdin, self.spec.env(), timeout, round_dir / "agent.log")
+        argv, stdin, out, extra_env = self.spec.round_command(prompt, self.model, workdir, self.allow_commands,
+                                                              self.extra_args, out_file)
+        run, seconds = _run(argv, workdir, stdin, self.spec.env(extra_env), timeout, round_dir / "agent.log")
         if run is None:
             return AgentResult(False, seconds=seconds, error=f"timed out after {timeout}s")
         text, cost = self.spec.parse_output(run.stdout, out)

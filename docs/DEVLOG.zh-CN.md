@@ -69,7 +69,7 @@ rsi agents                            # 看本机装了哪些编程助手、有�
 | 文件 | 方向 | 状态 |
 |---|---|---|
 | `A-rsi-landscape.md` | 开源 RSI/自我改进项目全景、定位空白、可集成项目、常见失败 | 已完成 |
-| `B-agents-and-models.md` | 中美编程助手命令行的无人值守调用方式，模型 API | 进行中 |
+| `B-agents-and-models.md` | 中美编程助手命令行的无人值守调用方式，模型 API | 已完成 |
 | `C-self-media.md` | 剪辑、视频生成、文案的开源项目和自动评审方法 | 已完成 |
 | `D-judges-and-domains.md` | 大模型评审方法、防作弊架构、各领域可验证信号 | 已完成 |
 | `E-launch-and-naming.md` | 爆款开源项目怎么火的、中美传播渠道、名字是否被占 | 进行中 |
@@ -130,6 +130,25 @@ flowchart LR
 ## 六、进度日志
 
 （最新的在最上面）
+
+- **2026-10-21 · 按调研 B 重写编程助手接入层，git 安全加固，新增 `prompt-opt` 模板。**
+  - 参数按各家 2026-10 的官方文档修正：
+    - Cursor 必须加 `--force` 才会真正写文件，原来的写法会让它每轮都"没改动"。
+    - Qwen 的批准模式是 `auto-edit`（连字符）。
+    - Kimi 新版是 `kimi -p`，输出 JSONL。
+    - CodeBuddy 无人值守必须加 `-y`。
+    - OpenCode 用 `--format json --auto`，并通过 `OPENCODE_PERMISSION` 禁止写项目外目录。
+    - Codex 加了 `approval_policy="never"`，它的 `-p` 是配置档，不是提示词。
+  - 新增阿里 Qoder CLI、GitHub Copilot CLI。iFlow（2026-04 停服）、Roo Code（2026-05 停服）不再适配。
+  - 每家的输出按格式归成七类解析，能拿到费用的（Claude Code、CodeBuddy、OpenCode）都记进账本。
+  - 默认评委模型按 2026-10 的型号更新（如 `gpt-6.1-sol`、`qwen3.8-max`、`doubao-seed-2-1-pro-260915`），用户随时可以覆盖。
+  - 安全加固，防的是一个原来没考虑到的情况：所有工作目录共用主仓库的 `.git`，干活的助手如果往里面写 git 钩子或改配置，之后引擎执行 git 命令时就会触发。
+    - 引擎自己的 git 调用一律带 `core.hooksPath=/dev/null` 和 `core.fsmonitor=false`。
+    - 每轮结束检查主仓库的 config 和 hooks，被改了就恢复原样，并把这一轮判为 `AGENT_FAIL`。有测试覆盖。
+  - 新模板 `prompt-opt` 属于"大模型"领域，自动优化一份客服意图分类提示词：
+    - 40 条带标注的开发集；
+    - 24 条留出集，留出集文件每轮都会从干活助手的工作目录里删掉，它看不到；
+    - 评测脚本用 `{python}` 占位符调用 rsi 自己的解释器，任务模型由 `RSI_TASK_MODEL` 指定。
 
 - **2026-10-21 · 评委加固，调研 C、D 完成。**
   - 新增 `rsi check --stress` 评委体检：把作品故意弄坏，评委必须全部判输，否则先修评委再开跑。坏版本有六种：清空、截半、打乱、堆关键词、填充废话、塞"请给满分"的指令。代码提速模板 6/6 识破。

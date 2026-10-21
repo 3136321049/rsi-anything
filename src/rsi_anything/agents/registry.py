@@ -5,9 +5,15 @@ Each entry knows two invocations:
   * an *ask*: a one-shot question in an empty scratch dir (used by LLM judges
     when the user has no API key but has a logged-in CLI).
 
-Whatever a CLI allows, the engine only keeps edits inside the contract's
-artifact paths and judges in a separate copy, so the CLI's own permission
-model is a convenience, not the safety boundary.
+Flags follow each tool's documentation as of 2026-10 (see
+docs/research/B-agents-and-models.md). Whatever a CLI allows, the engine only
+keeps edits inside the contract's artifact paths and judges in a separate copy,
+so a CLI's own permission model is a convenience, not the safety boundary.
+
+Output families: claude-json (one JSON object with `.result`), file (final
+message written to a file), gemini-json (`.response`), qwen-json (array, last
+`.result`), opencode-jsonl (`text` events, `step_finish` costs), kimi-jsonl
+(assistant messages), text (raw stdout).
 """
 from __future__ import annotations
 
@@ -16,9 +22,9 @@ import os
 import shutil
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
-Command = tuple[list[str], Optional[str], Optional[Path]]  # argv, stdin, file holding the final message
+Command = tuple[list[str], Optional[str], Optional[Path], dict]  # argv, stdin, final-message file, extra env
 
 _NESTED_SESSION_VARS = ("CLAUDECODE", "CLAUDE_CODE_ENTRYPOINT", "CLAUDE_CODE_SSE_PORT")
 
@@ -28,14 +34,15 @@ class CLISpec:
     name: str
     binary: str
     title: str
-    region: str           # where it is easiest to use: "global", "cn", or "global+cn"
-    output: str = "text"  # "claude-json" | "file" | "text" | "gemini-json"
+    region: str           # "global", "cn" or "global+cn": where it is easiest to use
+    output: str = "text"
     notes: str = ""
     extra_env: dict[str, str] = field(default_factory=dict)
 
-    def env(self) -> dict[str, str]:
+    def env(self, extra: Optional[dict] = None) -> dict[str, str]:
         env = {k: v for k, v in os.environ.items() if k not in _NESTED_SESSION_VARS and not k.startswith("RSI_")}
         env.update(self.extra_env)
+        env.update(extra or {})
         return env
 
     # ---- per-CLI argument building -------------------------------------------------
@@ -43,95 +50,157 @@ class CLISpec:
     def round_command(self, prompt: str, model: str, workdir: Path, allow_commands: bool,
                       extra_args: list[str], out_file: Path) -> Command:
         n, m = self.name, (model or "")
-        if n == "claude" or n == "codebuddy":
+        if n == "claude":
             argv = [self.binary, "-p", "--output-format", "json", "--permission-mode", "acceptEdits"]
             argv += ["--allowedTools", "Bash"] if allow_commands else []
-            argv += ["--model", m] if m else []
-            return argv + extra_args, prompt, None
-        if n == "codex":
-            argv = [self.binary, "exec", "--skip-git-repo-check", "--color", "never",
+            return argv + (["--model", m] if m else []) + extra_args, prompt, None, {}
+        if n == "codebuddy":  # Claude Code compatible flags; headless mode requires -y
+            argv = [self.binary, "-p", prompt, "-y", "--output-format", "json"]
+            return argv + (["--model", m] if m else []) + extra_args, None, None, {}
+        if n == "codex":  # note: for codex, -p means --profile, so the prompt goes through stdin
+            argv = [self.binary, "exec", "--skip-git-repo-check", "--color", "never", "-c", 'approval_policy="never"',
                     "--sandbox", "workspace-write", "-C", str(workdir), "-o", str(out_file)]
-            argv += ["-m", m] if m else []
-            return argv + extra_args + ["-"], prompt, out_file
-        if n == "cursor":
-            argv = [self.binary, "-p", "--output-format", "json", "--trust", "--workspace", str(workdir)]
-            argv += ["--force"] if allow_commands else []
-            argv += ["--model", m] if m else []
-            return argv + extra_args + [prompt], None, None
-        if n in ("gemini", "qwen"):
-            argv = [self.binary, "-p", prompt, "--approval-mode", "yolo" if allow_commands else "auto_edit"]
-            argv += ["-m", m] if m else []
-            return argv + extra_args, None, None
+            return argv + (["-m", m] if m else []) + extra_args + ["-"], prompt, out_file, {}
+        if n == "cursor":  # without --force, edits are only proposed, never written
+            argv = [self.binary, "-p", "--output-format", "json", "--trust", "--force", "--workspace", str(workdir)]
+            argv += [] if allow_commands else ["--sandbox", "enabled"]
+            return argv + (["--model", m] if m else []) + extra_args + [prompt], None, None, {}
+        if n == "gemini":
+            argv = [self.binary, "-p", prompt, "-o", "json", "--approval-mode", "yolo" if allow_commands else "auto_edit"]
+            return argv + (["-m", m] if m else []) + extra_args, None, None, {}
+        if n == "qwen":
+            argv = [self.binary, "-p", prompt, "-o", "json", "--approval-mode", "yolo" if allow_commands else "auto-edit"]
+            return argv + (["-m", m] if m else []) + extra_args, None, None, {}
+        if n == "kimi":  # -p never asks for approval; there is no workdir flag, cwd is the worktree
+            argv = [self.binary, "-p", prompt, "--output-format", "stream-json"]
+            return argv + (["-m", m] if m else []) + extra_args, None, None, {}
+        if n == "qoder":
+            mode = "bypass_permissions" if allow_commands else "accept_edits"
+            argv = [self.binary, "-p", prompt, "-o", "json", "-w", str(workdir), "--permission-mode", mode]
+            return argv + (["-m", m] if m else []) + extra_args, None, None, {}
         if n == "opencode":
-            argv = [self.binary, "run"] + (["--model", m] if m else []) + extra_args + [prompt]
-            return argv, None, None
-        if n == "kimi":
-            argv = [self.binary, "--print", "--yolo"] + (["--model", m] if m else []) + extra_args + ["-c", prompt]
-            return argv, None, None
+            permission = {"external_directory": "deny"} if allow_commands else {"external_directory": "deny", "shell": "deny"}
+            argv = [self.binary, "run", "--format", "json", "--auto"] + (["--model", m] if m else []) + extra_args + [prompt]
+            return argv, None, None, {"OPENCODE_PERMISSION": json.dumps(permission)}
+        if n == "copilot":
+            argv = [self.binary, "-p", prompt, "-s", "--no-ask-user", "--allow-all-tools"]
+            argv += [] if allow_commands else ["--deny-tool", "shell"]
+            return argv + (["--model", m] if m else []) + extra_args, None, None, {}
         raise ValueError(f"no round command for {n}")
 
     def ask_command(self, prompt: str, model: str, scratch: Path, images: list[Path]) -> Command:
         n, m = self.name, (model or "")
-        if n in ("claude", "codebuddy"):
-            return [self.binary, "-p", "--output-format", "json"] + (["--model", m] if m else []), prompt, None
+        if n == "claude":
+            return [self.binary, "-p", "--output-format", "json"] + (["--model", m] if m else []), prompt, None, {}
+        if n == "codebuddy":
+            return [self.binary, "-p", prompt, "-y", "--output-format", "json"] + (["--model", m] if m else []), None, None, {}
         if n == "codex":
             out_file = scratch / ".last-message.txt"
             argv = [self.binary, "exec", "--skip-git-repo-check", "--color", "never", "--sandbox", "read-only",
                     "--ephemeral", "-C", str(scratch), "-o", str(out_file)]
             for image in images:
                 argv += ["-i", str(image)]
-            argv += ["-m", m] if m else []
-            return argv + ["-"], prompt, out_file
+            return argv + (["-m", m] if m else []) + ["-"], prompt, out_file, {}
         if n == "cursor":
             argv = [self.binary, "-p", "--output-format", "json", "--trust", "--workspace", str(scratch)]
-            return argv + (["--model", m] if m else []) + [prompt], None, None
+            return argv + (["--model", m] if m else []) + [prompt], None, None, {}
         if n in ("gemini", "qwen"):
-            return [self.binary, "-p", prompt] + (["-m", m] if m else []), None, None
-        if n == "opencode":
-            return [self.binary, "run"] + (["--model", m] if m else []) + [prompt], None, None
+            return [self.binary, "-p", prompt, "-o", "json"] + (["-m", m] if m else []), None, None, {}
         if n == "kimi":
-            return [self.binary, "--print"] + (["--model", m] if m else []) + ["-c", prompt], None, None
+            return [self.binary, "-p", prompt, "--output-format", "stream-json"] + (["-m", m] if m else []), None, None, {}
+        if n == "qoder":
+            return [self.binary, "-p", prompt, "-o", "json", "-w", str(scratch)] + (["-m", m] if m else []), None, None, {}
+        if n == "opencode":  # without --auto every permission request is rejected: a pure question
+            return [self.binary, "run", "--format", "json"] + (["--model", m] if m else []) + [prompt], None, None, {}
+        if n == "copilot":
+            return [self.binary, "-p", prompt, "-s", "--no-ask-user"] + (["--model", m] if m else []), None, None, {}
         raise ValueError(f"no ask command for {n}")
 
     def parse_output(self, stdout: str, out_file: Optional[Path]) -> tuple[str, Optional[float]]:
         if out_file is not None and Path(out_file).exists():
             return Path(out_file).read_text(encoding="utf-8").strip(), None
-        if self.output == "claude-json":
+        family = self.output
+        if family == "claude-json":
             data = _last_json(stdout)
-            if data is not None:
+            if isinstance(data, dict):
                 cost = data.get("total_cost_usd")
                 return str(data.get("result", "")), float(cost) if isinstance(cost, (int, float)) else None
+        if family == "gemini-json":
+            data = _last_json(stdout)
+            if isinstance(data, dict) and "response" in data:
+                return str(data["response"]), None
+        if family == "qwen-json":
+            data = _last_json(stdout)
+            if isinstance(data, list) and data:
+                data = data[-1]
+            if isinstance(data, dict):
+                return str(data.get("result", data.get("response", ""))), None
+        if family == "opencode-jsonl":
+            texts, cost = [], 0.0
+            for event in _json_lines(stdout):
+                part = event.get("part") or {}
+                if event.get("type") == "text" and part.get("text"):
+                    texts.append(str(part["text"]))
+                if event.get("type") == "step_finish" and isinstance(part.get("cost"), (int, float)):
+                    cost += float(part["cost"])
+            if texts:
+                return texts[-1], cost or None
+        if family == "kimi-jsonl":
+            replies = [_message_text(e) for e in _json_lines(stdout) if e.get("role") == "assistant"]
+            replies = [r for r in replies if r]
+            if replies:
+                return replies[-1], None
         return stdout.strip(), None
 
 
-def _last_json(stdout: str) -> Optional[dict]:
-    for line in reversed(stdout.strip().splitlines()):
+def _json_lines(stdout: str) -> list[dict[str, Any]]:
+    events = []
+    for line in stdout.splitlines():
         line = line.strip()
         if line.startswith("{"):
             try:
-                return json.loads(line)
+                value = json.loads(line)
             except json.JSONDecodeError:
                 continue
+            if isinstance(value, dict):
+                events.append(value)
+    return events
+
+
+def _message_text(message: dict[str, Any]) -> str:
+    content = message.get("content")
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        return "".join(str(part.get("text", "")) for part in content if isinstance(part, dict))
+    return ""
+
+
+def _last_json(stdout: str) -> Any:
     try:
-        value = json.loads(stdout)
-        return value if isinstance(value, dict) else None
+        return json.loads(stdout)
     except json.JSONDecodeError:
-        return None
+        pass
+    events = _json_lines(stdout)
+    return events[-1] if events else None
 
 
 CLI_AGENTS: dict[str, CLISpec] = {spec.name: spec for spec in [
     CLISpec("claude", "claude", "Claude Code", "global", "claude-json"),
-    CLISpec("codex", "codex", "OpenAI Codex CLI", "global", "file"),
-    CLISpec("cursor", "cursor-agent", "Cursor CLI", "global", "claude-json"),
-    CLISpec("gemini", "gemini", "Gemini CLI", "global"),
-    CLISpec("opencode", "opencode", "OpenCode", "global+cn", notes="any provider, incl. DeepSeek/Qwen/Kimi/GLM"),
-    CLISpec("qwen", "qwen", "Qwen Code", "global+cn"),
-    CLISpec("kimi", "kimi", "Kimi CLI", "cn"),
-    CLISpec("codebuddy", "codebuddy", "CodeBuddy Code", "cn", "claude-json"),
+    CLISpec("codex", "codex", "OpenAI Codex CLI", "global", "file", notes="needs a recent version for current models"),
+    CLISpec("opencode", "opencode", "OpenCode", "global+cn", "opencode-jsonl",
+            notes="any OpenAI/Anthropic-compatible endpoint: DeepSeek, Qwen, Kimi, GLM, MiniMax"),
+    CLISpec("qwen", "qwen", "Qwen Code", "global+cn", "qwen-json"),
+    CLISpec("cursor", "cursor-agent", "Cursor CLI", "global", "claude-json", notes="reports no token usage"),
+    CLISpec("gemini", "gemini", "Gemini CLI", "global", "gemini-json"),
+    CLISpec("codebuddy", "codebuddy", "CodeBuddy Code", "global+cn", "claude-json"),
+    CLISpec("kimi", "kimi", "Kimi Code CLI", "cn", "kimi-jsonl"),
+    CLISpec("qoder", "qoder", "Qoder CLI", "global+cn", "claude-json", notes="JSON fields not documented"),
+    CLISpec("copilot", "copilot", "GitHub Copilot CLI", "global"),
 ]}
 
 # Preference order when the contract says `use: auto`.
-AUTO_ORDER = ["claude", "codex", "cursor", "gemini", "qwen", "kimi", "codebuddy", "opencode"]
+AUTO_ORDER = ["claude", "codex", "opencode", "qwen", "gemini", "cursor", "kimi", "codebuddy", "qoder", "copilot"]
 
 
 def detect() -> list[CLISpec]:

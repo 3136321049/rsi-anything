@@ -40,7 +40,7 @@ PROVIDERS: dict[str, tuple[str, str, str]] = {
     "glm": ("openai", "https://open.bigmodel.cn/api/paas/v4", "ZHIPUAI_API_KEY"),
     "doubao": ("openai", "https://ark.cn-beijing.volces.com/api/v3", "ARK_API_KEY"),
     "siliconflow": ("openai", "https://api.siliconflow.cn/v1", "SILICONFLOW_API_KEY"),
-    "minimax": ("openai", "https://api.minimaxi.com/v1", "MINIMAX_API_KEY"),
+    "minimax": ("openai", "https://api.minimax.cn/v1", "MINIMAX_API_KEY"),
     "ollama": ("openai", "http://localhost:11434/v1", ""),
 }
 
@@ -199,10 +199,10 @@ def _ask_cli(ref: ModelRef, prompt: str, images: list[Path], timeout: int) -> Re
             attached.append(target)
         if attached:
             prompt += "\n\nImages to inspect (read them before answering):\n" + "\n".join(f"- {p.name}" for p in attached)
-        command, stdin, out_file = spec.ask_command(prompt, ref.model, scratch_dir, attached)
+        command, stdin, out_file, extra_env = spec.ask_command(prompt, ref.model, scratch_dir, attached)
         try:
             run = subprocess.run(command, cwd=scratch_dir, input=stdin, capture_output=True, text=True,
-                                 timeout=timeout, env=spec.env())
+                                 timeout=timeout, env=spec.env(extra_env))
         except subprocess.TimeoutExpired as exc:
             raise LLMError(f"{ref.raw} timed out after {timeout}s") from exc
         if run.returncode != 0:
@@ -213,17 +213,18 @@ def _ask_cli(ref: ModelRef, prompt: str, images: list[Path], timeout: int) -> Re
 
 # ---------------------------------------------------------------- choosing models
 
-# Used only when a contract says `auto` and an API key is present. Override by naming models explicitly.
+# Used only when a contract says `auto` and an API key is present (IDs as of 2026-10; they change often,
+# so contracts should name models explicitly when reproducibility matters).
 DEFAULT_MODELS = {
-    "anthropic": "claude-sonnet-4-5",
-    "openai": "gpt-5-mini",
-    "gemini": "gemini-2.5-flash",
+    "openai": "gpt-6.1-sol",
+    "anthropic": "claude-sonnet-5-5",
+    "gemini": "gemini-3.8-flash",
+    "qwen": "qwen3.8-max",
+    "doubao": "doubao-seed-2-1-pro-260915",
     "deepseek": "deepseek-chat",
-    "qwen": "qwen-plus",
-    "kimi": "kimi-k2-0905-preview",
-    "glm": "glm-4.6",
-    "doubao": "doubao-seed-1-6-250615",
-    "openrouter": "openai/gpt-5-mini",
+    "kimi": "kimi-k3",
+    "glm": "glm-5.3-flash",
+    "minimax": "MiniMax-M3",
 }
 
 

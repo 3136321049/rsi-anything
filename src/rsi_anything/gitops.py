@@ -12,8 +12,13 @@ class GitError(RuntimeError):
     pass
 
 
+# Agents share the main repository's .git with their worktree. Never let a hook or fsmonitor program they
+# might have planted run inside our own git calls.
+SAFE = ["-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false"]
+
+
 def git(repo: Path, *args: str, check: bool = True, input: Optional[bytes] = None, strip: bool = True) -> str:
-    run = subprocess.run(["git", *args], cwd=repo, input=input, capture_output=True)
+    run = subprocess.run(["git", *SAFE, *args], cwd=repo, input=input, capture_output=True)
     if check and run.returncode != 0:
         detail = run.stderr.decode("utf-8", "replace").strip() or run.stdout.decode("utf-8", "replace").strip()
         raise GitError(f"git {' '.join(args)} failed: {detail}")
@@ -62,7 +67,7 @@ def exclude_locally(repo: Path, pattern: str):
 
 
 def branch_exists(repo: Path, branch: str) -> bool:
-    return subprocess.run(["git", "show-ref", "--verify", "--quiet", f"refs/heads/{branch}"], cwd=repo).returncode == 0
+    return subprocess.run(["git", *SAFE, "show-ref", "--verify", "--quiet", f"refs/heads/{branch}"], cwd=repo).returncode == 0
 
 
 def add_worktree(repo: Path, path: Path, branch: str, start: str):
@@ -87,13 +92,14 @@ def commit_paths(worktree: Path, paths: list[str], message: str) -> str:
 
 
 def show(repo: Path, commit: str, path: str) -> Optional[bytes]:
-    run = subprocess.run(["git", "show", f"{commit}:{path}"], cwd=repo, capture_output=True)
+    run = subprocess.run(["git", *SAFE, "show", f"{commit}:{path}"], cwd=repo, capture_output=True)
     return run.stdout if run.returncode == 0 else None
 
 
 def export_tree(repo: Path, commit: str, dest: Path):
     """Write the committed tree of `commit` into `dest` (no .git, no untracked files)."""
-    data = subprocess.run(["git", "archive", "--format=tar", commit], cwd=repo, capture_output=True, check=True).stdout
+    data = subprocess.run(["git", *SAFE, "archive", "--format=tar", commit], cwd=repo, capture_output=True,
+                          check=True).stdout
     dest.mkdir(parents=True, exist_ok=True)
     with tarfile.open(fileobj=io.BytesIO(data)) as tar:
         for member in tar.getmembers():
@@ -105,3 +111,26 @@ def export_tree(repo: Path, commit: str, dest: Path):
 
 def diff_stat(repo: Path, base: str, tip: str) -> str:
     return git(repo, "diff", "--stat", base, tip)
+
+
+def control_files(repo: Path) -> dict[str, bytes]:
+    """Repository files that can make git run programs: config and hooks (shared by all worktrees)."""
+    common = Path(git(repo, "rev-parse", "--git-common-dir"))
+    if not common.is_absolute():
+        common = Path(repo) / common
+    files = {}
+    for path in [common / "config", *sorted((common / "hooks").glob("*"))]:
+        if path.is_file():
+            files[str(path)] = path.read_bytes()
+    return files
+
+
+def restore_control_files(before: dict[str, bytes], after: dict[str, bytes]) -> list[str]:
+    """Undo changes to git config/hooks made during a round. Returns what was changed."""
+    changed = sorted(set(before) ^ set(after) | {p for p in before if p in after and before[p] != after[p]})
+    for path in changed:
+        if path in before:
+            Path(path).write_bytes(before[path])
+        else:
+            Path(path).unlink(missing_ok=True)
+    return [Path(p).name for p in changed]
