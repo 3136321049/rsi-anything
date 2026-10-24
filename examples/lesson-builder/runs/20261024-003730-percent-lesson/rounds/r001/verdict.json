@@ -1,0 +1,25 @@
+{
+  "score": 100.0,
+  "gates": {
+    "讲义有实质内容": true,
+    "不直接复制测试题": true,
+    "exit_code": true
+  },
+  "feedback": "固定练习全部答对且提供讲义原句依据。",
+  "metrics": {
+    "numeric_accuracy": 100.0,
+    "supported_accuracy": 100.0,
+    "correct": 10,
+    "total": 10,
+    "requested_model": "cli:codex:gpt-5.6-sol",
+    "actual_model": null,
+    "usage": {
+      "input_tokens": 17497,
+      "cached_input_tokens": 11264,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 902,
+      "reasoning_output_tokens": 53
+    }
+  },
+  "error": ""
+}

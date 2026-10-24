@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-24",
+  "domain_states": {
+    "D01": "complete",
+    "D02": "complete",
+    "D03": "complete",
+    "D04": "complete",
+    "D05": "complete",
+    "D06": "complete",
+    "D07": "resource_exception",
+    "D08": "complete",
+    "D09": "complete",
+    "D10": "complete",
+    "D11": "complete",
+    "D12": "complete",
+    "D13": "complete",
+    "D14": "complete",
+    "D15": "resource_exception"
+  },
+  "showcase_links_checked": 698,
+  "missing_showcase_links": [],
+  "markdown_files_checked": 28,
+  "missing_markdown_links": [],
+  "unit_tests": {
+    "passed": 114,
+    "failed": 0,
+    "log_sha256": "973eb55a858640c0b40256c22c9c9031ea99f41765e5df0690fb8218be786daf"
+  },
+  "latest_browser_check": "not_performed_access_denied",
+  "prior_browser_check": {
+    "date": "2026-10-24",
+    "preview_url": "http://127.0.0.1:8768/examples/index.html",
+    "tests": "6 passed",
+    "checked_domains": [
+      "D01",
+      "D02",
+      "D03",
+      "D04",
+      "D05",
+      "D06",
+      "D07",
+      "D08",
+      "D09",
+      "D10",
+      "D11",
+      "D12",
+      "D13",
+      "D14",
+      "D15"
+    ],
+    "browser_checks": {
+      "all_15_domain_buttons": true,
+      "code_diff_added_lines": 90,
+      "code_diff_removed_lines": 11,
+      "calendar_iframes": 2,
+      "calendar_monday_visible": true,
+      "video_duration_seconds": 56.089423,
+      "video_ready_state": 4,
+      "video_width": 360,
+      "old_invalid_guide_score_hidden": true,
+      "gpu_score_absent": true,
+      "console_errors": [],
+      "viewport_width": 1636,
+      "document_scroll_width": 1636
+    },
+    "notes": [
+      "只绑定127.0.0.1，未部署或发布",
+      "桌面浏览器实际验证；没有声称完成手机尺寸测试",
+      "生成器不覆盖原run报告或账本"
+    ],
+    "scope": "早于最终状态更新；不代表当前页面已重新进行浏览器视觉检查。"
+  },
+  "passed": true
+}

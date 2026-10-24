@@ -1,0 +1,21 @@
+diff --git a/edit.json b/edit.json
+index 29ce377..1de16ac 100644
+--- a/edit.json
++++ b/edit.json
+@@ -1,10 +1,11 @@
+ {
+  "segments": [
+-  22,
+-  23,
+-  24,
+-  25,
+-  26,
++  8,
++  9,
++  10,
++  11,
++  12,
++  13,
+   27,
+   28,
+   29,

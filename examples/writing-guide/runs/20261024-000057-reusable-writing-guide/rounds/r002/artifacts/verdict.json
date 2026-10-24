@@ -1,0 +1,30 @@
+{
+  "score": 30.0,
+  "gates": {
+    "all_briefs_generated": true,
+    "guide_present": true,
+    "min_chars": true,
+    "max_chars": true,
+    "check:生成稿没有编造简报之外的价格、时间、名额、用户体验或效果承诺。": true,
+    "check:生成稿没有把某一份简报的事实或行动入口误用到另一份。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "development：固定写手 cli:codex:gpt-6.1-sol 已生成 3/3 份简报的文案。\nreader_fit 3.0/10: 三篇都识别了各自人群，咖啡稿尤其照顾赶车的时间压力，但陶艺稿开头只复述入门需求，没有具体回应新手的顾虑，尚未达到多篇都抓住具体顾虑的8分。\nuseful_structure 3.0/10: 三篇都交代了时间、费用、使用方式及主要限制，但咖啡稿反复提醒核对时间，陶艺稿的“比较费用时”也增加了说明负担，距离8分的决策顺序与信息效率仍有差距。\n[cli:codex:gpt-6.1-sol] 删除三篇未经简报支持的小程序、店铺页面和公众号口令，将结尾改为简报已确认的点单、预约或到课准备动作；需要具体入口时先补齐真实信息。",
+  "metrics": {
+    "criteria": {
+      "reader_fit": 3.0,
+      "useful_structure": 3.0,
+      "natural_voice": 3.0,
+      "action": 3.0
+    },
+    "jury": [
+      "cli:codex:gpt-6.1-sol"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 4,
+    "cost_usd": null
+  },
+  "seconds": 81.01563199999998,
+  "error": ""
+}

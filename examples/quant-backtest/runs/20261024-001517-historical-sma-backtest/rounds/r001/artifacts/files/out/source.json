@@ -1,0 +1,15 @@
+{
+  "provider": "Binance Vision",
+  "symbol": "BTCUSDT",
+  "interval": "1d",
+  "timezone": "UTC",
+  "url": "https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=1672531200000&endTime=1735689599999&limit=1000",
+  "accessed_utc": "2026-10-23T16:15:17.708555+00:00",
+  "first_date": "2023-01-01",
+  "last_date": "2024-12-31",
+  "rows": 731,
+  "raw_sha256": "d0176bf60a6fbfd8d12f76dcda94583c96ec47ec952735f305e9c6320d787ff4",
+  "csv_sha256": "b9dd21e29974b4c13babd79214e43a15829abf52580d3d23c0c6450c1053b8d3",
+  "license": "CC BY-NC-SA 4.0",
+  "terms_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md"
+}

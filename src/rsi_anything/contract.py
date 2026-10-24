@@ -78,6 +78,7 @@ class Contract:
     holdout: Optional[JudgeSpec] = None
     context: str = ""
     assets: list[str] = field(default_factory=list)
+    outputs: list[str] = field(default_factory=list)  # 评审生成的报告、图表或视频，需要随轮次保存。
     root: Path = Path(".")
     digest: str = ""
 
@@ -178,6 +179,7 @@ def load(root: Path, text: Optional[str] = None) -> Contract:
         ),
         context=str(raw.get("context") or "").strip(),
         assets=_list(raw.get("assets"), "assets"),
+        outputs=_list(raw.get("outputs"), "outputs"),
         root=root,
         digest=hashlib.sha256(text.encode("utf-8")).hexdigest()[:12],
     )

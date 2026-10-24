@@ -4,6 +4,7 @@ goal: |
   只能编辑 edit.json，用 judge/transcript.json 里的句子编号选择和排列原视频里的句子，不能改写内容。
 artifact:
   - edit.json
+outputs: [out]
 judge:
   type: rubric
   prepare: "{python} judge/render.py"   # renders out/cut.mp4 + out/cut.txt and checks duration and sentence count

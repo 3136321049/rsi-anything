@@ -1,0 +1,6 @@
+{
+  "fast_window": 3,
+  "slow_window": 8,
+  "threshold_bps": 0,
+  "allocation": 0.5
+}

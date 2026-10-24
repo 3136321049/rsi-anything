@@ -1,0 +1,31 @@
+{
+  "files": [
+    {
+      "path": "expense.py",
+      "bytes": 1936,
+      "sha256": "4b7b2665e245aade8791316deb858241c8003778f50f18182be24a94a2a99f3f"
+    },
+    {
+      "path": "out/example.json",
+      "bytes": 148,
+      "sha256": "a057aa7b56d77bebef462c8a78f2308610b8385febdeb115be93d8f494fbe044"
+    },
+    {
+      "path": "out/metrics.json",
+      "bytes": 231,
+      "sha256": "bd849b6ada3b954f52f954d00d4ba803409b3d5bed5e1f7d4d9fdce82568189a"
+    },
+    {
+      "path": "out/report.md",
+      "bytes": 229,
+      "sha256": "2d1654e6b1fbb597b1b1fe7dcf3e94d9408f8254be487f8280e2feb035f037a6"
+    },
+    {
+      "path": "out/tests.json",
+      "bytes": 1033,
+      "sha256": "0ad7fe0c36dce5a305eb4d711f6f4fd4643309f20b62ba1a5f317fb72c4eb3b9"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": []
+}

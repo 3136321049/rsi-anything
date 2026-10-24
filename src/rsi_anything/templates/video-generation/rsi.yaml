@@ -1,0 +1,18 @@
+name: warm-morning-product-video
+goal: |
+  根据 judge/brief.md 改进 generation.json 的 prompt、negative 和 seed，真实生成晨光陶瓷杯短视频。
+  每轮通过 Lightricks 官方公开 Space 生成新片，观察成片中主体、环境、蒸汽和构图是否符合简报。
+  只修改三个字段，不变更生成服务、尺寸或时长。评委只看抽取的静帧，不能据此证明完整运动或音频质量。
+artifact: [generation.json]
+judge:
+  type: rubric
+  prepare: "{python} judge/prepare.py"
+  rubric: judge/rubric.yaml
+  files: [judge]
+  inputs: [out/video.mp4]
+  models: [auto]
+  pairwise: false
+  timeout: 900
+outputs: [out]
+agent: {use: auto, timeout: 600}
+budget: {rounds: 5, minutes: 90, stagnation: 3}

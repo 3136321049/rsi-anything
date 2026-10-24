@@ -1,0 +1,26 @@
+{
+  "round": 1,
+  "status": "KEEP",
+  "hypothesis": "将三层决策树替换为 RBF 核 SVM（C=10、gamma=scale），保留原始像素且不降维，通过更灵活的分类边界提高正确率。",
+  "score": 99.333,
+  "best": 99.333,
+  "gates": {
+    "finite_predictions": true,
+    "time_budget": true,
+    "exit_code": true
+  },
+  "feedback": "验证集正确率 99.33%，错分 3/450；训练和预测 0.025 秒。召回率较低的数字：5=95.7%、9=97.8%、0=100.0%",
+  "commit": "612497eb254d",
+  "changed": [
+    "training.json"
+  ],
+  "ignored": [],
+  "agent_seconds": 61.9,
+  "judge_seconds": 0.9,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "rounds/r001/artifacts",
+  "holdout": null,
+  "note": "score 46.889 -> 99.333",
+  "time": "2026-10-23T16:12:26+00:00"
+}

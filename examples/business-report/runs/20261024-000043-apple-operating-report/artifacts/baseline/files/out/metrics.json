@@ -1,0 +1,54 @@
+{
+  "unit": "百万美元",
+  "series": {
+    "revenue": {
+      "label": "总营收",
+      "2023": 383285,
+      "2024": 391035
+    },
+    "products": {
+      "label": "产品营收",
+      "2023": 298085,
+      "2024": 294866
+    },
+    "services": {
+      "label": "服务营收",
+      "2023": 85200,
+      "2024": 96169
+    },
+    "operating_income": {
+      "label": "营业利润",
+      "2023": 114301,
+      "2024": 123216
+    },
+    "net_income": {
+      "label": "净利润",
+      "2023": 96995,
+      "2024": 93736
+    }
+  },
+  "rendered_values": {
+    "revenue_2023": "383,285 百万美元",
+    "revenue_2024": "391,035 百万美元",
+    "revenue_growth": "+2.02%",
+    "products_2023": "298,085 百万美元",
+    "products_2024": "294,866 百万美元",
+    "products_growth": "-1.08%",
+    "services_2023": "85,200 百万美元",
+    "services_2024": "96,169 百万美元",
+    "services_growth": "+12.87%",
+    "operating_income_2023": "114,301 百万美元",
+    "operating_income_2024": "123,216 百万美元",
+    "operating_income_growth": "+7.80%",
+    "net_income_2023": "96,995 百万美元",
+    "net_income_2024": "93,736 百万美元",
+    "net_income_growth": "-3.36%",
+    "services_share_2023": "22.23%",
+    "services_share_2024": "24.59%",
+    "tax_charge_2024": "10,246 百万美元"
+  },
+  "selected_charts": [
+    "revenue",
+    "services"
+  ]
+}

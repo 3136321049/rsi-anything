@@ -1,0 +1,43 @@
+{
+  "files": [
+    {
+      "path": "out/coverage.json",
+      "bytes": 743,
+      "sha256": "79e8b3e40251739e6935010ed00b2efd66cb9074bf27c5151b63ca28a07b5408"
+    },
+    {
+      "path": "out/evaluation.md",
+      "bytes": 15110,
+      "sha256": "b1c40b80a8b80b0a33b4ffd28a15ad8561fce23f2a8591614be312634b3f8ddd"
+    },
+    {
+      "path": "out/gates.json",
+      "bytes": 95,
+      "sha256": "0ec9b606579cb4a3aafe777561f0c4ee4dc3417aa53956222db0ab5e9068eca9"
+    },
+    {
+      "path": "out/notes.txt",
+      "bytes": 145,
+      "sha256": "a5fff24a02b96fedfc9f5af34f8fdf0c71cb709a44b080a9fb022888e15255df"
+    },
+    {
+      "path": "out/review.html",
+      "bytes": 15516,
+      "sha256": "668757c280c4703e3bf753c29a7f7ef18f9596d0583bc52cb7ffef0c377d259b"
+    },
+    {
+      "path": "out/review.md",
+      "bytes": 14942,
+      "sha256": "083e22c9e1004b3ed84361e2e39b8a9c9425065f864b13a6c9d6d934df6d27ac"
+    },
+    {
+      "path": "review.json",
+      "bytes": 15422,
+      "sha256": "a8fce2531f975f4f376c9418732d976316c774c02f0f8f15d7de615896b75e74"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": [],
+  "source": "judge_workspace",
+  "evaluation_status": "evaluated"
+}

@@ -1,0 +1,27 @@
+{
+  "covered": [
+    "I1",
+    "I2"
+  ],
+  "missing": [
+    "I3",
+    "I4",
+    "I5",
+    "I6",
+    "I7"
+  ],
+  "total": 7,
+  "coverage_percent": 28.6,
+  "checks": [
+    {
+      "issue_id": "I1",
+      "clause_id": "C1",
+      "valid": true
+    },
+    {
+      "issue_id": "I2",
+      "clause_id": "C2",
+      "valid": true
+    }
+  ]
+}

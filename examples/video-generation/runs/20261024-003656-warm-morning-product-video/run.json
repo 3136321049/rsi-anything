@@ -1,0 +1,28 @@
+{
+  "run_id": "20261024-003656-warm-morning-product-video",
+  "contract": "warm-morning-product-video",
+  "contract_digest": "848454c6dfc0",
+  "goal": "根据 judge/brief.md 改进 generation.json 的 prompt、negative 和 seed，真实生成晨光陶瓷杯短视频。\n每轮通过 Lightricks 官方公开 Space 生成新片，观察成片中主体、环境、蒸汽和构图是否符合简报。\n只修改三个字段，不变更生成服务、尺寸或时长。评委只看抽取的静帧，不能据此证明完整运动或音频质量。",
+  "base": "773f373b2ded4fa4f4f62b6bb58261c03b339538",
+  "branch": "rsi/20261024-003656-warm-morning-product-video",
+  "project": ".",
+  "agent": "codex",
+  "judge": "rubric",
+  "jury": [
+    "cli:codex:gpt-6.1-sol"
+  ],
+  "started": "2026-10-23T16:36:56+00:00",
+  "status": "finished",
+  "phase": "finished",
+  "active_round": null,
+  "finished": "2026-10-23T16:40:41+00:00",
+  "error": null,
+  "stop_reason": "reached 3 rounds",
+  "updated": "2026-10-23T16:40:41+00:00",
+  "champion": "538e28f71a9b9bad5ca5e5de168bb4d38865251a",
+  "elapsed_seconds": 224.84002545799999,
+  "final_snapshot_champion": "538e28f71a9b9bad5ca5e5de168bb4d38865251a",
+  "final_source_artifacts": "rounds/r001/artifacts",
+  "holdout": {},
+  "final_artifacts": "artifacts/final"
+}

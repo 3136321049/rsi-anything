@@ -1,0 +1,28 @@
+{
+  "round": 0,
+  "status": "BASELINE",
+  "hypothesis": "",
+  "score": 62.0,
+  "best": 62.0,
+  "gates": {
+    "all_briefs_generated": true,
+    "guide_present": true,
+    "min_chars": true,
+    "max_chars": true,
+    "check:生成稿没有编造简报之外的价格、时间、名额、用户体验或效果承诺。": true,
+    "check:生成稿没有把某一份简报的事实或行动入口误用到另一份。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "development：固定写手 cli:codex:gpt-6.1-sol 已生成 3/3 份简报的文案。\nnatural_voice 5.0/10: 整体可读且没有夸张赞美，但三篇开头都使用“可以了解一下”引出产品，结尾又重复了解详情的表达，模板感明显，未达到下一档应有的表达变化。\nreader_fit 6.0/10: 三篇都点明了各自人群和基本场景，但主要复述读者标签，没有进一步回应赶车时如何安排取杯、恢复骑行担心什么、零基础参与有哪些顾虑，尚未达到8分的具体程度。\n[cli:codex:gpt-6.1-sol] 把三篇统一的“读者标签＋可以了解一下产品”开头改成各自最影响决策的具体问题，并立即用已有事实回应：赶地铁如何安排取杯、旧车检查是否另收配件费、首次陶艺需要准备什么。",
+  "commit": "3f248b056556",
+  "changed": [],
+  "ignored": [],
+  "agent_seconds": 0.0,
+  "judge_seconds": 78.717354458,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "artifacts/baseline",
+  "holdout": 69.0,
+  "note": "",
+  "time": "2026-10-23T16:19:35+00:00"
+}

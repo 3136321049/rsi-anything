@@ -1,0 +1,39 @@
+{
+  "round": 1,
+  "status": "KEEP",
+  "hypothesis": "用办公日场景解释术语和常见误读，让读者更容易理解建议并开始行动，预计提升通俗性、准确性和实用性评分。",
+  "score": 80.0,
+  "best": 80.0,
+  "gates": {
+    "正文有实质内容": true,
+    "指南数量使用固定资料": true,
+    "来源编号有效": true,
+    "适用边界清楚": true,
+    "没有药物剂量或疗效保证": true,
+    "包含少量起步和久坐说明": true,
+    "min_chars": true,
+    "max_chars": true,
+    "substance": true,
+    "not_repetitive": true,
+    "no_placeholder": true,
+    "no_evaluator_address": true,
+    "check:公众科普信息与冻结的 WHO 资料一致，没有杜撰疗效、疾病风险百分比或医学来源。": true,
+    "check:没有把一般健康成人建议直接套给儿童、孕产期、慢性病或康复人群，也没有个体化运动处方、诊断、用药剂量或停药建议。": true,
+    "check:没有把任何轻微身体动作等同于达到中高强度有氧目标，没有暗示达到有氧量就无需肌肉强化或减少久坐。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "程序检查固定数量、来源编号及用途说明；是否准确转述、是否给出了个体化医疗指令由模型评委另行检查。\naccuracy 8.0/10: 推荐量、替代关系、肌肉强化和减少久坐均解释准确，但等量组合没有给出明确的换算示例，距离更高档的直观理解还有一步。\nplain_language 8.0/10: 用走路、通勤和接水解释术语，普通读者容易理解，但等量组合一段仍偏抽象，开头结尾的重复用途说明也影响简洁度。\n[cli:codex:gpt-6.1-sol] 把等量组合的抽象解释改成简短换算例子：计算每周有氧量时，1分钟高强度约相当于2分钟中等强度，例如100分钟中等强度加25分钟高强度，相当于150分钟中等强度；注明这只是计算示例。",
+  "commit": "5caef5a61705",
+  "changed": [
+    "explainer.md"
+  ],
+  "ignored": [],
+  "agent_seconds": 62.8,
+  "judge_seconds": 33.1,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "rounds/r001/artifacts",
+  "holdout": null,
+  "note": "score 58.5 -> 80; head-to-head 2/2",
+  "time": "2026-10-23T16:17:43+00:00"
+}

@@ -1,0 +1,734 @@
+{
+  "status": "verified",
+  "checked_at": "2026-10-24",
+  "completed_at_utc": "2026-10-23T17:11:29.178721+00:00",
+  "purpose": "最终wheel包内容与离线安装验收；未构建或发布源码包。",
+  "build_command": [
+    ".venv311/bin/python",
+    "-m",
+    "build",
+    "--no-isolation",
+    "--wheel",
+    "--outdir",
+    "dist"
+  ],
+  "network_calls": 0,
+  "model_calls": 0,
+  "tool_versions": {
+    "python": "3.11.14",
+    "build": "1.6.1",
+    "hatchling": "1.32.4"
+  },
+  "artifact": {
+    "path": "dist/rsi_anything-0.2.0.dev0-py3-none-any.whl",
+    "sha256": "6decf01ac333b45cb76a4b6636fd74e46e26863c076ce4476c27cc2a54cbd373",
+    "bytes": 216992,
+    "uncompressed_bytes": 421447,
+    "files": 164
+  },
+  "template_count": 16,
+  "templates": [
+    {
+      "name": "business-report",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 9,
+      "resources": [
+        {
+          "path": "report.md",
+          "sha256": "b08f05d0dbed13f20ba98a52a96e8498bb7a410377dbc0825fc58a5133b9be89"
+        },
+        {
+          "path": "README.md",
+          "sha256": "f310430d3f5feea7259e7e107c14d2d536adecc8b5547cb808c313c6b704f1bc"
+        },
+        {
+          "path": "rsi.yaml",
+          "sha256": "82372cff94d5b04f79db9c77974d5391bb21b9ba056123a3f1e9abdfe28eea45"
+        },
+        {
+          "path": "charts.json",
+          "sha256": "bcdad2481cd8c2237e4aa4a5108929429190fb10946aada37c5b277cddcfe7f8"
+        },
+        {
+          "path": "ABOUT.txt",
+          "sha256": "6ab8396e56ff8ab12f9f25455e2a6e5ff3756409d33a0a98deeb2412aea7b9df"
+        },
+        {
+          "path": ".gitignore",
+          "sha256": "3c8a95cb9674eac65bd2c5ba11c50d8a248e7f471a97ee18b3dd06bcb63f5d3e"
+        },
+        {
+          "path": "judge/rubric.yaml",
+          "sha256": "cd9bd75c8ae90ff1869484e95d2c6670d67abaa41431304f6d849a4ba912d296"
+        },
+        {
+          "path": "judge/facts.json",
+          "sha256": "999825c7bd56d0827978eaf33cbe682b5edd578622f68e60506837295214617d"
+        },
+        {
+          "path": "judge/prepare.py",
+          "sha256": "71409b09bac43b6e1a0a1f5fcfc96fa47c7b06e7ee02a623ef5dcca03ad40637"
+        }
+      ]
+    },
+    {
+      "name": "code-repair",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 9,
+      "resources": [
+        {
+          "path": "expense.py",
+          "sha256": "842f375c8f58cd4519522eca9175d9ed835718df83966c0fc372066e1f7f84f5"
+        },
+        {
+          "path": "README.md",
+          "sha256": "4ad88f7536c519bca93298d19ead526511f044319313efb854195b5130e481cf"
+        },
+        {
+          "path": "rsi.yaml",
+          "sha256": "1b93ccc1b3b4d05708b0a29bfe9ad8820f4cb95b0686ba4c1dd4349fcc72351a"
+        },
+        {
+          "path": "ABOUT.txt",
+          "sha256": "7d06a06d5df586232df723109c5b65c713bac1e17b7ef1691f88780634708fdb"
+        },
+        {
+          "path": "example.py",
+          "sha256": "f1ea66cf81632e21a08dfebba3e4dd7f20dfee06854bfeb21b6939532f43450e"
+        },
+        {
+          "path": ".gitignore",
+          "sha256": "744a1502c1d7ad664e0677975e40beb6cf6abfe3f49da5311af22b109a50af68"
+        },
+        {
+          "path": "judge/test_expense.py",
+          "sha256": "801f325299ee25e5b5e33f9a4a0e2e84bbb885a5a033345e8095ece00e6c6890"
+        },
+        {
+          "path": "judge/sample.json",
+          "sha256": "a0e7b327a4420d1142d87815bb0716943abfb947f7735f6d3797fc0f48faa4b3"
+        },
+        {
+          "path": "judge/evaluate.py",
+          "sha256": "009773086263e0913b5ee049eb73116e5973e25db5549fd0827d894c44ce1a42"
+        }
+      ]
+    },
+    {
+      "name": "code-speed",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 6,
+      "resources": [
+        {
+          "path": "README.md",
+          "sha256": "e8176bbb85eeac070da53177224ed0e9ab3d974bf510185e9a00361beeb4ed02"
+        },
+        {
+          "path": "rsi.yaml",
+          "sha256": "e2b9d1e7270ecc5cc7be399ec4f097aa79c321794297f63561a31da0c01e53e9"
+        },
+        {
+          "path": "ABOUT.txt",
+          "sha256": "39b6d5c3221bed6ec08d9359daeee46a7f428e5cf495010f22f54f81ff36e5e4"
+        },
+        {
+          "path": "search.py",
+          "sha256": "f0b83066b368de6699d0b45ca1b8dbbbb101a86455d2166b9806751ccea0dcc1"
+        },
+        {
+          "path": "judge/check.py",
+          "sha256": "4c6184e44074990ca404bf92ed693193eb739e61c1e3d3900179fe97cd61db48"
+        },
+        {
+          "path": "judge/reference.py",
+          "sha256": "9439e2ee36d218b5786ee49884f7c4f0a567599c2b96106e583343ff4864cd37"
+        }
+      ]
+    },
+    {
+      "name": "contract-review",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 9,
+      "resources": [
+        {
+          "path": "README.md",
+          "sha256": "1128da278febe309e2febd421a8f2e1c170f32a20fda26f85948d8ce73e4a00c"
+        },
+        {
+          "path": "rsi.yaml",
+          "sha256": "328ae02361b8e494d90ad70fe397150bd18fcebbf5bedd7a92490e16893869b6"
+        },
+        {
+          "path": "ABOUT.txt",
+          "sha256": "ac60f139631391fb93bbf700aed7c152f264bf4f759ee012e634695c7c3cc8b3"
+        },
+        {
+          "path": ".gitignore",
+          "sha256": "3c8a95cb9674eac65bd2c5ba11c50d8a248e7f471a97ee18b3dd06bcb63f5d3e"
+        },
+        {
+          "path": "review.json",
+          "sha256": "96ad73568c4ce224e06fbdf81da62b965485f05d59b25d1e354cf37f1adaa446"
+        },
+        {
+          "path": "judge/rubric.yaml",
+          "sha256": "945ca01b64b12d033b03e17f44b1e358e3bf5abfd8b572fa9146bbc092c9146a"
+        },
+        {
+          "path": "judge/review-guide.json",
+          "sha256": "9e216cf199077f51901fe538c976cbeaf9a971dfc12b8905541f64fd36aabbd7"
+        },
+        {
+          "path": "judge/prepare.py",
+          "sha256": "957195fac216914e5908532c13dccab2941f12cdafa13e62bc3a8705ab11fda5"
+        },
+        {
+          "path": "judge/contract.json",
+          "sha256": "b4ecbc5cfac37d7493b28d16739dc3be4e57b94a2076028166681fbe4a36ea6b"
+        }
+      ]
+    },
+    {
+      "name": "copywriting",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 6,
+      "resources": [
+        {
+          "path": "README.md",
+          "sha256": "1a65361f64848b0fa94d56e87aa6b47a32d129b64e1e129e9a57eb13d967bc75"
+        },
+        {
+          "path": "rsi.yaml",
+          "sha256": "59e78395afc111a80b6d12dd9291a2ad5d2777dedfa0c713bdeda73414491089"
+        },
+        {
+          "path": "ABOUT.txt",
+          "sha256": "96d2ab4e366bf01b76a8cab1f1952c935d88beb2fb6fd47b632fce9fc1f8449c"
+        },
+        {
+          "path": "post.md",
+          "sha256": "4f40121567e231e2ee5cf66cdb5aa2cfd592162c1c8691134960d5d8d39512e9"
+        },
+        {
+          "path": "judge/rubric.yaml",
+          "sha256": "a5e65d518b0eb409e93d4ad6f9ca582be5953a7717aaf65ef1f4230cec482142"
+        },
+        {
+          "path": "judge/brief.md",
+          "sha256": "bf40c4b6cff0142aced1e5618936e1371979abc39230f43af112a1b0884e2622"
+        }
+      ]
+    },
+    {
+      "name": "cpu-classifier",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 8,
+      "resources": [
+        {
+          "path": "training.json",
+          "sha256": "ad4c821542c738f52a9b46a840a08976d927d2e7feef4fac4920fe406eb231c3"
+        },
+        {
+          "path": "requirements.txt",
+          "sha256": "9931f462098326bcb7ed92ec26bb79a09e563a74698b3cf72852fa7c3ff05f00"
+        },
+        {
+          "path": "README.md",
+          "sha256": "ed3ac5cd1799015a1f2c5c146ab625480b1f4496ecc4e0fa3a1553a2739dd3d4"
+        },
+        {
+          "path": "rsi.yaml",
+          "sha256": "a66711fbce6cd9da923db0600270fb1addca64cb38372865c1d31b095266953b"
+        },
+        {
+          "path": "ABOUT.txt",
+          "sha256": "2c1287ed12e115437ad355bef4a9484c9b41b1cd0c497e763afcde36e6f946dc"
+        },
+        {
+          "path": ".gitignore",
+          "sha256": "744a1502c1d7ad664e0677975e40beb6cf6abfe3f49da5311af22b109a50af68"
+        },
+        {
+          "path": "judge/data.json",
+          "sha256": "09489a892e526fd742f79df2ae7c9c093fbe88d4cbda6a26ea12a0823beeba4a"
+        },
+        {
+          "path": "judge/evaluate.py",
+          "sha256": "b22d8e35be59fa8c8ff9d83016314765c4ad02fabb0de929640ee3cb78a2f350"
+        }
+      ]
+    },
+    {
+      "name": "kernel-speed",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 11,
+      "resources": [
+        {
+          "path": "THIRD_PARTY.md",
+          "sha256": "cd752ae70d6142d2cf0e9572a845433dc0024d7c436c9d232b60156d014dfd81"
+        },
+        {
+          "path": "README.md",
+          "sha256": "599a0fab39cae537555e11aba0abaedf882eadb105589297a52bc3f6ac6cdf9f"
+        },
+        {
+          "path": "rsi.yaml",
+          "sha256": "2775f2fd3349d3c03decb46edcbea1002db42979738da093627e2b38fa0f9d70"
+        },
+        {
+          "path": "ABOUT.txt",
+          "sha256": "c6a8c1637d3e98ab0dc9ac6320f7f71267a097939e8cfa3d3c6be9932c34b4da"
+        },
+        {
+          "path": ".gitignore",
+          "sha256": "744a1502c1d7ad664e0677975e40beb6cf6abfe3f49da5311af22b109a50af68"
+        },
+        {
+          "path": "requirements-linux.txt",
+          "sha256": "b8f2905e579121a23f70cf78722873d860f12a293b904c2462705774e52f1c15"
+        },
+        {
+          "path": "candidate.py",
+          "sha256": "2ae4bc1a30cd75e06e3fccc0aea9a81ca3e40fad02d49dc91c057377600bc0a0"
+        },
+        {
+          "path": "judge/check.py",
+          "sha256": "18235d8a4bdf67a93c5bcd8283af2db9e08d2d975d4c8da05cc0f7d1b838b130"
+        },
+        {
+          "path": "judge/cases.json",
+          "sha256": "f278c4351d1d9958a6834c9f7676a282aefac19625d2e6916b3d7126e4c783ba"
+        },
+        {
+          "path": "judge/reference.py",
+          "sha256": "4e8908c8a0dd2b4c34bc8a8b948568b32b60e7a58885a890ec7d8cdcd7e2e5c8"
+        },
+        {
+          "path": "judge/module.py",
+          "sha256": "58b6e5b0dde4c8ead1b04165e9abab8579c1f0a73937b1cffcb34fdb9af068cb"
+        }
+      ]
+    },
+    {
+      "name": "lesson-builder",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 8,
+      "resources": [
+        {
+          "path": "README.md",
+          "sha256": "89ed0fc52bf16ab536edea6829b3f7ca4c8d38c20e036c90753a6df30b14a452"
+        },
+        {
+          "path": "rsi.yaml",
+          "sha256": "cbbf7d60a63cf3949b2f239ae2674d4afbb0b005950c51deeaeba75ac5b306b6"
+        },
+        {
+          "path": "ABOUT.txt",
+          "sha256": "13ea52033117910546a37c19c039fdd59d052aa59561e033d06125835aceb53d"
+        },
+        {
+          "path": ".gitignore",
+          "sha256": "3c8a95cb9674eac65bd2c5ba11c50d8a248e7f471a97ee18b3dd06bcb63f5d3e"
+        },
+        {
+          "path": "lesson.md",
+          "sha256": "e0e2586dfbfd4def2f90bf1971433a094a2f8b476c423dbd72ba10b9b7b942cd"
+        },
+        {
+          "path": "judge/exercises.json",
+          "sha256": "060a382334f8d7bb5754b24c6f90d928cc7134e2d0ce6192bfd24ac5b8c4326f"
+        },
+        {
+          "path": "judge/evaluate.py",
+          "sha256": "c89aad51d084d72dd9f98bd7773f27a0c34c643156c8b5558d57ce040a00b8a2"
+        },
+        {
+          "path": "judge/brief.md",
+          "sha256": "28f5143ff320bfa63d6da28044cfdf7aa07658740a2547e957ff1eac3d82c3e2"
+        }
+      ]
+    },
+    {
+      "name": "literature-review",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 9,
+      "resources": [
+        {
+          "path": "evidence.json",
+          "sha256": "03eeaa65383ca8f003103da7e68cebee2b01273cd532573f4ecab5b5a8b89726"
+        },
+        {
+          "path": "README.md",
+          "sha256": "681c6c68968b93940201c02df600fd1b93cc85f03d9fc089fccea7287b53fc3c"
+        },
+        {
+          "path": "rsi.yaml",
+          "sha256": "555ae1e60e963fef35004723efe79b9c422a7850fa7479c0a2ec042dccf5b0b9"
+        },
+        {
+          "path": "ABOUT.txt",
+          "sha256": "70c8900e8493a1b5a9edfd9d706cff0bb966341ada63a944a8df4107b1542b97"
+        },
+        {
+          "path": ".gitignore",
+          "sha256": "3c8a95cb9674eac65bd2c5ba11c50d8a248e7f471a97ee18b3dd06bcb63f5d3e"
+        },
+        {
+          "path": "review.md",
+          "sha256": "cdd5d94de92837eea0fddbb0c7fa33b62ad39867db2ecf53236150273ccb15b1"
+        },
+        {
+          "path": "judge/sources.json",
+          "sha256": "45367b442f5b53d56a5929405bcd6ade884d711d29af6c43f7cedb244bf28f5d"
+        },
+        {
+          "path": "judge/rubric.yaml",
+          "sha256": "4a8ea2bf9f0ca3ac432169149cf9c4de9b78dd216bd9317d10c0a57e95ffe9e3"
+        },
+        {
+          "path": "judge/prepare.py",
+          "sha256": "c905928f3e37a2ebc8b96c200234ef9758978f15d1ab52af070ab6930cf4b9a5"
+        }
+      ]
+    },
+    {
+      "name": "medical-explainer",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 8,
+      "resources": [
+        {
+          "path": "README.md",
+          "sha256": "0708683ee43502884773ceaa355dbc06c9c732a0791369cdb023816ca1367e77"
+        },
+        {
+          "path": "rsi.yaml",
+          "sha256": "e29c3a2b67fa7225dc66cf6822576445ff5cf32810fbfed00a8332f5fa80e625"
+        },
+        {
+          "path": "ABOUT.txt",
+          "sha256": "68bda2eca462084b60b1d421c083736c238e2ca1c20dd25cd925a64f1d5f1e0a"
+        },
+        {
+          "path": "explainer.md",
+          "sha256": "778b6154f85621a8a9274ed2b575e1dfdaac23a751411de01516eb6bb0a20313"
+        },
+        {
+          "path": ".gitignore",
+          "sha256": "3c8a95cb9674eac65bd2c5ba11c50d8a248e7f471a97ee18b3dd06bcb63f5d3e"
+        },
+        {
+          "path": "judge/sources.json",
+          "sha256": "a9b5dd6751ed6384fdcfb9d170eeb210a0d5520e822cb1bd83206914f8fdde85"
+        },
+        {
+          "path": "judge/rubric.yaml",
+          "sha256": "62b829b8da8deaadf0c1179f9c6686806fcc30166aadfd72fa2923465047f6aa"
+        },
+        {
+          "path": "judge/prepare.py",
+          "sha256": "df30f9c563c06a0063f1102a84216d17db4540d754748206206f417c2b623691"
+        }
+      ]
+    },
+    {
+      "name": "prompt-opt",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 7,
+      "resources": [
+        {
+          "path": "prompt.md",
+          "sha256": "cd45ace98f33b20ae6d2be7297ca2097f6eec565510611d4e22aa9719593fe12"
+        },
+        {
+          "path": "README.md",
+          "sha256": "52477076a7a2f4a9e2a81756246c0d2cfde31ad4a1871fdca515a720fe205887"
+        },
+        {
+          "path": "rsi.yaml",
+          "sha256": "2b433e33b026e78734acd8beb6be8d6ba7f1ff0092930154743271eb2c96a1ac"
+        },
+        {
+          "path": "ABOUT.txt",
+          "sha256": "7ced9359a1b344f48d116dad2380dc411fe54d82ae3e96ef3d4c7c4bd0378be1"
+        },
+        {
+          "path": "holdout/test.jsonl",
+          "sha256": "6f29d9a0b7019210a151bdebd949f7856a63c8a31901a95417497d4fbecc5ba0"
+        },
+        {
+          "path": "judge/dev.jsonl",
+          "sha256": "7668fe4699597cb553759fb940afdfad25b28ba9d749f7ca9f54fbc9101ca883"
+        },
+        {
+          "path": "judge/evaluate.py",
+          "sha256": "0597b1aaf449185925f044647d899102bbee6f9d34974f74a6f05896102f283d"
+        }
+      ]
+    },
+    {
+      "name": "quant-backtest",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 9,
+      "resources": [
+        {
+          "path": "requirements.txt",
+          "sha256": "fd70c5b60168fd91d504345ec04061037fb9de084f7ec8fa53255486c9c94ab1"
+        },
+        {
+          "path": "README.md",
+          "sha256": "3cb37a0b3167b5c2be4052fac74a7ea612e838580bf73053918dea20517264ff"
+        },
+        {
+          "path": "rsi.yaml",
+          "sha256": "9e3ed6cef602417302000c650f9d2e6803430a90cb7629d8babd200c636addb2"
+        },
+        {
+          "path": "ABOUT.txt",
+          "sha256": "090f6d01d634de83c43417f5ec938854d8de9b6b8c62046042a61fb3c1ab2bb0"
+        },
+        {
+          "path": ".gitignore",
+          "sha256": "744a1502c1d7ad664e0677975e40beb6cf6abfe3f49da5311af22b109a50af68"
+        },
+        {
+          "path": "strategy.json",
+          "sha256": "47eff6a06574c6d190d63b031fe0bb28af1a45028f1ce8b468ef3b940470ceb1"
+        },
+        {
+          "path": "rsi_init.py",
+          "sha256": "8a806b93583d3e5b54d9b74001968d30deab86557812354255a68c229b394531"
+        },
+        {
+          "path": "judge/settings.json",
+          "sha256": "7c9ce531ffa89460008134b8de1a0ca7d7f491ccf6aa1a91c278d00d310cadde"
+        },
+        {
+          "path": "judge/evaluate.py",
+          "sha256": "6a10851e19f509d6ef476fd4ab92c94d8e81986403b5c34d173cf7b9c1418110"
+        }
+      ]
+    },
+    {
+      "name": "video-cut",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 10,
+      "resources": [
+        {
+          "path": "edit.json",
+          "sha256": "576be18017ccb7dd342238aa8861a7a74d19a5d536bb3809c81c5732584c90f9"
+        },
+        {
+          "path": "README.md",
+          "sha256": "85b4552362c1797a62d5b9ede89d79e937b7bccc4ac4ff1cb11e065888783f97"
+        },
+        {
+          "path": "rsi.yaml",
+          "sha256": "1997b21ccd768c85f4d13e8b524d03a705dea309c3e2ec6f09fc7ed29a836f2f"
+        },
+        {
+          "path": "ABOUT.txt",
+          "sha256": "a8eb45cae49db7a935abae23f21c489c0fe0ae0a8a4a0ac0b4494b05e33c6e19"
+        },
+        {
+          "path": ".gitignore",
+          "sha256": "e1a04a2166b14813f5b8d50998274b013ddb2bebe250f2f74a11d45ed0fbcdf0"
+        },
+        {
+          "path": "rsi_init.py",
+          "sha256": "16b920d7cc3a81b3798d8e79abbe2152111f4656fee1600bca103b2279f7dd80"
+        },
+        {
+          "path": "judge/keypoints.md",
+          "sha256": "c526a55322d7f3ec7d6cf91e7841d620c240519c5718f65c4c22d064e9e764bc"
+        },
+        {
+          "path": "judge/render.py",
+          "sha256": "98d87bda55dd4a5ef890140d42b4f7ae23d40a7764fcae5d67e7ea85ece22b6e"
+        },
+        {
+          "path": "judge/rubric.yaml",
+          "sha256": "63c26911a6f13322f73fd52a6b90a1578e0d589174c039526eaa1282cfc0ccd9"
+        },
+        {
+          "path": "judge/talk.txt",
+          "sha256": "66cd8c8340cd760eb8638802fd335f2a5ef3b7e9556e47df9ae4afa381c04e7e"
+        }
+      ]
+    },
+    {
+      "name": "video-generation",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 8,
+      "resources": [
+        {
+          "path": "README.md",
+          "sha256": "3b173ffd175a0a7dd413146ccc2ce951fc3dd791f2a2443e2767f0a6b3714afc"
+        },
+        {
+          "path": "rsi.yaml",
+          "sha256": "4ed444f8599653d6a275ef5f2cf7de2186d7eb4ae8a861d290953eb2976a9f24"
+        },
+        {
+          "path": "ABOUT.txt",
+          "sha256": "68e3073ab1b4cfd86fda14fcb07b8398b8ea7cc4e5d7fa868c55de48223fc2f2"
+        },
+        {
+          "path": ".gitignore",
+          "sha256": "3c8a95cb9674eac65bd2c5ba11c50d8a248e7f471a97ee18b3dd06bcb63f5d3e"
+        },
+        {
+          "path": "generation.json",
+          "sha256": "c85a7f3919877f2d6cbe41a8a5ac709d740fddaabc410a690bb42e4bad423125"
+        },
+        {
+          "path": "judge/rubric.yaml",
+          "sha256": "754dfd3db6c14904adcab313190fb90a3bb48cb352b4d6d278db7b35c0046cd3"
+        },
+        {
+          "path": "judge/brief.md",
+          "sha256": "7976bbf2c942d3dfdf07db68fa7d5fba215489f2647d1e630b7fc7b12dc609f6"
+        },
+        {
+          "path": "judge/prepare.py",
+          "sha256": "2502676ce12e9f29b4666db0a2a81501b972057329bee3cacac9a5eafe40a82f"
+        }
+      ]
+    },
+    {
+      "name": "weekly-planner",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 7,
+      "resources": [
+        {
+          "path": "README.md",
+          "sha256": "ad823f94734e9d4f8a552648a0fcb1ae107a22b38f83e3dcc81f38f568ace1c0"
+        },
+        {
+          "path": "rsi.yaml",
+          "sha256": "6dd691482cc77ca9a73461ba48c9275b6f3ae1efb2b56c101dfb5d97a6befd91"
+        },
+        {
+          "path": "ABOUT.txt",
+          "sha256": "67c7df4453414bd9cd100a556e4a9fbd0fb5398b2a40b23233275d9b94f5ec15"
+        },
+        {
+          "path": ".gitignore",
+          "sha256": "744a1502c1d7ad664e0677975e40beb6cf6abfe3f49da5311af22b109a50af68"
+        },
+        {
+          "path": "schedule.json",
+          "sha256": "812b1df77c345ef6097f9764af26b8d9d7a39287c07c7286bd77440ae4371a27"
+        },
+        {
+          "path": "judge/requirements.json",
+          "sha256": "682d1abd58511cae39672be8da46eda2d4ead419fe95a6af117d5176535238d2"
+        },
+        {
+          "path": "judge/evaluate.py",
+          "sha256": "daa14feedb660b345ab7d528bfde183148a37d2f63e36c2b91d2871b8e669d26"
+        }
+      ]
+    },
+    {
+      "name": "writing-guide",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 8,
+      "resources": [
+        {
+          "path": "README.md",
+          "sha256": "2b4f5d3f3f4ff28d36faa69321815e4ea9307e1559245a6c3c8bd5eb4e9f5734"
+        },
+        {
+          "path": "rsi.yaml",
+          "sha256": "3259a483f7604ae02cd046dd5528c494f59c73fc53261c4682bb205407f2b484"
+        },
+        {
+          "path": "ABOUT.txt",
+          "sha256": "87bde896adcb347b5b94ca5d7c0f9ff02f3b4af1d020a2c8be40828305a9a047"
+        },
+        {
+          "path": "writing-guide.md",
+          "sha256": "658d61b98d5d5e197f6477c6af2ac86217942da9a6d263c484f4886aa3e4beaf"
+        },
+        {
+          "path": "holdout/briefs.json",
+          "sha256": "7657999abd33cd85b0b6ff27d7b4ca0ddc267166120562de9e0143f382b23fe9"
+        },
+        {
+          "path": "judge/briefs.json",
+          "sha256": "0df5c0873de7c79fddad81c2908da158a67a1251f7f58d246a603c4404b52ab6"
+        },
+        {
+          "path": "judge/generate.py",
+          "sha256": "dbc6914a21a392296532a7893f50c71d0fbd909e5efbf726f3657baabfbaf0bd"
+        },
+        {
+          "path": "judge/rubric.yaml",
+          "sha256": "a296aab9464d8bfbb5f3e2986f5e46f5c7ad5d59d0b65cc82dd631e28473fb19"
+        }
+      ]
+    }
+  ],
+  "archive_scan": {
+    "forbidden_paths": [],
+    "text_rules": [
+      "personal_absolute_path",
+      "internal_domain_or_email",
+      "private_key_block",
+      "openai_like_secret",
+      "aws_access_key"
+    ],
+    "findings": [],
+    "public_vendor_names_allowed": true
+  },
+  "installation_receipt": "release/install-receipt.json",
+  "sdist_built_in_this_step": false
+}

@@ -1,0 +1,33 @@
+{
+  "files": [
+    {
+      "path": "generation.json",
+      "bytes": 1347,
+      "sha256": "d6c563c8549bd72d7fb8efbfedc8b30f1c067adc8438a3ef32f8f044ef90bd7a"
+    },
+    {
+      "path": "out/error.json",
+      "bytes": 2622,
+      "sha256": "449a0e8620a936e56ecd33ab8da6dfa77375291da939157085ac09fafccd8812"
+    },
+    {
+      "path": "out/gates.json",
+      "bytes": 43,
+      "sha256": "3431e2d7c9a2f45b7b7129989832d3f3af2d37e364eaed6bfa7c58480f8a6215"
+    },
+    {
+      "path": "out/notes.txt",
+      "bytes": 85,
+      "sha256": "5245cf70e3761440c7cb61635c6d67259abfe7e93913d5f19c3128e82b09f516"
+    },
+    {
+      "path": "out/request.json",
+      "bytes": 1610,
+      "sha256": "b653b5eb9da51d2b3aca0469e79b4e36e04c3adf27cbc9bb0cff46f0e88b43bf"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": [],
+  "source": "judge_workspace",
+  "evaluation_status": "evaluated"
+}

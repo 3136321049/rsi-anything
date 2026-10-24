@@ -1,0 +1,29 @@
+{
+  "round": 0,
+  "status": "BASELINE",
+  "hypothesis": "",
+  "score": 38.08,
+  "best": 38.08,
+  "gates": {
+    "valid_schedule": true,
+    "no_conflicts": true,
+    "within_awake_hours": true,
+    "allowed_days": true,
+    "correct_duration": true,
+    "session_limits": true,
+    "daily_load": true,
+    "exit_code": true
+  },
+  "feedback": "任务覆盖 46.2%，偏好覆盖 19.2%。\n锻炼还缺 2 次\n阅读还缺 2 次\n系统学习还缺 1 次\n准备下周餐食还缺 1 次\n整理账单还缺 1 次\n留出休息还缺 1 次\n锻炼有 1 次不在偏好时段\n阅读有 1 次不在偏好时段\n采购有 1 次不在偏好时段\n陪伴家人有 1 次不在偏好时段",
+  "commit": "394b79ff9cf3",
+  "changed": [],
+  "ignored": [],
+  "agent_seconds": 0.0,
+  "judge_seconds": 0.024116707999999987,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "artifacts/baseline",
+  "holdout": null,
+  "note": "",
+  "time": "2026-10-23T15:55:00+00:00"
+}

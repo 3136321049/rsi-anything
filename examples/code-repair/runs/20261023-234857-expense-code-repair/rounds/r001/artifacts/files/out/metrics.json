@@ -1,0 +1,13 @@
+{
+  "score": 60.0,
+  "gates": {
+    "tests_executed": true,
+    "no_skips": true
+  },
+  "feedback": "固定测试通过 9/15。\nfixed_expense_tests.ExpenseTests.test_date_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_month_refund: ?         ^\nfixed_expense_tests.ExpenseTests.test_month_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_split_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_split_remainder: + [3334, 3333, 3333]\nfixed_expense_tests.ExpenseTests.test_split_small_total: + [1, 1, 0, 0]",
+  "metrics": {
+    "tests_passed": 9,
+    "tests_total": 15,
+    "all_tests_passed": false
+  }
+}

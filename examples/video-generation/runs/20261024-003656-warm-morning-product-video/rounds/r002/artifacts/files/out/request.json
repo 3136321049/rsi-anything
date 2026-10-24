@@ -1,0 +1,22 @@
+{
+  "adapter_version": 1,
+  "endpoint": "https://lightricks-ltx-video-distilled.hf.space",
+  "api_name": "text_to_video",
+  "request": {
+    "data": [
+      "A single pale ivory ceramic mug holding a hot drink. Just one or two faint, hair-thin, nearly transparent threads of steam are visible immediately above the open rim. These sparse traces rise only a few centimeters before fading completely into clear air; most of the space above the mug is empty. Soft morning sunlight from a window to the left and slightly behind the mug catches the subtle vapor against a darker softly blurred background. The rim and mug remain clearly visible through the faint steam. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Three-quarter view at mug height, mug slightly right of center, generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in.",
+      "text, watermark, logo, branding, people, faces, hands, thick smoke, dense fog, opaque steam, broad white steam ribbons, billowing clouds, tall steam plume, continuous steam column, smoke covering the mug, dark brown mug, cropped mug, duplicate mugs, extra handles, warped ceramic, cluttered background, camera shake",
+      null,
+      null,
+      512,
+      704,
+      "text-to-video",
+      2,
+      9,
+      42,
+      false,
+      1,
+      false
+    ]
+  }
+}

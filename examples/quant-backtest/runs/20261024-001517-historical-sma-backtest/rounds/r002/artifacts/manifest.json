@@ -1,0 +1,46 @@
+{
+  "files": [
+    {
+      "path": "out/equity-drawdown.png",
+      "bytes": 126289,
+      "sha256": "117dac19bc1ec476f1a21ca7bf2d18150787041fd2700a2c30970e04972c4484"
+    },
+    {
+      "path": "out/equity.csv",
+      "bytes": 44342,
+      "sha256": "4ee362b28408e2c313dccf9b20421e6588248d047c8896f7cba1e0682ea77181"
+    },
+    {
+      "path": "out/metrics.json",
+      "bytes": 849,
+      "sha256": "c898725f94e1ddb52c30ebd528fc9f4b2ceb9c16d708930ef074e03bff1096b0"
+    },
+    {
+      "path": "out/report.md",
+      "bytes": 2160,
+      "sha256": "b5b56492c64afb81d935879b9402a43c9e4643e648b442f2a72dee80f2312b34"
+    },
+    {
+      "path": "out/source.json",
+      "bytes": 670,
+      "sha256": "e0f5a335c08282914f9823274a212a873cf8b01d58a0d969c27219180170ed35"
+    },
+    {
+      "path": "out/strategy.json",
+      "bytes": 88,
+      "sha256": "1292165d21c4ecb8dea1fb1506b2c2e0bb0f481953be3c3f817e8abe176d36b3"
+    },
+    {
+      "path": "out/trades.json",
+      "bytes": 2835,
+      "sha256": "3a2b37baffbdd474dd16f8ad66537ca378132f1fbd9f15f5dace0b3d185a7f66"
+    },
+    {
+      "path": "strategy.json",
+      "bytes": 88,
+      "sha256": "1292165d21c4ecb8dea1fb1506b2c2e0bb0f481953be3c3f817e8abe176d36b3"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": []
+}

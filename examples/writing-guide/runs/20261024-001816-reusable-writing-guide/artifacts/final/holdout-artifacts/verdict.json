@@ -1,0 +1,70 @@
+{
+  "score": 77.5,
+  "gates": {
+    "all_briefs_generated": true,
+    "guide_present": true,
+    "min_chars": true,
+    "max_chars": true,
+    "check:生成稿没有编造简报之外的价格、时间、名额、用户体验或效果承诺。": true,
+    "check:生成稿没有把某一份简报的事实或行动入口误用到另一份。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "holdout：固定写手 cli:codex:gpt-6.1-sol 已生成 1/1 份简报的文案。\nnatural_voice 7.0/10: 语气克制且能把规则说成人话，但标题与开头近义复述、前两段反复解释参与压力，表达尚未达到8分的鲜明程度。\nreader_fit 8.0/10: 准确回应想恢复阅读又怕增加任务的顾虑，但标题与首段重复同一诉求，切入还不够利落，未到9分。\n[cli:codex:gpt-6.1-sol] 合并前两段重复的减负说明，只保留一次无需读完、自愿分享和自带正在读的书，让读者更快看到活动流程与时间费用。",
+  "metrics": {
+    "criteria": {
+      "reader_fit": 8.0,
+      "useful_structure": 8.0,
+      "natural_voice": 7.0,
+      "action": 8.0
+    },
+    "jury": [
+      "cli:codex:gpt-6.1-sol"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "reader_fit": {
+            "score": 8,
+            "evidence": "带上自己正在读的书就能参加，不要求提前读完整本，也不用为了分享赶进度。",
+            "why": "准确回应想恢复阅读又怕增加任务的顾虑，但标题与首段重复同一诉求，切入还不够利落，未到9分。"
+          },
+          "useful_structure": {
+            "score": 8,
+            "evidence": "小组每周三19:30至21:00在社区书店举行，每次最多10人。报名费25元，含一杯茶；书需要自己带。",
+            "why": "先说明参与负担，再介绍流程、时间费用和报名，便于判断是否适合，但自带书和无需读完的说明有所重复，未到9分的精练程度。"
+          },
+          "natural_voice": {
+            "score": 7,
+            "evidence": "分享自愿，不必把“读完以后要讲什么”当作参加前的功课。",
+            "why": "语气克制且能把规则说成人话，但标题与开头近义复述、前两段反复解释参与压力，表达尚未达到8分的鲜明程度。"
+          },
+          "action": {
+            "score": 8,
+            "evidence": "如果这样的安排适合你，可以到书店公告页选择本周场次报名。",
+            "why": "行动入口准确、步骤明确且不施压，但结尾承接需求的措辞较通用，未到9分的贴合与省事程度。"
+          }
+        },
+        "checks": {
+          "生成稿没有编造简报之外的价格、时间、名额、用户体验或效果承诺。": {
+            "pass": true,
+            "why": "价格、时段、人数及活动安排均与简报一致，没有新增用户体验或效果承诺。"
+          },
+          "生成稿没有把某一份简报的事实或行动入口误用到另一份。": {
+            "pass": true,
+            "why": "仅提供一份生成稿，事实与报名入口均对应读书小组，未见误用。"
+          }
+        },
+        "manipulation": false,
+        "top_fix": "合并前两段重复的减负说明，只保留一次无需读完、自愿分享和自带正在读的书，让读者更快看到活动流程与时间费用。",
+        "_model": "cli:codex:gpt-6.1-sol",
+        "_cost": null
+      }
+    ],
+    "cost_usd": null
+  },
+  "seconds": 42.403449083000055,
+  "error": ""
+}

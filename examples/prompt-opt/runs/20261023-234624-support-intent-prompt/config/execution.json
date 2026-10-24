@@ -1,0 +1,62 @@
+{
+  "agent": {
+    "use": "codex",
+    "model": "gpt-6.1-sol",
+    "timeout": 900,
+    "command": "",
+    "extra_args": [],
+    "resolved_adapter": "codex",
+    "requested_model": "gpt-6.1-sol",
+    "actual_model": null
+  },
+  "judge": {
+    "type": "command",
+    "files": [
+      "judge"
+    ],
+    "direction": "maximize",
+    "min_delta": 2.0,
+    "min_gain": 0.0,
+    "repeats": 1,
+    "timeout": 1800,
+    "run": "{python} judge/evaluate.py judge/dev.jsonl",
+    "prepare": "",
+    "rubric": "",
+    "inputs": [],
+    "models": [],
+    "samples": 1,
+    "pairwise": true
+  },
+  "jury": [],
+  "holdout": {
+    "type": "command",
+    "files": [
+      "holdout"
+    ],
+    "direction": "maximize",
+    "min_delta": 0.0,
+    "min_gain": 0.0,
+    "repeats": 1,
+    "timeout": 1800,
+    "run": "{python} judge/evaluate.py holdout/test.jsonl",
+    "prepare": "",
+    "rubric": "",
+    "inputs": [],
+    "models": [],
+    "samples": 1,
+    "pairwise": true
+  },
+  "budget": {
+    "rounds": 3,
+    "minutes": 30.0,
+    "stagnation": 3,
+    "target": null
+  },
+  "artifact": [
+    "prompt.md"
+  ],
+  "outputs": [
+    "out"
+  ],
+  "task_model": "cli:codex:gpt-5.6-sol"
+}

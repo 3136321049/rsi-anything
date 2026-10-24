@@ -1,0 +1,14 @@
+{
+  "score": 89.6,
+  "gates": {
+    "prompt_present": true,
+    "exit_code": true
+  },
+  "feedback": "43/48 correct with cli:codex:gpt-5.6-sol. Most common mistakes: expected cancel_order, got late_delivery (x2); expected payment, got praise (x2); expected refund, got wrong_item (x1)\nExamples:\nexpected cancel_order, got late_delivery: 等了一个小时还没到，不要了，帮我取消\nexpected refund, got wrong_item: 奶茶太甜了，完全没按少糖做，喝不了，要求退款\nexpected cancel_order, got late_delivery: Delivery is taking forever, just cancel it and give me my money back\nexpected payment, got praise: 骑手特别好，想给他加点小费，在哪里加\nexpected payment, got praise: The rider was amazing, how do I add a tip after delivery?",
+  "metrics": {
+    "model": "cli:codex:gpt-5.6-sol",
+    "errors": 0
+  },
+  "seconds": 13.363794999999996,
+  "error": ""
+}

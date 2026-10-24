@@ -1,0 +1,28 @@
+{
+  "run_id": "20261024-000043-apple-operating-report",
+  "contract": "apple-operating-report",
+  "contract_digest": "3cd151572ea6",
+  "goal": "面向不熟悉财报的产品经理，改进 Apple 2024 财年经营分析报告 report.md 和图表配置 charts.json。\n资料只有 judge/facts.json。说明总营收、产品与服务结构、营业利润与净利润的不同走势、资料局限。\n正文数字用 {{资料键}} 插值，键见 judge/facts.json；财年可以直接写 2023、2024。\n引用使用 [S1]、[S2]。不要写股价、评级或投资建议。图表只能选择资料中现有指标。",
+  "base": "27d94e3998cb9bbfe1498c5abe4dce6837d8c898",
+  "branch": "rsi/20261024-000043-apple-operating-report",
+  "project": ".",
+  "agent": "codex",
+  "judge": "rubric",
+  "jury": [
+    "cli:codex:gpt-6.1-sol"
+  ],
+  "started": "2026-10-23T16:00:43+00:00",
+  "status": "finished",
+  "phase": "finished",
+  "active_round": null,
+  "finished": "2026-10-23T16:07:40+00:00",
+  "error": null,
+  "stop_reason": "reached 3 rounds",
+  "updated": "2026-10-23T16:07:40+00:00",
+  "champion": "ccc519aea33036e46dd8c8ac0cabf5e361e06c21",
+  "elapsed_seconds": 416.96438591699996,
+  "final_snapshot_champion": "ccc519aea33036e46dd8c8ac0cabf5e361e06c21",
+  "final_source_artifacts": "rounds/r001/artifacts",
+  "holdout": {},
+  "final_artifacts": "artifacts/final"
+}

@@ -1,0 +1,79 @@
+{
+  "status": "ready",
+  "endpoint": "https://lightricks-ltx-video-distilled.hf.space",
+  "api_name": "text_to_video",
+  "request": {
+    "data": [
+      "A ceramic mug on a desk.",
+      "text, watermark",
+      null,
+      null,
+      512,
+      704,
+      "text-to-video",
+      2,
+      9,
+      42,
+      false,
+      1,
+      false
+    ]
+  },
+  "service": {
+    "gradio_version": "5.42.0",
+    "input_labels": [
+      "Prompt",
+      "Negative Prompt",
+      "image_n",
+      "video_n",
+      "Height",
+      "Width",
+      "task",
+      "Video Duration (seconds)",
+      "Frames to use from input video",
+      "Seed",
+      "Randomize Seed",
+      "Guidance Scale (CFG)",
+      "Improve Texture (multi-scale)"
+    ],
+    "declared_model": "LTX 0.9.8 13B distilled（上游公开说明）",
+    "checked_at": "2026-10-23T16:36:59.837217+00:00"
+  },
+  "started_at": "2026-10-23T16:36:59.837287+00:00",
+  "event_id": "7e83c0459d1b46179a8c5980f6148bf6",
+  "submit_response": {
+    "event_id": "7e83c0459d1b46179a8c5980f6148bf6"
+  },
+  "updated_at": "2026-10-23T16:37:08.339857+00:00",
+  "video_url": "https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=<tmp>",
+  "returned_seed": 42,
+  "complete_event": [
+    {
+      "video": {
+        "path": "<tmp>",
+        "url": "https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=<tmp>",
+        "size": null,
+        "orig_name": "output_93810.mp4",
+        "mime_type": null,
+        "is_stream": false,
+        "meta": {
+          "_type": "gradio.FileData"
+        }
+      },
+      "subtitles": null
+    },
+    42
+  ],
+  "video_sha256": "f13b5c42dabc82014bdf7cf2bd4f7a24db438c538f87d4216a3313e845b43e92",
+  "video_bytes": 53088,
+  "probe": {
+    "duration_seconds": 1.9,
+    "width": 704,
+    "height": 512,
+    "codec": "h264",
+    "has_audio": false
+  },
+  "finished_at": "2026-10-23T16:37:12.310579+00:00",
+  "cache_key": "4e66aec6512c70bda5d9ce3ba2886eb860842dd7a300dc268f6b0ad392b6abb6",
+  "cache_reused": false
+}

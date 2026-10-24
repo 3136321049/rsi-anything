@@ -1,0 +1,39 @@
+{
+  "score": 70.0,
+  "gates": {
+    "正文有实质内容": true,
+    "来源编号有效": true,
+    "覆盖给定三份资料": true,
+    "未引入资料外链接": true,
+    "证据映射有效": true,
+    "映射覆盖全部来源": true,
+    "min_chars": true,
+    "max_chars": true,
+    "substance": true,
+    "not_repetitive": true,
+    "no_placeholder": true,
+    "no_evaluator_address": true,
+    "check:没有编造研究、实验数据、样本量、作者原话或给定摘要之外的结论。": true,
+    "check:没有把早期检索和记忆实验当作现代生成式AI效果的直接证据。": true,
+    "check:没有把政策建议当作实验结果；作者提出的教学建议或研究问题明确属于推论。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "程序核对真实来源编号、引用位置和正文映射；来源是否真正支持论断、证据类型是否混淆由模型评委判断。\nresearch_gap 3.0/10: 提出明确的比较条件和多项测量，能区分位置回忆、获取表现与独立理解，但尚未通过额外条件区分主动调整记忆安排与内容加工减少等竞争解释。\nreadability 3.0/10: 概念解释直白，段落衔接自然，适合读书会阅读，但证据边界的多次申明略有重复，研究设计段也较密集，距离更精炼的完整论证仍有空间。\n[cli:codex:gpt-6.1-sol] 在后续研究中增加能区分竞争解释的条件，例如在相同访问预期下比较自主选择与被要求记忆内容或位置的学生，并说明不同结果如何支持主动调整记忆安排或内容加工减少的解释。",
+  "metrics": {
+    "criteria": {
+      "question": 8.0,
+      "synthesis": 8.0,
+      "evidence": 9.0,
+      "research_gap": 3.0,
+      "readability": 3.0
+    },
+    "jury": [
+      "cli:codex:gpt-6.1-sol"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 2,
+    "cost_usd": null
+  },
+  "error": ""
+}

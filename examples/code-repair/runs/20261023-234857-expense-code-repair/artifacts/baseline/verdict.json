@@ -1,0 +1,16 @@
+{
+  "score": 40.0,
+  "gates": {
+    "tests_executed": true,
+    "no_skips": true,
+    "exit_code": true
+  },
+  "feedback": "固定测试通过 6/15。\nfixed_expense_tests.ExpenseTests.test_amount_exact_cents: AssertionError: 28 != 29\nfixed_expense_tests.ExpenseTests.test_amount_reject_extra_precision: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_date_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_month_refund: ?         ^\nfixed_expense_tests.ExpenseTests.test_month_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_split_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_split_remainder: + [3334, 3333, 3333]\nfixed_expense_tests.ExpenseTests.test_split_small_total: + [1, 1, 0, 0]\nfixed_expense_tests.ExpenseTests.test_amount_reject_non_finite: OverflowError: cannot convert float infinity to integer",
+  "metrics": {
+    "tests_passed": 6,
+    "tests_total": 15,
+    "all_tests_passed": false
+  },
+  "seconds": 0.03070445799999999,
+  "error": ""
+}

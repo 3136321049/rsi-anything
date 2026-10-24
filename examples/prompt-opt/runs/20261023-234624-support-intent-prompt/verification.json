@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-24",
+  "status": "verified",
+  "manifest_files_checked": 21,
+  "predictions_recounted": [
+    {
+      "path": "artifacts/baseline/files/out/development.json",
+      "correct": 43,
+      "total": 48
+    },
+    {
+      "path": "artifacts/final/files/out/development.json",
+      "correct": 43,
+      "total": 48
+    },
+    {
+      "path": "rounds/r001/artifacts/files/out/development.json",
+      "correct": 43,
+      "total": 48
+    },
+    {
+      "path": "rounds/r002/artifacts/files/out/development.json",
+      "correct": 40,
+      "total": 48
+    },
+    {
+      "path": "rounds/r003/artifacts/files/out/development.json",
+      "correct": 43,
+      "total": 48
+    }
+  ],
+  "holdout_final": 82.8,
+  "scope": "离线重新统计已保存真实模型答案与文件哈希，不新增模型调用；完整三轮未获得提升。"
+}

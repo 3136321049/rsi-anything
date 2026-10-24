@@ -1,0 +1,288 @@
+{
+  "run_id": "20261024-001506-adult-activity-explainer",
+  "checked_at": "2026-10-24",
+  "commands": [
+    "python -B judge/prepare.py"
+  ],
+  "model_calls_during_validation": 0,
+  "formal_scores_unchanged": true,
+  "base_commit": "c4c7169f14e21b2391de614417a2656bca8ad1e1",
+  "champion_commit": "5caef5a61705bbb61af5415bd689a1da7d298bd6",
+  "contract_digest": "8b1bd1f9836e",
+  "frozen_files": [
+    {
+      "path": "config/execution.json",
+      "sha256": "e67dc4de1a72faf98e4c0aeefeb4b906a725c1dca8aac7062d99a5922a7ffac3"
+    },
+    {
+      "path": "config/frozen/judge/prepare.py",
+      "sha256": "df30f9c563c06a0063f1102a84216d17db4540d754748206206f417c2b623691"
+    },
+    {
+      "path": "config/frozen/judge/rubric.yaml",
+      "sha256": "62b829b8da8deaadf0c1179f9c6686806fcc30166aadfd72fa2923465047f6aa"
+    },
+    {
+      "path": "config/frozen/judge/sources.json",
+      "sha256": "a9b5dd6751ed6384fdcfb9d170eeb210a0d5520e822cb1bd83206914f8fdde85"
+    },
+    {
+      "path": "config/frozen/rsi.yaml",
+      "sha256": "8b1bd1f9836e392ce1b9e29c7bc9460232de3642fbd36cd51553ce9d7968e24a"
+    },
+    {
+      "path": "config/rsi.yaml",
+      "sha256": "8b1bd1f9836e392ce1b9e29c7bc9460232de3642fbd36cd51553ce9d7968e24a"
+    }
+  ],
+  "checks": [
+    {
+      "snapshot": "artifacts/baseline",
+      "gates": {
+        "正文有实质内容": true,
+        "指南数量使用固定资料": true,
+        "来源编号有效": true,
+        "适用边界清楚": true,
+        "没有药物剂量或疗效保证": true,
+        "包含少量起步和久坐说明": true
+      },
+      "outputs_reproduced_exactly": [
+        {
+          "path": "out/checklist.json",
+          "sha256": "3c3056d7e07868f47fbe747e8952259adb76dc87010015791c3eab2c9939306f"
+        },
+        {
+          "path": "out/evaluation.md",
+          "sha256": "8311b058bb178ef695b815212b6cfbcd63b2ef24768bc15b44f94816a57c9307"
+        },
+        {
+          "path": "out/explainer.html",
+          "sha256": "fb5358c09ae20b72bf55738aa31ba0097e8a82cb48aad682a9b46c274b466460"
+        },
+        {
+          "path": "out/explainer.md",
+          "sha256": "7d2e275edea089693af351cae7f7e20f6a5c2b245b89e0d9c09cbcadfb9b9b49"
+        },
+        {
+          "path": "out/gates.json",
+          "sha256": "e4ac829ae4f32e383451ef80831685a2233c679f6d327cf570425134d9ec5a2d"
+        },
+        {
+          "path": "out/notes.txt",
+          "sha256": "e090697e1b94e188266476048512462d3a9bcb91a4d9bd7fb4f359ebd4b4cb07"
+        }
+      ]
+    },
+    {
+      "snapshot": "rounds/r001/artifacts",
+      "gates": {
+        "正文有实质内容": true,
+        "指南数量使用固定资料": true,
+        "来源编号有效": true,
+        "适用边界清楚": true,
+        "没有药物剂量或疗效保证": true,
+        "包含少量起步和久坐说明": true
+      },
+      "outputs_reproduced_exactly": [
+        {
+          "path": "out/checklist.json",
+          "sha256": "3c3056d7e07868f47fbe747e8952259adb76dc87010015791c3eab2c9939306f"
+        },
+        {
+          "path": "out/evaluation.md",
+          "sha256": "30bff67e19a054d1770b840417ccde577d1d765c961021a29ef07b83f4896d30"
+        },
+        {
+          "path": "out/explainer.html",
+          "sha256": "c0478eafae869d2a6ad8fd4c9197d07285e53011ed9272c7021a5b5be649fdd9"
+        },
+        {
+          "path": "out/explainer.md",
+          "sha256": "7e4b6d4baf267e902e6d3fba8b6de3c071230294149d969f585976064f263442"
+        },
+        {
+          "path": "out/gates.json",
+          "sha256": "e4ac829ae4f32e383451ef80831685a2233c679f6d327cf570425134d9ec5a2d"
+        },
+        {
+          "path": "out/notes.txt",
+          "sha256": "e090697e1b94e188266476048512462d3a9bcb91a4d9bd7fb4f359ebd4b4cb07"
+        }
+      ]
+    },
+    {
+      "snapshot": "rounds/r002/artifacts",
+      "gates": {
+        "正文有实质内容": true,
+        "指南数量使用固定资料": true,
+        "来源编号有效": true,
+        "适用边界清楚": true,
+        "没有药物剂量或疗效保证": true,
+        "包含少量起步和久坐说明": true
+      },
+      "outputs_reproduced_exactly": [
+        {
+          "path": "out/checklist.json",
+          "sha256": "3c3056d7e07868f47fbe747e8952259adb76dc87010015791c3eab2c9939306f"
+        },
+        {
+          "path": "out/evaluation.md",
+          "sha256": "c818ac4aa3039b38b11d5a3a024ca5af5011f396391d11510577ceb4e40cb4d8"
+        },
+        {
+          "path": "out/explainer.html",
+          "sha256": "606a8d52ccbf66fd958e6b90f67d955bf1287c2c22ea132c85bec9bc918da48b"
+        },
+        {
+          "path": "out/explainer.md",
+          "sha256": "e60a141093e13cd9c32da4976f4374f0b531209763636a0db582aff1f6c1fba9"
+        },
+        {
+          "path": "out/gates.json",
+          "sha256": "e4ac829ae4f32e383451ef80831685a2233c679f6d327cf570425134d9ec5a2d"
+        },
+        {
+          "path": "out/notes.txt",
+          "sha256": "e090697e1b94e188266476048512462d3a9bcb91a4d9bd7fb4f359ebd4b4cb07"
+        }
+      ]
+    },
+    {
+      "snapshot": "rounds/r003/artifacts",
+      "gates": {
+        "正文有实质内容": true,
+        "指南数量使用固定资料": true,
+        "来源编号有效": true,
+        "适用边界清楚": true,
+        "没有药物剂量或疗效保证": true,
+        "包含少量起步和久坐说明": true
+      },
+      "outputs_reproduced_exactly": [
+        {
+          "path": "out/checklist.json",
+          "sha256": "3c3056d7e07868f47fbe747e8952259adb76dc87010015791c3eab2c9939306f"
+        },
+        {
+          "path": "out/evaluation.md",
+          "sha256": "bdb642f90755f79da031dfa503fe0b798f3ce9519f23914f054a354a8704828e"
+        },
+        {
+          "path": "out/explainer.html",
+          "sha256": "9bb8900c886772cbf2512ea19a152f2662d20fc85da51b5d62665c55de6fefc7"
+        },
+        {
+          "path": "out/explainer.md",
+          "sha256": "528b09a754d61f4ec8b1f5542528a17fd99db2cec296595c8b23aa00fb22bf4b"
+        },
+        {
+          "path": "out/gates.json",
+          "sha256": "e4ac829ae4f32e383451ef80831685a2233c679f6d327cf570425134d9ec5a2d"
+        },
+        {
+          "path": "out/notes.txt",
+          "sha256": "e090697e1b94e188266476048512462d3a9bcb91a4d9bd7fb4f359ebd4b4cb07"
+        }
+      ]
+    },
+    {
+      "snapshot": "artifacts/final",
+      "gates": {
+        "正文有实质内容": true,
+        "指南数量使用固定资料": true,
+        "来源编号有效": true,
+        "适用边界清楚": true,
+        "没有药物剂量或疗效保证": true,
+        "包含少量起步和久坐说明": true
+      },
+      "outputs_reproduced_exactly": [
+        {
+          "path": "out/checklist.json",
+          "sha256": "3c3056d7e07868f47fbe747e8952259adb76dc87010015791c3eab2c9939306f"
+        },
+        {
+          "path": "out/evaluation.md",
+          "sha256": "30bff67e19a054d1770b840417ccde577d1d765c961021a29ef07b83f4896d30"
+        },
+        {
+          "path": "out/explainer.html",
+          "sha256": "c0478eafae869d2a6ad8fd4c9197d07285e53011ed9272c7021a5b5be649fdd9"
+        },
+        {
+          "path": "out/explainer.md",
+          "sha256": "7e4b6d4baf267e902e6d3fba8b6de3c071230294149d969f585976064f263442"
+        },
+        {
+          "path": "out/gates.json",
+          "sha256": "e4ac829ae4f32e383451ef80831685a2233c679f6d327cf570425134d9ec5a2d"
+        },
+        {
+          "path": "out/notes.txt",
+          "sha256": "e090697e1b94e188266476048512462d3a9bcb91a4d9bd7fb4f359ebd4b4cb07"
+        }
+      ]
+    }
+  ],
+  "independent_checks": {
+    "all_fixed_guideline_values_present": true,
+    "guideline_values": {
+      "adult_age": "18至64岁",
+      "moderate_minutes": "150至300分钟",
+      "vigorous_minutes": "75至150分钟",
+      "strength_days": "至少2天"
+    },
+    "all_source_markers_present": true
+  },
+  "judge_receipts": [
+    {
+      "path": "artifacts/baseline/verdict.json",
+      "score": 58.5,
+      "unsupported_evidence": 0,
+      "judge_details_saved": true
+    },
+    {
+      "path": "rounds/r001/verdict.json",
+      "score": 80.0,
+      "unsupported_evidence": 0,
+      "judge_details_saved": true
+    },
+    {
+      "path": "rounds/r002/verdict.json",
+      "score": 77.5,
+      "unsupported_evidence": 0,
+      "judge_details_saved": true
+    },
+    {
+      "path": "rounds/r003/verdict.json",
+      "score": 77.5,
+      "unsupported_evidence": 0,
+      "judge_details_saved": true
+    }
+  ],
+  "browser_check": {
+    "browser": "Chrome",
+    "loopback_http_only": true,
+    "readable_article": true,
+    "guideline_table_rows": 4,
+    "source_links_visible": 3
+  },
+  "content_review_document": "../../README.md",
+  "official_sources": [
+    {
+      "id": "W1",
+      "url": "https://www.who.int/europe/news-room/fact-sheets/item/physical-activity",
+      "guideline_url": "https://www.ncbi.nlm.nih.gov/books/NBK566048/?report=reader",
+      "checked_at": "2026-10-24",
+      "official_index_read": true,
+      "direct_full_page_read": false
+    },
+    {
+      "id": "W2",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/physical-activity",
+      "guideline_url": null,
+      "checked_at": "2026-10-24",
+      "official_index_read": true,
+      "direct_full_page_read": true
+    }
+  ],
+  "all_file_checks_passed": true
+}

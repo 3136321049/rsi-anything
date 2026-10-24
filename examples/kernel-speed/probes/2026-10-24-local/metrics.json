@@ -1,0 +1,21 @@
+{
+  "status": "environment_unavailable",
+  "score": null,
+  "gates": {
+    "environment": false
+  },
+  "feedback": "本模板要求 Linux x86_64 和 NVIDIA CUDA GPU；当前平台不支持此路径。",
+  "metrics": {
+    "environment": {
+      "status": "environment_unavailable",
+      "system": "Darwin",
+      "machine": "arm64",
+      "python": "3.9.6",
+      "torch": null,
+      "triton": null,
+      "cuda": null,
+      "device": null,
+      "reason": "本模板要求 Linux x86_64 和 NVIDIA CUDA GPU；当前平台不支持此路径。"
+    }
+  }
+}

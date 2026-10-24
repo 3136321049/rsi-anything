@@ -1,0 +1,80 @@
+{
+  "score": 18.5,
+  "gates": {
+    "valid_edit": true,
+    "duration_40_75s": true,
+    "segments_4_14": true,
+    "rendered": true,
+    "substance": true,
+    "not_repetitive": true,
+    "no_placeholder": true,
+    "no_evaluator_address": true,
+    "check:成片里没有\"后面再说\"\"第二点\"这类引用了被剪掉内容的句子，或者被引用的内容也在成片里。": true,
+    "check:成片没有因为剪辑而让某个方法的意思和原分享相反或被曲解。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "cut: 8 sentences, 56.8s (allowed 40-75s); order [1, 2, 3, 4, 5, 6, 7, 8]\nhook 1.0/10: 以礼宾称呼开场，随后仍在列举致意对象，没有让观众知道值得看什么，未达到5分的话题明确开场。\nending 1.0/10: 结尾停在未完成的句子中，既未交代人类掌握什么，也未收束主题，未达到5分的完整结尾。\n[cli:codex:gpt-6.1-sol] 整体替换为原稿中从“To those old allies”到“split asunder.”的完整合作段落，用团结与分裂的反差建立一个清楚主题，并按原音频核验40到75秒时长。",
+  "metrics": {
+    "criteria": {
+      "hook": 1.0,
+      "coherence": 3.0,
+      "value": 2.0,
+      "ending": 1.0,
+      "pacing": 2.0
+    },
+    "jury": [
+      "cli:codex:gpt-6.1-sol"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "hook": {
+            "score": 1,
+            "evidence": "Vice President Johnson, Mr. Speaker, Mr. Chief Justice, President Eisenhower,",
+            "why": "以礼宾称呼开场，随后仍在列举致意对象，没有让观众知道值得看什么，未达到5分的话题明确开场。"
+          },
+          "coherence": {
+            "score": 3,
+            "evidence": "The world is very different now. For man holds in his mortal hands",
+            "why": "前文尚能理解，但转入时代变化后把解释句截在宾语出现之前，关键意思残缺，未达到5分的整体能看懂。"
+          },
+          "value": {
+            "score": 2,
+            "evidence": "The world is very different now.",
+            "why": "只提出时代已经变化，却删掉变化的具体内容，观众无法带走关于时代变化、责任或合作的清楚信息，未达到5分的一个要点得到基本说明。"
+          },
+          "ending": {
+            "score": 1,
+            "evidence": "For man holds in his mortal hands",
+            "why": "结尾停在未完成的句子中，既未交代人类掌握什么，也未收束主题，未达到5分的完整结尾。"
+          },
+          "pacing": {
+            "score": 2,
+            "evidence": "For I have sworn\nbefore you and Almighty God the same solemn oath our forebears\nprescribed nearly a century and three quarters ago.",
+            "why": "礼宾称呼和宣誓背景占据大量篇幅，核心主题刚出现便结束，距离5分仅有几句可删仍有明显差距。"
+          }
+        },
+        "checks": {
+          "成片里没有\"后面再说\"\"第二点\"这类引用了被剪掉内容的句子，或者被引用的内容也在成片里。": {
+            "pass": true,
+            "why": "没有引用被删内容的预告、编号或回指；末句残缺属于句子被截断。"
+          },
+          "成片没有因为剪辑而让某个方法的意思和原分享相反或被曲解。": {
+            "pass": true,
+            "why": "保留部分沿用原文顺序，没有反转原意；信息缺失严重，但未形成相反主张。"
+          }
+        },
+        "manipulation": false,
+        "top_fix": "整体替换为原稿中从“To those old allies”到“split asunder.”的完整合作段落，用团结与分裂的反差建立一个清楚主题，并按原音频核验40到75秒时长。",
+        "_model": "cli:codex:gpt-6.1-sol",
+        "_cost": null
+      }
+    ],
+    "cost_usd": null
+  },
+  "seconds": 36.388836,
+  "error": ""
+}

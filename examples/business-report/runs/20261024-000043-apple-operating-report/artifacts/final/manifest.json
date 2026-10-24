@@ -1,0 +1,62 @@
+{
+  "files": [
+    {
+      "path": "charts.json",
+      "bytes": 80,
+      "sha256": "31c9e34c1cc9d02e3e163a785668e2a0703a8ad3ac875f9f20c5f5b1bfa2746e"
+    },
+    {
+      "path": "out/chart-1.mmd",
+      "bytes": 146,
+      "sha256": "dcfcd36fb9a3c3d90a60c6809b30115c323f5789c8868d2bf27cd455f68be5a8"
+    },
+    {
+      "path": "out/chart-2.mmd",
+      "bytes": 148,
+      "sha256": "a79d2f3eeb6cdb6fa6230fd5de6068b4060100beb48b03d687291941cb9b6c1e"
+    },
+    {
+      "path": "out/chart-3.mmd",
+      "bytes": 143,
+      "sha256": "880d228240839664a8eaa8b727c7a930716df0682435268b055ff6789243a629"
+    },
+    {
+      "path": "out/evaluation.md",
+      "bytes": 3961,
+      "sha256": "16c34428869d724f044265c7579b5fd58c4eaa76e97d1fa8945f6b98ea94dd74"
+    },
+    {
+      "path": "out/gates.json",
+      "bytes": 239,
+      "sha256": "fff70bc0d06e157d3837b19c0d9dd5d86064bdca9539489eebf46951160cc694"
+    },
+    {
+      "path": "out/metrics.json",
+      "bytes": 1411,
+      "sha256": "aa130bbc1b78a03d3508b6f9a131f1417a7ed94a1d40aaff8f1827b5f1f9da28"
+    },
+    {
+      "path": "out/notes.txt",
+      "bytes": 102,
+      "sha256": "21850f0ed89c3d5f0705be4e9ff7bd73252bcb910cc84102cd5b6a4dee562da6"
+    },
+    {
+      "path": "out/report.html",
+      "bytes": 5812,
+      "sha256": "ca6b96ebcc358dbf5a1cecb63125d889d8244de70c3e3bed0781677216fc5054"
+    },
+    {
+      "path": "out/report.md",
+      "bytes": 4515,
+      "sha256": "c64094c1682ff85f0c3d680ca457f4b36613830525ace8e3d49d6f4969550aef"
+    },
+    {
+      "path": "report.md",
+      "bytes": 3803,
+      "sha256": "a207e781f2992e9a7a75b7768ca472b69ed61e9823f919f7d3947e3eda79bcd6"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": [],
+  "source_snapshot": "rounds/r001/artifacts"
+}

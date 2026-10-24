@@ -1,0 +1,40 @@
+{
+  "score": 61.5,
+  "gates": {
+    "正文有实质内容": true,
+    "数字资料键存在": true,
+    "金额和比率使用资料插值": true,
+    "关键数字齐全": true,
+    "来源编号有效": true,
+    "限定经营分析用途": true,
+    "图表指标有效": true,
+    "min_chars": true,
+    "max_chars": true,
+    "substance": true,
+    "not_repetitive": true,
+    "no_placeholder": true,
+    "no_evaluator_address": true,
+    "check:所有公司事实、数字及因果归因均有给定资料支持；没有股价、目标价、买卖评级或收益承诺。": true,
+    "check:没有把季度口径当成全年，没有把营业利润当成净利润，也没有用非GAAP结果替代GAAP而不说明。": true,
+    "check:图表与正文结论一致，事实与分析推论有清楚区分。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "程序只核对资料键、单位及图表数据；论据和结论是否相称由模型评委判断。\nmain_point 3.0/10: 开头鲜明且克制，用收入结构和利润分化抓住重点，但未直接给出服务增加额与产品减少额，最有解释力的金额证据仍需读者计算。\nchart_use 3.0/10: 所选图表直接服务利润分化的判断，正文也明确指导阅读，但拆成两张不同上限的图增加比较负担，未用最少图表同时澄清利润方向和收入结构变化。\n[cli:codex:gpt-6.1-sol] 把两张利润图合并为一张共用纵轴的分组柱状图，在柱旁标注各自同比，让读者直接比较两种利润的相反走势，减少跨图阅读和尺度解释。",
+  "metrics": {
+    "criteria": {
+      "main_point": 3.0,
+      "reasoning": 9.0,
+      "chart_use": 3.0,
+      "readability": 8.0,
+      "limits": 9.0
+    },
+    "jury": [
+      "cli:codex:gpt-6.1-sol"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 2,
+    "cost_usd": null
+  },
+  "error": ""
+}

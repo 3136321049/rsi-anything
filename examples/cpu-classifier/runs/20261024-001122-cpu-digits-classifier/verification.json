@@ -1,0 +1,209 @@
+{
+  "run_id": "20261024-001122-cpu-digits-classifier",
+  "validation": "导出的初始、每轮候选和最终配置分别与冻结评审输入放入新临时目录，删除旧out后重新执行评审。",
+  "command": "python -B judge/evaluate.py",
+  "checks": [
+    {
+      "snapshot": "artifacts/baseline",
+      "score": 46.889,
+      "recorded_score": 46.889,
+      "score_matches_record": true,
+      "artifact_manifest_valid": true,
+      "gates": {
+        "finite_predictions": true,
+        "time_budget": true
+      },
+      "metrics": {
+        "accuracy_percent": 46.889,
+        "mistakes": 239,
+        "train_count": 1347,
+        "validation_count": 450,
+        "train_predict_seconds": 0.004,
+        "data_sha256": "f6d9e39f37dc45d327f6db33428ee58970ccceabb2535a5c179de35886b70443",
+        "split_sha256": "44a513349c08add5d986f19226407b71c3a7641f49ab824ee10f6ceb4536ceff",
+        "configuration": {
+          "model": "tree",
+          "scaling": "none",
+          "pca_components": 0,
+          "params": {
+            "max_depth": 3,
+            "min_samples_leaf": 1
+          }
+        },
+        "disjoint_split": true,
+        "predictions_sha256": "58df248fbec5e75636441ca0dc8b6ee16950d8a322f6014354bcfacd18556d92",
+        "recomputed_accuracy_matches": true,
+        "charts_valid": true
+      },
+      "passed": true,
+      "round_status": "BASELINE",
+      "formally_judged": true,
+      "saved_output_score": 46.889,
+      "saved_output_configuration_matches_source": true,
+      "note": "冻结评审结果与导出配置的独立复验一致。"
+    },
+    {
+      "snapshot": "rounds/r001/artifacts",
+      "score": 99.333,
+      "recorded_score": 99.333,
+      "score_matches_record": true,
+      "artifact_manifest_valid": true,
+      "gates": {
+        "finite_predictions": true,
+        "time_budget": true
+      },
+      "metrics": {
+        "accuracy_percent": 99.333,
+        "mistakes": 3,
+        "train_count": 1347,
+        "validation_count": 450,
+        "train_predict_seconds": 0.0251,
+        "data_sha256": "f6d9e39f37dc45d327f6db33428ee58970ccceabb2535a5c179de35886b70443",
+        "split_sha256": "44a513349c08add5d986f19226407b71c3a7641f49ab824ee10f6ceb4536ceff",
+        "configuration": {
+          "model": "svm",
+          "scaling": "none",
+          "pca_components": 0,
+          "params": {
+            "C": 10,
+            "gamma": "scale",
+            "kernel": "rbf"
+          }
+        },
+        "disjoint_split": true,
+        "predictions_sha256": "82b212f7b09b2720c8bc26a03d284385bcd63c53ad3bd6698a9204c31faa0114",
+        "recomputed_accuracy_matches": true,
+        "charts_valid": true
+      },
+      "passed": true,
+      "round_status": "KEEP",
+      "formally_judged": true,
+      "saved_output_score": 99.333,
+      "saved_output_configuration_matches_source": true,
+      "note": "冻结评审结果与导出配置的独立复验一致。"
+    },
+    {
+      "snapshot": "rounds/r002/artifacts",
+      "score": 99.333,
+      "recorded_score": null,
+      "score_matches_record": true,
+      "artifact_manifest_valid": true,
+      "gates": {
+        "finite_predictions": true,
+        "time_budget": true
+      },
+      "metrics": {
+        "accuracy_percent": 99.333,
+        "mistakes": 3,
+        "train_count": 1347,
+        "validation_count": 450,
+        "train_predict_seconds": 0.0249,
+        "data_sha256": "f6d9e39f37dc45d327f6db33428ee58970ccceabb2535a5c179de35886b70443",
+        "split_sha256": "44a513349c08add5d986f19226407b71c3a7641f49ab824ee10f6ceb4536ceff",
+        "configuration": {
+          "model": "svm",
+          "scaling": "none",
+          "pca_components": 0,
+          "params": {
+            "C": 10,
+            "gamma": "scale",
+            "kernel": "rbf"
+          }
+        },
+        "disjoint_split": true,
+        "predictions_sha256": "82b212f7b09b2720c8bc26a03d284385bcd63c53ad3bd6698a9204c31faa0114",
+        "recomputed_accuracy_matches": true,
+        "charts_valid": true
+      },
+      "passed": true,
+      "round_status": "NO_CHANGE",
+      "formally_judged": false,
+      "saved_output_score": 99.111,
+      "saved_output_configuration_matches_source": false,
+      "note": "未形成正式候选；out 为助手内部试验记录，复验分数对应回滚后的配置。"
+    },
+    {
+      "snapshot": "rounds/r003/artifacts",
+      "score": 99.333,
+      "recorded_score": null,
+      "score_matches_record": true,
+      "artifact_manifest_valid": true,
+      "gates": {
+        "finite_predictions": true,
+        "time_budget": true
+      },
+      "metrics": {
+        "accuracy_percent": 99.333,
+        "mistakes": 3,
+        "train_count": 1347,
+        "validation_count": 450,
+        "train_predict_seconds": 0.0254,
+        "data_sha256": "f6d9e39f37dc45d327f6db33428ee58970ccceabb2535a5c179de35886b70443",
+        "split_sha256": "44a513349c08add5d986f19226407b71c3a7641f49ab824ee10f6ceb4536ceff",
+        "configuration": {
+          "model": "svm",
+          "scaling": "none",
+          "pca_components": 0,
+          "params": {
+            "C": 10,
+            "gamma": "scale",
+            "kernel": "rbf"
+          }
+        },
+        "disjoint_split": true,
+        "predictions_sha256": "82b212f7b09b2720c8bc26a03d284385bcd63c53ad3bd6698a9204c31faa0114",
+        "recomputed_accuracy_matches": true,
+        "charts_valid": true
+      },
+      "passed": true,
+      "round_status": "NO_CHANGE",
+      "formally_judged": false,
+      "saved_output_score": 99.111,
+      "saved_output_configuration_matches_source": false,
+      "note": "未形成正式候选；out 为助手内部试验记录，复验分数对应回滚后的配置。"
+    },
+    {
+      "snapshot": "artifacts/final",
+      "score": 99.333,
+      "recorded_score": 99.333,
+      "score_matches_record": true,
+      "artifact_manifest_valid": true,
+      "gates": {
+        "finite_predictions": true,
+        "time_budget": true
+      },
+      "metrics": {
+        "accuracy_percent": 99.333,
+        "mistakes": 3,
+        "train_count": 1347,
+        "validation_count": 450,
+        "train_predict_seconds": 0.0262,
+        "data_sha256": "f6d9e39f37dc45d327f6db33428ee58970ccceabb2535a5c179de35886b70443",
+        "split_sha256": "44a513349c08add5d986f19226407b71c3a7641f49ab824ee10f6ceb4536ceff",
+        "configuration": {
+          "model": "svm",
+          "scaling": "none",
+          "pca_components": 0,
+          "params": {
+            "C": 10,
+            "gamma": "scale",
+            "kernel": "rbf"
+          }
+        },
+        "disjoint_split": true,
+        "predictions_sha256": "82b212f7b09b2720c8bc26a03d284385bcd63c53ad3bd6698a9204c31faa0114",
+        "recomputed_accuracy_matches": true,
+        "charts_valid": true
+      },
+      "passed": true,
+      "round_status": "FINAL",
+      "formally_judged": true,
+      "saved_output_score": 99.333,
+      "saved_output_configuration_matches_source": true,
+      "note": "冻结评审结果与导出配置的独立复验一致。"
+    }
+  ],
+  "all_formally_judged_snapshots_passed": true,
+  "final_verified": true,
+  "all_saved_output_configurations_match": false
+}

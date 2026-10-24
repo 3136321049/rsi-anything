@@ -1,0 +1,46 @@
+{
+  "files": [
+    {
+      "path": "evidence.json",
+      "bytes": 1279,
+      "sha256": "b47627a637122252028c5e2e91a5973f3752e722b2442ad879c5433b8119e957"
+    },
+    {
+      "path": "out/evaluation.md",
+      "bytes": 3475,
+      "sha256": "aca3237213055a835256e8c1ae742432fd21cea0b668953cf319b76549879f38"
+    },
+    {
+      "path": "out/gates.json",
+      "bytes": 203,
+      "sha256": "f98e821972b9f424f392a9cf05121b2eb4ed36230c85bde0081276559f6c5b7f"
+    },
+    {
+      "path": "out/notes.txt",
+      "bytes": 144,
+      "sha256": "4dc031fd53dbc71087c5d59be841b595fa256ed0af4b9dc33bde1a7b10e7631a"
+    },
+    {
+      "path": "out/review.html",
+      "bytes": 5921,
+      "sha256": "171dfca769473bd4064a5fc59aadbc8449c4533fe51c453fa111179a4d12ecdd"
+    },
+    {
+      "path": "out/review.md",
+      "bytes": 4053,
+      "sha256": "c0d1949ffc0b93a1133067e3ad8e8342e4cab3a939912a0d55baf521c9b84301"
+    },
+    {
+      "path": "out/source-map.json",
+      "bytes": 3713,
+      "sha256": "b935ad6d3ca4eae76f57c674e00202b70c675ac78d99d4d99e2dcc8d2f88e6e9"
+    },
+    {
+      "path": "review.md",
+      "bytes": 3475,
+      "sha256": "aca3237213055a835256e8c1ae742432fd21cea0b668953cf319b76549879f38"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": []
+}

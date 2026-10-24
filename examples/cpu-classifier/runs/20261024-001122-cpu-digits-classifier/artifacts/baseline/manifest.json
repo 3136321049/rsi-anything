@@ -1,0 +1,51 @@
+{
+  "files": [
+    {
+      "path": "out/confusion.png",
+      "bytes": 42409,
+      "sha256": "de06904d6da6ed151767caf76b256d91c1fe998320eaab2e773e9fdd3f9a9356"
+    },
+    {
+      "path": "out/metrics.json",
+      "bytes": 4110,
+      "sha256": "12e32af7c8dd17067e35ad25ef15353fadfa1e06f1c4b49c356c838dd3df59a3"
+    },
+    {
+      "path": "out/mistakes.json",
+      "bytes": 21838,
+      "sha256": "0371d3c2499989501618f829969a63241449182edb5206116df2674f76324c14"
+    },
+    {
+      "path": "out/mistakes.png",
+      "bytes": 30339,
+      "sha256": "f00188256036cf8ce27a72aca80435de5549a6335e8303d2a141a57770562d51"
+    },
+    {
+      "path": "out/predictions.json",
+      "bytes": 40904,
+      "sha256": "58df248fbec5e75636441ca0dc8b6ee16950d8a322f6014354bcfacd18556d92"
+    },
+    {
+      "path": "out/report.md",
+      "bytes": 482,
+      "sha256": "31a8294b9e4677d3232dcaf1c78fb0f155e49d7e44b94d2b56c8476694bb75e2"
+    },
+    {
+      "path": "out/split.json",
+      "bytes": 16902,
+      "sha256": "23e6ecb353b1865ce40222e4c75a789b4d675b777d685c3e9c3f7aadb89b2033"
+    },
+    {
+      "path": "out/training.json",
+      "bytes": 131,
+      "sha256": "653108823108089cd30539b6707019ee646526cb1ab483839d477cdf0f6d0478"
+    },
+    {
+      "path": "training.json",
+      "bytes": 119,
+      "sha256": "ad4c821542c738f52a9b46a840a08976d927d2e7feef4fac4920fe406eb231c3"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": []
+}

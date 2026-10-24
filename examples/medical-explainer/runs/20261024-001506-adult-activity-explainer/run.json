@@ -1,0 +1,28 @@
+{
+  "run_id": "20261024-001506-adult-activity-explainer",
+  "contract": "adult-activity-explainer",
+  "contract_digest": "8b1bd1f9836e",
+  "goal": "面向久坐办公的一般健康成人，改进 explainer.md，解释 WHO 身体活动建议，帮助读者理解并开始行动。\n只使用 judge/sources.json：中高强度有氧活动、肌肉强化、减少久坐、从少量逐步增加。\n关键数量必须通过 {{资料键}} 写入，资料键在 judge/sources.json 的 values 中；来源用 [W1]、[W2]。\n可以写一般生活场景例子，不制定个人训练处方，不加入药物、诊断或疾病治疗承诺。\n保留一般健康成人、健康科普及不能替代个体医疗建议的适用说明。",
+  "base": "c4c7169f14e21b2391de614417a2656bca8ad1e1",
+  "branch": "rsi/20261024-001506-adult-activity-explainer",
+  "project": ".",
+  "agent": "codex",
+  "judge": "rubric",
+  "jury": [
+    "cli:codex:gpt-6.1-sol"
+  ],
+  "started": "2026-10-23T16:15:06+00:00",
+  "status": "finished",
+  "phase": "finished",
+  "active_round": null,
+  "finished": "2026-10-23T16:20:38+00:00",
+  "error": null,
+  "stop_reason": "reached 3 rounds",
+  "updated": "2026-10-23T16:20:38+00:00",
+  "champion": "5caef5a61705bbb61af5415bd689a1da7d298bd6",
+  "elapsed_seconds": 331.526257666,
+  "final_snapshot_champion": "5caef5a61705bbb61af5415bd689a1da7d298bd6",
+  "final_source_artifacts": "rounds/r001/artifacts",
+  "holdout": {},
+  "final_artifacts": "artifacts/final"
+}

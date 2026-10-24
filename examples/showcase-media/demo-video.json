@@ -1,0 +1,29 @@
+{
+  "title": "Open RSI 多轮作品演示",
+  "silent": true,
+  "source_kind": "已有真实实验与产物的展示剪辑，不是新的优化实验",
+  "sources": [
+    "code-repair/runs/20261023-234857-expense-code-repair/ledger.jsonl",
+    "writing-guide/runs/20261024-001816-reusable-writing-guide/ledger.jsonl",
+    "video-cut/runs/20261024-002228-talk-highlight/artifacts/baseline/files/out/cut.mp4",
+    "video-cut/runs/20261024-002228-talk-highlight/artifacts/final/files/out/cut.mp4",
+    "cpu-classifier/runs/20261024-001122-cpu-digits-classifier/artifacts/final/files/out/mistakes.png"
+  ],
+  "source_note": "历史演讲片段来源与公共领域标记见 video-cut/inputs/public-speech/source.json。模型分数不代表真实业务收益。",
+  "sha256": "5f4d7c676ddb3b02d42b269430b77da5a5aa03da8c22cb3ad26631f75b61629e",
+  "probe": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 1280,
+        "height": 720
+      }
+    ],
+    "format": {
+      "duration": "35.000000",
+      "size": "947035"
+    }
+  },
+  "decode_ok": true
+}

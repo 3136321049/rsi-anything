@@ -1,0 +1,52 @@
+{
+  "files": [
+    {
+      "path": "out/coffee.md",
+      "bytes": 697,
+      "sha256": "aa46d330c5e49c114c650a8aaf0f0035e6b59cef33d01352544ef709065dd80b"
+    },
+    {
+      "path": "out/gates.json",
+      "bytes": 53,
+      "sha256": "27b6e5be647112307342556e315ff72b9c95f04dbed98475904745714c173538"
+    },
+    {
+      "path": "out/generation.json",
+      "bytes": 1211,
+      "sha256": "bb674b4cfe219494ed09b462ce3bcdba77426a42569230b3e881b2911d730f50"
+    },
+    {
+      "path": "out/notes.txt",
+      "bytes": 84,
+      "sha256": "4ab9a3e22a968c0ac75c3b36f5501c3ae2e2c80dcd0766f302ceefcb4ee06b1c"
+    },
+    {
+      "path": "out/posts.html",
+      "bytes": 3690,
+      "sha256": "82a43bc78e27fea67e4957ae51d52d8a13af3a5e948f2d40060b349e7855d9dc"
+    },
+    {
+      "path": "out/posts.md",
+      "bytes": 3436,
+      "sha256": "70041945213ccf64b3df81fca6a254d8253815a8c9bf358ddf23106fa5b4e6fa"
+    },
+    {
+      "path": "out/pottery.md",
+      "bytes": 692,
+      "sha256": "d501e5ad95bd32c3f80dcd6449b6358454601d232823134f228d7e1c66583160"
+    },
+    {
+      "path": "out/repair.md",
+      "bytes": 782,
+      "sha256": "b63260550f7cc45cc4c27ed89711992cdd9884a78bfde2737db01abe362211ba"
+    },
+    {
+      "path": "writing-guide.md",
+      "bytes": 2440,
+      "sha256": "ae05bf7524c4d2a947aed3c4cae50a1b9fc039e2267cd68701385dfefdfc4bf4"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": [],
+  "source_snapshot": "rounds/r002/artifacts"
+}

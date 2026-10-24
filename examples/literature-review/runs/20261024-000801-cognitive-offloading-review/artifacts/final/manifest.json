@@ -1,0 +1,47 @@
+{
+  "files": [
+    {
+      "path": "evidence.json",
+      "bytes": 1342,
+      "sha256": "14767561ba1eb96eec7525d0de59117b03734a05309cd867ad356b6efb84762b"
+    },
+    {
+      "path": "out/evaluation.md",
+      "bytes": 4050,
+      "sha256": "16e55fdfe26754c7b0547d342b4bd6595af184e35ff8cf67ab444baf6ffb0c96"
+    },
+    {
+      "path": "out/gates.json",
+      "bytes": 203,
+      "sha256": "f98e821972b9f424f392a9cf05121b2eb4ed36230c85bde0081276559f6c5b7f"
+    },
+    {
+      "path": "out/notes.txt",
+      "bytes": 144,
+      "sha256": "4dc031fd53dbc71087c5d59be841b595fa256ed0af4b9dc33bde1a7b10e7631a"
+    },
+    {
+      "path": "out/review.html",
+      "bytes": 6559,
+      "sha256": "1444a80e90379fce4d3819ee9e050aeed4b9a6658c1614091d91598df4fbb662"
+    },
+    {
+      "path": "out/review.md",
+      "bytes": 4628,
+      "sha256": "478a522114996b686f849d5ed86edcd963f5ca5bf8888b68158303192729c852"
+    },
+    {
+      "path": "out/source-map.json",
+      "bytes": 3776,
+      "sha256": "a45fad0c86e7e48c8873bc09ecef299a56b39c529be0320739d71e5d22044328"
+    },
+    {
+      "path": "review.md",
+      "bytes": 4050,
+      "sha256": "16e55fdfe26754c7b0547d342b4bd6595af184e35ff8cf67ab444baf6ffb0c96"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": [],
+  "source_snapshot": "rounds/r001/artifacts"
+}

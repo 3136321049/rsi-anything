@@ -1,0 +1,50 @@
+{
+  "status": "verified",
+  "date": "2026-10-24",
+  "original_input": "../../inputs/public-speech/input.mp4",
+  "versions": [
+    {
+      "path": "artifacts/baseline/files/out/cut.mp4",
+      "duration_seconds": 56.824,
+      "decoded": true,
+      "audio_present": true,
+      "sha256": "69badab6d35b527210d8746b5ea4ae7b12450808bf0b48e8620b92c1e775446d"
+    },
+    {
+      "path": "rounds/r001/artifacts/files/out/cut.mp4",
+      "duration_seconds": 56.09,
+      "decoded": true,
+      "audio_present": true,
+      "sha256": "eb614b27045f90e83ef2836c155e70891a19467af423797adbb169da1dfd291f"
+    },
+    {
+      "path": "rounds/r002/artifacts/files/out/cut.mp4",
+      "duration_seconds": 64.699,
+      "decoded": true,
+      "audio_present": true,
+      "sha256": "9ed15d386de15433331da8416953f5344708a714bece1c4ec3a19a10045acd4a"
+    },
+    {
+      "path": "rounds/r003/artifacts/files/out/cut.mp4",
+      "duration_seconds": 43.678,
+      "decoded": true,
+      "audio_present": true,
+      "sha256": "190f8559421c6102920950b3fdde13d9764b268e74d5f1913022f9c631663b36"
+    },
+    {
+      "path": "rounds/r004/artifacts/files/out/cut.mp4",
+      "duration_seconds": 47.624,
+      "decoded": true,
+      "audio_present": true,
+      "sha256": "e2b4f39105daa4ef47cb8394e60c22ad989cf6c087718899d2dea98867a09304"
+    },
+    {
+      "path": "artifacts/final/files/out/cut.mp4",
+      "duration_seconds": 56.09,
+      "decoded": true,
+      "audio_present": true,
+      "sha256": "eb614b27045f90e83ef2836c155e70891a19467af423797adbb169da1dfd291f"
+    }
+  ],
+  "scope": "检查各保存版本的实际解码、音轨、时长和字幕；模型评分只评价内容选段与顺序。"
+}

@@ -21,6 +21,7 @@ import tempfile
 import time
 from pathlib import Path
 
+from ..process import run as run_process
 from .base import Judge, Verdict
 
 # Engine-internal variables never leak into a judge; user settings such as RSI_TASK_MODEL do.
@@ -40,8 +41,8 @@ class CommandJudge(Judge):
             result_file = Path(box) / "result.json"
             try:
                 command = self.spec.run.replace("{python}", shlex.quote(sys.executable))
-                run = subprocess.run(command, shell=True, cwd=workspace, env=judge_env(result_file, round_no),
-                                     capture_output=True, text=True, timeout=self.spec.timeout)
+                run = run_process(command, shell=True, cwd=workspace,
+                                  env=judge_env(result_file, round_no), timeout=self.spec.timeout)
             except subprocess.TimeoutExpired:
                 return Verdict(None, error=f"judge timed out after {self.spec.timeout}s",
                                seconds=time.perf_counter() - started)

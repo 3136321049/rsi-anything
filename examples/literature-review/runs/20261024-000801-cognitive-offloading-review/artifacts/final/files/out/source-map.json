@@ -1,0 +1,88 @@
+{
+  "claims": [
+    {
+      "claim": "支持这一判断的直接现象来自Sparrow等人的四项研究：当人们预期未来能再次访问资料时，对信息内容本身的回忆较少，对到哪里寻找信息的回忆较好。",
+      "sources": [
+        "S1"
+      ],
+      "in_text": true,
+      "cited_near_claim": true,
+      "passed": true
+    },
+    {
+      "claim": "Risko与Gilbert把部分信息处理交给环境或工具、以减少任务认知需求的做法称为认知外包，并用元认知框架讨论其触发条件与认知后果。",
+      "sources": [
+        "S2"
+      ],
+      "in_text": true,
+      "cited_near_claim": true,
+      "passed": true
+    },
+    {
+      "claim": "把这一框架与上述实验联系起来，本文的解释是：预期资料仍可访问，可能使人改变内部记忆与外部获取之间的安排，把“记住什么”的一部分转为“记住去哪里找”。",
+      "sources": [
+        "S1",
+        "S2"
+      ],
+      "in_text": true,
+      "cited_near_claim": true,
+      "passed": true
+    },
+    {
+      "claim": "UNESCO指南主张以人为中心应用生成式AI，保护隐私、重视人的能动性，并由教育机构检验工具的教育适用性。",
+      "sources": [
+        "S3"
+      ],
+      "in_text": true,
+      "cited_near_claim": true,
+      "passed": true
+    },
+    {
+      "claim": "本文据此提出教学层面的推论：评价工具时，应同时考察学生能否自主判断何时查找、能否获取所需信息，以及脱离工具后能否理解和运用内容。",
+      "sources": [
+        "S2",
+        "S3"
+      ],
+      "in_text": true,
+      "cited_near_claim": true,
+      "passed": true
+    }
+  ],
+  "covered_sources": [
+    "S1",
+    "S2",
+    "S3"
+  ],
+  "all_sources": {
+    "S1": {
+      "title": "Google effects on memory: cognitive consequences of having information at our fingertips",
+      "authors": "Betsy Sparrow; Jenny Liu; Daniel M. Wegner",
+      "year": 2011,
+      "kind": "实验研究",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/21764755/",
+      "doi": "10.1126/science.1207745",
+      "summary": "摘要汇总四项研究：预期未来能再次访问资料时，人们对信息内容本身的回忆较少，对到哪里寻找信息的回忆较好。",
+      "limit": "给定摘要不提供长期课堂学习效果，也不涉及现代生成式AI；不能推出互联网使所有人记忆力永久下降。"
+    },
+    "S2": {
+      "title": "Cognitive Offloading",
+      "authors": "Evan F. Risko; Sam J. Gilbert",
+      "year": 2016,
+      "kind": "理论综述",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/27542527/",
+      "doi": "10.1016/j.tics.2016.07.002",
+      "summary": "把部分信息处理交给环境或工具，以减少任务的认知需求，属于认知外包。综述讨论什么触发外包，以及外包的认知后果，并提出连接多领域结果的元认知框架。",
+      "limit": "这是综述框架，不是单次干预试验；概念本身不证明任何具体工具必然提升或损害学习。"
+    },
+    "S3": {
+      "title": "Guidance for generative AI in education and research",
+      "authors": "Fengchun Miao; Wayne Holmes; UNESCO",
+      "year": 2023,
+      "kind": "政策指导",
+      "url": "https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research?hub=387",
+      "doi": "10.54675/EWZM9535",
+      "summary": "指南主张以人为中心应用生成式AI，保护隐私，并让教育机构检验工具的教育适用性。它讨论教学设计与研究使用，也重视人的能动性。",
+      "limit": "政策建议不是证明学习效果的实验结果；连接到认知外包是作者的分析推论，需要明确说明。"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "source": "reconstructed_from_original_patches",
+  "versions": [
+    {
+      "round": 0,
+      "status": "BASELINE",
+      "path": "artifacts/baseline/files/post.md"
+    },
+    {
+      "round": 1,
+      "status": "KEEP",
+      "path": "rounds/r001/artifacts/files/post.md"
+    },
+    {
+      "round": 2,
+      "status": "REVERT",
+      "path": "rounds/r002/artifacts/files/post.md"
+    },
+    {
+      "round": 3,
+      "status": "KEEP",
+      "path": "rounds/r003/artifacts/files/post.md"
+    },
+    {
+      "round": 4,
+      "status": "REVERT",
+      "path": "rounds/r004/artifacts/files/post.md"
+    },
+    {
+      "round": 5,
+      "status": "REVERT",
+      "path": "rounds/r005/artifacts/files/post.md"
+    },
+    {
+      "round": "final",
+      "status": "FINAL",
+      "path": "artifacts/final/files/post.md"
+    }
+  ]
+}

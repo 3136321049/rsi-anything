@@ -1,0 +1,8 @@
+{
+  "source": "digits",
+  "csv": "judge/dataset.csv",
+  "validation_fraction": 0.25,
+  "split_seed": 20261023,
+  "training_seed": 42,
+  "maximum_seconds": 30
+}

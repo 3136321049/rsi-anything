@@ -1,19 +1,21 @@
 from __future__ import annotations
 
+import json
 import shlex
 import shutil
 import subprocess
 import time
 from pathlib import Path
 
+from ..process import run as run_process
 from .base import Agent, AgentResult, hypothesis_from
-from .registry import CLISpec
+from .registry import CLISpec, check_auth
 
 
 def _run(argv: list[str], cwd: Path, stdin, env, timeout: int, log: Path):
     started = time.perf_counter()
     try:
-        run = subprocess.run(argv, cwd=cwd, input=stdin, capture_output=True, text=True, timeout=timeout, env=env)
+        run = run_process(argv, cwd=cwd, input=stdin, timeout=timeout, env=env)
     except subprocess.TimeoutExpired as exc:
         log.write_text(f"$ {shlex.join(argv[:6])} ...\n\nTIMEOUT after {timeout}s\n{exc.stdout or ''}", encoding="utf-8")
         return None, time.perf_counter() - started
@@ -30,6 +32,10 @@ class CLIAgent(Agent):
     def run(self, workdir: Path, prompt: str, round_dir: Path, timeout: int) -> AgentResult:
         if not shutil.which(self.spec.binary):
             return AgentResult(False, error=f"`{self.spec.binary}` not found on PATH")
+        try:
+            check_auth(self.spec, min(timeout, 10))
+        except RuntimeError as exc:
+            return AgentResult(False, error=str(exc))
         out_file = round_dir / "agent-final.txt"
         argv, stdin, out, extra_env = self.spec.round_command(prompt, self.model, workdir, self.allow_commands,
                                                               self.extra_args, out_file)
@@ -37,6 +43,11 @@ class CLIAgent(Agent):
         if run is None:
             return AgentResult(False, seconds=seconds, error=f"timed out after {timeout}s")
         text, cost = self.spec.parse_output(run.stdout, out)
+        metadata = self.spec.metadata(run.stdout)
+        metadata.update(requested_model=self.model or None, adapter=self.name,
+                        seconds=round(seconds, 3), cost_usd=cost, returncode=run.returncode)
+        (round_dir / "agent-metadata.json").write_text(
+            json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         if run.returncode != 0:
             return AgentResult(False, text, seconds=seconds, cost_usd=cost,
                                error=f"exit {run.returncode}: {(run.stderr or run.stdout)[-400:]}")

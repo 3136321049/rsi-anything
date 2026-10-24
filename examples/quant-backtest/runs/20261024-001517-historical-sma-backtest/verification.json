@@ -1,0 +1,180 @@
+{
+  "run_id": "20261024-001517-historical-sma-backtest",
+  "validation": "导出的初始、每轮候选和最终配置分别与冻结评审输入放入新临时目录，删除旧out后重新执行评审。",
+  "command": "python -B judge/evaluate.py",
+  "checks": [
+    {
+      "snapshot": "artifacts/baseline",
+      "score": 7.567,
+      "recorded_score": 7.567,
+      "score_matches_record": true,
+      "artifact_manifest_valid": true,
+      "gates": {
+        "positive_finite_equity": true,
+        "minimum_trades": true
+      },
+      "metrics": {
+        "return_percent": 27.722,
+        "max_drawdown_percent": 13.437,
+        "buy_hold_return_percent": 206.1687,
+        "trade_orders": 76,
+        "total_cost": 638.4787,
+        "ending_equity": 12772.1978,
+        "data_sha256": "b9dd21e29974b4c13babd79214e43a15829abf52580d3d23c0c6450c1053b8d3",
+        "configuration": {
+          "fast_window": 3,
+          "slow_window": 8,
+          "threshold_bps": 0,
+          "allocation": 0.5
+        },
+        "all_signals_precede_execution": true,
+        "charts_valid": true
+      },
+      "passed": true,
+      "round_status": "BASELINE",
+      "formally_judged": true,
+      "saved_output_score": 7.567,
+      "saved_output_configuration_matches_source": true,
+      "note": "冻结评审结果与导出配置的独立复验一致。"
+    },
+    {
+      "snapshot": "rounds/r001/artifacts",
+      "score": 31.215,
+      "recorded_score": 31.215,
+      "score_matches_record": true,
+      "artifact_manifest_valid": true,
+      "gates": {
+        "positive_finite_equity": true,
+        "minimum_trades": true
+      },
+      "metrics": {
+        "return_percent": 63.2489,
+        "max_drawdown_percent": 21.3557,
+        "buy_hold_return_percent": 206.1687,
+        "trade_orders": 16,
+        "total_cost": 167.3999,
+        "ending_equity": 16324.887,
+        "data_sha256": "b9dd21e29974b4c13babd79214e43a15829abf52580d3d23c0c6450c1053b8d3",
+        "configuration": {
+          "fast_window": 10,
+          "slow_window": 30,
+          "threshold_bps": 0,
+          "allocation": 0.5
+        },
+        "all_signals_precede_execution": true,
+        "charts_valid": true
+      },
+      "passed": true,
+      "round_status": "KEEP",
+      "formally_judged": true,
+      "saved_output_score": 31.215,
+      "saved_output_configuration_matches_source": true,
+      "note": "冻结评审结果与导出配置的独立复验一致。"
+    },
+    {
+      "snapshot": "rounds/r002/artifacts",
+      "score": 39.857,
+      "recorded_score": 39.857,
+      "score_matches_record": true,
+      "artifact_manifest_valid": true,
+      "gates": {
+        "positive_finite_equity": true,
+        "minimum_trades": true
+      },
+      "metrics": {
+        "return_percent": 77.0542,
+        "max_drawdown_percent": 24.7979,
+        "buy_hold_return_percent": 206.1687,
+        "trade_orders": 16,
+        "total_cost": 210.5015,
+        "ending_equity": 17705.4156,
+        "data_sha256": "b9dd21e29974b4c13babd79214e43a15829abf52580d3d23c0c6450c1053b8d3",
+        "configuration": {
+          "fast_window": 10,
+          "slow_window": 30,
+          "threshold_bps": 0,
+          "allocation": 0.6
+        },
+        "all_signals_precede_execution": true,
+        "charts_valid": true
+      },
+      "passed": true,
+      "round_status": "KEEP",
+      "formally_judged": true,
+      "saved_output_score": 39.857,
+      "saved_output_configuration_matches_source": true,
+      "note": "冻结评审结果与导出配置的独立复验一致。"
+    },
+    {
+      "snapshot": "rounds/r003/artifacts",
+      "score": 49.058,
+      "recorded_score": 49.058,
+      "score_matches_record": true,
+      "artifact_manifest_valid": true,
+      "gates": {
+        "positive_finite_equity": true,
+        "minimum_trades": true
+      },
+      "metrics": {
+        "return_percent": 91.124,
+        "max_drawdown_percent": 28.0442,
+        "buy_hold_return_percent": 206.1687,
+        "trade_orders": 16,
+        "total_cost": 256.8869,
+        "ending_equity": 19112.4044,
+        "data_sha256": "b9dd21e29974b4c13babd79214e43a15829abf52580d3d23c0c6450c1053b8d3",
+        "configuration": {
+          "fast_window": 10,
+          "slow_window": 30,
+          "threshold_bps": 0,
+          "allocation": 0.7
+        },
+        "all_signals_precede_execution": true,
+        "charts_valid": true
+      },
+      "passed": true,
+      "round_status": "KEEP",
+      "formally_judged": true,
+      "saved_output_score": 49.058,
+      "saved_output_configuration_matches_source": true,
+      "note": "冻结评审结果与导出配置的独立复验一致。"
+    },
+    {
+      "snapshot": "artifacts/final",
+      "score": 49.058,
+      "recorded_score": 49.058,
+      "score_matches_record": true,
+      "artifact_manifest_valid": true,
+      "gates": {
+        "positive_finite_equity": true,
+        "minimum_trades": true
+      },
+      "metrics": {
+        "return_percent": 91.124,
+        "max_drawdown_percent": 28.0442,
+        "buy_hold_return_percent": 206.1687,
+        "trade_orders": 16,
+        "total_cost": 256.8869,
+        "ending_equity": 19112.4044,
+        "data_sha256": "b9dd21e29974b4c13babd79214e43a15829abf52580d3d23c0c6450c1053b8d3",
+        "configuration": {
+          "fast_window": 10,
+          "slow_window": 30,
+          "threshold_bps": 0,
+          "allocation": 0.7
+        },
+        "all_signals_precede_execution": true,
+        "charts_valid": true
+      },
+      "passed": true,
+      "round_status": "FINAL",
+      "formally_judged": true,
+      "saved_output_score": 49.058,
+      "saved_output_configuration_matches_source": true,
+      "note": "冻结评审结果与导出配置的独立复验一致。"
+    }
+  ],
+  "all_formally_judged_snapshots_passed": true,
+  "final_verified": true,
+  "all_saved_output_configurations_match": true
+}

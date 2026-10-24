@@ -1,0 +1,15 @@
+{
+  "score": 100.0,
+  "gates": {
+    "tests_executed": true,
+    "no_skips": true,
+    "exit_code": true
+  },
+  "feedback": "固定测试通过 15/15。\n",
+  "metrics": {
+    "tests_passed": 15,
+    "tests_total": 15,
+    "all_tests_passed": true
+  },
+  "error": ""
+}

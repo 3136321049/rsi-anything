@@ -1,0 +1,126 @@
+{
+  "run_id": "20261023-234857-expense-code-repair",
+  "validation": "导出后的基线、三个候选和最终源码，分别与原冻结测试放进新临时目录重新运行。",
+  "commands": [
+    "python -B judge/evaluate.py",
+    "python -B example.py"
+  ],
+  "checks": [
+    {
+      "snapshot": "artifacts/baseline",
+      "score": 40.0,
+      "tests_passed": 6,
+      "tests_total": 15,
+      "gates": {
+        "tests_executed": true,
+        "no_skips": true
+      },
+      "example": {
+        "month": "2026-10",
+        "totals_cents": {
+          "餐饮": 4840,
+          "交通": 420
+        },
+        "dinner_split_cents": [
+          3333,
+          3333,
+          3333
+        ]
+      },
+      "source_sha256": "842f375c8f58cd4519522eca9175d9ed835718df83966c0fc372066e1f7f84f5"
+    },
+    {
+      "snapshot": "rounds/r001/artifacts",
+      "score": 60.0,
+      "tests_passed": 9,
+      "tests_total": 15,
+      "gates": {
+        "tests_executed": true,
+        "no_skips": true
+      },
+      "example": {
+        "month": "2026-10",
+        "totals_cents": {
+          "餐饮": 4840,
+          "交通": 420
+        },
+        "dinner_split_cents": [
+          3333,
+          3333,
+          3333
+        ]
+      },
+      "source_sha256": "8c3c1120ca435828f3d3456b294e04fc15c4e9c78923ca78b1f01fa54959c7ef"
+    },
+    {
+      "snapshot": "rounds/r002/artifacts",
+      "score": 80.0,
+      "tests_passed": 12,
+      "tests_total": 15,
+      "gates": {
+        "tests_executed": true,
+        "no_skips": true
+      },
+      "example": {
+        "month": "2026-10",
+        "totals_cents": {
+          "餐饮": 4840,
+          "交通": 420
+        },
+        "dinner_split_cents": [
+          3334,
+          3333,
+          3333
+        ]
+      },
+      "source_sha256": "0fd5432b6cfbcd5e9169ac597df5063c506730ae14e1c76c6595fee3f87b9eda"
+    },
+    {
+      "snapshot": "rounds/r003/artifacts",
+      "score": 100.0,
+      "tests_passed": 15,
+      "tests_total": 15,
+      "gates": {
+        "tests_executed": true,
+        "no_skips": true
+      },
+      "example": {
+        "month": "2026-10",
+        "totals_cents": {
+          "餐饮": 3740,
+          "交通": 420
+        },
+        "dinner_split_cents": [
+          3334,
+          3333,
+          3333
+        ]
+      },
+      "source_sha256": "4b7b2665e245aade8791316deb858241c8003778f50f18182be24a94a2a99f3f"
+    },
+    {
+      "snapshot": "artifacts/final",
+      "score": 100.0,
+      "tests_passed": 15,
+      "tests_total": 15,
+      "gates": {
+        "tests_executed": true,
+        "no_skips": true
+      },
+      "example": {
+        "month": "2026-10",
+        "totals_cents": {
+          "餐饮": 3740,
+          "交通": 420
+        },
+        "dinner_split_cents": [
+          3334,
+          3333,
+          3333
+        ]
+      },
+      "source_sha256": "4b7b2665e245aade8791316deb858241c8003778f50f18182be24a94a2a99f3f"
+    }
+  ],
+  "all_passed": true
+}

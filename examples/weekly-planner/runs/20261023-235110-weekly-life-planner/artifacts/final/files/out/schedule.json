@@ -1,0 +1,289 @@
+[
+  {
+    "day": 1,
+    "start": "07:00",
+    "end": "07:45",
+    "task": "exercise",
+    "title": "锻炼",
+    "fixed": false,
+    "preferred": true
+  },
+  {
+    "day": 1,
+    "start": "08:30",
+    "end": "09:00",
+    "title": "上班通勤",
+    "fixed": true
+  },
+  {
+    "day": 1,
+    "start": "09:00",
+    "end": "18:00",
+    "title": "工作",
+    "fixed": true
+  },
+  {
+    "day": 1,
+    "start": "18:00",
+    "end": "18:30",
+    "title": "下班通勤",
+    "fixed": true
+  },
+  {
+    "day": 1,
+    "start": "19:00",
+    "end": "19:30",
+    "title": "晚饭",
+    "fixed": true
+  },
+  {
+    "day": 1,
+    "start": "20:30",
+    "end": "21:15",
+    "task": "reading",
+    "title": "阅读",
+    "fixed": false,
+    "preferred": true
+  },
+  {
+    "day": 2,
+    "start": "08:30",
+    "end": "09:00",
+    "title": "上班通勤",
+    "fixed": true
+  },
+  {
+    "day": 2,
+    "start": "09:00",
+    "end": "18:00",
+    "title": "工作",
+    "fixed": true
+  },
+  {
+    "day": 2,
+    "start": "18:00",
+    "end": "18:30",
+    "title": "下班通勤",
+    "fixed": true
+  },
+  {
+    "day": 2,
+    "start": "19:00",
+    "end": "19:30",
+    "title": "晚饭",
+    "fixed": true
+  },
+  {
+    "day": 2,
+    "start": "20:00",
+    "end": "21:30",
+    "task": "study",
+    "title": "系统学习",
+    "fixed": false,
+    "preferred": true
+  },
+  {
+    "day": 3,
+    "start": "07:00",
+    "end": "07:45",
+    "task": "exercise",
+    "title": "锻炼",
+    "fixed": false,
+    "preferred": true
+  },
+  {
+    "day": 3,
+    "start": "08:30",
+    "end": "09:00",
+    "title": "上班通勤",
+    "fixed": true
+  },
+  {
+    "day": 3,
+    "start": "09:00",
+    "end": "18:00",
+    "title": "工作",
+    "fixed": true
+  },
+  {
+    "day": 3,
+    "start": "18:00",
+    "end": "18:30",
+    "title": "下班通勤",
+    "fixed": true
+  },
+  {
+    "day": 3,
+    "start": "18:30",
+    "end": "19:00",
+    "task": "admin",
+    "title": "整理账单",
+    "fixed": false,
+    "preferred": true
+  },
+  {
+    "day": 3,
+    "start": "19:00",
+    "end": "19:30",
+    "title": "晚饭",
+    "fixed": true
+  },
+  {
+    "day": 3,
+    "start": "20:00",
+    "end": "21:00",
+    "title": "朋友聚会",
+    "fixed": true
+  },
+  {
+    "day": 3,
+    "start": "21:00",
+    "end": "21:45",
+    "task": "reading",
+    "title": "阅读",
+    "fixed": false,
+    "preferred": true
+  },
+  {
+    "day": 4,
+    "start": "08:30",
+    "end": "09:00",
+    "title": "上班通勤",
+    "fixed": true
+  },
+  {
+    "day": 4,
+    "start": "09:00",
+    "end": "18:00",
+    "title": "工作",
+    "fixed": true
+  },
+  {
+    "day": 4,
+    "start": "18:00",
+    "end": "18:30",
+    "title": "下班通勤",
+    "fixed": true
+  },
+  {
+    "day": 4,
+    "start": "19:00",
+    "end": "19:30",
+    "title": "晚饭",
+    "fixed": true
+  },
+  {
+    "day": 4,
+    "start": "20:00",
+    "end": "21:30",
+    "task": "study",
+    "title": "系统学习",
+    "fixed": false,
+    "preferred": true
+  },
+  {
+    "day": 5,
+    "start": "07:00",
+    "end": "07:45",
+    "task": "exercise",
+    "title": "锻炼",
+    "fixed": false,
+    "preferred": true
+  },
+  {
+    "day": 5,
+    "start": "08:30",
+    "end": "09:00",
+    "title": "上班通勤",
+    "fixed": true
+  },
+  {
+    "day": 5,
+    "start": "09:00",
+    "end": "18:00",
+    "title": "工作",
+    "fixed": true
+  },
+  {
+    "day": 5,
+    "start": "18:00",
+    "end": "18:30",
+    "title": "下班通勤",
+    "fixed": true
+  },
+  {
+    "day": 5,
+    "start": "19:00",
+    "end": "19:30",
+    "title": "晚饭",
+    "fixed": true
+  },
+  {
+    "day": 5,
+    "start": "20:30",
+    "end": "21:15",
+    "task": "reading",
+    "title": "阅读",
+    "fixed": false,
+    "preferred": true
+  },
+  {
+    "day": 6,
+    "start": "09:00",
+    "end": "10:00",
+    "task": "groceries",
+    "title": "采购",
+    "fixed": false,
+    "preferred": true
+  },
+  {
+    "day": 6,
+    "start": "14:00",
+    "end": "15:00",
+    "task": "rest",
+    "title": "留出休息",
+    "fixed": false,
+    "preferred": true
+  },
+  {
+    "day": 6,
+    "start": "17:00",
+    "end": "18:00",
+    "task": "rest",
+    "title": "留出休息",
+    "fixed": false,
+    "preferred": true
+  },
+  {
+    "day": 6,
+    "start": "19:00",
+    "end": "19:30",
+    "title": "晚饭",
+    "fixed": true
+  },
+  {
+    "day": 7,
+    "start": "10:00",
+    "end": "12:00",
+    "task": "family",
+    "title": "陪伴家人",
+    "fixed": false,
+    "preferred": true
+  },
+  {
+    "day": 7,
+    "start": "15:00",
+    "end": "16:30",
+    "task": "mealprep",
+    "title": "准备下周餐食",
+    "fixed": false,
+    "preferred": true
+  },
+  {
+    "day": 7,
+    "start": "19:00",
+    "end": "19:30",
+    "title": "晚饭",
+    "fixed": true
+  }
+]

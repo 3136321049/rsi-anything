@@ -1,0 +1,20 @@
+{
+  "guideline_values": {
+    "adult_age": "18至64岁",
+    "moderate_minutes": "150至300分钟",
+    "vigorous_minutes": "75至150分钟",
+    "strength_days": "至少2天"
+  },
+  "used_source_ids": [
+    "W1",
+    "W2"
+  ],
+  "gates": {
+    "正文有实质内容": true,
+    "指南数量使用固定资料": true,
+    "来源编号有效": true,
+    "适用边界清楚": true,
+    "没有药物剂量或疗效保证": true,
+    "包含少量起步和久坐说明": true
+  }
+}

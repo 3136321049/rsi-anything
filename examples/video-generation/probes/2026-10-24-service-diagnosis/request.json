@@ -1,0 +1,24 @@
+{
+  "endpoint": "https://lightricks-ltx-video-distilled.hf.space",
+  "api_name": "text_to_video",
+  "request": {
+    "data": [
+      "A ceramic mug on a desk.",
+      "text, watermark",
+      null,
+      null,
+      512,
+      704,
+      "text-to-video",
+      2,
+      9,
+      42,
+      false,
+      1,
+      false
+    ]
+  },
+  "request_count": 1,
+  "anonymous": true,
+  "purpose": "只做一次与先前成功基线相同的短描述诊断，不作为新的优化实验"
+}

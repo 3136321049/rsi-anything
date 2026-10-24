@@ -1,0 +1,21 @@
+{
+  "files": [
+    {
+      "path": "out/holdout.json",
+      "bytes": 4934,
+      "sha256": "e4ec8246bea9b20662a7f843f54b0a6013af482c6577c97c28ede7f5d2b714ed"
+    },
+    {
+      "path": "out/holdout.md",
+      "bytes": 578,
+      "sha256": "31e5ea53d4e078f462098a51f50f366f18196edfd8475d181a17a7e8b46d2daf"
+    },
+    {
+      "path": "prompt.md",
+      "bytes": 169,
+      "sha256": "cd45ace98f33b20ae6d2be7297ca2097f6eec565510611d4e22aa9719593fe12"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": []
+}

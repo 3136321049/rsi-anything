@@ -1,0 +1,32 @@
+{
+  "topic": "一般健康成人的身体活动科普",
+  "checked_at": "2026-10-23",
+  "scope": "公众教育示例，不诊断疾病，不提供个人训练或用药方案。摘要由项目作者改写。",
+  "values": {
+    "adult_age": "18至64岁",
+    "moderate_minutes": "150至300分钟",
+    "vigorous_minutes": "75至150分钟",
+    "strength_days": "至少2天"
+  },
+  "sources": {
+    "W1": {
+      "title": "WHO: Physical activity（欧洲区域事实清单）",
+      "url": "https://www.who.int/europe/news-room/fact-sheets/item/physical-activity",
+      "guideline_url": "https://www.ncbi.nlm.nih.gov/books/NBK566048/?report=reader",
+      "summary": "成人每周宜完成150至300分钟中等强度有氧活动，或75至150分钟高强度有氧活动，或等量组合；每周至少2天进行涉及主要肌群的强化活动。少量活动好于完全不动，可从少量开始逐步增加。",
+      "locator": "成年人推荐量见 WHO 欧洲区域页面；从少量开始逐步增加见 WHO 2020 指南执行摘要（NCBI Bookshelf 收录）的 ADULTS 实践说明。"
+    },
+    "W2": {
+      "title": "WHO: Physical activity",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/physical-activity",
+      "published": "2024-06-26",
+      "summary": "活动不限于健身，也包括步行、骑行和日常生活中的身体活动。规律活动有身体与心理健康益处，应该减少久坐。各类活动都算数，但不能把任意轻微动作等同于达到中高强度有氧目标。",
+      "locator": "Overview；How much physical activity is recommended?"
+    }
+  },
+  "editorial_boundaries": [
+    "这是面向一般健康成人的资料转述；儿童、孕产期、慢性病及康复人群需考虑各自情境。",
+    "可以用步行通勤、减少长时间连续坐着等一般例子解释；不能为某个读者规定强度或宣称治疗效果。",
+    "正文不得加入药物剂量、停药建议或诊断判断。"
+  ]
+}

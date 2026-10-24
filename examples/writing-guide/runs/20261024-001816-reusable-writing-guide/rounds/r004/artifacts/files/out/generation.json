@@ -1,0 +1,49 @@
+{
+  "split": "development",
+  "synthetic_briefs": true,
+  "calls": [
+    {
+      "id": "coffee",
+      "requested_model": "cli:codex:gpt-6.1-sol",
+      "actual_model": null,
+      "usage": {
+        "input_tokens": 16950,
+        "cached_input_tokens": 12288,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 274,
+        "reasoning_output_tokens": 48
+      },
+      "seconds": 16.669942917,
+      "file": "coffee.md"
+    },
+    {
+      "id": "repair",
+      "requested_model": "cli:codex:gpt-6.1-sol",
+      "actual_model": null,
+      "usage": {
+        "input_tokens": 16942,
+        "cached_input_tokens": 12288,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 200,
+        "reasoning_output_tokens": 27
+      },
+      "seconds": 14.934722125,
+      "file": "repair.md"
+    },
+    {
+      "id": "pottery",
+      "requested_model": "cli:codex:gpt-6.1-sol",
+      "actual_model": null,
+      "usage": {
+        "input_tokens": 16933,
+        "cached_input_tokens": 12288,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 223,
+        "reasoning_output_tokens": 48
+      },
+      "seconds": 16.494336166,
+      "file": "pottery.md"
+    }
+  ],
+  "errors": []
+}

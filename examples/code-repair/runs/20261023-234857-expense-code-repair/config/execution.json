@@ -1,0 +1,47 @@
+{
+  "agent": {
+    "use": "codex",
+    "model": "gpt-6.1-sol",
+    "timeout": 600,
+    "command": "",
+    "extra_args": [],
+    "resolved_adapter": "codex",
+    "requested_model": "gpt-6.1-sol",
+    "actual_model": null,
+    "reasoning_effort": "medium"
+  },
+  "judge": {
+    "type": "command",
+    "files": [
+      "judge",
+      "example.py"
+    ],
+    "direction": "maximize",
+    "min_delta": 0.0,
+    "min_gain": 0.0,
+    "repeats": 1,
+    "timeout": 30,
+    "run": "{python} judge/evaluate.py",
+    "prepare": "",
+    "rubric": "",
+    "inputs": [],
+    "models": [],
+    "samples": 1,
+    "pairwise": true
+  },
+  "jury": [],
+  "holdout": null,
+  "budget": {
+    "rounds": 3,
+    "minutes": 25.0,
+    "stagnation": 3,
+    "target": 100.0
+  },
+  "artifact": [
+    "expense.py"
+  ],
+  "outputs": [
+    "out"
+  ],
+  "task_model": null
+}

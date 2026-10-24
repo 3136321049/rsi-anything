@@ -1,0 +1,3 @@
+event: complete
+data: [{"video": {"path": "<tmp>", "url": "https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=<tmp>", "size": null, "orig_name": "output_93810.mp4", "mime_type": null, "is_stream": false, "meta": {"_type": "gradio.FileData"}}, "subtitles": null}, 42]
+

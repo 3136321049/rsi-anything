@@ -25,7 +25,22 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
 
+from ..process import run as run_process
+
 Command = tuple[list[str], Optional[str], Optional[Path], dict]  # argv, stdin, final-message file, extra env
+
+def _codex_config_args() -> list[str]:
+    """个人实验可显式关闭用户配置和全局指令，不继承其他项目的工具。"""
+    args = []
+    if os.environ.get("RSI_CODEX_ISOLATED") == "1":
+        args += ["--ignore-user-config", "--ignore-rules", "-c", "project_doc_max_bytes=0",
+                 "-c", "skills.max_context_tokens=1"]
+    effort = os.environ.get("RSI_CODEX_REASONING_EFFORT")
+    if effort:
+        if effort not in {"low", "medium", "high", "xhigh"}:
+            raise ValueError("RSI_CODEX_REASONING_EFFORT 必须是 low、medium、high 或 xhigh")
+        args += ["-c", f"model_reasoning_effort={json.dumps(effort)}"]
+    return args
 
 _NESTED_SESSION_VARS = ("CLAUDECODE", "CLAUDE_CODE_ENTRYPOINT", "CLAUDE_CODE_SSE_PORT")
 
@@ -61,7 +76,7 @@ class CLISpec:
         if n == "codex":  # note: for codex, -p means --profile, so the prompt goes through stdin
             argv = [self.binary, "exec", "--skip-git-repo-check", "--color", "never", "-c", 'approval_policy="never"',
                     "--sandbox", "workspace-write", "-C", str(workdir), "-o", str(out_file)]
-            return argv + (["-m", m] if m else []) + extra_args + ["-"], prompt, out_file, {}
+            return argv + ["--json"] + _codex_config_args() + (["-m", m] if m else []) + extra_args + ["-"], prompt, out_file, {}
         if n == "cursor":  # without --force, edits are only proposed, never written
             argv = [self.binary, "-p", "--output-format", "json", "--trust", "--force", "--workspace", str(workdir)]
             argv += [] if allow_commands else ["--sandbox", "enabled"]
@@ -101,7 +116,7 @@ class CLISpec:
                     "--ephemeral", "-C", str(scratch), "-o", str(out_file)]
             for image in images:
                 argv += ["-i", str(image)]
-            return argv + (["-m", m] if m else []) + ["-"], prompt, out_file, {}
+            return argv + ["--json"] + _codex_config_args() + (["-m", m] if m else []) + ["-"], prompt, out_file, {}
         if n == "cursor":
             argv = [self.binary, "-p", "--output-format", "json", "--trust", "--workspace", str(scratch)]
             return argv + (["--model", m] if m else []) + [prompt], None, None, {}
@@ -153,6 +168,16 @@ class CLISpec:
                 return replies[-1], None
         return stdout.strip(), None
 
+    def metadata(self, stdout: str) -> dict[str, Any]:
+        """只保存 CLI 明确返回的模型和用量，不推断订阅费用。"""
+        usage, model = {}, ""
+        for event in _json_lines(stdout):
+            if isinstance(event.get("usage"), dict):
+                usage = event["usage"]
+            if isinstance(event.get("model"), str):
+                model = event["model"]
+        return {"actual_model": model or None, "usage": usage}
+
 
 def _json_lines(stdout: str) -> list[dict[str, Any]]:
     events = []
@@ -188,7 +213,7 @@ def _last_json(stdout: str) -> Any:
 
 CLI_AGENTS: dict[str, CLISpec] = {spec.name: spec for spec in [
     CLISpec("claude", "claude", "Claude Code", "global", "claude-json"),
-    CLISpec("codex", "codex", "OpenAI Codex CLI", "global", "file", notes="needs a recent version for current models"),
+    CLISpec("codex", os.environ.get("RSI_CODEX_BIN", "codex"), "OpenAI Codex CLI", "global", "file", notes="needs a recent version for current models"),
     CLISpec("opencode", "opencode", "OpenCode", "global+cn", "opencode-jsonl",
             notes="any OpenAI/Anthropic-compatible endpoint: DeepSeek, Qwen, Kimi, GLM, MiniMax"),
     CLISpec("qwen", "qwen", "Qwen Code", "global+cn", "qwen-json"),
@@ -207,15 +232,31 @@ AUTO_ORDER = ["claude", "codex", "opencode", "qwen", "gemini", "cursor", "kimi",
 _READY: dict[str, bool] = {}
 
 
+def check_auth(spec: CLISpec, timeout: float = 10) -> None:
+    """后台调用 Claude 前只查询登录状态，未登录时直接报错。"""
+    if spec.name != "claude":
+        return
+    try:
+        result = run_process([spec.binary, "auth", "status", "--json"],
+                             stdin=subprocess.DEVNULL, timeout=timeout, env=spec.env())
+        status = json.loads(result.stdout)
+    except (OSError, subprocess.TimeoutExpired, ValueError) as exc:
+        raise RuntimeError("无法确认 Claude 登录状态，已停止后台调用。") from exc
+    if result.returncode != 0 or not isinstance(status, dict) or status.get("loggedIn") is not True:
+        raise RuntimeError("Claude 尚未登录，请先在终端运行 claude auth login，完成后再重试。")
+
+
 def ready(spec: CLISpec, timeout: float = 10) -> bool:
-    """Installed and answers `--version` quickly (some wrappers hang waiting for a login)."""
+    """确认命令能正常返回版本，并在需要时检查登录状态。"""
     if spec.name not in _READY:
         ok = False
         if shutil.which(spec.binary):
             try:
-                ok = subprocess.run([spec.binary, "--version"], stdin=subprocess.DEVNULL, capture_output=True,
-                                    timeout=timeout, env=spec.env()).returncode == 0
-            except (subprocess.TimeoutExpired, OSError):
+                ok = run_process([spec.binary, "--version"], stdin=subprocess.DEVNULL,
+                                 timeout=timeout, env=spec.env()).returncode == 0
+                if ok:
+                    check_auth(spec, timeout)
+            except (subprocess.TimeoutExpired, OSError, RuntimeError):
                 ok = False
         _READY[spec.name] = ok
     return _READY[spec.name]

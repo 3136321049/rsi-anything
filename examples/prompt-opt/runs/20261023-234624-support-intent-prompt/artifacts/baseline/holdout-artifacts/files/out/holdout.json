@@ -1,0 +1,184 @@
+{
+  "split": "holdout",
+  "model": "cli:codex:gpt-5.6-sol",
+  "accuracy": 82.8,
+  "correct": 24,
+  "total": 29,
+  "errors": 0,
+  "predictions": [
+    {
+      "text": "The app says delivered 20 minutes ago but nothing is at my door",
+      "expected": "late_delivery",
+      "predicted": "late_delivery",
+      "correct": true
+    },
+    {
+      "text": "我要的是大杯，给的中杯，差价退我",
+      "expected": "wrong_item",
+      "predicted": "wrong_item",
+      "correct": true
+    },
+    {
+      "text": "汉堡里的生菜都蔫了，肉也是凉的，退款",
+      "expected": "refund",
+      "predicted": "refund",
+      "correct": true
+    },
+    {
+      "text": "Cancel my order please, I'm not hungry anymore",
+      "expected": "cancel_order",
+      "predicted": "cancel_order",
+      "correct": true
+    },
+    {
+      "text": "满减活动没算上，多扣了钱",
+      "expected": "payment",
+      "predicted": "payment",
+      "correct": true
+    },
+    {
+      "text": "Need a VAT invoice for this order",
+      "expected": "payment",
+      "predicted": "other",
+      "correct": false
+    },
+    {
+      "text": "忘记密码了，找回不了账号",
+      "expected": "account",
+      "predicted": "account",
+      "correct": true
+    },
+    {
+      "text": "太感谢了，备注的生日蜡烛也帮我带了",
+      "expected": "praise",
+      "predicted": "praise",
+      "correct": true
+    },
+    {
+      "text": "The courier smoked in the elevator, very unpleasant",
+      "expected": "other",
+      "predicted": "other",
+      "correct": true
+    },
+    {
+      "text": "下单半小时了商家还没接单，算了不要了，取消",
+      "expected": "cancel_order",
+      "predicted": "cancel_order",
+      "correct": true
+    },
+    {
+      "text": "Half my fries are missing and there's no sauce I paid for",
+      "expected": "wrong_item",
+      "predicted": "wrong_item",
+      "correct": true
+    },
+    {
+      "text": "The soup leaked all over the bag and my rice is soaked, I want a refund",
+      "expected": "refund",
+      "predicted": "refund",
+      "correct": true
+    },
+    {
+      "text": "订单一直显示配送中，已经一个多小时了",
+      "expected": "late_delivery",
+      "predicted": "late_delivery",
+      "correct": true
+    },
+    {
+      "text": "Is there a student discount?",
+      "expected": "other",
+      "predicted": "other",
+      "correct": true
+    },
+    {
+      "text": "Two charges showed up on my card for one meal",
+      "expected": "payment",
+      "predicted": "payment",
+      "correct": true
+    },
+    {
+      "text": "怎么删除常用地址",
+      "expected": "account",
+      "predicted": "account",
+      "correct": true
+    },
+    {
+      "text": "Amazing service, my order came 10 minutes early!",
+      "expected": "praise",
+      "predicted": "praise",
+      "correct": true
+    },
+    {
+      "text": "酸菜鱼送成了水煮鱼，我对辣过敏",
+      "expected": "wrong_item",
+      "predicted": "wrong_item",
+      "correct": true
+    },
+    {
+      "text": "The steak was raw in the middle, I can't eat this, money back please",
+      "expected": "refund",
+      "predicted": "refund",
+      "correct": true
+    },
+    {
+      "text": "等太久了，没送到，不要了，直接取消吧",
+      "expected": "cancel_order",
+      "predicted": "cancel_order",
+      "correct": true
+    },
+    {
+      "text": "Can I get a refund on the coupon I couldn't use at checkout?",
+      "expected": "payment",
+      "predicted": "refund",
+      "correct": false
+    },
+    {
+      "text": "I keep getting logged out every time I open the app",
+      "expected": "account",
+      "predicted": "account",
+      "correct": true
+    },
+    {
+      "text": "你们能不能和我们公司合作团餐",
+      "expected": "other",
+      "predicted": "other",
+      "correct": true
+    },
+    {
+      "text": "Where's my food? The tracker hasn't moved in 25 minutes",
+      "expected": "late_delivery",
+      "predicted": "late_delivery",
+      "correct": true
+    },
+    {
+      "text": "I need to change the delivery address, I put my old apartment",
+      "expected": "cancel_order",
+      "predicted": "other",
+      "correct": false
+    },
+    {
+      "text": "能不能帮我把奶茶改成去冰，订单还没做吧",
+      "expected": "cancel_order",
+      "predicted": "other",
+      "correct": false
+    },
+    {
+      "text": "Everything on this app costs twice as much as in the store",
+      "expected": "other",
+      "predicted": "other",
+      "correct": true
+    },
+    {
+      "text": "骑手冒雨送餐太辛苦了，我想补一个小费",
+      "expected": "payment",
+      "predicted": "praise",
+      "correct": false
+    },
+    {
+      "text": "I accidentally tipped 50 instead of 5, can that be fixed?",
+      "expected": "payment",
+      "predicted": "payment",
+      "correct": true
+    }
+  ]
+}

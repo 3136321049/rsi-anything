@@ -1,0 +1,41 @@
+{
+  "score": 79.0,
+  "gates": {
+    "正文有实质内容": true,
+    "数字资料键存在": true,
+    "金额和比率使用资料插值": true,
+    "关键数字齐全": true,
+    "来源编号有效": true,
+    "限定经营分析用途": true,
+    "图表指标有效": true,
+    "min_chars": true,
+    "max_chars": true,
+    "substance": true,
+    "not_repetitive": true,
+    "no_placeholder": true,
+    "no_evaluator_address": true,
+    "check:所有公司事实、数字及因果归因均有给定资料支持；没有股价、目标价、买卖评级或收益承诺。": true,
+    "check:没有把季度口径当成全年，没有把营业利润当成净利润，也没有用非GAAP结果替代GAAP而不说明。": true,
+    "check:图表与正文结论一致，事实与分析推论有清楚区分。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "程序只核对资料键、单位及图表数据；论据和结论是否相称由模型评委判断。\nchart_use 6.0/10: 两张图与收入论点相关，也提供了读图提醒，但核心的增减抵消关系仍需返回表格判断，图表本身主要重复数据，未达到与论点紧密配合的程度。\nmain_point 8.0/10: 开头清楚区分总量增长、结构变化和利润分化，但同时铺开多个判断，尚未把最关键的结构变化及其金额证据压成更鲜明的主结论。\n[cli:codex:gpt-6.1-sol] 把两张独立营收图合并为一张收入增减贡献图，同时呈现产品减少、服务增加及总营收净增加，让读者直接看清服务增量如何抵消产品降幅，并删去分轴比较的说明。",
+  "metrics": {
+    "criteria": {
+      "main_point": 8.0,
+      "reasoning": 9.0,
+      "chart_use": 6.0,
+      "readability": 8.0,
+      "limits": 8.0
+    },
+    "jury": [
+      "cli:codex:gpt-6.1-sol"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "cost_usd": null
+  },
+  "seconds": 37.08749933299998,
+  "error": ""
+}

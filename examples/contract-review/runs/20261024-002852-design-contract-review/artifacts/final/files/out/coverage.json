@@ -1,0 +1,51 @@
+{
+  "covered": [
+    "I1",
+    "I2",
+    "I3",
+    "I4",
+    "I5",
+    "I6",
+    "I7"
+  ],
+  "missing": [],
+  "total": 7,
+  "coverage_percent": 100.0,
+  "checks": [
+    {
+      "issue_id": "I1",
+      "clause_id": "C1",
+      "valid": true
+    },
+    {
+      "issue_id": "I2",
+      "clause_id": "C2",
+      "valid": true
+    },
+    {
+      "issue_id": "I3",
+      "clause_id": "C3",
+      "valid": true
+    },
+    {
+      "issue_id": "I4",
+      "clause_id": "C4",
+      "valid": true
+    },
+    {
+      "issue_id": "I5",
+      "clause_id": "C5",
+      "valid": true
+    },
+    {
+      "issue_id": "I6",
+      "clause_id": "C6",
+      "valid": true
+    },
+    {
+      "issue_id": "I7",
+      "clause_id": "C7",
+      "valid": true
+    }
+  ]
+}

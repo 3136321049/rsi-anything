@@ -1,0 +1,404 @@
+{
+  "run_id": "20261023-234624-support-intent-prompt",
+  "scope": "任务模型评审调用；执行助手的汇总另存各轮agent-metadata.json。",
+  "method": "仅按最终快照已证实的复制来源去重；不按相同输入、型号或分数合并独立调用。原始日志均保持不变。",
+  "raw_records": 21,
+  "copied_records": 5,
+  "actual_recorded_calls": 16,
+  "final_holdout_actual_calls": 2,
+  "task_model_usage": {
+    "input_tokens": 249328,
+    "cached_input_tokens": 180224,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1382,
+    "reasoning_output_tokens": 642
+  },
+  "cost_usd": null,
+  "sources": [
+    {
+      "file": "artifacts/baseline/holdout-usage.jsonl",
+      "sha256": "286fa9b56f50b37a3fc0315118c111a4f2977abc0573ce580510705c71491a50",
+      "raw_records": 2,
+      "counted_lines": [
+        1,
+        2
+      ]
+    },
+    {
+      "file": "artifacts/baseline/judge-usage.jsonl",
+      "sha256": "11be38d8f69c670e7ac175291313cbf98208e1a3a5a09ad8b2d31c6b40a13952",
+      "raw_records": 3,
+      "counted_lines": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "file": "artifacts/final/holdout-usage.jsonl",
+      "sha256": "549a14009746fac546d107b32985a0cb72c62f7423b0142c06244e97f86d84f2",
+      "raw_records": 4,
+      "counted_lines": [
+        3,
+        4
+      ]
+    },
+    {
+      "file": "artifacts/final/judge-usage.jsonl",
+      "sha256": "11be38d8f69c670e7ac175291313cbf98208e1a3a5a09ad8b2d31c6b40a13952",
+      "raw_records": 3,
+      "counted_lines": []
+    },
+    {
+      "file": "rounds/r001/judge-usage.jsonl",
+      "sha256": "c48d2c93069c38720758c50b30191e8a18ae97a947dc3090e91b6347b6a72f72",
+      "raw_records": 3,
+      "counted_lines": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "file": "rounds/r002/judge-usage.jsonl",
+      "sha256": "b0d4219fe835c63c983f6e258c9c89486f728621fea310f8ffdf2df92f47a05a",
+      "raw_records": 3,
+      "counted_lines": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "file": "rounds/r003/judge-usage.jsonl",
+      "sha256": "1017b78da5a784cdb104da3a41e3aa25c2058e38c7cbd2bb6cdd40e2fa83e8e1",
+      "raw_records": 3,
+      "counted_lines": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "copies": [
+    {
+      "file": "artifacts/final/holdout-usage.jsonl",
+      "line": 1,
+      "copy_of": {
+        "file": "artifacts/baseline/holdout-usage.jsonl",
+        "line": 1
+      },
+      "evidence": "完整JSON记录逐字段相同，且来自最终快照复制路径"
+    },
+    {
+      "file": "artifacts/final/holdout-usage.jsonl",
+      "line": 2,
+      "copy_of": {
+        "file": "artifacts/baseline/holdout-usage.jsonl",
+        "line": 2
+      },
+      "evidence": "完整JSON记录逐字段相同，且来自最终快照复制路径"
+    },
+    {
+      "file": "artifacts/final/judge-usage.jsonl",
+      "line": 1,
+      "copy_of": {
+        "file": "artifacts/baseline/judge-usage.jsonl",
+        "line": 1
+      },
+      "evidence": "完整JSON记录逐字段相同，且来自最终快照复制路径"
+    },
+    {
+      "file": "artifacts/final/judge-usage.jsonl",
+      "line": 2,
+      "copy_of": {
+        "file": "artifacts/baseline/judge-usage.jsonl",
+        "line": 2
+      },
+      "evidence": "完整JSON记录逐字段相同，且来自最终快照复制路径"
+    },
+    {
+      "file": "artifacts/final/judge-usage.jsonl",
+      "line": 3,
+      "copy_of": {
+        "file": "artifacts/baseline/judge-usage.jsonl",
+        "line": 3
+      },
+      "evidence": "完整JSON记录逐字段相同，且来自最终快照复制路径"
+    }
+  ],
+  "actual_calls": [
+    {
+      "file": "artifacts/baseline/holdout-usage.jsonl",
+      "line": 1,
+      "record": {
+        "requested_model": "cli:codex:gpt-5.6-sol",
+        "actual_model": null,
+        "usage": {
+          "input_tokens": 15450,
+          "cached_input_tokens": 11264,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 28,
+          "reasoning_output_tokens": 0
+        },
+        "seconds": 10.146,
+        "cost_usd": null
+      }
+    },
+    {
+      "file": "artifacts/baseline/holdout-usage.jsonl",
+      "line": 2,
+      "record": {
+        "requested_model": "cli:codex:gpt-5.6-sol",
+        "actual_model": null,
+        "usage": {
+          "input_tokens": 15615,
+          "cached_input_tokens": 11264,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 129,
+          "reasoning_output_tokens": 69
+        },
+        "seconds": 11.426,
+        "cost_usd": null
+      }
+    },
+    {
+      "file": "artifacts/baseline/judge-usage.jsonl",
+      "line": 1,
+      "record": {
+        "requested_model": "cli:codex:gpt-5.6-sol",
+        "actual_model": null,
+        "usage": {
+          "input_tokens": 15622,
+          "cached_input_tokens": 11264,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 56,
+          "reasoning_output_tokens": 0
+        },
+        "seconds": 10.128,
+        "cost_usd": null
+      }
+    },
+    {
+      "file": "artifacts/baseline/judge-usage.jsonl",
+      "line": 2,
+      "record": {
+        "requested_model": "cli:codex:gpt-5.6-sol",
+        "actual_model": null,
+        "usage": {
+          "input_tokens": 15435,
+          "cached_input_tokens": 11264,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 24,
+          "reasoning_output_tokens": 0
+        },
+        "seconds": 10.274,
+        "cost_usd": null
+      }
+    },
+    {
+      "file": "artifacts/baseline/judge-usage.jsonl",
+      "line": 3,
+      "record": {
+        "requested_model": "cli:codex:gpt-5.6-sol",
+        "actual_model": null,
+        "usage": {
+          "input_tokens": 15625,
+          "cached_input_tokens": 11264,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 57,
+          "reasoning_output_tokens": 0
+        },
+        "seconds": 10.834,
+        "cost_usd": null
+      }
+    },
+    {
+      "file": "artifacts/final/holdout-usage.jsonl",
+      "line": 3,
+      "record": {
+        "requested_model": "cli:codex:gpt-5.6-sol",
+        "actual_model": null,
+        "usage": {
+          "input_tokens": 15450,
+          "cached_input_tokens": 11264,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 28,
+          "reasoning_output_tokens": 0
+        },
+        "seconds": 9.097,
+        "cost_usd": null
+      }
+    },
+    {
+      "file": "artifacts/final/holdout-usage.jsonl",
+      "line": 4,
+      "record": {
+        "requested_model": "cli:codex:gpt-5.6-sol",
+        "actual_model": null,
+        "usage": {
+          "input_tokens": 15613,
+          "cached_input_tokens": 11264,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 108,
+          "reasoning_output_tokens": 48
+        },
+        "seconds": 10.435,
+        "cost_usd": null
+      }
+    },
+    {
+      "file": "rounds/r001/judge-usage.jsonl",
+      "line": 1,
+      "record": {
+        "requested_model": "cli:codex:gpt-5.6-sol",
+        "actual_model": null,
+        "usage": {
+          "input_tokens": 15505,
+          "cached_input_tokens": 11264,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 29,
+          "reasoning_output_tokens": 0
+        },
+        "seconds": 10.158,
+        "cost_usd": null
+      }
+    },
+    {
+      "file": "rounds/r001/judge-usage.jsonl",
+      "line": 2,
+      "record": {
+        "requested_model": "cli:codex:gpt-5.6-sol",
+        "actual_model": null,
+        "usage": {
+          "input_tokens": 15693,
+          "cached_input_tokens": 11264,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 174,
+          "reasoning_output_tokens": 115
+        },
+        "seconds": 11.616,
+        "cost_usd": null
+      }
+    },
+    {
+      "file": "rounds/r001/judge-usage.jsonl",
+      "line": 3,
+      "record": {
+        "requested_model": "cli:codex:gpt-5.6-sol",
+        "actual_model": null,
+        "usage": {
+          "input_tokens": 15686,
+          "cached_input_tokens": 11264,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 272,
+          "reasoning_output_tokens": 212
+        },
+        "seconds": 13.312,
+        "cost_usd": null
+      }
+    },
+    {
+      "file": "rounds/r002/judge-usage.jsonl",
+      "line": 1,
+      "record": {
+        "requested_model": "cli:codex:gpt-5.6-sol",
+        "actual_model": null,
+        "usage": {
+          "input_tokens": 15675,
+          "cached_input_tokens": 11264,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 58,
+          "reasoning_output_tokens": 0
+        },
+        "seconds": 9.776,
+        "cost_usd": null
+      }
+    },
+    {
+      "file": "rounds/r002/judge-usage.jsonl",
+      "line": 2,
+      "record": {
+        "requested_model": "cli:codex:gpt-5.6-sol",
+        "actual_model": null,
+        "usage": {
+          "input_tokens": 15680,
+          "cached_input_tokens": 11264,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 57,
+          "reasoning_output_tokens": 0
+        },
+        "seconds": 10.3,
+        "cost_usd": null
+      }
+    },
+    {
+      "file": "rounds/r002/judge-usage.jsonl",
+      "line": 3,
+      "record": {
+        "requested_model": "cli:codex:gpt-5.6-sol",
+        "actual_model": null,
+        "usage": {
+          "input_tokens": 15494,
+          "cached_input_tokens": 11264,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 73,
+          "reasoning_output_tokens": 47
+        },
+        "seconds": 10.893,
+        "cost_usd": null
+      }
+    },
+    {
+      "file": "rounds/r003/judge-usage.jsonl",
+      "line": 1,
+      "record": {
+        "requested_model": "cli:codex:gpt-5.6-sol",
+        "actual_model": null,
+        "usage": {
+          "input_tokens": 15474,
+          "cached_input_tokens": 11264,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 24,
+          "reasoning_output_tokens": 0
+        },
+        "seconds": 10.48,
+        "cost_usd": null
+      }
+    },
+    {
+      "file": "rounds/r003/judge-usage.jsonl",
+      "line": 2,
+      "record": {
+        "requested_model": "cli:codex:gpt-5.6-sol",
+        "actual_model": null,
+        "usage": {
+          "input_tokens": 15658,
+          "cached_input_tokens": 11264,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 57,
+          "reasoning_output_tokens": 0
+        },
+        "seconds": 12.222,
+        "cost_usd": null
+      }
+    },
+    {
+      "file": "rounds/r003/judge-usage.jsonl",
+      "line": 3,
+      "record": {
+        "requested_model": "cli:codex:gpt-5.6-sol",
+        "actual_model": null,
+        "usage": {
+          "input_tokens": 15653,
+          "cached_input_tokens": 11264,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 208,
+          "reasoning_output_tokens": 151
+        },
+        "seconds": 12.97,
+        "cost_usd": null
+      }
+    }
+  ]
+}

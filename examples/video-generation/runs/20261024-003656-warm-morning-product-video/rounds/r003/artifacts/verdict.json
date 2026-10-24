@@ -1,0 +1,10 @@
+{
+  "score": 0.0,
+  "gates": {
+    "prepare": false
+  },
+  "feedback": "prepare step failed: 视频服务返回错误：null",
+  "metrics": {},
+  "seconds": 8.665108000000004,
+  "error": ""
+}

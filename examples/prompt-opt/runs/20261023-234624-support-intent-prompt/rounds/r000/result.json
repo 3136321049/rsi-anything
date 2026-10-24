@@ -1,0 +1,23 @@
+{
+  "round": 0,
+  "status": "BASELINE",
+  "hypothesis": "",
+  "score": 89.6,
+  "best": 89.6,
+  "gates": {
+    "prompt_present": true,
+    "exit_code": true
+  },
+  "feedback": "43/48 correct with cli:codex:gpt-5.6-sol. Most common mistakes: expected cancel_order, got other (x3); expected wrong_item, got refund (x1); expected payment, got other (x1)\nExamples:\nexpected wrong_item, got refund: 饭到了但是少了一份米饭，退钱吧\nexpected payment, got other: 能开发票吗？公司报销要用\nexpected cancel_order, got other: 能帮我把地址改成公司吗？订单刚下\nexpected cancel_order, got other: Can you add a side of fries to the order I just placed?\nexpected cancel_order, got other: 麻烦备注一下不要香菜，刚才忘写了",
+  "commit": "4122571670f4",
+  "changed": [],
+  "ignored": [],
+  "agent_seconds": 0.0,
+  "judge_seconds": 10.886793959,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "artifacts/baseline",
+  "holdout": 82.8,
+  "note": "",
+  "time": "2026-10-23T15:46:35+00:00"
+}

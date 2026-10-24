@@ -1,0 +1,14 @@
+{
+  "score": 82.8,
+  "gates": {
+    "prompt_present": true,
+    "exit_code": true
+  },
+  "feedback": "24/29 correct with cli:codex:gpt-5.6-sol. Most common mistakes: expected cancel_order, got other (x2); expected payment, got other (x1); expected payment, got refund (x1); expected payment, got praise (x1)\nExamples:\nexpected payment, got other: Need a VAT invoice for this order\nexpected payment, got refund: Can I get a refund on the coupon I couldn't use at checkout?\nexpected cancel_order, got other: I need to change the delivery address, I put my old apartment\nexpected cancel_order, got other: 能不能帮我把奶茶改成去冰，订单还没做吧\nexpected payment, got praise: 骑手冒雨送餐太辛苦了，我想补一个小费",
+  "metrics": {
+    "model": "cli:codex:gpt-5.6-sol",
+    "errors": 0
+  },
+  "seconds": 11.487615666999998,
+  "error": ""
+}

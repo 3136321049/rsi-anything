@@ -5,6 +5,7 @@ goal: |
   The prompt must work for any new message, so write general rules, not answers for specific examples.
 artifact:
   - prompt.md
+outputs: [out]
 judge:
   type: command
   run: "{python} judge/evaluate.py judge/dev.jsonl"

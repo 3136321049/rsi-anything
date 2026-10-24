@@ -1,0 +1,1637 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSI run 20261024-001816-reusable-writing-guide</title>
+<style>
+:root { --bg:#fbfaf7; --fg:#1d1d1b; --muted:#6b6a64; --line:#e4e1d8; --accent:#2f6fde; --keep:#1f9d55; --drop:#b7b3a6; }
+@media (prefers-color-scheme: dark) { :root { --bg:#161614; --fg:#ecebe6; --muted:#a3a198; --line:#2c2b27; --accent:#7aa7ff; --keep:#4cc38a; --drop:#5b5950; } }
+body { background:var(--bg); color:var(--fg); font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; margin:0; }
+main { max-width:960px; margin:0 auto; padding:32px 16px 64px; }
+h1 { font-size:22px; margin:0 0 4px; } .muted { color:var(--muted); }
+.stats { display:flex; gap:24px; flex-wrap:wrap; margin:20px 0; } .stat b { display:block; font-size:26px; }
+svg { width:100%; height:auto; border:1px solid var(--line); border-radius:8px; }
+.best { fill:none; stroke:var(--accent); stroke-width:2; } .kept { fill:var(--keep); } .dropped { fill:var(--drop); }
+.tick { fill:var(--muted); font-size:11px; }
+table { width:100%; border-collapse:collapse; margin-top:20px; font-size:14px; }
+td,th { border-bottom:1px solid var(--line); padding:6px 8px; text-align:left; vertical-align:top; }
+tr.s-keep td:nth-child(2) { color:var(--keep); font-weight:600; }
+pre { overflow-x:auto; background:color-mix(in srgb, var(--line) 40%, transparent); padding:12px; border-radius:8px; }
+details { border:1px solid var(--line); border-radius:8px; padding:12px; margin:12px 0; } summary { cursor:pointer; font-weight:600; }
+.artifact img,.artifact video { max-width:100%; max-height:560px; } .artifact pre { max-height:420px; white-space:pre-wrap; overflow:auto; } a { color:var(--accent); }
+</style></head><body><main>
+<h1>reusable-writing-guide</h1>
+<div class="muted">改进 writing-guide.md，让固定写手按照它为不同产品写出具体、有用、符合事实的小红书笔记。
+每轮只改手册，不改产品资料和评分。手册应该教会写手如何理解读者、选择开头、组织信息和给出自然的行动提示。
+评审会给出三个简报的实际生成稿；优先修复共性问题，不把某份简报的答案硬写进手册。</div>
+<p class="muted">运行状态：finished。已保存 32 条模型调用记录；调用费用：工具未提供。</p>
+<p><a href="config/rsi.yaml">任务配置</a> · <a href="config/execution.json">模型与运行参数</a></p>
+<div class="stats">
+<div class="stat"><span class="muted">baseline</span><b>62</b></div>
+<div class="stat"><span class="muted">best</span><b>74.5</b></div>
+<div class="stat"><span class="muted">rounds / kept</span><b>5 / 2</b></div>
+<div class="stat"><span class="muted">agent</span><b style="font-size:16px">codex</b></div>
+</div>
+<svg viewBox="0 0 720 260" role="img" aria-label="score by round"><polyline points="48.0,210.3 179.2,104.3 310.4,33.7 441.6,33.7 572.8,33.7 704.0,33.7" class="best"/><circle cx="48.0" cy="210.3" r="5" class="kept"><title>r0 BASELINE 62</title></circle><circle cx="179.2" cy="104.3" r="5" class="kept"><title>r1 KEEP 69.5</title></circle><circle cx="310.4" cy="33.7" r="5" class="kept"><title>r2 KEEP 74.5</title></circle><circle cx="441.6" cy="69.0" r="3.5" class="dropped"><title>r3 REVERT 72</title></circle><circle cx="572.8" cy="69.0" r="3.5" class="dropped"><title>r4 REVERT 72</title></circle><circle cx="704.0" cy="111.4" r="3.5" class="dropped"><title>r5 REVERT 69</title></circle><text x="40" y="210.3" class="tick" text-anchor="end">62</text><text x="40" y="122.0" class="tick" text-anchor="end">68.2</text><text x="40" y="33.7" class="tick" text-anchor="end">74.5</text><text x="48.0" y="250" class="tick" text-anchor="middle">r0</text><text x="179.2" y="250" class="tick" text-anchor="middle">r1</text><text x="310.4" y="250" class="tick" text-anchor="middle">r2</text><text x="441.6" y="250" class="tick" text-anchor="middle">r3</text><text x="572.8" y="250" class="tick" text-anchor="middle">r4</text><text x="704.0" y="250" class="tick" text-anchor="middle">r5</text></svg>
+<p class="muted">Line: best score so far. Green: kept. Grey: judged and thrown away.
+Hold-out judge (never shown to the agent): 69 → 77.5.
+Stopped: reached 5 rounds.</p>
+<table><thead><tr><th>round</th><th>status</th><th>score</th><th>best</th><th>change</th><th>why</th></tr></thead>
+<tbody><tr class='s-baseline'><td>0</td><td>◆ BASELINE</td><td>62</td><td>62</td><td>baseline</td><td></td></tr><tr class='s-keep'><td>1</td><td>▲ KEEP</td><td>69.5</td><td>69.5</td><td>将写作主线改为围绕读者的具体决定组织开头、事实与行动提示，预计能提升读者针对性，减少模板感。</td><td>score 62 -&gt; 69.5; head-to-head 2/2</td></tr><tr class='s-keep'><td>2</td><td>▲ KEEP</td><td>74.5</td><td>74.5</td><td>让正文顺序和篇幅取决于读者最具体的顾虑，并要求删除通用套句与写作背景，预计能减少模板感，提升读者针对性和表达自然度。</td><td>score 69.5 -&gt; 74.5; head-to-head 2/2</td></tr><tr class='s-revert'><td>3</td><td>· REVERT</td><td>72</td><td>74.5</td><td>让写手按读者所处阶段选择首要顾虑，用事实直接回答，并集中交代同一条件，预计能提升读者匹配度、减少说明式套话和重复。</td><td>score 72 is not better than 74.5 (required margin: 0 or 0%)</td></tr><tr class='s-revert'><td>4</td><td>· REVERT</td><td>72</td><td>74.5</td><td>让开头优先用事实回应尝试或使用产品的顾虑，避免过早转向流程条件和泛泛提醒，预计能提升读者匹配度与表达自然度。</td><td>score 72 is not better than 74.5 (required margin: 0 or 0%)</td></tr><tr class='s-revert'><td>5</td><td>· REVERT</td><td>69</td><td>74.5</td><td>要求用具体事实替代泛泛提醒，同一条件只说清一次，预计能减少说明腔和重复，提升表达自然度与信息实用性。</td><td>score 69 is not better than 74.5 (required margin: 0 or 0%)</td></tr></tbody></table>
+<h2>产物版本</h2><details><summary>初始产物</summary><div class='artifact'><p><a href="artifacts/baseline/files/out/coffee.md">out/coffee.md</a></p><pre>赶地铁，也能预约晨间咖啡☕
+
+早上赶地铁的上班族，可以了解一下「巷口咖啡晨间自取」。工作日07:30至10:00提供自取，门店距离地铁口步行3分钟，晨间买咖啡多了一个选择。
+
+想怎么点、到店怎么拿？这几项先记好：
+
+☕ 美式16元，拿铁22元，可以按自己的喜好选择。
+📱 手机点单后，可预约15分钟内的取餐时段。
+🛍️ 到店后，在标有预约时段的架子上取杯，按自己预约的时段找就好。
+🥤 自带杯减2元，有带杯习惯的话也可以留意。
+
+想了解详情，可以在门店小程序选择「晨间自取」，查看并选择取餐时段。
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/gates.json">out/gates.json</a></p><pre>{&quot;all_briefs_generated&quot;: true, &quot;guide_present&quot;: true}</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/generation.json">out/generation.json</a></p><pre>{
+  &quot;split&quot;: &quot;development&quot;,
+  &quot;synthetic_briefs&quot;: true,
+  &quot;calls&quot;: [
+    {
+      &quot;id&quot;: &quot;coffee&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16334,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 200,
+        &quot;reasoning_output_tokens&quot;: 0
+      },
+      &quot;seconds&quot;: 16.024874417000003,
+      &quot;file&quot;: &quot;coffee.md&quot;
+    },
+    {
+      &quot;id&quot;: &quot;repair&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16328,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 184,
+        &quot;reasoning_output_tokens&quot;: 0
+      },
+      &quot;seconds&quot;: 16.109936083999997,
+      &quot;file&quot;: &quot;repair.md&quot;
+    },
+    {
+      &quot;id&quot;: &quot;pottery&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16321,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 194,
+        &quot;reasoning_output_tokens&quot;: 0
+      },
+      &quot;seconds&quot;: 15.160044792,
+      &quot;file&quot;: &quot;pottery.md&quot;
+    }
+  ],
+  &quot;errors&quot;: []
+}
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/notes.txt">out/notes.txt</a></p><pre>development：固定写手 cli:codex:gpt-6.1-sol 已生成 3/3 份简报的文案。</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/posts.html">out/posts.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;手册生成的文案&lt;/title&gt;&lt;style&gt;body{max-width:850px;margin:40px auto;padding:20px;font:17px/1.8 system-ui}pre{white-space:pre-wrap}&lt;/style&gt;&lt;h1&gt;手册生成的文案&lt;/h1&gt;&lt;pre&gt;# 简报 coffee
+
+产品：巷口咖啡晨间自取
+
+目标读者：早上赶地铁的上班族
+
+给定事实：工作日07:30至10:00提供自取；美式16元，拿铁22元；手机点单后可预约15分钟内的取餐时段；到店后在标有预约时段的架子上取杯；门店距离地铁口步行3分钟；自带杯减2元
+
+给定行动入口：在门店小程序选择晨间自取
+
+## 生成稿
+
+赶地铁，也能预约晨间咖啡☕
+
+早上赶地铁的上班族，可以了解一下「巷口咖啡晨间自取」。工作日07:30至10:00提供自取，门店距离地铁口步行3分钟，晨间买咖啡多了一个选择。
+
+想怎么点、到店怎么拿？这几项先记好：
+
+☕ 美式16元，拿铁22元，可以按自己的喜好选择。
+📱 手机点单后，可预约15分钟内的取餐时段。
+🛍️ 到店后，在标有预约时段的架子上取杯，按自己预约的时段找就好。
+🥤 自带杯减2元，有带杯习惯的话也可以留意。
+
+想了解详情，可以在门店小程序选择「晨间自取」，查看并选择取餐时段。
+
+---
+
+# 简报 repair
+
+产品：周末自行车检查台
+
+目标读者：车放了一个冬天、准备恢复通勤的人
+
+给定事实：周六10:00至16:00开放；基础检查29元，约20分钟；包含胎压、刹车、链条和车灯检查；发现需换配件时先报价，经车主同意再换；不含配件价格；可预约整点或半点时段
+
+给定行动入口：在店铺页面预约检查时段
+
+## 生成稿
+
+冬眠后的自行车，先做个检查
+
+车放了一个冬天，准备重新骑车通勤？可以了解一下「周末自行车检查台」。周六10:00至16:00开放，基础检查29元，约需20分钟，恢复通勤前可以安排一个时段来检查。
+
+检查包含四项：胎压、刹车、链条和车灯。想把这几处一起检查一下，可以预约这项基础服务。
+
+费用也说清楚：29元不含配件价格。如果检查时发现需要更换配件，会先报价，等车主同意后再换。
+
+预约可以选择整点或半点时段，按自己的周六安排挑选就好。准备把自行车重新用起来的话，欢迎到店铺页面了解详情，预约检查时段。
+
+---
+
+# 简报 pottery
+
+产品：泥点陶艺入门课
+
+目标读者：想尝试手作但没有经验的成年人
+
+给定事实：每周日下午14:00开始，课程90分钟；每人128元；最多8人一班；包含材料、工具和一次烧制；作品需烧制后约两周领取；围裙由工作室提供，建议穿方便活动的衣服
+
+给定行动入口：在工作室公众号回复入门课查看名额
+
+## 生成稿
+
+第一次尝试陶艺，从泥点开始
+
+想试试手作，又没有经验？可以了解一下「泥点陶艺入门课」，面向想尝试手作但没有经验的成年人。先把课程安排和参与前需要知道的事放在这里，方便你看看是否合适。
+
+🕑 时间与人数
+每周日下午14:00开始，每次90分钟，最多8人一班。安排时间时，记得留出完整的上课时间。
+
+🧰 费用与包含内容
+每人128元，包含材料、工具和一次烧制。作品需要经过烧制，约两周后领取，上课当天还不能带走哦。
+
+👕 穿着准备
+围裙由工作室提供，建议穿方便活动的衣服来参加。
+
+想了解详情，可以在工作室公众号回复「入门课」查看名额。&lt;/pre&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/posts.md">out/posts.md</a></p><pre># 简报 coffee
+
+产品：巷口咖啡晨间自取
+
+目标读者：早上赶地铁的上班族
+
+给定事实：工作日07:30至10:00提供自取；美式16元，拿铁22元；手机点单后可预约15分钟内的取餐时段；到店后在标有预约时段的架子上取杯；门店距离地铁口步行3分钟；自带杯减2元
+
+给定行动入口：在门店小程序选择晨间自取
+
+## 生成稿
+
+赶地铁，也能预约晨间咖啡☕
+
+早上赶地铁的上班族，可以了解一下「巷口咖啡晨间自取」。工作日07:30至10:00提供自取，门店距离地铁口步行3分钟，晨间买咖啡多了一个选择。
+
+想怎么点、到店怎么拿？这几项先记好：
+
+☕ 美式16元，拿铁22元，可以按自己的喜好选择。
+📱 手机点单后，可预约15分钟内的取餐时段。
+🛍️ 到店后，在标有预约时段的架子上取杯，按自己预约的时段找就好。
+🥤 自带杯减2元，有带杯习惯的话也可以留意。
+
+想了解详情，可以在门店小程序选择「晨间自取」，查看并选择取餐时段。
+
+---
+
+# 简报 repair
+
+产品：周末自行车检查台
+
+目标读者：车放了一个冬天、准备恢复通勤的人
+
+给定事实：周六10:00至16:00开放；基础检查29元，约20分钟；包含胎压、刹车、链条和车灯检查；发现需换配件时先报价，经车主同意再换；不含配件价格；可预约整点或半点时段
+
+给定行动入口：在店铺页面预约检查时段
+
+## 生成稿
+
+冬眠后的自行车，先做个检查
+
+车放了一个冬天，准备重新骑车通勤？可以了解一下「周末自行车检查台」。周六10:00至16:00开放，基础检查29元，约需20分钟，恢复通勤前可以安排一个时段来检查。
+
+检查包含四项：胎压、刹车、链条和车灯。想把这几处一起检查一下，可以预约这项基础服务。
+
+费用也说清楚：29元不含配件价格。如果检查时发现需要更换配件，会先报价，等车主同意后再换。
+
+预约可以选择整点或半点时段，按自己的周六安排挑选就好。准备把自行车重新用起来的话，欢迎到店铺页面了解详情，预约检查时段。
+
+---
+
+# 简报 pottery
+
+产品：泥点陶艺入门课
+
+目标读者：想尝试手作但没有经验的成年人
+
+给定事实：每周日下午14:00开始，课程90分钟；每人128元；最多8人一班；包含材料、工具和一次烧制；作品需烧制后约两周领取；围裙由工作室提供，建议穿方便活动的衣服
+
+给定行动入口：在工作室公众号回复入门课查看名额
+
+## 生成稿
+
+第一次尝试陶艺，从泥点开始
+
+想试试手作，又没有经验？可以了解一下「泥点陶艺入门课」，面向想尝试手作但没有经验的成年人。先把课程安排和参与前需要知道的事放在这里，方便你看看是否合适。
+
+🕑 时间与人数
+每周日下午14:00开始，每次90分钟，最多8人一班。安排时间时，记得留出完整的上课时间。
+
+🧰 费用与包含内容
+每人128元，包含材料、工具和一次烧制。作品需要经过烧制，约两周后领取，上课当天还不能带走哦。
+
+👕 穿着准备
+围裙由工作室提供，建议穿方便活动的衣服来参加。
+
+想了解详情，可以在工作室公众号回复「入门课」查看名额。
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/pottery.md">out/pottery.md</a></p><pre>第一次尝试陶艺，从泥点开始
+
+想试试手作，又没有经验？可以了解一下「泥点陶艺入门课」，面向想尝试手作但没有经验的成年人。先把课程安排和参与前需要知道的事放在这里，方便你看看是否合适。
+
+🕑 时间与人数
+每周日下午14:00开始，每次90分钟，最多8人一班。安排时间时，记得留出完整的上课时间。
+
+🧰 费用与包含内容
+每人128元，包含材料、工具和一次烧制。作品需要经过烧制，约两周后领取，上课当天还不能带走哦。
+
+👕 穿着准备
+围裙由工作室提供，建议穿方便活动的衣服来参加。
+
+想了解详情，可以在工作室公众号回复「入门课」查看名额。
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/repair.md">out/repair.md</a></p><pre>冬眠后的自行车，先做个检查
+
+车放了一个冬天，准备重新骑车通勤？可以了解一下「周末自行车检查台」。周六10:00至16:00开放，基础检查29元，约需20分钟，恢复通勤前可以安排一个时段来检查。
+
+检查包含四项：胎压、刹车、链条和车灯。想把这几处一起检查一下，可以预约这项基础服务。
+
+费用也说清楚：29元不含配件价格。如果检查时发现需要更换配件，会先报价，等车主同意后再换。
+
+预约可以选择整点或半点时段，按自己的周六安排挑选就好。准备把自行车重新用起来的话，欢迎到店铺页面了解详情，预约检查时段。
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/writing-guide.md">writing-guide.md</a></p><pre># 产品笔记写作手册
+
+先介绍产品，再罗列特点，最后邀请读者了解详情。
+语气友好，使用短段落。内容只能来自简报，不添加没有给出的价格、用户评价和效果承诺。
+标题不超过20字，正文控制在180到400个中文字符左右。
+</pre></div></details><details><summary>第 1 轮 · KEEP</summary><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/coffee.md">out/coffee.md</a></p><pre>赶地铁，先约好晨间咖啡
+
+早上要赶地铁，买咖啡也得看取餐时间能不能接上行程。巷口咖啡的晨间自取在工作日07:30—10:00提供，手机点单后，可以预约15分钟内的取餐时段，适合先看好出门时间再下单。
+
+到店后，在标有预约时段的架子上取杯。门店距离地铁口步行3分钟，安排取餐时，记得把这段路程也算进上班时间里。
+
+喝什么、花多少，也可以提前定：美式16元，拿铁22元，自带杯减2元。想用自带杯优惠，可以先确认具体取餐安排。
+
+如果营业时间和路线合适，就在门店小程序选择「晨间自取」，按自己的行程预约取餐时段。
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{&quot;all_briefs_generated&quot;: true, &quot;guide_present&quot;: true}</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/generation.json">out/generation.json</a></p><pre>{
+  &quot;split&quot;: &quot;development&quot;,
+  &quot;synthetic_briefs&quot;: true,
+  &quot;calls&quot;: [
+    {
+      &quot;id&quot;: &quot;coffee&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16680,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 250,
+        &quot;reasoning_output_tokens&quot;: 40
+      },
+      &quot;seconds&quot;: 18.125382083999998,
+      &quot;file&quot;: &quot;coffee.md&quot;
+    },
+    {
+      &quot;id&quot;: &quot;repair&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16676,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 201,
+        &quot;reasoning_output_tokens&quot;: 0
+      },
+      &quot;seconds&quot;: 17.113807541,
+      &quot;file&quot;: &quot;repair.md&quot;
+    },
+    {
+      &quot;id&quot;: &quot;pottery&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16663,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 176,
+        &quot;reasoning_output_tokens&quot;: 0
+      },
+      &quot;seconds&quot;: 14.776427374999997,
+      &quot;file&quot;: &quot;pottery.md&quot;
+    }
+  ],
+  &quot;errors&quot;: []
+}
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>development：固定写手 cli:codex:gpt-6.1-sol 已生成 3/3 份简报的文案。</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/posts.html">out/posts.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;手册生成的文案&lt;/title&gt;&lt;style&gt;body{max-width:850px;margin:40px auto;padding:20px;font:17px/1.8 system-ui}pre{white-space:pre-wrap}&lt;/style&gt;&lt;h1&gt;手册生成的文案&lt;/h1&gt;&lt;pre&gt;# 简报 coffee
+
+产品：巷口咖啡晨间自取
+
+目标读者：早上赶地铁的上班族
+
+给定事实：工作日07:30至10:00提供自取；美式16元，拿铁22元；手机点单后可预约15分钟内的取餐时段；到店后在标有预约时段的架子上取杯；门店距离地铁口步行3分钟；自带杯减2元
+
+给定行动入口：在门店小程序选择晨间自取
+
+## 生成稿
+
+赶地铁，先约好晨间咖啡
+
+早上要赶地铁，买咖啡也得看取餐时间能不能接上行程。巷口咖啡的晨间自取在工作日07:30—10:00提供，手机点单后，可以预约15分钟内的取餐时段，适合先看好出门时间再下单。
+
+到店后，在标有预约时段的架子上取杯。门店距离地铁口步行3分钟，安排取餐时，记得把这段路程也算进上班时间里。
+
+喝什么、花多少，也可以提前定：美式16元，拿铁22元，自带杯减2元。想用自带杯优惠，可以先确认具体取餐安排。
+
+如果营业时间和路线合适，就在门店小程序选择「晨间自取」，按自己的行程预约取餐时段。
+
+---
+
+# 简报 repair
+
+产品：周末自行车检查台
+
+目标读者：车放了一个冬天、准备恢复通勤的人
+
+给定事实：周六10:00至16:00开放；基础检查29元，约20分钟；包含胎压、刹车、链条和车灯检查；发现需换配件时先报价，经车主同意再换；不含配件价格；可预约整点或半点时段
+
+给定行动入口：在店铺页面预约检查时段
+
+## 生成稿
+
+标题：恢复骑车通勤前，先检查这几处
+
+正文：
+自行车放了一个冬天，准备重新骑它上下班，可以先安排一次基础检查。周末自行车检查台会检查胎压、刹车、链条和车灯，让这次恢复通勤前的检查有个明确范围。
+
+基础检查29元，约20分钟，不含配件价格。如果检查发现需要换配件，会先报价，经过你同意再换。检查费和换件费用分开，是否更换可以在知道报价后决定。
+
+检查台周六10:00至16:00开放，可预约整点或半点时段。安排周末行程时，可以把约20分钟的检查时间考虑进去；如果涉及换件，简报没有说明所需时间，需要另行确认。
+
+准备好周六的安排后，就到店铺页面选择检查时段并预约。
+
+---
+
+# 简报 pottery
+
+产品：泥点陶艺入门课
+
+目标读者：想尝试手作但没有经验的成年人
+
+给定事实：每周日下午14:00开始，课程90分钟；每人128元；最多8人一班；包含材料、工具和一次烧制；作品需烧制后约两周领取；围裙由工作室提供，建议穿方便活动的衣服
+
+给定行动入口：在工作室公众号回复入门课查看名额
+
+## 生成稿
+
+第一次做陶艺，先看时间和安排
+
+想试试手作，又没有经验，可以看看泥点陶艺入门课。课程面向想尝试手作的成年人，每班最多8人，每周日下午14:00开始，一次90分钟，先看这个时间是否适合自己的周末安排。
+
+每人128元，包含材料、工具和一次烧制，不用另外准备材料和工具。工作室也会提供围裙，穿方便活动的衣服去就好。
+
+决定前还要留意：作品需要烧制，不能上完课当天带走，约两周后领取。除了留出上课时间，也要考虑后续领取作品的安排。
+
+如果时间和领取安排都合适，可以在工作室公众号回复“入门课”查看名额。&lt;/pre&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/posts.md">out/posts.md</a></p><pre># 简报 coffee
+
+产品：巷口咖啡晨间自取
+
+目标读者：早上赶地铁的上班族
+
+给定事实：工作日07:30至10:00提供自取；美式16元，拿铁22元；手机点单后可预约15分钟内的取餐时段；到店后在标有预约时段的架子上取杯；门店距离地铁口步行3分钟；自带杯减2元
+
+给定行动入口：在门店小程序选择晨间自取
+
+## 生成稿
+
+赶地铁，先约好晨间咖啡
+
+早上要赶地铁，买咖啡也得看取餐时间能不能接上行程。巷口咖啡的晨间自取在工作日07:30—10:00提供，手机点单后，可以预约15分钟内的取餐时段，适合先看好出门时间再下单。
+
+到店后，在标有预约时段的架子上取杯。门店距离地铁口步行3分钟，安排取餐时，记得把这段路程也算进上班时间里。
+
+喝什么、花多少，也可以提前定：美式16元，拿铁22元，自带杯减2元。想用自带杯优惠，可以先确认具体取餐安排。
+
+如果营业时间和路线合适，就在门店小程序选择「晨间自取」，按自己的行程预约取餐时段。
+
+---
+
+# 简报 repair
+
+产品：周末自行车检查台
+
+目标读者：车放了一个冬天、准备恢复通勤的人
+
+给定事实：周六10:00至16:00开放；基础检查29元，约20分钟；包含胎压、刹车、链条和车灯检查；发现需换配件时先报价，经车主同意再换；不含配件价格；可预约整点或半点时段
+
+给定行动入口：在店铺页面预约检查时段
+
+## 生成稿
+
+标题：恢复骑车通勤前，先检查这几处
+
+正文：
+自行车放了一个冬天，准备重新骑它上下班，可以先安排一次基础检查。周末自行车检查台会检查胎压、刹车、链条和车灯，让这次恢复通勤前的检查有个明确范围。
+
+基础检查29元，约20分钟，不含配件价格。如果检查发现需要换配件，会先报价，经过你同意再换。检查费和换件费用分开，是否更换可以在知道报价后决定。
+
+检查台周六10:00至16:00开放，可预约整点或半点时段。安排周末行程时，可以把约20分钟的检查时间考虑进去；如果涉及换件，简报没有说明所需时间，需要另行确认。
+
+准备好周六的安排后，就到店铺页面选择检查时段并预约。
+
+---
+
+# 简报 pottery
+
+产品：泥点陶艺入门课
+
+目标读者：想尝试手作但没有经验的成年人
+
+给定事实：每周日下午14:00开始，课程90分钟；每人128元；最多8人一班；包含材料、工具和一次烧制；作品需烧制后约两周领取；围裙由工作室提供，建议穿方便活动的衣服
+
+给定行动入口：在工作室公众号回复入门课查看名额
+
+## 生成稿
+
+第一次做陶艺，先看时间和安排
+
+想试试手作，又没有经验，可以看看泥点陶艺入门课。课程面向想尝试手作的成年人，每班最多8人，每周日下午14:00开始，一次90分钟，先看这个时间是否适合自己的周末安排。
+
+每人128元，包含材料、工具和一次烧制，不用另外准备材料和工具。工作室也会提供围裙，穿方便活动的衣服去就好。
+
+决定前还要留意：作品需要烧制，不能上完课当天带走，约两周后领取。除了留出上课时间，也要考虑后续领取作品的安排。
+
+如果时间和领取安排都合适，可以在工作室公众号回复“入门课”查看名额。
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/pottery.md">out/pottery.md</a></p><pre>第一次做陶艺，先看时间和安排
+
+想试试手作，又没有经验，可以看看泥点陶艺入门课。课程面向想尝试手作的成年人，每班最多8人，每周日下午14:00开始，一次90分钟，先看这个时间是否适合自己的周末安排。
+
+每人128元，包含材料、工具和一次烧制，不用另外准备材料和工具。工作室也会提供围裙，穿方便活动的衣服去就好。
+
+决定前还要留意：作品需要烧制，不能上完课当天带走，约两周后领取。除了留出上课时间，也要考虑后续领取作品的安排。
+
+如果时间和领取安排都合适，可以在工作室公众号回复“入门课”查看名额。
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/repair.md">out/repair.md</a></p><pre>标题：恢复骑车通勤前，先检查这几处
+
+正文：
+自行车放了一个冬天，准备重新骑它上下班，可以先安排一次基础检查。周末自行车检查台会检查胎压、刹车、链条和车灯，让这次恢复通勤前的检查有个明确范围。
+
+基础检查29元，约20分钟，不含配件价格。如果检查发现需要换配件，会先报价，经过你同意再换。检查费和换件费用分开，是否更换可以在知道报价后决定。
+
+检查台周六10:00至16:00开放，可预约整点或半点时段。安排周末行程时，可以把约20分钟的检查时间考虑进去；如果涉及换件，简报没有说明所需时间，需要另行确认。
+
+准备好周六的安排后，就到店铺页面选择检查时段并预约。
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/writing-guide.md">writing-guide.md</a></p><pre># 产品笔记写作手册
+
+围绕读者的一次实际决定来写。动笔前先从简报找出：读者正要做什么，哪件具体的麻烦或顾虑最影响决定，哪些已知事实能帮助他判断。不要只把人群标签换进同一套句子，也不要替读者编造经历或情绪。
+
+开头先写这件具体的事，紧接着用简报里最相关的事实回应，并自然带出产品。可以直接交代安排、说明关键条件，或提出一个确实能回答的问题；选择取决于这份简报最值得先说什么，不固定使用疑问句或“可以了解一下”。标题也围绕这个具体需要，不只写产品名或泛泛的推荐。
+
+正文顺着读者的决定展开：是否适合自己、实际怎样参与或使用、决定前还需知道什么。把特点放回它所解决的问题里说清楚，不逐项堆卖点。涉及费用、准备、时间、预约等条件时，只选与本次决定有关且简报给出的内容；重要限制紧跟相关信息，不藏在结尾。读者可能关心但简报没说的事，不自行补全，也不当成已获保证。
+
+结尾顺着尚待完成的一步，说明读者可通过简报提供的入口做什么。入口和动作要对应；没有提供的预约方式、私信回复或联系方式不要添加。需要确认的信息可以提示先确认，不能把未知条件写成确定事实。避免开头和结尾重复邀请“了解详情”，不为凑完整而加一句泛泛的号召。
+
+语气友好，使用短段落。内容只能来自简报，不添加没有给出的价格、用户评价和效果承诺。
+标题不超过20字，正文控制在180到400个中文字符左右。
+</pre></div></details><details><summary>第 2 轮 · KEEP</summary><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/coffee.md">out/coffee.md</a></p><pre>标题：赶地铁，咖啡先约好取餐时段
+
+正文：
+早上要赶地铁，买咖啡可以先把取餐时段安排好。巷口咖啡晨间自取支持手机点单，能预约15分钟内的取餐时段；到店后，在标有预约时段的架子上取杯。
+
+选时段时，把去地铁口的路程也算进去：门店距离地铁口步行3分钟，可以结合自己的乘车安排选择取餐时段。
+
+晨间自取在工作日07:30至10:00提供，早上出发的时间要和这个时段对得上。美式16元，拿铁22元，自带杯减2元，点单时可以一起考虑。
+
+准备安排早上的咖啡，就到门店小程序选择「晨间自取」，再选咖啡和取餐时段。
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{&quot;all_briefs_generated&quot;: true, &quot;guide_present&quot;: true}</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/generation.json">out/generation.json</a></p><pre>{
+  &quot;split&quot;: &quot;development&quot;,
+  &quot;synthetic_briefs&quot;: true,
+  &quot;calls&quot;: [
+    {
+      &quot;id&quot;: &quot;coffee&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16877,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 209,
+        &quot;reasoning_output_tokens&quot;: 0
+      },
+      &quot;seconds&quot;: 14.837982042,
+      &quot;file&quot;: &quot;coffee.md&quot;
+    },
+    {
+      &quot;id&quot;: &quot;repair&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16869,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 207,
+        &quot;reasoning_output_tokens&quot;: 0
+      },
+      &quot;seconds&quot;: 15.579373917000002,
+      &quot;file&quot;: &quot;repair.md&quot;
+    },
+    {
+      &quot;id&quot;: &quot;pottery&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16862,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 218,
+        &quot;reasoning_output_tokens&quot;: 41
+      },
+      &quot;seconds&quot;: 17.60023675,
+      &quot;file&quot;: &quot;pottery.md&quot;
+    }
+  ],
+  &quot;errors&quot;: []
+}
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>development：固定写手 cli:codex:gpt-6.1-sol 已生成 3/3 份简报的文案。</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/posts.html">out/posts.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;手册生成的文案&lt;/title&gt;&lt;style&gt;body{max-width:850px;margin:40px auto;padding:20px;font:17px/1.8 system-ui}pre{white-space:pre-wrap}&lt;/style&gt;&lt;h1&gt;手册生成的文案&lt;/h1&gt;&lt;pre&gt;# 简报 coffee
+
+产品：巷口咖啡晨间自取
+
+目标读者：早上赶地铁的上班族
+
+给定事实：工作日07:30至10:00提供自取；美式16元，拿铁22元；手机点单后可预约15分钟内的取餐时段；到店后在标有预约时段的架子上取杯；门店距离地铁口步行3分钟；自带杯减2元
+
+给定行动入口：在门店小程序选择晨间自取
+
+## 生成稿
+
+标题：赶地铁，咖啡先约好取餐时段
+
+正文：
+早上要赶地铁，买咖啡可以先把取餐时段安排好。巷口咖啡晨间自取支持手机点单，能预约15分钟内的取餐时段；到店后，在标有预约时段的架子上取杯。
+
+选时段时，把去地铁口的路程也算进去：门店距离地铁口步行3分钟，可以结合自己的乘车安排选择取餐时段。
+
+晨间自取在工作日07:30至10:00提供，早上出发的时间要和这个时段对得上。美式16元，拿铁22元，自带杯减2元，点单时可以一起考虑。
+
+准备安排早上的咖啡，就到门店小程序选择「晨间自取」，再选咖啡和取餐时段。
+
+---
+
+# 简报 repair
+
+产品：周末自行车检查台
+
+目标读者：车放了一个冬天、准备恢复通勤的人
+
+给定事实：周六10:00至16:00开放；基础检查29元，约20分钟；包含胎压、刹车、链条和车灯检查；发现需换配件时先报价，经车主同意再换；不含配件价格；可预约整点或半点时段
+
+给定行动入口：在店铺页面预约检查时段
+
+## 生成稿
+
+标题：自行车放了一冬，通勤前先检查什么
+
+正文：
+准备把放了一个冬天的自行车重新骑去通勤，先查哪些地方、查出问题后要不要换配件，是这次检查要弄清楚的事。
+
+「周末自行车检查台」的基础检查包含胎压、刹车、链条和车灯，29元，约20分钟。恢复通勤前，可以安排一次检查，把这几处的情况先弄清楚。
+
+担心检查后直接换件、费用超出预期？发现需要更换配件时，会先报价，经你同意再换。29元是基础检查费用，不包含配件价格；是否更换，可以看过报价再决定。
+
+检查台周六10:00至16:00开放，可预约整点或半点时段。选好周六方便到店的时间，在店铺页面预约检查时段即可。
+
+---
+
+# 简报 pottery
+
+产品：泥点陶艺入门课
+
+目标读者：想尝试手作但没有经验的成年人
+
+给定事实：每周日下午14:00开始，课程90分钟；每人128元；最多8人一班；包含材料、工具和一次烧制；作品需烧制后约两周领取；围裙由工作室提供，建议穿方便活动的衣服
+
+给定行动入口：在工作室公众号回复入门课查看名额
+
+## 生成稿
+
+第一次做陶艺，先留出等作品的时间
+
+想试一次陶艺手作，先把上课和取作品的时间分开安排：泥点陶艺入门课的作品需要烧制，约两周后领取，不能上完课就带走。
+
+第一次尝试，要准备哪些东西？每人128元的费用已经包含材料、工具和一次烧制，围裙也由工作室提供。衣服建议选方便活动的，材料和工具不用自己另备。
+
+课程每周日下午14:00开始，一次90分钟，最多8人一班。安排周末时，除了留出上课的一个半小时，也记得把之后领取作品这一步考虑进去。
+
+想参加的话，在工作室公众号回复“入门课”，查看名额。&lt;/pre&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/posts.md">out/posts.md</a></p><pre># 简报 coffee
+
+产品：巷口咖啡晨间自取
+
+目标读者：早上赶地铁的上班族
+
+给定事实：工作日07:30至10:00提供自取；美式16元，拿铁22元；手机点单后可预约15分钟内的取餐时段；到店后在标有预约时段的架子上取杯；门店距离地铁口步行3分钟；自带杯减2元
+
+给定行动入口：在门店小程序选择晨间自取
+
+## 生成稿
+
+标题：赶地铁，咖啡先约好取餐时段
+
+正文：
+早上要赶地铁，买咖啡可以先把取餐时段安排好。巷口咖啡晨间自取支持手机点单，能预约15分钟内的取餐时段；到店后，在标有预约时段的架子上取杯。
+
+选时段时，把去地铁口的路程也算进去：门店距离地铁口步行3分钟，可以结合自己的乘车安排选择取餐时段。
+
+晨间自取在工作日07:30至10:00提供，早上出发的时间要和这个时段对得上。美式16元，拿铁22元，自带杯减2元，点单时可以一起考虑。
+
+准备安排早上的咖啡，就到门店小程序选择「晨间自取」，再选咖啡和取餐时段。
+
+---
+
+# 简报 repair
+
+产品：周末自行车检查台
+
+目标读者：车放了一个冬天、准备恢复通勤的人
+
+给定事实：周六10:00至16:00开放；基础检查29元，约20分钟；包含胎压、刹车、链条和车灯检查；发现需换配件时先报价，经车主同意再换；不含配件价格；可预约整点或半点时段
+
+给定行动入口：在店铺页面预约检查时段
+
+## 生成稿
+
+标题：自行车放了一冬，通勤前先检查什么
+
+正文：
+准备把放了一个冬天的自行车重新骑去通勤，先查哪些地方、查出问题后要不要换配件，是这次检查要弄清楚的事。
+
+「周末自行车检查台」的基础检查包含胎压、刹车、链条和车灯，29元，约20分钟。恢复通勤前，可以安排一次检查，把这几处的情况先弄清楚。
+
+担心检查后直接换件、费用超出预期？发现需要更换配件时，会先报价，经你同意再换。29元是基础检查费用，不包含配件价格；是否更换，可以看过报价再决定。
+
+检查台周六10:00至16:00开放，可预约整点或半点时段。选好周六方便到店的时间，在店铺页面预约检查时段即可。
+
+---
+
+# 简报 pottery
+
+产品：泥点陶艺入门课
+
+目标读者：想尝试手作但没有经验的成年人
+
+给定事实：每周日下午14:00开始，课程90分钟；每人128元；最多8人一班；包含材料、工具和一次烧制；作品需烧制后约两周领取；围裙由工作室提供，建议穿方便活动的衣服
+
+给定行动入口：在工作室公众号回复入门课查看名额
+
+## 生成稿
+
+第一次做陶艺，先留出等作品的时间
+
+想试一次陶艺手作，先把上课和取作品的时间分开安排：泥点陶艺入门课的作品需要烧制，约两周后领取，不能上完课就带走。
+
+第一次尝试，要准备哪些东西？每人128元的费用已经包含材料、工具和一次烧制，围裙也由工作室提供。衣服建议选方便活动的，材料和工具不用自己另备。
+
+课程每周日下午14:00开始，一次90分钟，最多8人一班。安排周末时，除了留出上课的一个半小时，也记得把之后领取作品这一步考虑进去。
+
+想参加的话，在工作室公众号回复“入门课”，查看名额。
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/pottery.md">out/pottery.md</a></p><pre>第一次做陶艺，先留出等作品的时间
+
+想试一次陶艺手作，先把上课和取作品的时间分开安排：泥点陶艺入门课的作品需要烧制，约两周后领取，不能上完课就带走。
+
+第一次尝试，要准备哪些东西？每人128元的费用已经包含材料、工具和一次烧制，围裙也由工作室提供。衣服建议选方便活动的，材料和工具不用自己另备。
+
+课程每周日下午14:00开始，一次90分钟，最多8人一班。安排周末时，除了留出上课的一个半小时，也记得把之后领取作品这一步考虑进去。
+
+想参加的话，在工作室公众号回复“入门课”，查看名额。
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/repair.md">out/repair.md</a></p><pre>标题：自行车放了一冬，通勤前先检查什么
+
+正文：
+准备把放了一个冬天的自行车重新骑去通勤，先查哪些地方、查出问题后要不要换配件，是这次检查要弄清楚的事。
+
+「周末自行车检查台」的基础检查包含胎压、刹车、链条和车灯，29元，约20分钟。恢复通勤前，可以安排一次检查，把这几处的情况先弄清楚。
+
+担心检查后直接换件、费用超出预期？发现需要更换配件时，会先报价，经你同意再换。29元是基础检查费用，不包含配件价格；是否更换，可以看过报价再决定。
+
+检查台周六10:00至16:00开放，可预约整点或半点时段。选好周六方便到店的时间，在店铺页面预约检查时段即可。
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/writing-guide.md">writing-guide.md</a></p><pre># 产品笔记写作手册
+
+围绕读者的一次实际决定来写。动笔前先从简报找出：读者正要做什么，哪件具体的麻烦或顾虑最影响决定，哪些已知事实能帮助他判断。不要只把人群标签换进同一套句子，也不要替读者编造经历或情绪。
+
+开头先写这件具体的事，紧接着用简报里最相关的事实回应，并自然带出产品。可以直接交代安排、说明关键条件，或提出一个确实能回答的问题；选择取决于这份简报最值得先说什么，不固定使用疑问句或“可以了解一下”。标题也围绕这个具体需要，不只写产品名或泛泛的推荐。
+
+正文先解决最影响这次决定的一个顾虑，再补足参与或使用所需的信息，不固定按时间、费用、预约的顺序展开。判断重点时，问自己：读者即使知道产品是什么，仍会因哪件具体的事犹豫？简报中哪条事实能直接回答？让这组顾虑与事实占据开头和正文的主要篇幅，其余条件放在相关处交代。把特点放回它所解决的问题里说清楚，不逐项堆卖点；不要把“没经验”“很忙”等人群描述本身当作顾虑的答案。涉及费用、准备、时间、预约等条件时，只选与本次决定有关且简报给出的内容；重要限制紧跟相关信息，不藏在结尾。读者可能关心但简报没说的事，不自行补全，也不当成已获保证。
+
+结尾顺着尚待完成的一步，说明读者可通过简报提供的入口做什么。入口和动作要对应；没有提供的预约方式、私信回复或联系方式不要添加。需要确认的信息可以提示先确认，不能把未知条件写成确定事实。避免开头和结尾重复邀请“了解详情”，不为凑完整而加一句泛泛的号召。
+
+语气友好，使用短段落。成稿只对读者说话，不出现“简报提到”“资料未说明”等写作背景，也不向读者解释自己的信息排序。读一遍开头、段落衔接和结尾：若换个产品名仍能原样使用，就用本篇最相关的事实重写，删掉没有新增信息的提醒和条件式邀请。表达差异来自不同顾虑和事实，不靠轮换同义句或添加口头禅。内容只能来自简报，不添加没有给出的价格、用户评价和效果承诺。
+标题不超过20字，正文控制在180到400个中文字符左右。
+</pre></div></details><details><summary>第 3 轮 · REVERT</summary><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/coffee.md">out/coffee.md</a></p><pre>赶地铁，咖啡提前约好取餐时段
+
+早上要赶地铁，想把买咖啡安排进通勤路程，可以在手机上先点单。巷口咖啡晨间自取支持预约15分钟内的取餐时段，门店距离地铁口步行3分钟，选时段时可以对照自己的到店时间和地铁安排。
+
+到店后，在标有预约时段的架子上取杯。取餐位置和预约时段对应，到了店就按自己选的时段找咖啡。
+
+晨间自取只在工作日07:30至10:00提供，适合这段时间经过门店的你。美式16元，拿铁22元；如果准备自带杯，可以减2元。
+
+想安排下一次上班路上的咖啡，在门店小程序选择「晨间自取」，点单并选好取餐时段。
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{&quot;all_briefs_generated&quot;: true, &quot;guide_present&quot;: true}</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/generation.json">out/generation.json</a></p><pre>{
+  &quot;split&quot;: &quot;development&quot;,
+  &quot;synthetic_briefs&quot;: true,
+  &quot;calls&quot;: [
+    {
+      &quot;id&quot;: &quot;coffee&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 17047,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 264,
+        &quot;reasoning_output_tokens&quot;: 48
+      },
+      &quot;seconds&quot;: 16.719937792,
+      &quot;file&quot;: &quot;coffee.md&quot;
+    },
+    {
+      &quot;id&quot;: &quot;repair&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 17043,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 172,
+        &quot;reasoning_output_tokens&quot;: 0
+      },
+      &quot;seconds&quot;: 14.425218375,
+      &quot;file&quot;: &quot;repair.md&quot;
+    },
+    {
+      &quot;id&quot;: &quot;pottery&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 17034,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 209,
+        &quot;reasoning_output_tokens&quot;: 27
+      },
+      &quot;seconds&quot;: 15.682497083999998,
+      &quot;file&quot;: &quot;pottery.md&quot;
+    }
+  ],
+  &quot;errors&quot;: []
+}
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>development：固定写手 cli:codex:gpt-6.1-sol 已生成 3/3 份简报的文案。</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/posts.html">out/posts.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;手册生成的文案&lt;/title&gt;&lt;style&gt;body{max-width:850px;margin:40px auto;padding:20px;font:17px/1.8 system-ui}pre{white-space:pre-wrap}&lt;/style&gt;&lt;h1&gt;手册生成的文案&lt;/h1&gt;&lt;pre&gt;# 简报 coffee
+
+产品：巷口咖啡晨间自取
+
+目标读者：早上赶地铁的上班族
+
+给定事实：工作日07:30至10:00提供自取；美式16元，拿铁22元；手机点单后可预约15分钟内的取餐时段；到店后在标有预约时段的架子上取杯；门店距离地铁口步行3分钟；自带杯减2元
+
+给定行动入口：在门店小程序选择晨间自取
+
+## 生成稿
+
+赶地铁，咖啡提前约好取餐时段
+
+早上要赶地铁，想把买咖啡安排进通勤路程，可以在手机上先点单。巷口咖啡晨间自取支持预约15分钟内的取餐时段，门店距离地铁口步行3分钟，选时段时可以对照自己的到店时间和地铁安排。
+
+到店后，在标有预约时段的架子上取杯。取餐位置和预约时段对应，到了店就按自己选的时段找咖啡。
+
+晨间自取只在工作日07:30至10:00提供，适合这段时间经过门店的你。美式16元，拿铁22元；如果准备自带杯，可以减2元。
+
+想安排下一次上班路上的咖啡，在门店小程序选择「晨间自取」，点单并选好取餐时段。
+
+---
+
+# 简报 repair
+
+产品：周末自行车检查台
+
+目标读者：车放了一个冬天、准备恢复通勤的人
+
+给定事实：周六10:00至16:00开放；基础检查29元，约20分钟；包含胎压、刹车、链条和车灯检查；发现需换配件时先报价，经车主同意再换；不含配件价格；可预约整点或半点时段
+
+给定行动入口：在店铺页面预约检查时段
+
+## 生成稿
+
+标题：自行车放了一冬，通勤前查什么？
+
+正文：
+准备把放了一个冬天的自行车重新骑去通勤，可以先安排一次检查。「周末自行车检查台」的基础检查包含胎压、刹车、链条和车灯，恢复通勤前，把这几项车况查一遍。
+
+检查中如果发现需要更换配件，会先报价，经你同意后再换。基础检查29元，不含配件价格；检查费用和可能产生的配件费用分开，是否更换由你确认。
+
+检查约需20分钟，周六10:00至16:00开放，可预约整点或半点时段。如果准备这周末带车过去，就到店铺页面预约一个检查时段。
+
+---
+
+# 简报 pottery
+
+产品：泥点陶艺入门课
+
+目标读者：想尝试手作但没有经验的成年人
+
+给定事实：每周日下午14:00开始，课程90分钟；每人128元；最多8人一班；包含材料、工具和一次烧制；作品需烧制后约两周领取；围裙由工作室提供，建议穿方便活动的衣服
+
+给定行动入口：在工作室公众号回复入门课查看名额
+
+## 生成稿
+
+第一次尝试陶艺，要准备什么？
+
+想试试陶艺手作，却还没置办材料和工具？泥点陶艺入门课每人128元，费用包含材料、工具和一次烧制，围裙也由工作室提供。穿方便活动的衣服来参加就好，不用另外准备这些用品。
+
+课程安排在每周日下午14:00开始，一次90分钟，最多8人一班。想给周末安排一次手作体验，可以按这个时段留出时间。
+
+作品需要烧制，不能在课程结束时直接带走，要在烧制后约两周领取。如果你想在某个日期前拿到作品，安排课程时要留出这段等待时间。
+
+想查看哪一场还有名额，到工作室公众号回复「入门课」即可。&lt;/pre&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/posts.md">out/posts.md</a></p><pre># 简报 coffee
+
+产品：巷口咖啡晨间自取
+
+目标读者：早上赶地铁的上班族
+
+给定事实：工作日07:30至10:00提供自取；美式16元，拿铁22元；手机点单后可预约15分钟内的取餐时段；到店后在标有预约时段的架子上取杯；门店距离地铁口步行3分钟；自带杯减2元
+
+给定行动入口：在门店小程序选择晨间自取
+
+## 生成稿
+
+赶地铁，咖啡提前约好取餐时段
+
+早上要赶地铁，想把买咖啡安排进通勤路程，可以在手机上先点单。巷口咖啡晨间自取支持预约15分钟内的取餐时段，门店距离地铁口步行3分钟，选时段时可以对照自己的到店时间和地铁安排。
+
+到店后，在标有预约时段的架子上取杯。取餐位置和预约时段对应，到了店就按自己选的时段找咖啡。
+
+晨间自取只在工作日07:30至10:00提供，适合这段时间经过门店的你。美式16元，拿铁22元；如果准备自带杯，可以减2元。
+
+想安排下一次上班路上的咖啡，在门店小程序选择「晨间自取」，点单并选好取餐时段。
+
+---
+
+# 简报 repair
+
+产品：周末自行车检查台
+
+目标读者：车放了一个冬天、准备恢复通勤的人
+
+给定事实：周六10:00至16:00开放；基础检查29元，约20分钟；包含胎压、刹车、链条和车灯检查；发现需换配件时先报价，经车主同意再换；不含配件价格；可预约整点或半点时段
+
+给定行动入口：在店铺页面预约检查时段
+
+## 生成稿
+
+标题：自行车放了一冬，通勤前查什么？
+
+正文：
+准备把放了一个冬天的自行车重新骑去通勤，可以先安排一次检查。「周末自行车检查台」的基础检查包含胎压、刹车、链条和车灯，恢复通勤前，把这几项车况查一遍。
+
+检查中如果发现需要更换配件，会先报价，经你同意后再换。基础检查29元，不含配件价格；检查费用和可能产生的配件费用分开，是否更换由你确认。
+
+检查约需20分钟，周六10:00至16:00开放，可预约整点或半点时段。如果准备这周末带车过去，就到店铺页面预约一个检查时段。
+
+---
+
+# 简报 pottery
+
+产品：泥点陶艺入门课
+
+目标读者：想尝试手作但没有经验的成年人
+
+给定事实：每周日下午14:00开始，课程90分钟；每人128元；最多8人一班；包含材料、工具和一次烧制；作品需烧制后约两周领取；围裙由工作室提供，建议穿方便活动的衣服
+
+给定行动入口：在工作室公众号回复入门课查看名额
+
+## 生成稿
+
+第一次尝试陶艺，要准备什么？
+
+想试试陶艺手作，却还没置办材料和工具？泥点陶艺入门课每人128元，费用包含材料、工具和一次烧制，围裙也由工作室提供。穿方便活动的衣服来参加就好，不用另外准备这些用品。
+
+课程安排在每周日下午14:00开始，一次90分钟，最多8人一班。想给周末安排一次手作体验，可以按这个时段留出时间。
+
+作品需要烧制，不能在课程结束时直接带走，要在烧制后约两周领取。如果你想在某个日期前拿到作品，安排课程时要留出这段等待时间。
+
+想查看哪一场还有名额，到工作室公众号回复「入门课」即可。
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/pottery.md">out/pottery.md</a></p><pre>第一次尝试陶艺，要准备什么？
+
+想试试陶艺手作，却还没置办材料和工具？泥点陶艺入门课每人128元，费用包含材料、工具和一次烧制，围裙也由工作室提供。穿方便活动的衣服来参加就好，不用另外准备这些用品。
+
+课程安排在每周日下午14:00开始，一次90分钟，最多8人一班。想给周末安排一次手作体验，可以按这个时段留出时间。
+
+作品需要烧制，不能在课程结束时直接带走，要在烧制后约两周领取。如果你想在某个日期前拿到作品，安排课程时要留出这段等待时间。
+
+想查看哪一场还有名额，到工作室公众号回复「入门课」即可。
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/repair.md">out/repair.md</a></p><pre>标题：自行车放了一冬，通勤前查什么？
+
+正文：
+准备把放了一个冬天的自行车重新骑去通勤，可以先安排一次检查。「周末自行车检查台」的基础检查包含胎压、刹车、链条和车灯，恢复通勤前，把这几项车况查一遍。
+
+检查中如果发现需要更换配件，会先报价，经你同意后再换。基础检查29元，不含配件价格；检查费用和可能产生的配件费用分开，是否更换由你确认。
+
+检查约需20分钟，周六10:00至16:00开放，可预约整点或半点时段。如果准备这周末带车过去，就到店铺页面预约一个检查时段。
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/writing-guide.md">writing-guide.md</a></p><pre># 产品笔记写作手册
+
+围绕读者的一次实际决定来写。动笔前先从简报找出：读者正要做什么，哪件具体的麻烦或顾虑最影响决定，哪些已知事实能帮助他判断。不要只把人群标签换进同一套句子，也不要替读者编造经历或情绪。
+
+先判断读者走到了哪一步，再选开头。对第一次接触这类产品的人，先找他能否开始的门槛：要会什么、准备什么、第一步做什么；对已经熟悉、正在比较或安排的人，再看效率、费用、时间等条件中哪项最影响选择。用目标读者和使用目的判断，不因某条限制数字明确、容易写，就把它当成首要顾虑。只有简报中的事实能回应时，才选这个切口；直接说清已有的准备、支持或条件，不用“先弄清楚”“需要考虑”代替答案，也不能由提供了支持推导出效果保证。
+
+开头先写这件具体的事，紧接着用简报里最相关的事实回应，并自然带出产品。可以直接交代安排、说明关键条件，或提出一个确实能回答的问题；选择取决于这份简报最值得先说什么，不固定使用疑问句或“可以了解一下”。标题也围绕这个具体需要，不只写产品名或泛泛的推荐。
+
+正文先解决最影响这次决定的一个顾虑，再补足参与或使用所需的信息，不固定按时间、费用、预约的顺序展开。判断重点时，问自己：读者即使知道产品是什么，仍会因哪件具体的事犹豫？简报中哪条事实能直接回答？让这组顾虑与事实占据开头和正文的主要篇幅，其余条件放在相关处交代。把特点放回它所解决的问题里说清楚，不逐项堆卖点；不要把“没经验”“很忙”等人群描述本身当作顾虑的答案。涉及费用、准备、时间、预约等条件时，只选与本次决定有关且简报给出的内容；重要限制紧跟相关信息，不藏在结尾。读者可能关心但简报没说的事，不自行补全，也不当成已获保证。
+
+结尾顺着尚待完成的一步，说明读者可通过简报提供的入口做什么。入口和动作要对应；没有提供的预约方式、私信回复或联系方式不要添加。需要确认的信息可以提示先确认，不能把未知条件写成确定事实。同一条件在最相关的位置说完整一次，结尾不要再次提醒读者把它考虑进去。避免开头和结尾重复邀请“了解详情”，不为凑完整而加一句泛泛的号召。
+
+语气友好，使用短段落。成稿只对读者说话，不出现“简报提到”“资料未说明”等写作背景，也不向读者解释自己的信息排序。读一遍开头、段落衔接和结尾：若换个产品名仍能原样使用，就用本篇最相关的事实重写，删掉没有新增信息的提醒和条件式邀请。表达差异来自不同顾虑和事实，不靠轮换同义句或添加口头禅。内容只能来自简报，不添加没有给出的价格、用户评价和效果承诺。
+标题不超过20字，正文控制在180到400个中文字符左右。
+</pre></div></details><details><summary>第 4 轮 · REVERT</summary><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/coffee.md">out/coffee.md</a></p><pre>赶地铁，咖啡可以按时段自取
+
+早上赶地铁，想顺路带杯咖啡？巷口咖啡晨间自取支持手机点单，可预约15分钟内的取餐时段。你可以按自己的出门节奏选时段，到店后在标有预约时段的架子上取杯，取餐位置也明确。
+
+门店距离地铁口步行3分钟，判断是否顺路时，可以把这段路程和取餐时段一起对照通勤安排。晨间自取仅在工作日07:30至10:00提供，出门时间需要落在这个范围内。
+
+想喝黑咖啡，美式16元；想加奶，拿铁22元。自带杯可减2元，打算带杯的话，下单前可先确认自带杯如何配合预约自取。
+
+在门店小程序选择「晨间自取」，点好饮品，再选择取餐时段。
+</pre></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{&quot;all_briefs_generated&quot;: true, &quot;guide_present&quot;: true}</pre></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/generation.json">out/generation.json</a></p><pre>{
+  &quot;split&quot;: &quot;development&quot;,
+  &quot;synthetic_briefs&quot;: true,
+  &quot;calls&quot;: [
+    {
+      &quot;id&quot;: &quot;coffee&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16950,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 274,
+        &quot;reasoning_output_tokens&quot;: 48
+      },
+      &quot;seconds&quot;: 16.669942917,
+      &quot;file&quot;: &quot;coffee.md&quot;
+    },
+    {
+      &quot;id&quot;: &quot;repair&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16942,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 200,
+        &quot;reasoning_output_tokens&quot;: 27
+      },
+      &quot;seconds&quot;: 14.934722125,
+      &quot;file&quot;: &quot;repair.md&quot;
+    },
+    {
+      &quot;id&quot;: &quot;pottery&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16933,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 223,
+        &quot;reasoning_output_tokens&quot;: 48
+      },
+      &quot;seconds&quot;: 16.494336166,
+      &quot;file&quot;: &quot;pottery.md&quot;
+    }
+  ],
+  &quot;errors&quot;: []
+}
+</pre></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>development：固定写手 cli:codex:gpt-6.1-sol 已生成 3/3 份简报的文案。</pre></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/posts.html">out/posts.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;手册生成的文案&lt;/title&gt;&lt;style&gt;body{max-width:850px;margin:40px auto;padding:20px;font:17px/1.8 system-ui}pre{white-space:pre-wrap}&lt;/style&gt;&lt;h1&gt;手册生成的文案&lt;/h1&gt;&lt;pre&gt;# 简报 coffee
+
+产品：巷口咖啡晨间自取
+
+目标读者：早上赶地铁的上班族
+
+给定事实：工作日07:30至10:00提供自取；美式16元，拿铁22元；手机点单后可预约15分钟内的取餐时段；到店后在标有预约时段的架子上取杯；门店距离地铁口步行3分钟；自带杯减2元
+
+给定行动入口：在门店小程序选择晨间自取
+
+## 生成稿
+
+赶地铁，咖啡可以按时段自取
+
+早上赶地铁，想顺路带杯咖啡？巷口咖啡晨间自取支持手机点单，可预约15分钟内的取餐时段。你可以按自己的出门节奏选时段，到店后在标有预约时段的架子上取杯，取餐位置也明确。
+
+门店距离地铁口步行3分钟，判断是否顺路时，可以把这段路程和取餐时段一起对照通勤安排。晨间自取仅在工作日07:30至10:00提供，出门时间需要落在这个范围内。
+
+想喝黑咖啡，美式16元；想加奶，拿铁22元。自带杯可减2元，打算带杯的话，下单前可先确认自带杯如何配合预约自取。
+
+在门店小程序选择「晨间自取」，点好饮品，再选择取餐时段。
+
+---
+
+# 简报 repair
+
+产品：周末自行车检查台
+
+目标读者：车放了一个冬天、准备恢复通勤的人
+
+给定事实：周六10:00至16:00开放；基础检查29元，约20分钟；包含胎压、刹车、链条和车灯检查；发现需换配件时先报价，经车主同意再换；不含配件价格；可预约整点或半点时段
+
+给定行动入口：在店铺页面预约检查时段
+
+## 生成稿
+
+放了一冬的车，通勤前检查什么？
+
+准备重新骑车通勤，想看看放了一冬的自行车状态如何？「周末自行车检查台」的基础检查包含胎压、刹车、链条和车灯，29元，约20分钟，可以在恢复通勤前检查这几处。
+
+如果检查时发现需要更换配件，会先报价，经过你同意后再换。29元不包含配件价格，检查费用和可能产生的配件费用要分开看；是否更换，可以等报价后再决定。
+
+检查台周六10:00至16:00开放，可预约整点或半点时段。想在这个周末检查车况，可以到店铺页面选择时段，预约检查。
+
+---
+
+# 简报 pottery
+
+产品：泥点陶艺入门课
+
+目标读者：想尝试手作但没有经验的成年人
+
+给定事实：每周日下午14:00开始，课程90分钟；每人128元；最多8人一班；包含材料、工具和一次烧制；作品需烧制后约两周领取；围裙由工作室提供，建议穿方便活动的衣服
+
+给定行动入口：在工作室公众号回复入门课查看名额
+
+## 生成稿
+
+第一次尝试陶艺，要准备什么？
+
+想试试陶艺手作，又不知道材料和工具该怎么准备？泥点陶艺入门课每人128元，包含材料、工具和一次烧制，围裙也由工作室提供。第一次尝试，可以从这些现成的准备开始，不用自己先配齐工具。
+
+这次体验需要留出两个时间：上课90分钟，作品则要等烧制后约两周才能领取，不能当天带走。如果你希望做完就把成品带回家，这个等待时间需要提前考虑。
+
+课程每周日下午14:00开始，每班最多8人。当天建议穿方便活动的衣服，方便参与手作。
+
+想参加的话，到工作室公众号回复“入门课”查看名额。&lt;/pre&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/posts.md">out/posts.md</a></p><pre># 简报 coffee
+
+产品：巷口咖啡晨间自取
+
+目标读者：早上赶地铁的上班族
+
+给定事实：工作日07:30至10:00提供自取；美式16元，拿铁22元；手机点单后可预约15分钟内的取餐时段；到店后在标有预约时段的架子上取杯；门店距离地铁口步行3分钟；自带杯减2元
+
+给定行动入口：在门店小程序选择晨间自取
+
+## 生成稿
+
+赶地铁，咖啡可以按时段自取
+
+早上赶地铁，想顺路带杯咖啡？巷口咖啡晨间自取支持手机点单，可预约15分钟内的取餐时段。你可以按自己的出门节奏选时段，到店后在标有预约时段的架子上取杯，取餐位置也明确。
+
+门店距离地铁口步行3分钟，判断是否顺路时，可以把这段路程和取餐时段一起对照通勤安排。晨间自取仅在工作日07:30至10:00提供，出门时间需要落在这个范围内。
+
+想喝黑咖啡，美式16元；想加奶，拿铁22元。自带杯可减2元，打算带杯的话，下单前可先确认自带杯如何配合预约自取。
+
+在门店小程序选择「晨间自取」，点好饮品，再选择取餐时段。
+
+---
+
+# 简报 repair
+
+产品：周末自行车检查台
+
+目标读者：车放了一个冬天、准备恢复通勤的人
+
+给定事实：周六10:00至16:00开放；基础检查29元，约20分钟；包含胎压、刹车、链条和车灯检查；发现需换配件时先报价，经车主同意再换；不含配件价格；可预约整点或半点时段
+
+给定行动入口：在店铺页面预约检查时段
+
+## 生成稿
+
+放了一冬的车，通勤前检查什么？
+
+准备重新骑车通勤，想看看放了一冬的自行车状态如何？「周末自行车检查台」的基础检查包含胎压、刹车、链条和车灯，29元，约20分钟，可以在恢复通勤前检查这几处。
+
+如果检查时发现需要更换配件，会先报价，经过你同意后再换。29元不包含配件价格，检查费用和可能产生的配件费用要分开看；是否更换，可以等报价后再决定。
+
+检查台周六10:00至16:00开放，可预约整点或半点时段。想在这个周末检查车况，可以到店铺页面选择时段，预约检查。
+
+---
+
+# 简报 pottery
+
+产品：泥点陶艺入门课
+
+目标读者：想尝试手作但没有经验的成年人
+
+给定事实：每周日下午14:00开始，课程90分钟；每人128元；最多8人一班；包含材料、工具和一次烧制；作品需烧制后约两周领取；围裙由工作室提供，建议穿方便活动的衣服
+
+给定行动入口：在工作室公众号回复入门课查看名额
+
+## 生成稿
+
+第一次尝试陶艺，要准备什么？
+
+想试试陶艺手作，又不知道材料和工具该怎么准备？泥点陶艺入门课每人128元，包含材料、工具和一次烧制，围裙也由工作室提供。第一次尝试，可以从这些现成的准备开始，不用自己先配齐工具。
+
+这次体验需要留出两个时间：上课90分钟，作品则要等烧制后约两周才能领取，不能当天带走。如果你希望做完就把成品带回家，这个等待时间需要提前考虑。
+
+课程每周日下午14:00开始，每班最多8人。当天建议穿方便活动的衣服，方便参与手作。
+
+想参加的话，到工作室公众号回复“入门课”查看名额。
+</pre></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/pottery.md">out/pottery.md</a></p><pre>第一次尝试陶艺，要准备什么？
+
+想试试陶艺手作，又不知道材料和工具该怎么准备？泥点陶艺入门课每人128元，包含材料、工具和一次烧制，围裙也由工作室提供。第一次尝试，可以从这些现成的准备开始，不用自己先配齐工具。
+
+这次体验需要留出两个时间：上课90分钟，作品则要等烧制后约两周才能领取，不能当天带走。如果你希望做完就把成品带回家，这个等待时间需要提前考虑。
+
+课程每周日下午14:00开始，每班最多8人。当天建议穿方便活动的衣服，方便参与手作。
+
+想参加的话，到工作室公众号回复“入门课”查看名额。
+</pre></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/repair.md">out/repair.md</a></p><pre>放了一冬的车，通勤前检查什么？
+
+准备重新骑车通勤，想看看放了一冬的自行车状态如何？「周末自行车检查台」的基础检查包含胎压、刹车、链条和车灯，29元，约20分钟，可以在恢复通勤前检查这几处。
+
+如果检查时发现需要更换配件，会先报价，经过你同意后再换。29元不包含配件价格，检查费用和可能产生的配件费用要分开看；是否更换，可以等报价后再决定。
+
+检查台周六10:00至16:00开放，可预约整点或半点时段。想在这个周末检查车况，可以到店铺页面选择时段，预约检查。
+</pre></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/writing-guide.md">writing-guide.md</a></p><pre># 产品笔记写作手册
+
+围绕读者的一次实际决定来写。动笔前先从简报找出：读者正要做什么，哪件具体的麻烦或顾虑最影响决定，哪些已知事实能帮助他判断。不要只把人群标签换进同一套句子，也不要替读者编造经历或情绪。
+
+开头把读者想做的事与一条能消除犹豫的事实连起来，让人马上知道这款产品为什么值得继续看。先回答与尝试或使用本身有关的问题；时间、领取、预约等流程条件，只有直接决定读者能否使用时才放在最前面，不因它们具体、容易写就优先。直接说清产品提供什么、读者需要做什么，用事实作答，少用“先弄清楚”“安排好时间”“考虑进去”等提醒代替答案。可以陈述，也可以提出紧接着就能回答的问题，不固定使用疑问句或“可以了解一下”。标题也围绕这个具体需要，不只写产品名或泛泛的推荐。
+
+正文先解决最影响这次决定的一个顾虑，再补足参与或使用所需的信息，不固定按时间、费用、预约的顺序展开。判断重点时，问自己：读者即使知道产品是什么，仍会因哪件具体的事犹豫？简报中哪条事实能直接回答？让这组顾虑与事实占据开头和正文的主要篇幅，其余条件放在相关处交代。把特点放回它所解决的问题里说清楚，不逐项堆卖点；不要把“没经验”“很忙”等人群描述本身当作顾虑的答案。涉及费用、准备、时间、预约等条件时，只选与本次决定有关且简报给出的内容；重要限制紧跟相关信息，不藏在结尾。读者可能关心但简报没说的事，不自行补全，也不当成已获保证。
+
+结尾顺着尚待完成的一步，说明读者可通过简报提供的入口做什么。入口和动作要对应；没有提供的预约方式、私信回复或联系方式不要添加。需要确认的信息可以提示先确认，不能把未知条件写成确定事实。避免开头和结尾重复邀请“了解详情”，不为凑完整而加一句泛泛的号召。
+
+语气友好，使用短段落。成稿只对读者说话，不出现“简报提到”“资料未说明”等写作背景，也不向读者解释自己的信息排序。读一遍开头、段落衔接和结尾：若换个产品名仍能原样使用，就用本篇最相关的事实重写，删掉没有新增信息的提醒和条件式邀请。表达差异来自不同顾虑和事实，不靠轮换同义句或添加口头禅。内容只能来自简报，不添加没有给出的价格、用户评价和效果承诺。
+标题不超过20字，正文控制在180到400个中文字符左右。
+</pre></div></details><details><summary>第 5 轮 · REVERT</summary><div class='artifact'><p><a href="rounds/r005/artifacts/files/out/coffee.md">out/coffee.md</a></p><pre>赶地铁的早晨，咖啡怎么取？
+
+早上要带杯咖啡再去坐地铁，可以先按取餐时段安排到店。巷口咖啡晨间自取支持手机点单，能预约15分钟内的取餐时段；到店后，在标有预约时段的架子上取杯。
+
+这项自取服务只在工作日07:30至10:00提供。门店距离地铁口步行3分钟，选取餐时段时，记得给取杯后走到地铁口留出这段时间。
+
+想好喝什么，也能提前算清花费：美式16元，拿铁22元，自带杯减2元。如果打算自带杯，可以先确认杯子如何交给门店、是否影响预约自取安排。
+
+在门店小程序选择“晨间自取”，下单时选好取餐时段，到店后按架子上的时段标识找杯。
+</pre></div><div class='artifact'><p><a href="rounds/r005/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{&quot;all_briefs_generated&quot;: true, &quot;guide_present&quot;: true}</pre></div><div class='artifact'><p><a href="rounds/r005/artifacts/files/out/generation.json">out/generation.json</a></p><pre>{
+  &quot;split&quot;: &quot;development&quot;,
+  &quot;synthetic_briefs&quot;: true,
+  &quot;calls&quot;: [
+    {
+      &quot;id&quot;: &quot;coffee&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16981,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 285,
+        &quot;reasoning_output_tokens&quot;: 61
+      },
+      &quot;seconds&quot;: 19.520692916999998,
+      &quot;file&quot;: &quot;coffee.md&quot;
+    },
+    {
+      &quot;id&quot;: &quot;repair&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16973,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 234,
+        &quot;reasoning_output_tokens&quot;: 46
+      },
+      &quot;seconds&quot;: 17.325866958,
+      &quot;file&quot;: &quot;repair.md&quot;
+    },
+    {
+      &quot;id&quot;: &quot;pottery&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16966,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 249,
+        &quot;reasoning_output_tokens&quot;: 71
+      },
+      &quot;seconds&quot;: 20.022512499999998,
+      &quot;file&quot;: &quot;pottery.md&quot;
+    }
+  ],
+  &quot;errors&quot;: []
+}
+</pre></div><div class='artifact'><p><a href="rounds/r005/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>development：固定写手 cli:codex:gpt-6.1-sol 已生成 3/3 份简报的文案。</pre></div><div class='artifact'><p><a href="rounds/r005/artifacts/files/out/posts.html">out/posts.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;手册生成的文案&lt;/title&gt;&lt;style&gt;body{max-width:850px;margin:40px auto;padding:20px;font:17px/1.8 system-ui}pre{white-space:pre-wrap}&lt;/style&gt;&lt;h1&gt;手册生成的文案&lt;/h1&gt;&lt;pre&gt;# 简报 coffee
+
+产品：巷口咖啡晨间自取
+
+目标读者：早上赶地铁的上班族
+
+给定事实：工作日07:30至10:00提供自取；美式16元，拿铁22元；手机点单后可预约15分钟内的取餐时段；到店后在标有预约时段的架子上取杯；门店距离地铁口步行3分钟；自带杯减2元
+
+给定行动入口：在门店小程序选择晨间自取
+
+## 生成稿
+
+赶地铁的早晨，咖啡怎么取？
+
+早上要带杯咖啡再去坐地铁，可以先按取餐时段安排到店。巷口咖啡晨间自取支持手机点单，能预约15分钟内的取餐时段；到店后，在标有预约时段的架子上取杯。
+
+这项自取服务只在工作日07:30至10:00提供。门店距离地铁口步行3分钟，选取餐时段时，记得给取杯后走到地铁口留出这段时间。
+
+想好喝什么，也能提前算清花费：美式16元，拿铁22元，自带杯减2元。如果打算自带杯，可以先确认杯子如何交给门店、是否影响预约自取安排。
+
+在门店小程序选择“晨间自取”，下单时选好取餐时段，到店后按架子上的时段标识找杯。
+
+---
+
+# 简报 repair
+
+产品：周末自行车检查台
+
+目标读者：车放了一个冬天、准备恢复通勤的人
+
+给定事实：周六10:00至16:00开放；基础检查29元，约20分钟；包含胎压、刹车、链条和车灯检查；发现需换配件时先报价，经车主同意再换；不含配件价格；可预约整点或半点时段
+
+给定行动入口：在店铺页面预约检查时段
+
+## 生成稿
+
+自行车放了一冬，通勤前查什么？
+
+准备把放了一个冬天的自行车重新骑去通勤，可以先查查胎压、刹车、链条和车灯。「周末自行车检查台」的基础检查包含这四项，29元一次，约20分钟。
+
+担心检查时发现要换零件，费用超出预期？如果发现需要更换配件，会先报价，经你同意后再换。29元是基础检查费，不含配件价格；检查和换件的费用要分开看，是否更换由你确认。
+
+检查台周六10:00至16:00开放，可预约整点或半点时段。如果准备周六把车带去检查，可以在店铺页面选择对应时段预约，给这次检查留出约20分钟。
+
+---
+
+# 简报 pottery
+
+产品：泥点陶艺入门课
+
+目标读者：想尝试手作但没有经验的成年人
+
+给定事实：每周日下午14:00开始，课程90分钟；每人128元；最多8人一班；包含材料、工具和一次烧制；作品需烧制后约两周领取；围裙由工作室提供，建议穿方便活动的衣服
+
+给定行动入口：在工作室公众号回复入门课查看名额
+
+## 生成稿
+
+第一次做陶艺，作品要等两周领取
+
+想试试亲手做一件陶艺作品，先留意：作品不能在上完课当天带走。泥点陶艺入门课包含一次烧制，作品需烧制后约两周领取。如果想把成品带回家，除了上课当天，还要留出之后领取的安排。
+
+课程每周日下午14:00开始，一次90分钟，最多8人一班，面向想尝试手作、还没有经验的成年人。
+
+每人128元，费用包含材料、工具和一次烧制，不用自己准备材料和工具。工作室也提供围裙，去上课建议穿方便活动的衣服。
+
+想参加的话，可以在工作室公众号回复“入门课”，查看名额。&lt;/pre&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="rounds/r005/artifacts/files/out/posts.md">out/posts.md</a></p><pre># 简报 coffee
+
+产品：巷口咖啡晨间自取
+
+目标读者：早上赶地铁的上班族
+
+给定事实：工作日07:30至10:00提供自取；美式16元，拿铁22元；手机点单后可预约15分钟内的取餐时段；到店后在标有预约时段的架子上取杯；门店距离地铁口步行3分钟；自带杯减2元
+
+给定行动入口：在门店小程序选择晨间自取
+
+## 生成稿
+
+赶地铁的早晨，咖啡怎么取？
+
+早上要带杯咖啡再去坐地铁，可以先按取餐时段安排到店。巷口咖啡晨间自取支持手机点单，能预约15分钟内的取餐时段；到店后，在标有预约时段的架子上取杯。
+
+这项自取服务只在工作日07:30至10:00提供。门店距离地铁口步行3分钟，选取餐时段时，记得给取杯后走到地铁口留出这段时间。
+
+想好喝什么，也能提前算清花费：美式16元，拿铁22元，自带杯减2元。如果打算自带杯，可以先确认杯子如何交给门店、是否影响预约自取安排。
+
+在门店小程序选择“晨间自取”，下单时选好取餐时段，到店后按架子上的时段标识找杯。
+
+---
+
+# 简报 repair
+
+产品：周末自行车检查台
+
+目标读者：车放了一个冬天、准备恢复通勤的人
+
+给定事实：周六10:00至16:00开放；基础检查29元，约20分钟；包含胎压、刹车、链条和车灯检查；发现需换配件时先报价，经车主同意再换；不含配件价格；可预约整点或半点时段
+
+给定行动入口：在店铺页面预约检查时段
+
+## 生成稿
+
+自行车放了一冬，通勤前查什么？
+
+准备把放了一个冬天的自行车重新骑去通勤，可以先查查胎压、刹车、链条和车灯。「周末自行车检查台」的基础检查包含这四项，29元一次，约20分钟。
+
+担心检查时发现要换零件，费用超出预期？如果发现需要更换配件，会先报价，经你同意后再换。29元是基础检查费，不含配件价格；检查和换件的费用要分开看，是否更换由你确认。
+
+检查台周六10:00至16:00开放，可预约整点或半点时段。如果准备周六把车带去检查，可以在店铺页面选择对应时段预约，给这次检查留出约20分钟。
+
+---
+
+# 简报 pottery
+
+产品：泥点陶艺入门课
+
+目标读者：想尝试手作但没有经验的成年人
+
+给定事实：每周日下午14:00开始，课程90分钟；每人128元；最多8人一班；包含材料、工具和一次烧制；作品需烧制后约两周领取；围裙由工作室提供，建议穿方便活动的衣服
+
+给定行动入口：在工作室公众号回复入门课查看名额
+
+## 生成稿
+
+第一次做陶艺，作品要等两周领取
+
+想试试亲手做一件陶艺作品，先留意：作品不能在上完课当天带走。泥点陶艺入门课包含一次烧制，作品需烧制后约两周领取。如果想把成品带回家，除了上课当天，还要留出之后领取的安排。
+
+课程每周日下午14:00开始，一次90分钟，最多8人一班，面向想尝试手作、还没有经验的成年人。
+
+每人128元，费用包含材料、工具和一次烧制，不用自己准备材料和工具。工作室也提供围裙，去上课建议穿方便活动的衣服。
+
+想参加的话，可以在工作室公众号回复“入门课”，查看名额。
+</pre></div><div class='artifact'><p><a href="rounds/r005/artifacts/files/out/pottery.md">out/pottery.md</a></p><pre>第一次做陶艺，作品要等两周领取
+
+想试试亲手做一件陶艺作品，先留意：作品不能在上完课当天带走。泥点陶艺入门课包含一次烧制，作品需烧制后约两周领取。如果想把成品带回家，除了上课当天，还要留出之后领取的安排。
+
+课程每周日下午14:00开始，一次90分钟，最多8人一班，面向想尝试手作、还没有经验的成年人。
+
+每人128元，费用包含材料、工具和一次烧制，不用自己准备材料和工具。工作室也提供围裙，去上课建议穿方便活动的衣服。
+
+想参加的话，可以在工作室公众号回复“入门课”，查看名额。
+</pre></div><div class='artifact'><p><a href="rounds/r005/artifacts/files/out/repair.md">out/repair.md</a></p><pre>自行车放了一冬，通勤前查什么？
+
+准备把放了一个冬天的自行车重新骑去通勤，可以先查查胎压、刹车、链条和车灯。「周末自行车检查台」的基础检查包含这四项，29元一次，约20分钟。
+
+担心检查时发现要换零件，费用超出预期？如果发现需要更换配件，会先报价，经你同意后再换。29元是基础检查费，不含配件价格；检查和换件的费用要分开看，是否更换由你确认。
+
+检查台周六10:00至16:00开放，可预约整点或半点时段。如果准备周六把车带去检查，可以在店铺页面选择对应时段预约，给这次检查留出约20分钟。
+</pre></div><div class='artifact'><p><a href="rounds/r005/artifacts/files/writing-guide.md">writing-guide.md</a></p><pre># 产品笔记写作手册
+
+围绕读者的一次实际决定来写。动笔前先从简报找出：读者正要做什么，哪件具体的麻烦或顾虑最影响决定，哪些已知事实能帮助他判断。不要只把人群标签换进同一套句子，也不要替读者编造经历或情绪。
+
+开头先写这件具体的事，紧接着用简报里最相关的事实回应，并自然带出产品。可以直接交代安排、说明关键条件，或提出一个确实能回答的问题；选择取决于这份简报最值得先说什么，不固定使用疑问句或“可以了解一下”。标题也围绕这个具体需要，不只写产品名或泛泛的推荐。
+
+正文先解决最影响这次决定的一个顾虑，再补足参与或使用所需的信息，不固定按时间、费用、预约的顺序展开。判断重点时，问自己：读者即使知道产品是什么，仍会因哪件具体的事犹豫？简报中哪条事实能直接回答？让这组顾虑与事实占据开头和正文的主要篇幅，其余条件放在相关处交代。把特点放回它所解决的问题里说清楚，不逐项堆卖点；不要把“没经验”“很忙”等人群描述本身当作顾虑的答案。涉及费用、准备、时间、预约等条件时，只选与本次决定有关且简报给出的内容；重要限制紧跟相关信息，不藏在结尾。读者可能关心但简报没说的事，不自行补全，也不当成已获保证。
+
+结尾顺着尚待完成的一步，说明读者可通过简报提供的入口做什么。入口和动作要对应；没有提供的预约方式、私信回复或联系方式不要添加。需要确认的信息可以提示先确认，不能把未知条件写成确定事实。避免开头和结尾重复邀请“了解详情”，不为凑完整而加一句泛泛的号召。
+
+语气友好，使用短段落。成稿只对读者说话，不出现“简报提到”“资料未说明”等写作背景，也不向读者解释自己的信息排序。写到“需要考虑”“先弄清楚”“安排好时间”这类提醒时，直接说出读者要知道的具体内容：谁提供什么、读者要准备什么、何时能做什么、哪种情况受限制。事实已经交代清楚，就不再追加“把这一点考虑进去”之类的解释；同一条件集中说清一次。只有确实需要读者确认的未知信息，才保留确认动作，并说清要确认什么。读一遍开头、段落衔接和结尾：若换个产品名仍能原样使用，就用本篇最相关的事实重写，删掉没有新增信息的提醒和条件式邀请。表达差异来自不同顾虑和事实，不靠轮换同义句或添加口头禅。内容只能来自简报，不添加没有给出的价格、用户评价和效果承诺。
+标题不超过20字，正文控制在180到400个中文字符左右。
+</pre></div></details><details><summary>最终产物</summary><div class='artifact'><p><a href="artifacts/final/files/out/coffee.md">out/coffee.md</a></p><pre>标题：赶地铁，咖啡先约好取餐时段
+
+正文：
+早上要赶地铁，买咖啡可以先把取餐时段安排好。巷口咖啡晨间自取支持手机点单，能预约15分钟内的取餐时段；到店后，在标有预约时段的架子上取杯。
+
+选时段时，把去地铁口的路程也算进去：门店距离地铁口步行3分钟，可以结合自己的乘车安排选择取餐时段。
+
+晨间自取在工作日07:30至10:00提供，早上出发的时间要和这个时段对得上。美式16元，拿铁22元，自带杯减2元，点单时可以一起考虑。
+
+准备安排早上的咖啡，就到门店小程序选择「晨间自取」，再选咖啡和取餐时段。
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/gates.json">out/gates.json</a></p><pre>{&quot;all_briefs_generated&quot;: true, &quot;guide_present&quot;: true}</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/generation.json">out/generation.json</a></p><pre>{
+  &quot;split&quot;: &quot;development&quot;,
+  &quot;synthetic_briefs&quot;: true,
+  &quot;calls&quot;: [
+    {
+      &quot;id&quot;: &quot;coffee&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16877,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 209,
+        &quot;reasoning_output_tokens&quot;: 0
+      },
+      &quot;seconds&quot;: 14.837982042,
+      &quot;file&quot;: &quot;coffee.md&quot;
+    },
+    {
+      &quot;id&quot;: &quot;repair&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16869,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 207,
+        &quot;reasoning_output_tokens&quot;: 0
+      },
+      &quot;seconds&quot;: 15.579373917000002,
+      &quot;file&quot;: &quot;repair.md&quot;
+    },
+    {
+      &quot;id&quot;: &quot;pottery&quot;,
+      &quot;requested_model&quot;: &quot;cli:codex:gpt-6.1-sol&quot;,
+      &quot;actual_model&quot;: null,
+      &quot;usage&quot;: {
+        &quot;input_tokens&quot;: 16862,
+        &quot;cached_input_tokens&quot;: 12288,
+        &quot;cache_write_input_tokens&quot;: 0,
+        &quot;output_tokens&quot;: 218,
+        &quot;reasoning_output_tokens&quot;: 41
+      },
+      &quot;seconds&quot;: 17.60023675,
+      &quot;file&quot;: &quot;pottery.md&quot;
+    }
+  ],
+  &quot;errors&quot;: []
+}
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/notes.txt">out/notes.txt</a></p><pre>development：固定写手 cli:codex:gpt-6.1-sol 已生成 3/3 份简报的文案。</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/posts.html">out/posts.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;手册生成的文案&lt;/title&gt;&lt;style&gt;body{max-width:850px;margin:40px auto;padding:20px;font:17px/1.8 system-ui}pre{white-space:pre-wrap}&lt;/style&gt;&lt;h1&gt;手册生成的文案&lt;/h1&gt;&lt;pre&gt;# 简报 coffee
+
+产品：巷口咖啡晨间自取
+
+目标读者：早上赶地铁的上班族
+
+给定事实：工作日07:30至10:00提供自取；美式16元，拿铁22元；手机点单后可预约15分钟内的取餐时段；到店后在标有预约时段的架子上取杯；门店距离地铁口步行3分钟；自带杯减2元
+
+给定行动入口：在门店小程序选择晨间自取
+
+## 生成稿
+
+标题：赶地铁，咖啡先约好取餐时段
+
+正文：
+早上要赶地铁，买咖啡可以先把取餐时段安排好。巷口咖啡晨间自取支持手机点单，能预约15分钟内的取餐时段；到店后，在标有预约时段的架子上取杯。
+
+选时段时，把去地铁口的路程也算进去：门店距离地铁口步行3分钟，可以结合自己的乘车安排选择取餐时段。
+
+晨间自取在工作日07:30至10:00提供，早上出发的时间要和这个时段对得上。美式16元，拿铁22元，自带杯减2元，点单时可以一起考虑。
+
+准备安排早上的咖啡，就到门店小程序选择「晨间自取」，再选咖啡和取餐时段。
+
+---
+
+# 简报 repair
+
+产品：周末自行车检查台
+
+目标读者：车放了一个冬天、准备恢复通勤的人
+
+给定事实：周六10:00至16:00开放；基础检查29元，约20分钟；包含胎压、刹车、链条和车灯检查；发现需换配件时先报价，经车主同意再换；不含配件价格；可预约整点或半点时段
+
+给定行动入口：在店铺页面预约检查时段
+
+## 生成稿
+
+标题：自行车放了一冬，通勤前先检查什么
+
+正文：
+准备把放了一个冬天的自行车重新骑去通勤，先查哪些地方、查出问题后要不要换配件，是这次检查要弄清楚的事。
+
+「周末自行车检查台」的基础检查包含胎压、刹车、链条和车灯，29元，约20分钟。恢复通勤前，可以安排一次检查，把这几处的情况先弄清楚。
+
+担心检查后直接换件、费用超出预期？发现需要更换配件时，会先报价，经你同意再换。29元是基础检查费用，不包含配件价格；是否更换，可以看过报价再决定。
+
+检查台周六10:00至16:00开放，可预约整点或半点时段。选好周六方便到店的时间，在店铺页面预约检查时段即可。
+
+---
+
+# 简报 pottery
+
+产品：泥点陶艺入门课
+
+目标读者：想尝试手作但没有经验的成年人
+
+给定事实：每周日下午14:00开始，课程90分钟；每人128元；最多8人一班；包含材料、工具和一次烧制；作品需烧制后约两周领取；围裙由工作室提供，建议穿方便活动的衣服
+
+给定行动入口：在工作室公众号回复入门课查看名额
+
+## 生成稿
+
+第一次做陶艺，先留出等作品的时间
+
+想试一次陶艺手作，先把上课和取作品的时间分开安排：泥点陶艺入门课的作品需要烧制，约两周后领取，不能上完课就带走。
+
+第一次尝试，要准备哪些东西？每人128元的费用已经包含材料、工具和一次烧制，围裙也由工作室提供。衣服建议选方便活动的，材料和工具不用自己另备。
+
+课程每周日下午14:00开始，一次90分钟，最多8人一班。安排周末时，除了留出上课的一个半小时，也记得把之后领取作品这一步考虑进去。
+
+想参加的话，在工作室公众号回复“入门课”，查看名额。&lt;/pre&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/posts.md">out/posts.md</a></p><pre># 简报 coffee
+
+产品：巷口咖啡晨间自取
+
+目标读者：早上赶地铁的上班族
+
+给定事实：工作日07:30至10:00提供自取；美式16元，拿铁22元；手机点单后可预约15分钟内的取餐时段；到店后在标有预约时段的架子上取杯；门店距离地铁口步行3分钟；自带杯减2元
+
+给定行动入口：在门店小程序选择晨间自取
+
+## 生成稿
+
+标题：赶地铁，咖啡先约好取餐时段
+
+正文：
+早上要赶地铁，买咖啡可以先把取餐时段安排好。巷口咖啡晨间自取支持手机点单，能预约15分钟内的取餐时段；到店后，在标有预约时段的架子上取杯。
+
+选时段时，把去地铁口的路程也算进去：门店距离地铁口步行3分钟，可以结合自己的乘车安排选择取餐时段。
+
+晨间自取在工作日07:30至10:00提供，早上出发的时间要和这个时段对得上。美式16元，拿铁22元，自带杯减2元，点单时可以一起考虑。
+
+准备安排早上的咖啡，就到门店小程序选择「晨间自取」，再选咖啡和取餐时段。
+
+---
+
+# 简报 repair
+
+产品：周末自行车检查台
+
+目标读者：车放了一个冬天、准备恢复通勤的人
+
+给定事实：周六10:00至16:00开放；基础检查29元，约20分钟；包含胎压、刹车、链条和车灯检查；发现需换配件时先报价，经车主同意再换；不含配件价格；可预约整点或半点时段
+
+给定行动入口：在店铺页面预约检查时段
+
+## 生成稿
+
+标题：自行车放了一冬，通勤前先检查什么
+
+正文：
+准备把放了一个冬天的自行车重新骑去通勤，先查哪些地方、查出问题后要不要换配件，是这次检查要弄清楚的事。
+
+「周末自行车检查台」的基础检查包含胎压、刹车、链条和车灯，29元，约20分钟。恢复通勤前，可以安排一次检查，把这几处的情况先弄清楚。
+
+担心检查后直接换件、费用超出预期？发现需要更换配件时，会先报价，经你同意再换。29元是基础检查费用，不包含配件价格；是否更换，可以看过报价再决定。
+
+检查台周六10:00至16:00开放，可预约整点或半点时段。选好周六方便到店的时间，在店铺页面预约检查时段即可。
+
+---
+
+# 简报 pottery
+
+产品：泥点陶艺入门课
+
+目标读者：想尝试手作但没有经验的成年人
+
+给定事实：每周日下午14:00开始，课程90分钟；每人128元；最多8人一班；包含材料、工具和一次烧制；作品需烧制后约两周领取；围裙由工作室提供，建议穿方便活动的衣服
+
+给定行动入口：在工作室公众号回复入门课查看名额
+
+## 生成稿
+
+第一次做陶艺，先留出等作品的时间
+
+想试一次陶艺手作，先把上课和取作品的时间分开安排：泥点陶艺入门课的作品需要烧制，约两周后领取，不能上完课就带走。
+
+第一次尝试，要准备哪些东西？每人128元的费用已经包含材料、工具和一次烧制，围裙也由工作室提供。衣服建议选方便活动的，材料和工具不用自己另备。
+
+课程每周日下午14:00开始，一次90分钟，最多8人一班。安排周末时，除了留出上课的一个半小时，也记得把之后领取作品这一步考虑进去。
+
+想参加的话，在工作室公众号回复“入门课”，查看名额。
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/pottery.md">out/pottery.md</a></p><pre>第一次做陶艺，先留出等作品的时间
+
+想试一次陶艺手作，先把上课和取作品的时间分开安排：泥点陶艺入门课的作品需要烧制，约两周后领取，不能上完课就带走。
+
+第一次尝试，要准备哪些东西？每人128元的费用已经包含材料、工具和一次烧制，围裙也由工作室提供。衣服建议选方便活动的，材料和工具不用自己另备。
+
+课程每周日下午14:00开始，一次90分钟，最多8人一班。安排周末时，除了留出上课的一个半小时，也记得把之后领取作品这一步考虑进去。
+
+想参加的话，在工作室公众号回复“入门课”，查看名额。
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/repair.md">out/repair.md</a></p><pre>标题：自行车放了一冬，通勤前先检查什么
+
+正文：
+准备把放了一个冬天的自行车重新骑去通勤，先查哪些地方、查出问题后要不要换配件，是这次检查要弄清楚的事。
+
+「周末自行车检查台」的基础检查包含胎压、刹车、链条和车灯，29元，约20分钟。恢复通勤前，可以安排一次检查，把这几处的情况先弄清楚。
+
+担心检查后直接换件、费用超出预期？发现需要更换配件时，会先报价，经你同意再换。29元是基础检查费用，不包含配件价格；是否更换，可以看过报价再决定。
+
+检查台周六10:00至16:00开放，可预约整点或半点时段。选好周六方便到店的时间，在店铺页面预约检查时段即可。
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/writing-guide.md">writing-guide.md</a></p><pre># 产品笔记写作手册
+
+围绕读者的一次实际决定来写。动笔前先从简报找出：读者正要做什么，哪件具体的麻烦或顾虑最影响决定，哪些已知事实能帮助他判断。不要只把人群标签换进同一套句子，也不要替读者编造经历或情绪。
+
+开头先写这件具体的事，紧接着用简报里最相关的事实回应，并自然带出产品。可以直接交代安排、说明关键条件，或提出一个确实能回答的问题；选择取决于这份简报最值得先说什么，不固定使用疑问句或“可以了解一下”。标题也围绕这个具体需要，不只写产品名或泛泛的推荐。
+
+正文先解决最影响这次决定的一个顾虑，再补足参与或使用所需的信息，不固定按时间、费用、预约的顺序展开。判断重点时，问自己：读者即使知道产品是什么，仍会因哪件具体的事犹豫？简报中哪条事实能直接回答？让这组顾虑与事实占据开头和正文的主要篇幅，其余条件放在相关处交代。把特点放回它所解决的问题里说清楚，不逐项堆卖点；不要把“没经验”“很忙”等人群描述本身当作顾虑的答案。涉及费用、准备、时间、预约等条件时，只选与本次决定有关且简报给出的内容；重要限制紧跟相关信息，不藏在结尾。读者可能关心但简报没说的事，不自行补全，也不当成已获保证。
+
+结尾顺着尚待完成的一步，说明读者可通过简报提供的入口做什么。入口和动作要对应；没有提供的预约方式、私信回复或联系方式不要添加。需要确认的信息可以提示先确认，不能把未知条件写成确定事实。避免开头和结尾重复邀请“了解详情”，不为凑完整而加一句泛泛的号召。
+
+语气友好，使用短段落。成稿只对读者说话，不出现“简报提到”“资料未说明”等写作背景，也不向读者解释自己的信息排序。读一遍开头、段落衔接和结尾：若换个产品名仍能原样使用，就用本篇最相关的事实重写，删掉没有新增信息的提醒和条件式邀请。表达差异来自不同顾虑和事实，不靠轮换同义句或添加口头禅。内容只能来自简报，不添加没有给出的价格、用户评价和效果承诺。
+标题不超过20字，正文控制在180到400个中文字符左右。
+</pre></div></details>
+<h2>Champion vs. start</h2><pre>writing-guide.md | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)</pre>
+<p class="muted">Branch <code>rsi/20261024-001816-reusable-writing-guide</code>. Generated by RSI-Anything.</p>
+</main></body></html>

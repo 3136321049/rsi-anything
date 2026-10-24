@@ -1,0 +1,31 @@
+{
+  "run_id": "20261024-001816-reusable-writing-guide",
+  "contract": "reusable-writing-guide",
+  "contract_digest": "66423be6c09e",
+  "goal": "改进 writing-guide.md，让固定写手按照它为不同产品写出具体、有用、符合事实的小红书笔记。\n每轮只改手册，不改产品资料和评分。手册应该教会写手如何理解读者、选择开头、组织信息和给出自然的行动提示。\n评审会给出三个简报的实际生成稿；优先修复共性问题，不把某份简报的答案硬写进手册。",
+  "base": "3f248b05655608bed4b196b24f06f87d812df0ce",
+  "branch": "rsi/20261024-001816-reusable-writing-guide",
+  "project": ".",
+  "agent": "codex",
+  "judge": "rubric",
+  "jury": [
+    "cli:codex:gpt-6.1-sol"
+  ],
+  "started": "2026-10-23T16:18:16+00:00",
+  "status": "finished",
+  "phase": "finished",
+  "active_round": null,
+  "finished": "2026-10-23T16:32:55+00:00",
+  "error": null,
+  "stop_reason": "reached 5 rounds",
+  "updated": "2026-10-23T16:32:55+00:00",
+  "champion": "de11142f3194e490cf9d6c3c38a39ecaa721afda",
+  "elapsed_seconds": 879.3581826249999,
+  "final_snapshot_champion": "de11142f3194e490cf9d6c3c38a39ecaa721afda",
+  "final_source_artifacts": "rounds/r002/artifacts",
+  "holdout": {
+    "baseline": 69.0,
+    "final": 77.5
+  },
+  "final_artifacts": "artifacts/final"
+}

@@ -1,0 +1,26 @@
+{
+  "round": 1,
+  "status": "KEEP",
+  "hypothesis": "围绕“部分＝整体×比例”补齐逆向求解和整体变化的判断方法，应能减少因讲义缺少方法而无法作答的情况，提高得分。",
+  "score": 100.0,
+  "best": 100.0,
+  "gates": {
+    "讲义有实质内容": true,
+    "不直接复制测试题": true,
+    "exit_code": true
+  },
+  "feedback": "固定练习全部答对且提供讲义原句依据。",
+  "commit": "7ff53c0be3ce",
+  "changed": [
+    "lesson.md"
+  ],
+  "ignored": [],
+  "agent_seconds": 84.9,
+  "judge_seconds": 18.0,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "rounds/r001/artifacts",
+  "holdout": null,
+  "note": "score 20 -> 100",
+  "time": "2026-10-23T16:39:44+00:00"
+}

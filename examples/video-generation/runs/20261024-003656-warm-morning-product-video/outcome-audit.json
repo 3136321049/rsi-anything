@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "run_id": "20261024-003656-warm-morning-product-video",
+  "raw_ledger_sha256": "409bef6ea7280c13f16d66d4771c55c3bd911b09fa216f68349ab7a2fc5da4fb",
+  "raw_ledger_unchanged": true,
+  "description": "依据原始服务事件与error.json生成的派生视图；原ledger、report和历史0分均不修改。",
+  "status": "partial_measured_resource_limited",
+  "complete_multiround": false,
+  "resource_exception": true,
+  "successful_generated_candidates": 1,
+  "quality_unknown_rounds": [
+    2,
+    3
+  ],
+  "rounds": [
+    {
+      "round": 0,
+      "raw_status": "BASELINE",
+      "raw_score": 60.5,
+      "effective_status": "BASELINE",
+      "quality_result": "measured",
+      "quality_score": 60.5,
+      "event_id": "7e83c0459d1b46179a8c5980f6148bf6",
+      "reason": "真实视频已取得，正式评审有结果。",
+      "evidence": [
+        "artifacts/baseline/files/out/request.json",
+        "service-evidence/r000/events.txt"
+      ]
+    },
+    {
+      "round": 1,
+      "raw_status": "KEEP",
+      "raw_score": 61.0,
+      "effective_status": "KEEP",
+      "quality_result": "measured",
+      "quality_score": 61.0,
+      "event_id": "808a1a4ca031435e8415b360a7959f42",
+      "reason": "真实视频已取得，正式评审有结果。",
+      "evidence": [
+        "rounds/r001/artifacts/files/out/request.json",
+        "service-evidence/r001/events.txt"
+      ]
+    },
+    {
+      "round": 2,
+      "raw_status": "REVERT",
+      "raw_score": 0.0,
+      "effective_status": "JUDGE_FAIL",
+      "quality_result": "unknown",
+      "quality_score": null,
+      "event_id": "a19f74891a434e109e51155cae36539e",
+      "reason": "生成服务受理后返回 error/null，没有视频，无法评价作品质量。原账本的0分保留，但不作为质量分数。",
+      "evidence": [
+        "rounds/r002/artifacts/files/out/request.json",
+        "service-evidence/r002/events.txt"
+      ]
+    },
+    {
+      "round": 3,
+      "raw_status": "REVERT",
+      "raw_score": 0.0,
+      "effective_status": "JUDGE_FAIL",
+      "quality_result": "unknown",
+      "quality_score": null,
+      "event_id": "db63a03b836f4dadb0d3be44de51f069",
+      "reason": "生成服务受理后返回 error/null，没有视频，无法评价作品质量。原账本的0分保留，但不作为质量分数。",
+      "evidence": [
+        "rounds/r003/artifacts/files/out/request.json",
+        "service-evidence/r003/events.txt"
+      ]
+    }
+  ]
+}

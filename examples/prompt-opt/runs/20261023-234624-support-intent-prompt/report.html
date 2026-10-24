@@ -1,0 +1,1629 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSI run 20261023-234624-support-intent-prompt</title>
+<style>
+:root { --bg:#fbfaf7; --fg:#1d1d1b; --muted:#6b6a64; --line:#e4e1d8; --accent:#2f6fde; --keep:#1f9d55; --drop:#b7b3a6; }
+@media (prefers-color-scheme: dark) { :root { --bg:#161614; --fg:#ecebe6; --muted:#a3a198; --line:#2c2b27; --accent:#7aa7ff; --keep:#4cc38a; --drop:#5b5950; } }
+body { background:var(--bg); color:var(--fg); font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; margin:0; }
+main { max-width:960px; margin:0 auto; padding:32px 16px 64px; }
+h1 { font-size:22px; margin:0 0 4px; } .muted { color:var(--muted); }
+.stats { display:flex; gap:24px; flex-wrap:wrap; margin:20px 0; } .stat b { display:block; font-size:26px; }
+svg { width:100%; height:auto; border:1px solid var(--line); border-radius:8px; }
+.best { fill:none; stroke:var(--accent); stroke-width:2; } .kept { fill:var(--keep); } .dropped { fill:var(--drop); }
+.tick { fill:var(--muted); font-size:11px; }
+table { width:100%; border-collapse:collapse; margin-top:20px; font-size:14px; }
+td,th { border-bottom:1px solid var(--line); padding:6px 8px; text-align:left; vertical-align:top; }
+tr.s-keep td:nth-child(2) { color:var(--keep); font-weight:600; }
+pre { overflow-x:auto; background:color-mix(in srgb, var(--line) 40%, transparent); padding:12px; border-radius:8px; }
+details { border:1px solid var(--line); border-radius:8px; padding:12px; margin:12px 0; } summary { cursor:pointer; font-weight:600; }
+.artifact img,.artifact video { max-width:100%; max-height:560px; } .artifact pre { max-height:420px; white-space:pre-wrap; overflow:auto; } a { color:var(--accent); }
+</style></head><body><main>
+<h1>support-intent-prompt</h1>
+<div class="muted">Improve prompt.md, the instructions a language model follows to label a customer message of a food-delivery
+app with exactly one intent. Score = accuracy (%) on the labeled examples in judge/dev.jsonl (48 messages, mixed Chinese and English).
+The prompt must work for any new message, so write general rules, not answers for specific examples.</div>
+<p class="muted">运行状态：finished。已保存 18 条模型调用记录；调用费用：工具未提供。</p>
+<p><a href="config/rsi.yaml">任务配置</a> · <a href="config/execution.json">模型与运行参数</a></p>
+<div class="stats">
+<div class="stat"><span class="muted">baseline</span><b>89.6</b></div>
+<div class="stat"><span class="muted">best</span><b>89.6</b></div>
+<div class="stat"><span class="muted">rounds / kept</span><b>3 / 0</b></div>
+<div class="stat"><span class="muted">agent</span><b style="font-size:16px">codex</b></div>
+</div>
+<svg viewBox="0 0 720 260" role="img" aria-label="score by round"><polyline points="48.0,33.7 266.7,33.7 485.3,33.7 704.0,33.7" class="best"/><circle cx="48.0" cy="33.7" r="5" class="kept"><title>r0 BASELINE 89.6</title></circle><circle cx="266.7" cy="33.7" r="3.5" class="dropped"><title>r1 REVERT 89.6</title></circle><circle cx="485.3" cy="210.3" r="3.5" class="dropped"><title>r2 REVERT 83.3</title></circle><circle cx="704.0" cy="33.7" r="3.5" class="dropped"><title>r3 REVERT 89.6</title></circle><text x="40" y="210.3" class="tick" text-anchor="end">83.3</text><text x="40" y="122.0" class="tick" text-anchor="end">86.4</text><text x="40" y="33.7" class="tick" text-anchor="end">89.6</text><text x="48.0" y="250" class="tick" text-anchor="middle">r0</text><text x="266.7" y="250" class="tick" text-anchor="middle">r1</text><text x="485.3" y="250" class="tick" text-anchor="middle">r2</text><text x="704.0" y="250" class="tick" text-anchor="middle">r3</text></svg>
+<p class="muted">Line: best score so far. Green: kept. Grey: judged and thrown away.
+Hold-out judge (never shown to the agent): 82.8 → 82.8.
+Stopped: reached 3 rounds.</p>
+<table><thead><tr><th>round</th><th>status</th><th>score</th><th>best</th><th>change</th><th>why</th></tr></thead>
+<tbody><tr class='s-baseline'><td>0</td><td>◆ BASELINE</td><td>89.6</td><td>89.6</td><td>baseline</td><td></td></tr><tr class='s-revert'><td>1</td><td>· REVERT</td><td>89.6</td><td>89.6</td><td>明确 cancel_order 包含已下单后的修改请求，减少此类消息被误判为 other，提高分类准确率。</td><td>score 89.6 is not better than 89.6 (required margin: 2 or 0%)</td></tr><tr class='s-revert'><td>2</td><td>· REVERT</td><td>83.3</td><td>89.6</td><td>明确错餐、缺餐问题优先于退款诉求归入 wrong_item，减少被误判为 refund 的情况，提高准确率。</td><td>score 83.3 is not better than 89.6 (required margin: 2 or 0%)</td></tr><tr class='s-revert'><td>3</td><td>· REVERT</td><td>89.6</td><td>89.6</td><td>将账单与付款凭证请求明确归入 payment，减少误判为 other，提高分类准确率。</td><td>score 89.6 is not better than 89.6 (required margin: 2 or 0%)</td></tr></tbody></table>
+<h2>产物版本</h2><details><summary>初始产物</summary><div class='artifact'><p><a href="artifacts/baseline/files/out/development.json">out/development.json</a></p><pre>{
+  &quot;split&quot;: &quot;development&quot;,
+  &quot;model&quot;: &quot;cli:codex:gpt-5.6-sol&quot;,
+  &quot;accuracy&quot;: 89.6,
+  &quot;correct&quot;: 43,
+  &quot;total&quot;: 48,
+  &quot;errors&quot;: 0,
+  &quot;predictions&quot;: [
+    {
+      &quot;text&quot;: &quot;我点的是宫保鸡丁，送来的是鱼香肉丝&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;饭到了但是少了一份米饭，退钱吧&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;Food arrived cold and soggy, I want my money back&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;外卖撒了一半，汤全洒在袋子里了，怎么赔&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;等了一个小时还没到，不要了，帮我取消&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Where is my order? It&#x27;s already 40 minutes late&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;骑手显示已送达，可我根本没收到&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;优惠券为什么用不了，结算的时候没减&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;我被扣了两次钱，同一个订单&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;能开发票吗？公司报销要用&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;The rider was really rude to me at the door&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Thanks, the rider was so fast tonight!&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Thanks for the quick refund last time, but today my burger is missing from the bag&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;我想注销账号，怎么操作&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;收不到登录验证码&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Can you add more vegan options in my area?&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;I placed the order by mistake, please cancel it before the restaurant starts cooking&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;奶茶太甜了，完全没按少糖做，喝不了，要求退款&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;My drink came but it&#x27;s the wrong flavor, I ordered mango not peach&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;付款一直失败，换了两张卡都不行&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;怎么换绑手机号&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;你们家的炸鸡太好吃了，每周都点！&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;请问你们招骑手吗&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;The order is stuck on &#x27;preparing&#x27; for 50 minutes, what&#x27;s going on&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;送来的披萨都压扁了，盒子也破了，我要退钱&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Delivery is taking forever, just cancel it and give me my money back&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;小票上有三杯咖啡，实际只给了两杯&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Why was I charged a delivery fee when the app said free delivery?&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Can&#x27;t log in, it says my account is locked&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;吃完肚子疼，菜好像不新鲜，申请退款&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;骑手大哥冒雨送过来，辛苦了，给个好评&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;店铺几点关门？&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;还没送到，已经超时半小时了，到底在哪&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;I want to change the delivery address on my profile&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;麻烦取消一下刚才那单，地址填错了&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;红包抵扣没生效，多付了五块&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Got someone else&#x27;s order entirely, not even my name on it&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;The noodles were way too salty to eat, refund please&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Love the new packaging, much less plastic. Great job&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;建议你们加一个备注常用语的功能&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;能帮我把地址改成公司吗？订单刚下&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;Can you add a side of fries to the order I just placed?&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;麻烦备注一下不要香菜，刚才忘写了&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;配送费也太贵了吧，一份面条配送要八块&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Your prices went up again, everything is so expensive now&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;骑手特别好，想给他加点小费，在哪里加&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;The rider was amazing, how do I add a tip after delivery?&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;怎么修改刚才的小费金额，手滑多给了&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    }
+  ]
+}
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/development.md">out/development.md</a></p><pre># 客服分类结果：development
+
+模型：`cli:codex:gpt-5.6-sol`
+
+准确率：89.6%（43/48）；调用失败：0
+
+## 错例
+
+- 饭到了但是少了一份米饭，退钱吧：预期 wrong_item，实际 refund
+- 能开发票吗？公司报销要用：预期 payment，实际 other
+- 能帮我把地址改成公司吗？订单刚下：预期 cancel_order，实际 other
+- Can you add a side of fries to the order I just placed?：预期 cancel_order，实际 other
+- 麻烦备注一下不要香菜，刚才忘写了：预期 cancel_order，实际 other
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/prompt.md">prompt.md</a></p><pre>Classify the customer message into one of these intents:
+refund, late_delivery, wrong_item, cancel_order, account, payment, praise, other.
+
+Answer with the intent only.
+</pre></div></details><details><summary>第 1 轮 · REVERT</summary><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/development.json">out/development.json</a></p><pre>{
+  &quot;split&quot;: &quot;development&quot;,
+  &quot;model&quot;: &quot;cli:codex:gpt-5.6-sol&quot;,
+  &quot;accuracy&quot;: 89.6,
+  &quot;correct&quot;: 43,
+  &quot;total&quot;: 48,
+  &quot;errors&quot;: 0,
+  &quot;predictions&quot;: [
+    {
+      &quot;text&quot;: &quot;我点的是宫保鸡丁，送来的是鱼香肉丝&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;饭到了但是少了一份米饭，退钱吧&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Food arrived cold and soggy, I want my money back&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;外卖撒了一半，汤全洒在袋子里了，怎么赔&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;等了一个小时还没到，不要了，帮我取消&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;Where is my order? It&#x27;s already 40 minutes late&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;骑手显示已送达，可我根本没收到&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;优惠券为什么用不了，结算的时候没减&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;我被扣了两次钱，同一个订单&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;能开发票吗？公司报销要用&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;The rider was really rude to me at the door&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Thanks, the rider was so fast tonight!&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Thanks for the quick refund last time, but today my burger is missing from the bag&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;我想注销账号，怎么操作&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;收不到登录验证码&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Can you add more vegan options in my area?&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;I placed the order by mistake, please cancel it before the restaurant starts cooking&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;奶茶太甜了，完全没按少糖做，喝不了，要求退款&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;My drink came but it&#x27;s the wrong flavor, I ordered mango not peach&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;付款一直失败，换了两张卡都不行&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;怎么换绑手机号&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;你们家的炸鸡太好吃了，每周都点！&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;请问你们招骑手吗&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;The order is stuck on &#x27;preparing&#x27; for 50 minutes, what&#x27;s going on&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;送来的披萨都压扁了，盒子也破了，我要退钱&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Delivery is taking forever, just cancel it and give me my money back&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;小票上有三杯咖啡，实际只给了两杯&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Why was I charged a delivery fee when the app said free delivery?&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Can&#x27;t log in, it says my account is locked&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;吃完肚子疼，菜好像不新鲜，申请退款&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;骑手大哥冒雨送过来，辛苦了，给个好评&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;店铺几点关门？&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;还没送到，已经超时半小时了，到底在哪&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;I want to change the delivery address on my profile&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;麻烦取消一下刚才那单，地址填错了&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;红包抵扣没生效，多付了五块&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Got someone else&#x27;s order entirely, not even my name on it&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;The noodles were way too salty to eat, refund please&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Love the new packaging, much less plastic. Great job&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;建议你们加一个备注常用语的功能&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;能帮我把地址改成公司吗？订单刚下&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Can you add a side of fries to the order I just placed?&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;麻烦备注一下不要香菜，刚才忘写了&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;配送费也太贵了吧，一份面条配送要八块&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Your prices went up again, everything is so expensive now&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;骑手特别好，想给他加点小费，在哪里加&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;The rider was amazing, how do I add a tip after delivery?&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;怎么修改刚才的小费金额，手滑多给了&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    }
+  ]
+}
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/development.md">out/development.md</a></p><pre># 客服分类结果：development
+
+模型：`cli:codex:gpt-5.6-sol`
+
+准确率：89.6%（43/48）；调用失败：0
+
+## 错例
+
+- 等了一个小时还没到，不要了，帮我取消：预期 cancel_order，实际 late_delivery
+- 奶茶太甜了，完全没按少糖做，喝不了，要求退款：预期 refund，实际 wrong_item
+- Delivery is taking forever, just cancel it and give me my money back：预期 cancel_order，实际 late_delivery
+- 骑手特别好，想给他加点小费，在哪里加：预期 payment，实际 praise
+- The rider was amazing, how do I add a tip after delivery?：预期 payment，实际 praise
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/prompt.md">prompt.md</a></p><pre>Classify the customer message into one of these intents:
+refund, late_delivery, wrong_item, cancel_order, account, payment, praise, other.
+
+Use cancel_order for requests to cancel or modify an order already placed, including changes to delivery details, ordered items or quantities, and preparation instructions. A request to change an existing order belongs here even if the customer does not explicitly ask to cancel it. Complaints about an order&#x27;s delivery or received contents should use the relevant issue intent instead.
+
+Answer with the intent only.
+</pre></div></details><details><summary>第 2 轮 · REVERT</summary><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/development.json">out/development.json</a></p><pre>{
+  &quot;split&quot;: &quot;development&quot;,
+  &quot;model&quot;: &quot;cli:codex:gpt-5.6-sol&quot;,
+  &quot;accuracy&quot;: 83.3,
+  &quot;correct&quot;: 40,
+  &quot;total&quot;: 48,
+  &quot;errors&quot;: 0,
+  &quot;predictions&quot;: [
+    {
+      &quot;text&quot;: &quot;我点的是宫保鸡丁，送来的是鱼香肉丝&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;饭到了但是少了一份米饭，退钱吧&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Food arrived cold and soggy, I want my money back&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;外卖撒了一半，汤全洒在袋子里了，怎么赔&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;等了一个小时还没到，不要了，帮我取消&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Where is my order? It&#x27;s already 40 minutes late&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;骑手显示已送达，可我根本没收到&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;优惠券为什么用不了，结算的时候没减&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;我被扣了两次钱，同一个订单&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;能开发票吗？公司报销要用&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;The rider was really rude to me at the door&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Thanks, the rider was so fast tonight!&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Thanks for the quick refund last time, but today my burger is missing from the bag&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;我想注销账号，怎么操作&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;收不到登录验证码&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Can you add more vegan options in my area?&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;I placed the order by mistake, please cancel it before the restaurant starts cooking&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;奶茶太甜了，完全没按少糖做，喝不了，要求退款&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;My drink came but it&#x27;s the wrong flavor, I ordered mango not peach&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;付款一直失败，换了两张卡都不行&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;怎么换绑手机号&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;你们家的炸鸡太好吃了，每周都点！&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;请问你们招骑手吗&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;The order is stuck on &#x27;preparing&#x27; for 50 minutes, what&#x27;s going on&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;送来的披萨都压扁了，盒子也破了，我要退钱&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Delivery is taking forever, just cancel it and give me my money back&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;小票上有三杯咖啡，实际只给了两杯&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Why was I charged a delivery fee when the app said free delivery?&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Can&#x27;t log in, it says my account is locked&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;吃完肚子疼，菜好像不新鲜，申请退款&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;骑手大哥冒雨送过来，辛苦了，给个好评&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;店铺几点关门？&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;还没送到，已经超时半小时了，到底在哪&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;I want to change the delivery address on my profile&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;麻烦取消一下刚才那单，地址填错了&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;红包抵扣没生效，多付了五块&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Got someone else&#x27;s order entirely, not even my name on it&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;The noodles were way too salty to eat, refund please&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Love the new packaging, much less plastic. Great job&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;建议你们加一个备注常用语的功能&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;能帮我把地址改成公司吗？订单刚下&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;Can you add a side of fries to the order I just placed?&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;麻烦备注一下不要香菜，刚才忘写了&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;配送费也太贵了吧，一份面条配送要八块&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;Your prices went up again, everything is so expensive now&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;骑手特别好，想给他加点小费，在哪里加&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;The rider was amazing, how do I add a tip after delivery?&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;怎么修改刚才的小费金额，手滑多给了&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    }
+  ]
+}
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/development.md">out/development.md</a></p><pre># 客服分类结果：development
+
+模型：`cli:codex:gpt-5.6-sol`
+
+准确率：83.3%（40/48）；调用失败：0
+
+## 错例
+
+- 外卖撒了一半，汤全洒在袋子里了，怎么赔：预期 refund，实际 other
+- 能开发票吗？公司报销要用：预期 payment，实际 other
+- 奶茶太甜了，完全没按少糖做，喝不了，要求退款：预期 refund，实际 wrong_item
+- 能帮我把地址改成公司吗？订单刚下：预期 cancel_order，实际 other
+- Can you add a side of fries to the order I just placed?：预期 cancel_order，实际 other
+- 麻烦备注一下不要香菜，刚才忘写了：预期 cancel_order，实际 other
+- 配送费也太贵了吧，一份面条配送要八块：预期 other，实际 payment
+- Your prices went up again, everything is so expensive now：预期 other，实际 payment
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/prompt.md">prompt.md</a></p><pre>Classify the customer message into one of these intents:
+refund, late_delivery, wrong_item, cancel_order, account, payment, praise, other.
+
+Use wrong_item when the delivered order contains incorrect items or is missing
+items, portions, or components. This describes the underlying problem even when
+the customer also asks for a refund or compensation. Use refund for a refund
+request that does not state that items were incorrect or missing.
+
+Answer with the intent only.
+</pre></div></details><details><summary>第 3 轮 · REVERT</summary><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/development.json">out/development.json</a></p><pre>{
+  &quot;split&quot;: &quot;development&quot;,
+  &quot;model&quot;: &quot;cli:codex:gpt-5.6-sol&quot;,
+  &quot;accuracy&quot;: 89.6,
+  &quot;correct&quot;: 43,
+  &quot;total&quot;: 48,
+  &quot;errors&quot;: 0,
+  &quot;predictions&quot;: [
+    {
+      &quot;text&quot;: &quot;我点的是宫保鸡丁，送来的是鱼香肉丝&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;饭到了但是少了一份米饭，退钱吧&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;Food arrived cold and soggy, I want my money back&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;外卖撒了一半，汤全洒在袋子里了，怎么赔&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;等了一个小时还没到，不要了，帮我取消&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Where is my order? It&#x27;s already 40 minutes late&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;骑手显示已送达，可我根本没收到&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;优惠券为什么用不了，结算的时候没减&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;我被扣了两次钱，同一个订单&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;能开发票吗？公司报销要用&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;The rider was really rude to me at the door&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Thanks, the rider was so fast tonight!&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Thanks for the quick refund last time, but today my burger is missing from the bag&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;我想注销账号，怎么操作&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;收不到登录验证码&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Can you add more vegan options in my area?&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;I placed the order by mistake, please cancel it before the restaurant starts cooking&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;奶茶太甜了，完全没按少糖做，喝不了，要求退款&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;My drink came but it&#x27;s the wrong flavor, I ordered mango not peach&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;付款一直失败，换了两张卡都不行&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;怎么换绑手机号&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;你们家的炸鸡太好吃了，每周都点！&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;请问你们招骑手吗&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;The order is stuck on &#x27;preparing&#x27; for 50 minutes, what&#x27;s going on&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;送来的披萨都压扁了，盒子也破了，我要退钱&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Delivery is taking forever, just cancel it and give me my money back&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;小票上有三杯咖啡，实际只给了两杯&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Why was I charged a delivery fee when the app said free delivery?&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Can&#x27;t log in, it says my account is locked&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;吃完肚子疼，菜好像不新鲜，申请退款&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;骑手大哥冒雨送过来，辛苦了，给个好评&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;店铺几点关门？&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;还没送到，已经超时半小时了，到底在哪&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;I want to change the delivery address on my profile&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;麻烦取消一下刚才那单，地址填错了&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;红包抵扣没生效，多付了五块&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Got someone else&#x27;s order entirely, not even my name on it&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;The noodles were way too salty to eat, refund please&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Love the new packaging, much less plastic. Great job&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;建议你们加一个备注常用语的功能&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;能帮我把地址改成公司吗？订单刚下&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;Can you add a side of fries to the order I just placed?&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;麻烦备注一下不要香菜，刚才忘写了&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;配送费也太贵了吧，一份面条配送要八块&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Your prices went up again, everything is so expensive now&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;骑手特别好，想给他加点小费，在哪里加&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;The rider was amazing, how do I add a tip after delivery?&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;怎么修改刚才的小费金额，手滑多给了&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    }
+  ]
+}
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/development.md">out/development.md</a></p><pre># 客服分类结果：development
+
+模型：`cli:codex:gpt-5.6-sol`
+
+准确率：89.6%（43/48）；调用失败：0
+
+## 错例
+
+- 饭到了但是少了一份米饭，退钱吧：预期 wrong_item，实际 refund
+- Thanks for the quick refund last time, but today my burger is missing from the bag：预期 wrong_item，实际 other
+- 能帮我把地址改成公司吗？订单刚下：预期 cancel_order，实际 other
+- Can you add a side of fries to the order I just placed?：预期 cancel_order，实际 other
+- 麻烦备注一下不要香菜，刚才忘写了：预期 cancel_order，实际 other
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/prompt.md">prompt.md</a></p><pre>Classify the customer message into one of these intents:
+refund, late_delivery, wrong_item, cancel_order, account, payment, praise, other.
+
+The payment intent includes billing and payment documentation: requests for invoices, receipts, or proof of payment for reimbursement belong to payment, even when no payment failure is mentioned.
+
+Answer with the intent only.
+</pre></div></details><details><summary>最终产物</summary><div class='artifact'><p><a href="artifacts/final/files/out/development.json">out/development.json</a></p><pre>{
+  &quot;split&quot;: &quot;development&quot;,
+  &quot;model&quot;: &quot;cli:codex:gpt-5.6-sol&quot;,
+  &quot;accuracy&quot;: 89.6,
+  &quot;correct&quot;: 43,
+  &quot;total&quot;: 48,
+  &quot;errors&quot;: 0,
+  &quot;predictions&quot;: [
+    {
+      &quot;text&quot;: &quot;我点的是宫保鸡丁，送来的是鱼香肉丝&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;饭到了但是少了一份米饭，退钱吧&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;Food arrived cold and soggy, I want my money back&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;外卖撒了一半，汤全洒在袋子里了，怎么赔&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;等了一个小时还没到，不要了，帮我取消&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Where is my order? It&#x27;s already 40 minutes late&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;骑手显示已送达，可我根本没收到&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;优惠券为什么用不了，结算的时候没减&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;我被扣了两次钱，同一个订单&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;能开发票吗？公司报销要用&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;The rider was really rude to me at the door&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Thanks, the rider was so fast tonight!&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Thanks for the quick refund last time, but today my burger is missing from the bag&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;我想注销账号，怎么操作&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;收不到登录验证码&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Can you add more vegan options in my area?&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;I placed the order by mistake, please cancel it before the restaurant starts cooking&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;奶茶太甜了，完全没按少糖做，喝不了，要求退款&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;My drink came but it&#x27;s the wrong flavor, I ordered mango not peach&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;付款一直失败，换了两张卡都不行&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;怎么换绑手机号&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;你们家的炸鸡太好吃了，每周都点！&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;请问你们招骑手吗&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;The order is stuck on &#x27;preparing&#x27; for 50 minutes, what&#x27;s going on&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;送来的披萨都压扁了，盒子也破了，我要退钱&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Delivery is taking forever, just cancel it and give me my money back&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;小票上有三杯咖啡，实际只给了两杯&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Why was I charged a delivery fee when the app said free delivery?&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Can&#x27;t log in, it says my account is locked&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;吃完肚子疼，菜好像不新鲜，申请退款&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;骑手大哥冒雨送过来，辛苦了，给个好评&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;店铺几点关门？&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;还没送到，已经超时半小时了，到底在哪&quot;,
+      &quot;expected&quot;: &quot;late_delivery&quot;,
+      &quot;predicted&quot;: &quot;late_delivery&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;I want to change the delivery address on my profile&quot;,
+      &quot;expected&quot;: &quot;account&quot;,
+      &quot;predicted&quot;: &quot;account&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;麻烦取消一下刚才那单，地址填错了&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;cancel_order&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;红包抵扣没生效，多付了五块&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Got someone else&#x27;s order entirely, not even my name on it&quot;,
+      &quot;expected&quot;: &quot;wrong_item&quot;,
+      &quot;predicted&quot;: &quot;wrong_item&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;The noodles were way too salty to eat, refund please&quot;,
+      &quot;expected&quot;: &quot;refund&quot;,
+      &quot;predicted&quot;: &quot;refund&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Love the new packaging, much less plastic. Great job&quot;,
+      &quot;expected&quot;: &quot;praise&quot;,
+      &quot;predicted&quot;: &quot;praise&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;建议你们加一个备注常用语的功能&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;能帮我把地址改成公司吗？订单刚下&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;Can you add a side of fries to the order I just placed?&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;麻烦备注一下不要香菜，刚才忘写了&quot;,
+      &quot;expected&quot;: &quot;cancel_order&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: false
+    },
+    {
+      &quot;text&quot;: &quot;配送费也太贵了吧，一份面条配送要八块&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;Your prices went up again, everything is so expensive now&quot;,
+      &quot;expected&quot;: &quot;other&quot;,
+      &quot;predicted&quot;: &quot;other&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;骑手特别好，想给他加点小费，在哪里加&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;The rider was amazing, how do I add a tip after delivery?&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    },
+    {
+      &quot;text&quot;: &quot;怎么修改刚才的小费金额，手滑多给了&quot;,
+      &quot;expected&quot;: &quot;payment&quot;,
+      &quot;predicted&quot;: &quot;payment&quot;,
+      &quot;correct&quot;: true
+    }
+  ]
+}
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/development.md">out/development.md</a></p><pre># 客服分类结果：development
+
+模型：`cli:codex:gpt-5.6-sol`
+
+准确率：89.6%（43/48）；调用失败：0
+
+## 错例
+
+- 饭到了但是少了一份米饭，退钱吧：预期 wrong_item，实际 refund
+- 能开发票吗？公司报销要用：预期 payment，实际 other
+- 能帮我把地址改成公司吗？订单刚下：预期 cancel_order，实际 other
+- Can you add a side of fries to the order I just placed?：预期 cancel_order，实际 other
+- 麻烦备注一下不要香菜，刚才忘写了：预期 cancel_order，实际 other
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/prompt.md">prompt.md</a></p><pre>Classify the customer message into one of these intents:
+refund, late_delivery, wrong_item, cancel_order, account, payment, praise, other.
+
+Answer with the intent only.
+</pre></div></details>
+
+<p class="muted">Branch <code>rsi/20261023-234624-support-intent-prompt</code>. Generated by RSI-Anything.</p>
+</main></body></html>

@@ -24,9 +24,11 @@ import tempfile
 import time
 import urllib.error
 import urllib.request
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
+
+from .process import run as run_process
 
 # provider -> (wire protocol, default base URL, API key env var)
 PROVIDERS: dict[str, tuple[str, str, str]] = {
@@ -84,6 +86,8 @@ class Reply:
     text: str
     cost_usd: Optional[float] = None
     seconds: float = 0.0
+    model: str = ""
+    usage: dict = field(default_factory=dict)
 
 
 def ask(ref: ModelRef, prompt: str, system: str = "", images: Optional[list[Path]] = None,
@@ -96,6 +100,15 @@ def ask(ref: ModelRef, prompt: str, system: str = "", images: Optional[list[Path
     else:
         reply = _ask_openai(ref, prompt, system, images or [], timeout, json_mode)
     reply.seconds = time.perf_counter() - started
+    usage_log = os.environ.get("RSI_USAGE_LOG")
+    if usage_log:
+        # 只记调用元信息，任务正文与账号凭据不进用量记录。
+        record = {"requested_model": ref.raw, "actual_model": reply.model or None,
+                  "usage": reply.usage, "seconds": round(reply.seconds, 3), "cost_usd": reply.cost_usd}
+        destination = Path(usage_log)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        with destination.open("a", encoding="utf-8") as stream:
+            stream.write(json.dumps(record, ensure_ascii=False) + "\n")
     return reply
 
 
@@ -152,7 +165,8 @@ def _ask_openai(ref, prompt, system, images, timeout, json_mode) -> Reply:
         body["response_format"] = {"type": "json_object"}
     data = _post(f"{ref.base_url}/chat/completions", {"Authorization": f"Bearer {_api_key(ref)}"}, body, timeout)
     try:
-        return Reply(data["choices"][0]["message"]["content"] or "")
+        return Reply(data["choices"][0]["message"]["content"] or "",
+                     model=str(data.get("model") or ""), usage=data.get("usage") or {})
     except (KeyError, IndexError, TypeError) as exc:
         raise LLMError(f"unexpected response from {ref.raw}: {str(data)[:300]}") from exc
 
@@ -169,7 +183,7 @@ def _ask_anthropic(ref, prompt, system, images, timeout) -> Reply:
     headers = {"x-api-key": _api_key(ref), "anthropic-version": "2023-06-01"}
     data = _post(f"{ref.base_url}/v1/messages", headers, body, timeout)
     text = "".join(block.get("text", "") for block in data.get("content", []) if block.get("type") == "text")
-    return Reply(text)
+    return Reply(text, model=str(data.get("model") or ""), usage=data.get("usage") or {})
 
 
 # ---------------------------------------------------------------- coding-agent CLIs
@@ -183,13 +197,17 @@ def cli_available(name: str) -> bool:
 
 def _ask_cli(ref: ModelRef, prompt: str, images: list[Path], timeout: int) -> Reply:
     """Ask a coding-agent CLI a one-shot question inside an empty scratch directory."""
-    from .agents.registry import CLI_AGENTS
+    from .agents.registry import CLI_AGENTS, check_auth
 
     spec = CLI_AGENTS.get(ref.provider)
     if spec is None:
         raise LLMError(f"unknown CLI {ref.provider!r}; known: {', '.join(sorted(CLI_AGENTS))}")
     if not shutil.which(spec.binary):
         raise LLMError(f"`{spec.binary}` is not installed or not on PATH")
+    try:
+        check_auth(spec, min(timeout, 10))
+    except RuntimeError as exc:
+        raise LLMError(str(exc)) from exc
     with tempfile.TemporaryDirectory(prefix="rsi-ask-") as scratch:
         scratch_dir = Path(scratch)
         attached = []
@@ -201,14 +219,15 @@ def _ask_cli(ref: ModelRef, prompt: str, images: list[Path], timeout: int) -> Re
             prompt += "\n\nImages to inspect (read them before answering):\n" + "\n".join(f"- {p.name}" for p in attached)
         command, stdin, out_file, extra_env = spec.ask_command(prompt, ref.model, scratch_dir, attached)
         try:
-            run = subprocess.run(command, cwd=scratch_dir, input=stdin, capture_output=True, text=True,
-                                 timeout=timeout, env=spec.env(extra_env))
+            run = run_process(command, cwd=scratch_dir, input=stdin,
+                              timeout=timeout, env=spec.env(extra_env))
         except subprocess.TimeoutExpired as exc:
             raise LLMError(f"{ref.raw} timed out after {timeout}s") from exc
         if run.returncode != 0:
             raise LLMError(f"{ref.raw} exited {run.returncode}: {(run.stderr or run.stdout)[-600:]}")
         text, cost = spec.parse_output(run.stdout, out_file)
-        return Reply(text, cost)
+        metadata = spec.metadata(run.stdout)
+        return Reply(text, cost, model=metadata["actual_model"] or "", usage=metadata["usage"])
 
 
 # ---------------------------------------------------------------- choosing models

@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-24",
+  "status": "verified",
+  "manifest_files_checked": 77,
+  "generation_records": [
+    {
+      "path": "artifacts/baseline/holdout-artifacts/files/out/generation.json",
+      "split": "holdout",
+      "recorded_posts": 1
+    },
+    {
+      "path": "artifacts/baseline/files/out/generation.json",
+      "split": "development",
+      "recorded_posts": 3
+    },
+    {
+      "path": "artifacts/final/holdout-artifacts/files/out/generation.json",
+      "split": "holdout",
+      "recorded_posts": 1
+    },
+    {
+      "path": "artifacts/final/files/out/generation.json",
+      "split": "development",
+      "recorded_posts": 3
+    },
+    {
+      "path": "rounds/r001/artifacts/files/out/generation.json",
+      "split": "development",
+      "recorded_posts": 3
+    },
+    {
+      "path": "rounds/r002/artifacts/files/out/generation.json",
+      "split": "development",
+      "recorded_posts": 3
+    },
+    {
+      "path": "rounds/r005/artifacts/files/out/generation.json",
+      "split": "development",
+      "recorded_posts": 3
+    },
+    {
+      "path": "rounds/r004/artifacts/files/out/generation.json",
+      "split": "development",
+      "recorded_posts": 3
+    },
+    {
+      "path": "rounds/r003/artifacts/files/out/generation.json",
+      "split": "development",
+      "recorded_posts": 3
+    }
+  ],
+  "holdout": {
+    "baseline": 69.0,
+    "final": 77.5
+  },
+  "scope": "核对逐轮稿件、实际生成调用记录与哈希；新简报结果单列，未推断普遍写作能力。"
+}

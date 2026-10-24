@@ -1,0 +1,50 @@
+{
+  "files": [
+    {
+      "path": "generation.json",
+      "bytes": 1146,
+      "sha256": "dc55f4f4b7c2386477e4201c50882dcd1407b07c92557d367e4a46996831feae"
+    },
+    {
+      "path": "out/events.txt",
+      "bytes": 281,
+      "sha256": "25d68796ddad3e009f484196c2d9aa2822c4a1d3f792d73af24620d0455f5dc5",
+      "source_sha256": "08315ffe739a0cdbbe2ba3339493ee4ebf533192f6a0151e48addf880c529219"
+    },
+    {
+      "path": "out/gates.json",
+      "bytes": 90,
+      "sha256": "c022f633b9f39e8b9db707eaf6978fbb6628e14e6bef83b2bfb7075557421776"
+    },
+    {
+      "path": "out/metadata.json",
+      "bytes": 3049,
+      "sha256": "7ace0954c4fcd8215a686f058c11e1af8fd342ff736de8d8ae5695a7911c58ab",
+      "source_sha256": "5dde01e3d1ce30ed785b1aa71aabf7bf808e54115030eef9469f9dbebf00e65f"
+    },
+    {
+      "path": "out/notes.txt",
+      "bytes": 171,
+      "sha256": "e1846ca38e719b1cd5268453af47c27545ab1288f5d02b38d093f6a74e8c8649"
+    },
+    {
+      "path": "out/preview.html",
+      "bytes": 1439,
+      "sha256": "b32a1995d3957156d47e9c445bcea80291d7f87dc2e5f55c8843804a4a64846e"
+    },
+    {
+      "path": "out/request.json",
+      "bytes": 1409,
+      "sha256": "6ff5b7c58ad71c962fa908e2e34504c8d1a8174bf8ba3240163d626ac97c01ad"
+    },
+    {
+      "path": "out/video.mp4",
+      "bytes": 64158,
+      "sha256": "c6149c212016f294b22a8292fde5bcf15231f7e8cb6be232d1ff6b92bd721b5e"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": [],
+  "source": "judge_workspace",
+  "evaluation_status": "evaluated"
+}

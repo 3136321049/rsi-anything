@@ -1,0 +1,143 @@
+{
+  "status": "verified_partial",
+  "checked_at": "2026-10-23T16:55:20.672432+00:00",
+  "run_id": "20261024-003656-warm-morning-product-video",
+  "validation_scope": "核验已保存视频可解码、文件SHA、输入配置与请求、来源事件；不重跑模型评分，不将服务失败认作作品0分。",
+  "final_verified": true,
+  "all_formally_judged_snapshots_passed": true,
+  "multi_round_demo_complete": false,
+  "successful_generated_candidates": 1,
+  "unknown_quality_rounds": [
+    2,
+    3
+  ],
+  "resource_exception": true,
+  "checks": [
+    {
+      "round": 0,
+      "snapshot": "artifacts/baseline",
+      "input_request_matches_configuration": true,
+      "artifact_manifest_valid": true,
+      "cache_key": "4e66aec6512c70bda5d9ce3ba2886eb860842dd7a300dc268f6b0ad392b6abb6",
+      "event_id": "7e83c0459d1b46179a8c5980f6148bf6",
+      "prompt_chars": 24,
+      "negative_chars": 15,
+      "parameters": {
+        "height": 512,
+        "width": 704,
+        "duration": 2,
+        "seed": 42,
+        "randomize_seed": false,
+        "cfg": 1,
+        "multiscale": false
+      },
+      "video_exists": true,
+      "decode_ok": true,
+      "video_sha256": "f13b5c42dabc82014bdf7cf2bd4f7a24db438c538f87d4216a3313e845b43e92",
+      "source_video_hash_matches": true,
+      "probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 704,
+            "height": 512,
+            "r_frame_rate": "30/1",
+            "nb_read_frames": "57"
+          }
+        ],
+        "format": {
+          "duration": "1.900000"
+        }
+      }
+    },
+    {
+      "round": 1,
+      "snapshot": "rounds/r001/artifacts",
+      "input_request_matches_configuration": true,
+      "artifact_manifest_valid": true,
+      "cache_key": "52245a7ff820a9e88876033f4607805902c889a4a4809952f121ab595f8f607f",
+      "event_id": "808a1a4ca031435e8415b360a7959f42",
+      "prompt_chars": 868,
+      "negative_chars": 227,
+      "parameters": {
+        "height": 512,
+        "width": 704,
+        "duration": 2,
+        "seed": 42,
+        "randomize_seed": false,
+        "cfg": 1,
+        "multiscale": false
+      },
+      "video_exists": true,
+      "decode_ok": true,
+      "video_sha256": "c6149c212016f294b22a8292fde5bcf15231f7e8cb6be232d1ff6b92bd721b5e",
+      "source_video_hash_matches": true,
+      "probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 704,
+            "height": 512,
+            "r_frame_rate": "30/1",
+            "nb_read_frames": "57"
+          }
+        ],
+        "format": {
+          "duration": "1.900000"
+        }
+      }
+    },
+    {
+      "round": 2,
+      "snapshot": "rounds/r002/artifacts",
+      "input_request_matches_configuration": true,
+      "artifact_manifest_valid": true,
+      "cache_key": "ccc5377120de29fa54715953565f012ed97f95c112f2ccaac90cfde80ffb3b26",
+      "event_id": "a19f74891a434e109e51155cae36539e",
+      "prompt_chars": 981,
+      "negative_chars": 315,
+      "parameters": {
+        "height": 512,
+        "width": 704,
+        "duration": 2,
+        "seed": 42,
+        "randomize_seed": false,
+        "cfg": 1,
+        "multiscale": false
+      },
+      "video_exists": false,
+      "quality_result": "unknown",
+      "error_event": "event: error\ndata: null"
+    },
+    {
+      "round": 3,
+      "snapshot": "rounds/r003/artifacts",
+      "input_request_matches_configuration": true,
+      "artifact_manifest_valid": true,
+      "cache_key": "c5058d0442c0ed3f539250763b8df7cb418295175dc84656d9f0ae53297e072b",
+      "event_id": "db63a03b836f4dadb0d3be44de51f069",
+      "prompt_chars": 1159,
+      "negative_chars": 227,
+      "parameters": {
+        "height": 512,
+        "width": 704,
+        "duration": 2,
+        "seed": 42,
+        "randomize_seed": false,
+        "cfg": 1,
+        "multiscale": false
+      },
+      "video_exists": false,
+      "quality_result": "unknown",
+      "error_event": "event: error\ndata: null"
+    }
+  ],
+  "final_video_sha256": "c6149c212016f294b22a8292fde5bcf15231f7e8cb6be232d1ff6b92bd721b5e",
+  "final_matches_round": 1,
+  "raw_ledger_sha256": "409bef6ea7280c13f16d66d4771c55c3bd911b09fa216f68349ab7a2fc5da4fb",
+  "diagnostic": "../../probes/2026-10-24-service-diagnosis/receipt.json"
+}

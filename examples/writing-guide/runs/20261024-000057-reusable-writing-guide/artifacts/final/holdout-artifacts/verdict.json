@@ -1,0 +1,30 @@
+{
+  "score": 60.0,
+  "gates": {
+    "all_briefs_generated": true,
+    "guide_present": true,
+    "min_chars": true,
+    "max_chars": true,
+    "check:生成稿没有编造简报之外的价格、时间、名额、用户体验或效果承诺。": false,
+    "check:生成稿没有把某一份简报的事实或行动入口误用到另一份。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "holdout：固定写手 cli:codex:gpt-6.1-sol 已生成 1/1 份简报的文案。\nfailed gates: check:生成稿没有编造简报之外的价格、时间、名额、用户体验或效果承诺。\naction 4.0/10: 下一步写得明确且不施压，但公告页及场次选择方式均无简报依据，入口无法确认可行，因此未达到5分。\nreader_fit 6.0/10: 直接点出目标读者的顾虑，但主要复述人群标签，缺少更具体的阅读困境，尚未达到抓住具体处境的8分水平。\n[cli:codex:gpt-6.1-sol] 逐项核对事实依据：将“每周三”改为“周三”，删除未经提供的公告页报名指引，待取得真实入口后再补充。",
+  "metrics": {
+    "criteria": {
+      "reader_fit": 6.0,
+      "useful_structure": 7.0,
+      "natural_voice": 6.0,
+      "action": 4.0
+    },
+    "jury": [
+      "cli:codex:gpt-6.1-sol"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "cost_usd": null
+  },
+  "seconds": 42.58481962400003,
+  "error": ""
+}

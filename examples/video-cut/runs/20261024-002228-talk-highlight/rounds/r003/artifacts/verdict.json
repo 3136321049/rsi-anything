@@ -1,0 +1,80 @@
+{
+  "score": 77.0,
+  "gates": {
+    "valid_edit": true,
+    "duration_40_75s": true,
+    "segments_4_14": true,
+    "rendered": true,
+    "substance": true,
+    "not_repetitive": true,
+    "no_placeholder": true,
+    "no_evaluator_address": true,
+    "check:成片里没有\"后面再说\"\"第二点\"这类引用了被剪掉内容的句子，或者被引用的内容也在成片里。": true,
+    "check:成片没有因为剪辑而让某个方法的意思和原分享相反或被曲解。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "cut: 7 sentences, 43.6s (allowed 40-75s); order [32, 33, 34, 35, 36, 37, 38]\nvalue 6.0/10: 观众能理解尊重新独立国家立场、支持其自由的中心意思，但承诺主要停留在原则表态，合作或责任的具体内容不足，尚未达到8分的信息充分程度。\nhook 7.0/10: 殖民统治结束却可能迎来更严酷暴政的反差有吸引力，但先交代受众和承诺才进入冲突，第二句也没有进一步增强悬念，未达到8分的直接程度。\n[cli:codex:gpt-6.1-sol] 将选段改为从“The world is very different now.”到“but from the hand of God.”的连续完整句，以时代变化为单一主题，让消除贫困与毁灭人类的具体反差更早出现，并用原音核实是否达到40—75秒。",
+  "metrics": {
+    "criteria": {
+      "hook": 7.0,
+      "coherence": 10.0,
+      "value": 6.0,
+      "ending": 8.0,
+      "pacing": 8.0
+    },
+    "jury": [
+      "cli:codex:gpt-6.1-sol"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "hook": {
+            "score": 7,
+            "evidence": "one form of colonial control shall not have\npassed away merely to be replaced by a far more iron tyranny.",
+            "why": "殖民统治结束却可能迎来更严酷暴政的反差有吸引力，但先交代受众和承诺才进入冲突，第二句也没有进一步增强悬念，未达到8分的直接程度。"
+          },
+          "coherence": {
+            "score": 10,
+            "evidence": "We shall not always expect to find them supporting our view.",
+            "why": "them明确承接前面的新独立国家，随后从不要求支持美国立场推进到支持自身自由，整段连续完整，没有剪辑断裂。"
+          },
+          "value": {
+            "score": 6,
+            "evidence": "But we\nshall always hope to find them strongly supporting their own\nfreedom",
+            "why": "观众能理解尊重新独立国家立场、支持其自由的中心意思，但承诺主要停留在原则表态，合作或责任的具体内容不足，尚未达到8分的信息充分程度。"
+          },
+          "ending": {
+            "score": 8,
+            "evidence": "those who foolishly\nsought power by riding the back of the tiger ended up inside.",
+            "why": "以借助危险力量争权反遭吞噬的警告收束，完整且有记忆点，但警告对象较含蓄，尚不足以达到10分的强烈收藏或行动效果。"
+          },
+          "pacing": {
+            "score": 8,
+            "evidence": "We shall not always expect to find them supporting our view.",
+            "why": "没有寒暄或明显重复，立场让步也为下一句提供必要对照，但开头长句进入重点偏慢，结尾历史警告又增加理解负担，未达到每句都高效推进的10分。"
+          }
+        },
+        "checks": {
+          "成片里没有\"后面再说\"\"第二点\"这类引用了被剪掉内容的句子，或者被引用的内容也在成片里。": {
+            "pass": true,
+            "why": "所有代词均能在片段内找到对应对象，没有依赖被删内容的预告或编号。"
+          },
+          "成片没有因为剪辑而让某个方法的意思和原分享相反或被曲解。": {
+            "pass": true,
+            "why": "完整保留原稿连续段落，关于新独立国家、自由和权力风险的原意未被剪辑改变。"
+          }
+        },
+        "manipulation": false,
+        "top_fix": "将选段改为从“The world is very different now.”到“but from the hand of God.”的连续完整句，以时代变化为单一主题，让消除贫困与毁灭人类的具体反差更早出现，并用原音核实是否达到40—75秒。",
+        "_model": "cli:codex:gpt-6.1-sol",
+        "_cost": null
+      }
+    ],
+    "cost_usd": null
+  },
+  "seconds": 51.21902749999998,
+  "error": ""
+}

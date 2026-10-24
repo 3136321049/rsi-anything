@@ -12,11 +12,14 @@ Layout inside the project (excluded from git automatically):
 from __future__ import annotations
 
 import json
+import os
 import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
+
+from .artifacts import write_json
 
 STATE_DIR = ".rsi"
 
@@ -27,6 +30,7 @@ REVERT = "REVERT"            # judged, not better (or a gate failed)
 NO_CHANGE = "NO_CHANGE"      # the agent changed nothing inside the artifact paths
 AGENT_FAIL = "AGENT_FAIL"    # the agent crashed or timed out
 JUDGE_FAIL = "JUDGE_FAIL"    # the judge could not produce a verdict
+INTERRUPTED = "INTERRUPTED"  # 中断轮保留现场，续跑时不默默重复这一轮。
 
 
 def now() -> str:
@@ -53,6 +57,8 @@ class Row:
     agent_seconds: float = 0.0
     judge_seconds: float = 0.0
     cost_usd: Optional[float] = None
+    judge_cost_usd: Optional[float] = None
+    artifacts: str = ""
     holdout: Optional[float] = None
     note: str = ""
     time: str = field(default_factory=now)
@@ -79,20 +85,62 @@ class RunStore:
         return path
 
     def write_meta(self, meta: dict[str, Any]):
-        (self.dir / "run.json").write_text(json.dumps(meta, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        write_json(self.dir / "run.json", meta)
 
     def meta(self) -> dict[str, Any]:
         path = self.dir / "run.json"
         return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
 
     def append(self, row: Row):
+        if any(item["round"] == row.round for item in self.rows()):
+            raise ValueError(f"round {row.round} is already recorded")
+        # 保留异常退出留下的尾部片段，再补写完整记录。
+        if self.ledger_path.exists():
+            content = self.ledger_path.read_bytes()
+            if content and not content.endswith(b"\n"):
+                tail = content.rsplit(b"\n", 1)[-1]
+                try:
+                    json.loads(tail)
+                except (ValueError, UnicodeDecodeError):
+                    (self.dir / "ledger.interrupted-tail").write_bytes(tail)
+                    self.ledger_path.write_bytes(content[:-len(tail)])
+                else:
+                    with self.ledger_path.open("ab") as stream:
+                        stream.write(b"\n")
         with self.ledger_path.open("a", encoding="utf-8") as stream:
             stream.write(json.dumps(asdict(row), ensure_ascii=False) + "\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+
+    def complete_round(self, row: Row):
+        write_json(self.round_dir(row.round) / "result.json", asdict(row))
+        self.append(row)
+
+    def recover_rounds(self):
+        """补齐已落盘、但还没追加到账本的完整轮次。"""
+        recorded = {item["round"] for item in self.rows()}
+        for path in sorted((self.dir / "rounds").glob("r*/result.json")):
+            row = Row(**json.loads(path.read_text(encoding="utf-8")))
+            if row.round not in recorded:
+                self.append(row)
+                recorded.add(row.round)
 
     def rows(self) -> list[dict[str, Any]]:
         if not self.ledger_path.exists():
             return []
-        return [json.loads(line) for line in self.ledger_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+        content = self.ledger_path.read_bytes()
+        rows = []
+        lines = content.splitlines()
+        for index, line in enumerate(lines):
+            if not line.strip():
+                continue
+            try:
+                rows.append(json.loads(line))
+            except (ValueError, UnicodeDecodeError):
+                if index == len(lines) - 1 and not content.endswith(b"\n"):
+                    break
+                raise
+        return rows
 
 
 def lessons_path(repo: Path, contract_name: str) -> Path:

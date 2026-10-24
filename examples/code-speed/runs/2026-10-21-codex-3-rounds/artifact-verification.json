@@ -1,0 +1,92 @@
+{
+  "date": "2026-10-23",
+  "purpose": "使用当前模板正确性检查复核重建产物；以下计时是独立复核，不替换原始实验结果。",
+  "judge_sha256": "4c6184e44074990ca404bf92ed693193eb739e61c1e3d3900179fe97cd61db48",
+  "versions": [
+    {
+      "version": 0,
+      "artifact": "artifacts/baseline/files/search.py",
+      "sha256": "f0b83066b368de6699d0b45ca1b8dbbbb101a86455d2166b9806751ccea0dcc1",
+      "verification": {
+        "score": 1.0,
+        "gates": {
+          "correct": true
+        },
+        "feedback": "correct on all 19 checks; 1.0x faster than the original (248.5 ms vs 247.5 ms for 15 queries over 1202 names)",
+        "metrics": {
+          "seed": 4271317442,
+          "candidate_ms": 248.55,
+          "reference_ms": 247.51
+        }
+      }
+    },
+    {
+      "version": 1,
+      "artifact": "rounds/r001/artifacts/files/search.py",
+      "sha256": "eb02ded78b807ca560fc81ef9c8e53704ff72242bb33fecf37071e131f40e1ce",
+      "verification": {
+        "score": 4.88,
+        "gates": {
+          "correct": true
+        },
+        "feedback": "correct on all 19 checks; 4.9x faster than the original (59.1 ms vs 288.4 ms for 15 queries over 1202 names)",
+        "metrics": {
+          "seed": 3200559515,
+          "candidate_ms": 59.06,
+          "reference_ms": 288.4
+        }
+      }
+    },
+    {
+      "version": 2,
+      "artifact": "rounds/r002/artifacts/files/search.py",
+      "sha256": "3019e2d900dce2360f612d9677385fc01841e9f8acf7f004fde88643b3554504",
+      "verification": {
+        "score": 19.83,
+        "gates": {
+          "correct": true
+        },
+        "feedback": "correct on all 19 checks; 19.8x faster than the original (12.8 ms vs 253.3 ms for 15 queries over 1202 names)",
+        "metrics": {
+          "seed": 2177426534,
+          "candidate_ms": 12.78,
+          "reference_ms": 253.35
+        }
+      }
+    },
+    {
+      "version": 3,
+      "artifact": "rounds/r003/artifacts/files/search.py",
+      "sha256": "0351a0ab36f90b2b1998dd43eb8a4bc0af7fb67acd2d4e94aeee1b5452a6df7f",
+      "verification": {
+        "score": 28.94,
+        "gates": {
+          "correct": true
+        },
+        "feedback": "correct on all 19 checks; 28.9x faster than the original (9.4 ms vs 271.9 ms for 15 queries over 1202 names)",
+        "metrics": {
+          "seed": 3667807158,
+          "candidate_ms": 9.39,
+          "reference_ms": 271.88
+        }
+      }
+    },
+    {
+      "version": "final",
+      "artifact": "artifacts/final/files/search.py",
+      "sha256": "0351a0ab36f90b2b1998dd43eb8a4bc0af7fb67acd2d4e94aeee1b5452a6df7f",
+      "verification": {
+        "score": 31.73,
+        "gates": {
+          "correct": true
+        },
+        "feedback": "correct on all 19 checks; 31.7x faster than the original (7.7 ms vs 245.1 ms for 15 queries over 1202 names)",
+        "metrics": {
+          "seed": 195866291,
+          "candidate_ms": 7.72,
+          "reference_ms": 245.11
+        }
+      }
+    }
+  ]
+}

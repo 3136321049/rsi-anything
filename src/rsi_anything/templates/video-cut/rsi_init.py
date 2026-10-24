@@ -12,6 +12,7 @@ Outputs: assets/raw.mp4 (not committed), judge/transcript.json (frozen sentence 
 from __future__ import annotations
 
 import json
+import os
 import platform
 import shutil
 import subprocess
@@ -94,9 +95,35 @@ def main():
     if not shutil.which("ffmpeg"):
         sys.exit("ffmpeg is required (https://ffmpeg.org)")
     raw = HERE / "assets" / "raw.mp4"
-    source = HERE / "input.mp4"
+    source = Path(os.environ.get("RSI_VIDEO_INPUT", str(HERE / "input.mp4"))).expanduser().resolve()
+    supplied_timeline = os.environ.get("RSI_VIDEO_TRANSCRIPT")
     if source.exists():
-        timeline = transcribe(source, raw)
+        if supplied_timeline:
+            timeline = json.loads(Path(supplied_timeline).read_text(encoding="utf-8"))
+            limit = duration(source)
+            if not timeline or any(not (0 <= float(s["start"]) < float(s["end"]) <= limit + 0.1)
+                                   or not str(s.get("text", "")).strip() for s in timeline):
+                sys.exit("提供的句子时间线为空或超出视频时长")
+            if len({s["id"] for s in timeline}) != len(timeline):
+                sys.exit("句子编号不能重复")
+            raw.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, raw)
+        else:
+            timeline = transcribe(source, raw)
+        (HERE / "judge" / "talk.txt").write_text("\n".join(s["text"] for s in timeline) + "\n", encoding="utf-8")
+        # 自备素材使用对应的目标说明，避免继承默认学习话题。
+        if os.environ.get("RSI_VIDEO_BRIEF"):
+            (HERE / "judge" / "keypoints.md").write_text(Path(os.environ["RSI_VIDEO_BRIEF"]).read_text(), encoding="utf-8")
+        else:
+            (HERE / "judge" / "keypoints.md").write_text(
+                "# 剪辑目标\n\n从给定原始讲稿中选取主题明确、衔接自然的片段，保持原意和语境。\n", encoding="utf-8")
+        import yaml
+        cfg = yaml.safe_load((HERE / "rsi.yaml").read_text())
+        cfg["goal"] = ("从 judge/transcript.json 对应的真实口播中选出40到75秒的短片，只修改edit.json。"
+                       "按judge/keypoints.md给出的目标选句和安排顺序，保留原意，不拼接出相反含义。")
+        (HERE / "rsi.yaml").write_text(yaml.safe_dump(cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")
+        if os.environ.get("RSI_VIDEO_SOURCE_INFO"):
+            shutil.copyfile(os.environ["RSI_VIDEO_SOURCE_INFO"], HERE / "judge" / "source.json")
     else:
         lines = [l.strip() for l in (HERE / "judge" / "talk.txt").read_text(encoding="utf-8").splitlines() if l.strip()]
         timeline = synthesize(lines, raw)

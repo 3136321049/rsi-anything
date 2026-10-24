@@ -1,0 +1,114 @@
+{
+  "run_id": "20261023-235500-weekly-life-planner",
+  "validation": "导出后在新临时目录重新运行冻结评审，并另用区间检查验证全部活动、偏好和固定事项。第2、3轮正式结果为NO_CHANGE，额外核验分数不改写正式账本。",
+  "commands": [
+    "python -B judge/evaluate.py"
+  ],
+  "checks": [
+    {
+      "snapshot": "artifacts/baseline",
+      "formal_status": "BASELINE",
+      "formal_score": 38.08,
+      "validation_score": 38.08,
+      "gates": {
+        "valid_schedule": true,
+        "no_conflicts": true,
+        "within_awake_hours": true,
+        "allowed_days": true,
+        "correct_duration": true,
+        "session_limits": true,
+        "daily_load": true
+      },
+      "source_sha256": "812b1df77c345ef6097f9764af26b8d9d7a39287c07c7286bd77440ae4371a27"
+    },
+    {
+      "snapshot": "rounds/r001/artifacts",
+      "formal_status": "KEEP",
+      "formal_score": 100.0,
+      "validation_score": 100.0,
+      "gates": {
+        "valid_schedule": true,
+        "no_conflicts": true,
+        "within_awake_hours": true,
+        "allowed_days": true,
+        "correct_duration": true,
+        "session_limits": true,
+        "daily_load": true
+      },
+      "source_sha256": "1fa5597da760ddb262731f1d16948af3f958981821edd3fbf56b17b97cdc2bd9"
+    },
+    {
+      "snapshot": "rounds/r002/artifacts",
+      "formal_status": "NO_CHANGE",
+      "formal_score": null,
+      "validation_score": 100.0,
+      "gates": {
+        "valid_schedule": true,
+        "no_conflicts": true,
+        "within_awake_hours": true,
+        "allowed_days": true,
+        "correct_duration": true,
+        "session_limits": true,
+        "daily_load": true
+      },
+      "source_sha256": "1fa5597da760ddb262731f1d16948af3f958981821edd3fbf56b17b97cdc2bd9"
+    },
+    {
+      "snapshot": "rounds/r003/artifacts",
+      "formal_status": "NO_CHANGE",
+      "formal_score": null,
+      "validation_score": 100.0,
+      "gates": {
+        "valid_schedule": true,
+        "no_conflicts": true,
+        "within_awake_hours": true,
+        "allowed_days": true,
+        "correct_duration": true,
+        "session_limits": true,
+        "daily_load": true
+      },
+      "source_sha256": "1fa5597da760ddb262731f1d16948af3f958981821edd3fbf56b17b97cdc2bd9"
+    },
+    {
+      "snapshot": "artifacts/final",
+      "formal_status": "FINAL",
+      "formal_score": null,
+      "validation_score": 100.0,
+      "gates": {
+        "valid_schedule": true,
+        "no_conflicts": true,
+        "within_awake_hours": true,
+        "allowed_days": true,
+        "correct_duration": true,
+        "session_limits": true,
+        "daily_load": true
+      },
+      "source_sha256": "1fa5597da760ddb262731f1d16948af3f958981821edd3fbf56b17b97cdc2bd9"
+    }
+  ],
+  "independent_final_check": {
+    "sessions": 14,
+    "counts": {
+      "exercise": 3,
+      "reading": 3,
+      "study": 2,
+      "groceries": 1,
+      "mealprep": 1,
+      "family": 1,
+      "admin": 1,
+      "rest": 2
+    },
+    "daily_flexible_minutes": {
+      "1": 90,
+      "2": 135,
+      "3": 75,
+      "4": 135,
+      "5": 45,
+      "6": 180,
+      "7": 210
+    },
+    "all_preferences_met": true,
+    "conflicts": 0
+  },
+  "all_passed": true
+}

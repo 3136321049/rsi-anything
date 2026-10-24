@@ -67,7 +67,10 @@ if len(errors) > len(examples) // 4:
     print("too many model errors: " + errors[0], file=sys.stderr)
     sys.exit(2)
 mistakes, correct = [], 0
+predictions = []
 for example, (got, _) in zip(examples, results):
+    predictions.append({"text": example["text"], "expected": example["label"], "predicted": got,
+                        "correct": got == example["label"]})
     if got == example["label"]:
         correct += 1
     else:
@@ -78,6 +81,16 @@ for line in mistakes:
     pair = line.split(":")[0]
     confusions[pair] = confusions.get(pair, 0) + 1
 worst = sorted(confusions.items(), key=lambda kv: -kv[1])[:4]
+out = Path("out")
+out.mkdir(exist_ok=True)
+split = "holdout" if "holdout" in Path(sys.argv[1]).parts else "development"
+summary = {"split": split, "model": model.raw, "accuracy": round(accuracy, 1),
+           "correct": correct, "total": len(examples), "errors": len(errors), "predictions": predictions}
+(out / f"{split}.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+lines = [f"# 客服分类结果：{split}", "", f"模型：`{model.raw}`", "",
+         f"准确率：{accuracy:.1f}%（{correct}/{len(examples)}）；调用失败：{len(errors)}", "", "## 错例", ""]
+lines += [f"- {p['text']}：预期 {p['expected']}，实际 {p['predicted']}" for p in predictions if not p["correct"]]
+(out / f"{split}.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 report_result(round(accuracy, 1), {"prompt_present": True},
               f"{correct}/{len(examples)} correct with {model.raw}. Most common mistakes: "
               + "; ".join(f"{k} (x{v})" for k, v in worst)

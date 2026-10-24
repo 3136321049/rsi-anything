@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSI run 20261023-234857-expense-code-repair</title>
+<style>
+:root { --bg:#fbfaf7; --fg:#1d1d1b; --muted:#6b6a64; --line:#e4e1d8; --accent:#2f6fde; --keep:#1f9d55; --drop:#b7b3a6; }
+@media (prefers-color-scheme: dark) { :root { --bg:#161614; --fg:#ecebe6; --muted:#a3a198; --line:#2c2b27; --accent:#7aa7ff; --keep:#4cc38a; --drop:#5b5950; } }
+body { background:var(--bg); color:var(--fg); font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; margin:0; }
+main { max-width:960px; margin:0 auto; padding:32px 16px 64px; }
+h1 { font-size:22px; margin:0 0 4px; } .muted { color:var(--muted); }
+.stats { display:flex; gap:24px; flex-wrap:wrap; margin:20px 0; } .stat b { display:block; font-size:26px; }
+svg { width:100%; height:auto; border:1px solid var(--line); border-radius:8px; }
+.best { fill:none; stroke:var(--accent); stroke-width:2; } .kept { fill:var(--keep); } .dropped { fill:var(--drop); }
+.tick { fill:var(--muted); font-size:11px; }
+table { width:100%; border-collapse:collapse; margin-top:20px; font-size:14px; }
+td,th { border-bottom:1px solid var(--line); padding:6px 8px; text-align:left; vertical-align:top; }
+tr.s-keep td:nth-child(2) { color:var(--keep); font-weight:600; }
+pre { overflow-x:auto; background:color-mix(in srgb, var(--line) 40%, transparent); padding:12px; border-radius:8px; }
+details { border:1px solid var(--line); border-radius:8px; padding:12px; margin:12px 0; } summary { cursor:pointer; font-weight:600; }
+.artifact img,.artifact video { max-width:100%; max-height:560px; } .artifact pre { max-height:420px; white-space:pre-wrap; overflow:auto; } a { color:var(--accent); }
+</style></head><body><main>
+<h1>expense-code-repair</h1>
+<div class="muted">修复 expense.py 中的金额解析、账单均分和月度分类汇总，使 judge/test_expense.py 的固定测试全部通过。
+金额用整数分保存；均分时前几人各多分一分钱；退款为负数；月份按有效的 YYYY-MM 匹配。
+保持公开函数接口与返回类型，不能改测试或针对测试输入写死答案。每轮优先修复一类根因。
+得分为固定测试通过率，100 分才表示全部修复；部分通过也能作为下一轮起点。</div>
+<p class="muted">运行状态：finished。调用费用：工具未提供。</p>
+<p><a href="config/rsi.yaml">任务配置</a> · <a href="config/execution.json">模型与运行参数</a></p>
+<div class="stats">
+<div class="stat"><span class="muted">baseline</span><b>40</b></div>
+<div class="stat"><span class="muted">best</span><b>100</b></div>
+<div class="stat"><span class="muted">rounds / kept</span><b>3 / 3</b></div>
+<div class="stat"><span class="muted">agent</span><b style="font-size:16px">codex</b></div>
+</div>
+<svg viewBox="0 0 720 260" role="img" aria-label="score by round"><polyline points="48.0,210.3 266.7,151.4 485.3,92.6 704.0,33.7" class="best"/><circle cx="48.0" cy="210.3" r="5" class="kept"><title>r0 BASELINE 40</title></circle><circle cx="266.7" cy="151.4" r="5" class="kept"><title>r1 KEEP 60</title></circle><circle cx="485.3" cy="92.6" r="5" class="kept"><title>r2 KEEP 80</title></circle><circle cx="704.0" cy="33.7" r="5" class="kept"><title>r3 KEEP 100</title></circle><text x="40" y="210.3" class="tick" text-anchor="end">40</text><text x="40" y="122.0" class="tick" text-anchor="end">70</text><text x="40" y="33.7" class="tick" text-anchor="end">100</text><text x="48.0" y="250" class="tick" text-anchor="middle">r0</text><text x="266.7" y="250" class="tick" text-anchor="middle">r1</text><text x="485.3" y="250" class="tick" text-anchor="middle">r2</text><text x="704.0" y="250" class="tick" text-anchor="middle">r3</text></svg>
+<p class="muted">Line: best score so far. Green: kept. Grey: judged and thrown away.
+
+Stopped: reached 3 rounds.</p>
+<table><thead><tr><th>round</th><th>status</th><th>score</th><th>best</th><th>change</th><th>why</th></tr></thead>
+<tbody><tr class='s-baseline'><td>0</td><td>◆ BASELINE</td><td>40</td><td>40</td><td>baseline</td><td></td></tr><tr class='s-keep'><td>1</td><td>▲ KEEP</td><td>60</td><td>60</td><td>金额解析改为格式校验后用整数计算分，消除浮点误差并拒绝非法金额，因此提高固定测试通过率。</td><td>score 40 -&gt; 60</td></tr><tr class='s-keep'><td>2</td><td>▲ KEEP</td><td>80</td><td>80</td><td>修复均分时丢失余数和缺少参数校验的问题，使金额完整分配并拒绝非法输入，因此提高固定测试通过率。</td><td>score 60 -&gt; 80</td></tr><tr class='s-keep'><td>3</td><td>▲ KEEP</td><td>100</td><td>100</td><td>修复月度汇总中的日期和月份校验及退款符号处理，使非法日期被拒绝、退款正确抵扣，因此提高固定测试通过率。</td><td>score 80 -&gt; 100</td></tr></tbody></table>
+<h2>产物版本</h2><details><summary>初始产物</summary><div class='artifact'><p><a href="artifacts/baseline/files/expense.py">expense.py</a></p><pre>&quot;&quot;&quot;记账工具：金额以分为单位，退款使用负数。&quot;&quot;&quot;
+
+
+def amount_to_cents(text):
+    &quot;&quot;&quot;解析十进制金额；允许前后空格和正负号，拒绝非有限数及超过两位小数。&quot;&quot;&quot;
+    return int(float(text) * 100)
+
+
+def split_bill(cents, people):
+    &quot;&quot;&quot;将非负整数金额分给正整数人数；余下的分依次给前几人。&quot;&quot;&quot;
+    return [cents // people] * people
+
+
+def monthly_totals(entries, month):
+    &quot;&quot;&quot;按分类汇总指定月份的收支；日期和月份格式错误时抛出 ValueError，不修改输入。&quot;&quot;&quot;
+    totals = {}
+    for entry in entries:
+        if entry[&quot;date&quot;].startswith(month):
+            category = entry[&quot;category&quot;]
+            totals[category] = totals.get(category, 0) + abs(amount_to_cents(entry[&quot;amount&quot;]))
+    return totals
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/example.json">out/example.json</a></p><pre>{
+  &quot;month&quot;: &quot;2026-10&quot;,
+  &quot;totals_cents&quot;: {
+    &quot;餐饮&quot;: 4840,
+    &quot;交通&quot;: 420
+  },
+  &quot;dinner_split_cents&quot;: [
+    3333,
+    3333,
+    3333
+  ]
+}
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/metrics.json">out/metrics.json</a></p><pre>{
+  &quot;score&quot;: 40.0,
+  &quot;gates&quot;: {
+    &quot;tests_executed&quot;: true,
+    &quot;no_skips&quot;: true
+  },
+  &quot;feedback&quot;: &quot;固定测试通过 6/15。\nfixed_expense_tests.ExpenseTests.test_amount_exact_cents: AssertionError: 28 != 29\nfixed_expense_tests.ExpenseTests.test_amount_reject_extra_precision: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_date_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_month_refund: ?         ^\nfixed_expense_tests.ExpenseTests.test_month_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_split_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_split_remainder: + [3334, 3333, 3333]\nfixed_expense_tests.ExpenseTests.test_split_small_total: + [1, 1, 0, 0]\nfixed_expense_tests.ExpenseTests.test_amount_reject_non_finite: OverflowError: cannot convert float infinity to integer&quot;,
+  &quot;metrics&quot;: {
+    &quot;tests_passed&quot;: 6,
+    &quot;tests_total&quot;: 15,
+    &quot;all_tests_passed&quot;: false
+  }
+}
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/report.md">out/report.md</a></p><pre># 记账项目检查
+
+固定测试通过 6/15。
+fixed_expense_tests.ExpenseTests.test_amount_exact_cents: AssertionError: 28 != 29
+fixed_expense_tests.ExpenseTests.test_amount_reject_extra_precision: AssertionError: ValueError not raised
+fixed_expense_tests.ExpenseTests.test_date_reject_invalid: AssertionError: ValueError not raised
+fixed_expense_tests.ExpenseTests.test_month_refund: ?         ^
+fixed_expense_tests.ExpenseTests.test_month_reject_invalid: AssertionError: ValueError not raised
+fixed_expense_tests.ExpenseTests.test_split_reject_invalid: AssertionError: ValueError not raised
+fixed_expense_tests.ExpenseTests.test_split_remainder: + [3334, 3333, 3333]
+fixed_expense_tests.ExpenseTests.test_split_small_total: + [1, 1, 0, 0]
+fixed_expense_tests.ExpenseTests.test_amount_reject_non_finite: OverflowError: cannot convert float infinity to integer
+
+## 当前示例
+
+```json
+{
+  &quot;month&quot;: &quot;2026-10&quot;,
+  &quot;totals_cents&quot;: {
+    &quot;餐饮&quot;: 4840,
+    &quot;交通&quot;: 420
+  },
+  &quot;dinner_split_cents&quot;: [
+    3333,
+    3333,
+    3333
+  ]
+}
+```
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/tests.json">out/tests.json</a></p><pre>{
+  &quot;total&quot;: 15,
+  &quot;passed&quot;: 6,
+  &quot;failed&quot;: [
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_amount_exact_cents&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 13, in test_amount_exact_cents\n    self.assertEqual(amount_to_cents(\&quot;0.29\&quot;), 29)\nAssertionError: 28 != 29\n&quot;
+    },
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_amount_reject_extra_precision&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 20, in test_amount_reject_extra_precision\n    amount_to_cents(\&quot;1.999\&quot;)\nAssertionError: ValueError not raised\n&quot;
+    },
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_date_reject_invalid&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 60, in test_date_reject_invalid\n    monthly_totals([{\&quot;date\&quot;: \&quot;2026-02-30\&quot;, \&quot;category\&quot;: \&quot;交通\&quot;, \&quot;amount\&quot;: \&quot;3\&quot;}], \&quot;2026-02\&quot;)\nAssertionError: ValueError not raised\n&quot;
+    },
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_month_refund&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 52, in test_month_refund\n    self.assertEqual(monthly_totals(rows, \&quot;2026-10\&quot;), {\&quot;餐饮\&quot;: 1000})\nAssertionError: {&#x27;餐饮&#x27;: 1500} != {&#x27;餐饮&#x27;: 1000}\n- {&#x27;餐饮&#x27;: 1500}\n?         ^\n\n+ {&#x27;餐饮&#x27;: 1000}\n?         ^\n\n&quot;
+    },
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_month_reject_invalid&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 56, in test_month_reject_invalid\n    monthly_totals([], \&quot;2026-1\&quot;)\nAssertionError: ValueError not raised\n&quot;
+    },
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_split_reject_invalid&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 39, in test_split_reject_invalid\n    split_bill(cents, people)\nAssertionError: ValueError not raised\n&quot;
+    },
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_split_remainder&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 31, in test_split_remainder\n    self.assertEqual(split_bill(10000, 3), [3334, 3333, 3333])\nAssertionError: Lists differ: [3333, 3333, 3333] != [3334, 3333, 3333]\n\nFirst differing element 0:\n3333\n3334\n\n- [3333, 3333, 3333]\n+ [3334, 3333, 3333]\n&quot;
+    },
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_split_small_total&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 34, in test_split_small_total\n    self.assertEqual(split_bill(2, 4), [1, 1, 0, 0])\nAssertionError: Lists differ: [0, 0, 0, 0] != [1, 1, 0, 0]\n\nFirst differing element 0:\n0\n1\n\n- [0, 0, 0, 0]\n+ [1, 1, 0, 0]\n&quot;
+    },
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_amount_reject_non_finite&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 25, in test_amount_reject_non_finite\n    amount_to_cents(text)\n  File \&quot;<tmp>/rsi-judge-ilpkllk5/expense.py\&quot;, line 6, in amount_to_cents\n    return int(float(text) * 100)\nOverflowError: cannot convert float infinity to integer\n&quot;
+    }
+  ],
+  &quot;skipped&quot;: 0,
+  &quot;passed_tests&quot;: [
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_signed&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_whole&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_does_not_mutate_input&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_month_empty&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_month_filter&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_split_even&quot;
+  ]
+}
+</pre></div></details><details><summary>第 1 轮 · KEEP</summary><div class='artifact'><p><a href="rounds/r001/artifacts/files/expense.py">expense.py</a></p><pre>&quot;&quot;&quot;记账工具：金额以分为单位，退款使用负数。&quot;&quot;&quot;
+
+import re
+
+
+def amount_to_cents(text):
+    &quot;&quot;&quot;解析十进制金额；允许前后空格和正负号，拒绝非有限数及超过两位小数。&quot;&quot;&quot;
+    match = re.fullmatch(r&quot;([+-]?)([0-9]*)(?:\.([0-9]{0,2}))?&quot;, text.strip())
+    if match is None:
+        raise ValueError(&quot;金额必须是最多两位小数的有限十进制数&quot;)
+    sign, whole, fraction = match.groups()
+    if not whole and not fraction:
+        raise ValueError(&quot;金额必须包含数字&quot;)
+    cents = int(whole or &quot;0&quot;) * 100 + int((fraction or &quot;&quot;).ljust(2, &quot;0&quot;))
+    return -cents if sign == &quot;-&quot; else cents
+
+
+def split_bill(cents, people):
+    &quot;&quot;&quot;将非负整数金额分给正整数人数；余下的分依次给前几人。&quot;&quot;&quot;
+    return [cents // people] * people
+
+
+def monthly_totals(entries, month):
+    &quot;&quot;&quot;按分类汇总指定月份的收支；日期和月份格式错误时抛出 ValueError，不修改输入。&quot;&quot;&quot;
+    totals = {}
+    for entry in entries:
+        if entry[&quot;date&quot;].startswith(month):
+            category = entry[&quot;category&quot;]
+            totals[category] = totals.get(category, 0) + abs(amount_to_cents(entry[&quot;amount&quot;]))
+    return totals
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/example.json">out/example.json</a></p><pre>{
+  &quot;month&quot;: &quot;2026-10&quot;,
+  &quot;totals_cents&quot;: {
+    &quot;餐饮&quot;: 4840,
+    &quot;交通&quot;: 420
+  },
+  &quot;dinner_split_cents&quot;: [
+    3333,
+    3333,
+    3333
+  ]
+}
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/metrics.json">out/metrics.json</a></p><pre>{
+  &quot;score&quot;: 60.0,
+  &quot;gates&quot;: {
+    &quot;tests_executed&quot;: true,
+    &quot;no_skips&quot;: true
+  },
+  &quot;feedback&quot;: &quot;固定测试通过 9/15。\nfixed_expense_tests.ExpenseTests.test_date_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_month_refund: ?         ^\nfixed_expense_tests.ExpenseTests.test_month_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_split_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_split_remainder: + [3334, 3333, 3333]\nfixed_expense_tests.ExpenseTests.test_split_small_total: + [1, 1, 0, 0]&quot;,
+  &quot;metrics&quot;: {
+    &quot;tests_passed&quot;: 9,
+    &quot;tests_total&quot;: 15,
+    &quot;all_tests_passed&quot;: false
+  }
+}
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/report.md">out/report.md</a></p><pre># 记账项目检查
+
+固定测试通过 9/15。
+fixed_expense_tests.ExpenseTests.test_date_reject_invalid: AssertionError: ValueError not raised
+fixed_expense_tests.ExpenseTests.test_month_refund: ?         ^
+fixed_expense_tests.ExpenseTests.test_month_reject_invalid: AssertionError: ValueError not raised
+fixed_expense_tests.ExpenseTests.test_split_reject_invalid: AssertionError: ValueError not raised
+fixed_expense_tests.ExpenseTests.test_split_remainder: + [3334, 3333, 3333]
+fixed_expense_tests.ExpenseTests.test_split_small_total: + [1, 1, 0, 0]
+
+## 当前示例
+
+```json
+{
+  &quot;month&quot;: &quot;2026-10&quot;,
+  &quot;totals_cents&quot;: {
+    &quot;餐饮&quot;: 4840,
+    &quot;交通&quot;: 420
+  },
+  &quot;dinner_split_cents&quot;: [
+    3333,
+    3333,
+    3333
+  ]
+}
+```
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/tests.json">out/tests.json</a></p><pre>{
+  &quot;total&quot;: 15,
+  &quot;passed&quot;: 9,
+  &quot;failed&quot;: [
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_date_reject_invalid&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 60, in test_date_reject_invalid\n    monthly_totals([{\&quot;date\&quot;: \&quot;2026-02-30\&quot;, \&quot;category\&quot;: \&quot;交通\&quot;, \&quot;amount\&quot;: \&quot;3\&quot;}], \&quot;2026-02\&quot;)\nAssertionError: ValueError not raised\n&quot;
+    },
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_month_refund&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 52, in test_month_refund\n    self.assertEqual(monthly_totals(rows, \&quot;2026-10\&quot;), {\&quot;餐饮\&quot;: 1000})\nAssertionError: {&#x27;餐饮&#x27;: 1500} != {&#x27;餐饮&#x27;: 1000}\n- {&#x27;餐饮&#x27;: 1500}\n?         ^\n\n+ {&#x27;餐饮&#x27;: 1000}\n?         ^\n\n&quot;
+    },
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_month_reject_invalid&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 56, in test_month_reject_invalid\n    monthly_totals([], \&quot;2026-1\&quot;)\nAssertionError: ValueError not raised\n&quot;
+    },
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_split_reject_invalid&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 39, in test_split_reject_invalid\n    split_bill(cents, people)\nAssertionError: ValueError not raised\n&quot;
+    },
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_split_remainder&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 31, in test_split_remainder\n    self.assertEqual(split_bill(10000, 3), [3334, 3333, 3333])\nAssertionError: Lists differ: [3333, 3333, 3333] != [3334, 3333, 3333]\n\nFirst differing element 0:\n3333\n3334\n\n- [3333, 3333, 3333]\n+ [3334, 3333, 3333]\n&quot;
+    },
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_split_small_total&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 34, in test_split_small_total\n    self.assertEqual(split_bill(2, 4), [1, 1, 0, 0])\nAssertionError: Lists differ: [0, 0, 0, 0] != [1, 1, 0, 0]\n\nFirst differing element 0:\n0\n1\n\n- [0, 0, 0, 0]\n+ [1, 1, 0, 0]\n&quot;
+    }
+  ],
+  &quot;skipped&quot;: 0,
+  &quot;passed_tests&quot;: [
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_exact_cents&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_reject_extra_precision&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_reject_non_finite&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_signed&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_whole&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_does_not_mutate_input&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_month_empty&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_month_filter&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_split_even&quot;
+  ]
+}
+</pre></div></details><details><summary>第 2 轮 · KEEP</summary><div class='artifact'><p><a href="rounds/r002/artifacts/files/expense.py">expense.py</a></p><pre>&quot;&quot;&quot;记账工具：金额以分为单位，退款使用负数。&quot;&quot;&quot;
+
+import re
+
+
+def amount_to_cents(text):
+    &quot;&quot;&quot;解析十进制金额；允许前后空格和正负号，拒绝非有限数及超过两位小数。&quot;&quot;&quot;
+    match = re.fullmatch(r&quot;([+-]?)([0-9]*)(?:\.([0-9]{0,2}))?&quot;, text.strip())
+    if match is None:
+        raise ValueError(&quot;金额必须是最多两位小数的有限十进制数&quot;)
+    sign, whole, fraction = match.groups()
+    if not whole and not fraction:
+        raise ValueError(&quot;金额必须包含数字&quot;)
+    cents = int(whole or &quot;0&quot;) * 100 + int((fraction or &quot;&quot;).ljust(2, &quot;0&quot;))
+    return -cents if sign == &quot;-&quot; else cents
+
+
+def split_bill(cents, people):
+    &quot;&quot;&quot;将非负整数金额分给正整数人数；余下的分依次给前几人。&quot;&quot;&quot;
+    if type(cents) is not int or cents &lt; 0:
+        raise ValueError(&quot;金额必须是非负整数分&quot;)
+    if type(people) is not int or people &lt;= 0:
+        raise ValueError(&quot;人数必须是正整数&quot;)
+    share, remainder = divmod(cents, people)
+    return [share + (index &lt; remainder) for index in range(people)]
+
+
+def monthly_totals(entries, month):
+    &quot;&quot;&quot;按分类汇总指定月份的收支；日期和月份格式错误时抛出 ValueError，不修改输入。&quot;&quot;&quot;
+    totals = {}
+    for entry in entries:
+        if entry[&quot;date&quot;].startswith(month):
+            category = entry[&quot;category&quot;]
+            totals[category] = totals.get(category, 0) + abs(amount_to_cents(entry[&quot;amount&quot;]))
+    return totals
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/example.json">out/example.json</a></p><pre>{
+  &quot;month&quot;: &quot;2026-10&quot;,
+  &quot;totals_cents&quot;: {
+    &quot;餐饮&quot;: 4840,
+    &quot;交通&quot;: 420
+  },
+  &quot;dinner_split_cents&quot;: [
+    3334,
+    3333,
+    3333
+  ]
+}
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/metrics.json">out/metrics.json</a></p><pre>{
+  &quot;score&quot;: 80.0,
+  &quot;gates&quot;: {
+    &quot;tests_executed&quot;: true,
+    &quot;no_skips&quot;: true
+  },
+  &quot;feedback&quot;: &quot;固定测试通过 12/15。\nfixed_expense_tests.ExpenseTests.test_date_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_month_refund: ?         ^\nfixed_expense_tests.ExpenseTests.test_month_reject_invalid: AssertionError: ValueError not raised&quot;,
+  &quot;metrics&quot;: {
+    &quot;tests_passed&quot;: 12,
+    &quot;tests_total&quot;: 15,
+    &quot;all_tests_passed&quot;: false
+  }
+}
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/report.md">out/report.md</a></p><pre># 记账项目检查
+
+固定测试通过 12/15。
+fixed_expense_tests.ExpenseTests.test_date_reject_invalid: AssertionError: ValueError not raised
+fixed_expense_tests.ExpenseTests.test_month_refund: ?         ^
+fixed_expense_tests.ExpenseTests.test_month_reject_invalid: AssertionError: ValueError not raised
+
+## 当前示例
+
+```json
+{
+  &quot;month&quot;: &quot;2026-10&quot;,
+  &quot;totals_cents&quot;: {
+    &quot;餐饮&quot;: 4840,
+    &quot;交通&quot;: 420
+  },
+  &quot;dinner_split_cents&quot;: [
+    3334,
+    3333,
+    3333
+  ]
+}
+```
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/tests.json">out/tests.json</a></p><pre>{
+  &quot;total&quot;: 15,
+  &quot;passed&quot;: 12,
+  &quot;failed&quot;: [
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_date_reject_invalid&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 60, in test_date_reject_invalid\n    monthly_totals([{\&quot;date\&quot;: \&quot;2026-02-30\&quot;, \&quot;category\&quot;: \&quot;交通\&quot;, \&quot;amount\&quot;: \&quot;3\&quot;}], \&quot;2026-02\&quot;)\nAssertionError: ValueError not raised\n&quot;
+    },
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_month_refund&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 52, in test_month_refund\n    self.assertEqual(monthly_totals(rows, \&quot;2026-10\&quot;), {\&quot;餐饮\&quot;: 1000})\nAssertionError: {&#x27;餐饮&#x27;: 1500} != {&#x27;餐饮&#x27;: 1000}\n- {&#x27;餐饮&#x27;: 1500}\n?         ^\n\n+ {&#x27;餐饮&#x27;: 1000}\n?         ^\n\n&quot;
+    },
+    {
+      &quot;test&quot;: &quot;fixed_expense_tests.ExpenseTests.test_month_reject_invalid&quot;,
+      &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;judge/test_expense.py\&quot;, line 56, in test_month_reject_invalid\n    monthly_totals([], \&quot;2026-1\&quot;)\nAssertionError: ValueError not raised\n&quot;
+    }
+  ],
+  &quot;skipped&quot;: 0,
+  &quot;passed_tests&quot;: [
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_exact_cents&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_reject_extra_precision&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_reject_non_finite&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_signed&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_whole&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_does_not_mutate_input&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_month_empty&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_month_filter&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_split_even&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_split_reject_invalid&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_split_remainder&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_split_small_total&quot;
+  ]
+}
+</pre></div></details><details><summary>第 3 轮 · KEEP</summary><div class='artifact'><p><a href="rounds/r003/artifacts/files/expense.py">expense.py</a></p><pre>&quot;&quot;&quot;记账工具：金额以分为单位，退款使用负数。&quot;&quot;&quot;
+
+import re
+from datetime import date
+
+
+def amount_to_cents(text):
+    &quot;&quot;&quot;解析十进制金额；允许前后空格和正负号，拒绝非有限数及超过两位小数。&quot;&quot;&quot;
+    match = re.fullmatch(r&quot;([+-]?)([0-9]*)(?:\.([0-9]{0,2}))?&quot;, text.strip())
+    if match is None:
+        raise ValueError(&quot;金额必须是最多两位小数的有限十进制数&quot;)
+    sign, whole, fraction = match.groups()
+    if not whole and not fraction:
+        raise ValueError(&quot;金额必须包含数字&quot;)
+    cents = int(whole or &quot;0&quot;) * 100 + int((fraction or &quot;&quot;).ljust(2, &quot;0&quot;))
+    return -cents if sign == &quot;-&quot; else cents
+
+
+def split_bill(cents, people):
+    &quot;&quot;&quot;将非负整数金额分给正整数人数；余下的分依次给前几人。&quot;&quot;&quot;
+    if type(cents) is not int or cents &lt; 0:
+        raise ValueError(&quot;金额必须是非负整数分&quot;)
+    if type(people) is not int or people &lt;= 0:
+        raise ValueError(&quot;人数必须是正整数&quot;)
+    share, remainder = divmod(cents, people)
+    return [share + (index &lt; remainder) for index in range(people)]
+
+
+def monthly_totals(entries, month):
+    &quot;&quot;&quot;按分类汇总指定月份的收支；日期和月份格式错误时抛出 ValueError，不修改输入。&quot;&quot;&quot;
+    if not isinstance(month, str) or re.fullmatch(r&quot;[0-9]{4}-[0-9]{2}&quot;, month) is None:
+        raise ValueError(&quot;月份必须是有效的 YYYY-MM&quot;)
+    date.fromisoformat(month + &quot;-01&quot;)
+    totals = {}
+    for entry in entries:
+        entry_date = entry[&quot;date&quot;]
+        if not isinstance(entry_date, str) or re.fullmatch(r&quot;[0-9]{4}-[0-9]{2}-[0-9]{2}&quot;, entry_date) is None:
+            raise ValueError(&quot;日期必须是有效的 YYYY-MM-DD&quot;)
+        date.fromisoformat(entry_date)
+        if entry_date[:7] == month:
+            category = entry[&quot;category&quot;]
+            totals[category] = totals.get(category, 0) + amount_to_cents(entry[&quot;amount&quot;])
+    return totals
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/example.json">out/example.json</a></p><pre>{
+  &quot;month&quot;: &quot;2026-10&quot;,
+  &quot;totals_cents&quot;: {
+    &quot;餐饮&quot;: 3740,
+    &quot;交通&quot;: 420
+  },
+  &quot;dinner_split_cents&quot;: [
+    3334,
+    3333,
+    3333
+  ]
+}
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/metrics.json">out/metrics.json</a></p><pre>{
+  &quot;score&quot;: 100.0,
+  &quot;gates&quot;: {
+    &quot;tests_executed&quot;: true,
+    &quot;no_skips&quot;: true
+  },
+  &quot;feedback&quot;: &quot;固定测试通过 15/15。\n&quot;,
+  &quot;metrics&quot;: {
+    &quot;tests_passed&quot;: 15,
+    &quot;tests_total&quot;: 15,
+    &quot;all_tests_passed&quot;: true
+  }
+}
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/report.md">out/report.md</a></p><pre># 记账项目检查
+
+固定测试通过 15/15。
+
+
+## 当前示例
+
+```json
+{
+  &quot;month&quot;: &quot;2026-10&quot;,
+  &quot;totals_cents&quot;: {
+    &quot;餐饮&quot;: 3740,
+    &quot;交通&quot;: 420
+  },
+  &quot;dinner_split_cents&quot;: [
+    3334,
+    3333,
+    3333
+  ]
+}
+```
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/tests.json">out/tests.json</a></p><pre>{
+  &quot;total&quot;: 15,
+  &quot;passed&quot;: 15,
+  &quot;failed&quot;: [],
+  &quot;skipped&quot;: 0,
+  &quot;passed_tests&quot;: [
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_exact_cents&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_reject_extra_precision&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_reject_non_finite&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_signed&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_whole&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_date_reject_invalid&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_does_not_mutate_input&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_month_empty&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_month_filter&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_month_refund&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_month_reject_invalid&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_split_even&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_split_reject_invalid&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_split_remainder&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_split_small_total&quot;
+  ]
+}
+</pre></div></details><details><summary>最终产物</summary><div class='artifact'><p><a href="artifacts/final/files/expense.py">expense.py</a></p><pre>&quot;&quot;&quot;记账工具：金额以分为单位，退款使用负数。&quot;&quot;&quot;
+
+import re
+from datetime import date
+
+
+def amount_to_cents(text):
+    &quot;&quot;&quot;解析十进制金额；允许前后空格和正负号，拒绝非有限数及超过两位小数。&quot;&quot;&quot;
+    match = re.fullmatch(r&quot;([+-]?)([0-9]*)(?:\.([0-9]{0,2}))?&quot;, text.strip())
+    if match is None:
+        raise ValueError(&quot;金额必须是最多两位小数的有限十进制数&quot;)
+    sign, whole, fraction = match.groups()
+    if not whole and not fraction:
+        raise ValueError(&quot;金额必须包含数字&quot;)
+    cents = int(whole or &quot;0&quot;) * 100 + int((fraction or &quot;&quot;).ljust(2, &quot;0&quot;))
+    return -cents if sign == &quot;-&quot; else cents
+
+
+def split_bill(cents, people):
+    &quot;&quot;&quot;将非负整数金额分给正整数人数；余下的分依次给前几人。&quot;&quot;&quot;
+    if type(cents) is not int or cents &lt; 0:
+        raise ValueError(&quot;金额必须是非负整数分&quot;)
+    if type(people) is not int or people &lt;= 0:
+        raise ValueError(&quot;人数必须是正整数&quot;)
+    share, remainder = divmod(cents, people)
+    return [share + (index &lt; remainder) for index in range(people)]
+
+
+def monthly_totals(entries, month):
+    &quot;&quot;&quot;按分类汇总指定月份的收支；日期和月份格式错误时抛出 ValueError，不修改输入。&quot;&quot;&quot;
+    if not isinstance(month, str) or re.fullmatch(r&quot;[0-9]{4}-[0-9]{2}&quot;, month) is None:
+        raise ValueError(&quot;月份必须是有效的 YYYY-MM&quot;)
+    date.fromisoformat(month + &quot;-01&quot;)
+    totals = {}
+    for entry in entries:
+        entry_date = entry[&quot;date&quot;]
+        if not isinstance(entry_date, str) or re.fullmatch(r&quot;[0-9]{4}-[0-9]{2}-[0-9]{2}&quot;, entry_date) is None:
+            raise ValueError(&quot;日期必须是有效的 YYYY-MM-DD&quot;)
+        date.fromisoformat(entry_date)
+        if entry_date[:7] == month:
+            category = entry[&quot;category&quot;]
+            totals[category] = totals.get(category, 0) + amount_to_cents(entry[&quot;amount&quot;])
+    return totals
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/example.json">out/example.json</a></p><pre>{
+  &quot;month&quot;: &quot;2026-10&quot;,
+  &quot;totals_cents&quot;: {
+    &quot;餐饮&quot;: 3740,
+    &quot;交通&quot;: 420
+  },
+  &quot;dinner_split_cents&quot;: [
+    3334,
+    3333,
+    3333
+  ]
+}
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/metrics.json">out/metrics.json</a></p><pre>{
+  &quot;score&quot;: 100.0,
+  &quot;gates&quot;: {
+    &quot;tests_executed&quot;: true,
+    &quot;no_skips&quot;: true
+  },
+  &quot;feedback&quot;: &quot;固定测试通过 15/15。\n&quot;,
+  &quot;metrics&quot;: {
+    &quot;tests_passed&quot;: 15,
+    &quot;tests_total&quot;: 15,
+    &quot;all_tests_passed&quot;: true
+  }
+}
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/report.md">out/report.md</a></p><pre># 记账项目检查
+
+固定测试通过 15/15。
+
+
+## 当前示例
+
+```json
+{
+  &quot;month&quot;: &quot;2026-10&quot;,
+  &quot;totals_cents&quot;: {
+    &quot;餐饮&quot;: 3740,
+    &quot;交通&quot;: 420
+  },
+  &quot;dinner_split_cents&quot;: [
+    3334,
+    3333,
+    3333
+  ]
+}
+```
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/tests.json">out/tests.json</a></p><pre>{
+  &quot;total&quot;: 15,
+  &quot;passed&quot;: 15,
+  &quot;failed&quot;: [],
+  &quot;skipped&quot;: 0,
+  &quot;passed_tests&quot;: [
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_exact_cents&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_reject_extra_precision&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_reject_non_finite&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_signed&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_amount_whole&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_date_reject_invalid&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_does_not_mutate_input&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_month_empty&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_month_filter&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_month_refund&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_month_reject_invalid&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_split_even&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_split_reject_invalid&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_split_remainder&quot;,
+    &quot;fixed_expense_tests.ExpenseTests.test_split_small_total&quot;
+  ]
+}
+</pre></div></details>
+<h2>Champion vs. start</h2><pre>expense.py | 30 ++++++++++++++++++++++++++----
+ 1 file changed, 26 insertions(+), 4 deletions(-)</pre>
+<p class="muted">Branch <code>rsi/20261023-234857-expense-code-repair</code>. Generated by RSI-Anything.</p>
+</main></body></html>

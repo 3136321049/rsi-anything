@@ -1,0 +1,49 @@
+{
+  "files": [
+    {
+      "path": "lesson.md",
+      "bytes": 5648,
+      "sha256": "d39a9208ea3ee2d40f44f8604bdd1ea852fe6a3336929ebf7518485ef4b0615f"
+    },
+    {
+      "path": "out/exercise-results.md",
+      "bytes": 4799,
+      "sha256": "a7bd6eb1bf18e4fb2081dcef82c8597d427e47ab2c3ed7f13e6e2d51e0940105"
+    },
+    {
+      "path": "out/gates.json",
+      "bytes": 65,
+      "sha256": "8c9bb1afdb834673b8f99224c9be9d651887b5abd63b068954925e2115e73628"
+    },
+    {
+      "path": "out/lesson.html",
+      "bytes": 10878,
+      "sha256": "b8d536993b531c5cbe21db9bd98363d1e0417792fb2dbc5d9ceb333dd7ef9ed6"
+    },
+    {
+      "path": "out/lesson.md",
+      "bytes": 5648,
+      "sha256": "d39a9208ea3ee2d40f44f8604bdd1ea852fe6a3336929ebf7518485ef4b0615f"
+    },
+    {
+      "path": "out/mistakes.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "out/results.json",
+      "bytes": 7591,
+      "sha256": "606b10be457550871e5d28430b8aa0a9c65265893ea704ae91fdab6b044ba2d4"
+    },
+    {
+      "path": "out/student-response.txt",
+      "bytes": 2864,
+      "sha256": "80a823c962700a48754c9ce3889dddaa3878860168c6c06356232e699de4e433"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": [],
+  "source": "judge_workspace",
+  "evaluation_status": "evaluated",
+  "source_snapshot": "rounds/r001/artifacts"
+}

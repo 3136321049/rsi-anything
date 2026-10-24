@@ -1,0 +1,29 @@
+{"text": "The app says delivered 20 minutes ago but nothing is at my door", "label": "late_delivery"}
+{"text": "我要的是大杯，给的中杯，差价退我", "label": "wrong_item"}
+{"text": "汉堡里的生菜都蔫了，肉也是凉的，退款", "label": "refund"}
+{"text": "Cancel my order please, I'm not hungry anymore", "label": "cancel_order"}
+{"text": "满减活动没算上，多扣了钱", "label": "payment"}
+{"text": "Need a VAT invoice for this order", "label": "payment"}
+{"text": "忘记密码了，找回不了账号", "label": "account"}
+{"text": "太感谢了，备注的生日蜡烛也帮我带了", "label": "praise"}
+{"text": "The courier smoked in the elevator, very unpleasant", "label": "other"}
+{"text": "下单半小时了商家还没接单，算了不要了，取消", "label": "cancel_order"}
+{"text": "Half my fries are missing and there's no sauce I paid for", "label": "wrong_item"}
+{"text": "The soup leaked all over the bag and my rice is soaked, I want a refund", "label": "refund"}
+{"text": "订单一直显示配送中，已经一个多小时了", "label": "late_delivery"}
+{"text": "Is there a student discount?", "label": "other"}
+{"text": "Two charges showed up on my card for one meal", "label": "payment"}
+{"text": "怎么删除常用地址", "label": "account"}
+{"text": "Amazing service, my order came 10 minutes early!", "label": "praise"}
+{"text": "酸菜鱼送成了水煮鱼，我对辣过敏", "label": "wrong_item"}
+{"text": "The steak was raw in the middle, I can't eat this, money back please", "label": "refund"}
+{"text": "等太久了，没送到，不要了，直接取消吧", "label": "cancel_order"}
+{"text": "Can I get a refund on the coupon I couldn't use at checkout?", "label": "payment"}
+{"text": "I keep getting logged out every time I open the app", "label": "account"}
+{"text": "你们能不能和我们公司合作团餐", "label": "other"}
+{"text": "Where's my food? The tracker hasn't moved in 25 minutes", "label": "late_delivery"}
+{"text": "I need to change the delivery address, I put my old apartment", "label": "cancel_order"}
+{"text": "能不能帮我把奶茶改成去冰，订单还没做吧", "label": "cancel_order"}
+{"text": "Everything on this app costs twice as much as in the store", "label": "other"}
+{"text": "骑手冒雨送餐太辛苦了，我想补一个小费", "label": "payment"}
+{"text": "I accidentally tipped 50 instead of 5, can that be fixed?", "label": "payment"}

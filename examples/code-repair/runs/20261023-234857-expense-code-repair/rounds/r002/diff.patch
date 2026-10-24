@@ -1,0 +1,18 @@
+diff --git a/expense.py b/expense.py
+index 4e16096..ae2565b 100644
+--- a/expense.py
++++ b/expense.py
+@@ -17,7 +17,12 @@ def amount_to_cents(text):
+ 
+ def split_bill(cents, people):
+     """将非负整数金额分给正整数人数；余下的分依次给前几人。"""
+-    return [cents // people] * people
++    if type(cents) is not int or cents < 0:
++        raise ValueError("金额必须是非负整数分")
++    if type(people) is not int or people <= 0:
++        raise ValueError("人数必须是正整数")
++    share, remainder = divmod(cents, people)
++    return [share + (index < remainder) for index in range(people)]
+ 
+ 
+ def monthly_totals(entries, month):

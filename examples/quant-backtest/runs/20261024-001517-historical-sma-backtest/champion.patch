@@ -1,0 +1,14 @@
+diff --git a/strategy.json b/strategy.json
+index 352666b..f4ae01c 100644
+--- a/strategy.json
++++ b/strategy.json
+@@ -1,6 +1,6 @@
+ {
+-  "fast_window": 3,
+-  "slow_window": 8,
++  "fast_window": 10,
++  "slow_window": 30,
+   "threshold_bps": 0,
+-  "allocation": 0.5
++  "allocation": 0.7
+ }

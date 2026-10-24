@@ -1,0 +1,30 @@
+name: expense-code-repair
+goal: '修复 expense.py 中的金额解析、账单均分和月度分类汇总，使 judge/test_expense.py 的固定测试全部通过。
+
+  金额用整数分保存；均分时前几人各多分一分钱；退款为负数；月份按有效的 YYYY-MM 匹配。
+
+  保持公开函数接口与返回类型，不能改测试或针对测试输入写死答案。每轮优先修复一类根因。
+
+  得分为固定测试通过率，100 分才表示全部修复；部分通过也能作为下一轮起点。
+
+  '
+artifact:
+- expense.py
+outputs:
+- out
+judge:
+  type: command
+  run: '{python} judge/evaluate.py'
+  files:
+  - judge
+  - example.py
+  timeout: 30
+agent:
+  use: codex
+  timeout: 600
+  model: gpt-6.1-sol
+budget:
+  rounds: 3
+  minutes: 25.0
+  stagnation: 3
+  target: 100

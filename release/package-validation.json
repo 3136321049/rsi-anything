@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-24",
+  "status": "verified",
+  "sdist": {
+    "path": "dist/rsi_anything-0.2.0.dev0.tar.gz",
+    "sha256": "5f0fb8bd9282dfb49cf888698075cd88e7d29ec98e532ae39a6566b36430c57d",
+    "bytes": 400286,
+    "file_count": 199,
+    "source_matches": true,
+    "forbidden_paths": []
+  },
+  "bundle": {
+    "path": "dist/openrsi-demo-0.2.0.dev0.zip",
+    "sha256": "6cd2e17a1f78b0ccd60e6ee61058c83ad0f3cba7d22f9665b271c919431bf908",
+    "bytes": 37591586,
+    "file_count": 1590,
+    "all_archived_file_hashes_verified": true,
+    "zip_integrity_passed": true,
+    "manifest": "PACKAGE-MANIFEST.json"
+  },
+  "privacy_scan": {
+    "texts_checked": 1560,
+    "rules": [
+      "private_path",
+      "internal_address",
+      "private_key",
+      "api_token"
+    ],
+    "findings": []
+  },
+  "excluded": [
+    ".git",
+    ".rsi",
+    ".agents",
+    ".venv311",
+    "__pycache__",
+    "credentials",
+    "local account configuration"
+  ],
+  "published": false
+}

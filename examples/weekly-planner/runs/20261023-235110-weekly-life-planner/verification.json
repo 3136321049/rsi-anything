@@ -1,0 +1,318 @@
+{
+  "run_id": "20261023-235110-weekly-life-planner",
+  "validation": "在新临时目录重新执行原冻结评审；另用独立的区间检查核验最终14项活动、偏好、每日上限和全部固定事项。",
+  "commands": [
+    "python -B judge/evaluate.py"
+  ],
+  "independent_final_check": {
+    "sessions": 14,
+    "counts": {
+      "exercise": 3,
+      "reading": 3,
+      "study": 2,
+      "groceries": 1,
+      "mealprep": 1,
+      "family": 1,
+      "admin": 1,
+      "rest": 2
+    },
+    "daily_flexible_minutes": {
+      "1": 90,
+      "2": 90,
+      "3": 120,
+      "4": 90,
+      "5": 90,
+      "6": 180,
+      "7": 210
+    },
+    "all_preferences_met": true,
+    "conflicts": 0
+  },
+  "checks": [
+    {
+      "snapshot": "artifacts/baseline",
+      "score": 38.08,
+      "gates": {
+        "valid_schedule": true,
+        "no_conflicts": true,
+        "within_awake_hours": true,
+        "allowed_days": true,
+        "correct_duration": true,
+        "session_limits": true,
+        "daily_load": true
+      },
+      "metrics": {
+        "coverage": 0.4615,
+        "preference_coverage": 0.1923,
+        "tasks": [
+          {
+            "task": "exercise",
+            "title": "锻炼",
+            "required": 3,
+            "scheduled": 1,
+            "preferred": 0,
+            "weight": 2
+          },
+          {
+            "task": "reading",
+            "title": "阅读",
+            "required": 3,
+            "scheduled": 1,
+            "preferred": 0,
+            "weight": 1
+          },
+          {
+            "task": "study",
+            "title": "系统学习",
+            "required": 2,
+            "scheduled": 1,
+            "preferred": 1,
+            "weight": 3
+          },
+          {
+            "task": "groceries",
+            "title": "采购",
+            "required": 1,
+            "scheduled": 1,
+            "preferred": 0,
+            "weight": 1
+          },
+          {
+            "task": "mealprep",
+            "title": "准备下周餐食",
+            "required": 1,
+            "scheduled": 0,
+            "preferred": 0,
+            "weight": 2
+          },
+          {
+            "task": "family",
+            "title": "陪伴家人",
+            "required": 1,
+            "scheduled": 1,
+            "preferred": 0,
+            "weight": 3
+          },
+          {
+            "task": "admin",
+            "title": "整理账单",
+            "required": 1,
+            "scheduled": 0,
+            "preferred": 0,
+            "weight": 1
+          },
+          {
+            "task": "rest",
+            "title": "留出休息",
+            "required": 2,
+            "scheduled": 1,
+            "preferred": 1,
+            "weight": 2
+          }
+        ],
+        "conflicts_and_errors": [],
+        "daily_minutes": {
+          "1": 45,
+          "2": 45,
+          "4": 90,
+          "5": 60,
+          "6": 120,
+          "7": 60
+        }
+      },
+      "html_days": 7,
+      "source_sha256": "812b1df77c345ef6097f9764af26b8d9d7a39287c07c7286bd77440ae4371a27"
+    },
+    {
+      "snapshot": "rounds/r001/artifacts",
+      "score": 100.0,
+      "gates": {
+        "valid_schedule": true,
+        "no_conflicts": true,
+        "within_awake_hours": true,
+        "allowed_days": true,
+        "correct_duration": true,
+        "session_limits": true,
+        "daily_load": true
+      },
+      "metrics": {
+        "coverage": 1.0,
+        "preference_coverage": 1.0,
+        "tasks": [
+          {
+            "task": "exercise",
+            "title": "锻炼",
+            "required": 3,
+            "scheduled": 3,
+            "preferred": 3,
+            "weight": 2
+          },
+          {
+            "task": "reading",
+            "title": "阅读",
+            "required": 3,
+            "scheduled": 3,
+            "preferred": 3,
+            "weight": 1
+          },
+          {
+            "task": "study",
+            "title": "系统学习",
+            "required": 2,
+            "scheduled": 2,
+            "preferred": 2,
+            "weight": 3
+          },
+          {
+            "task": "groceries",
+            "title": "采购",
+            "required": 1,
+            "scheduled": 1,
+            "preferred": 1,
+            "weight": 1
+          },
+          {
+            "task": "mealprep",
+            "title": "准备下周餐食",
+            "required": 1,
+            "scheduled": 1,
+            "preferred": 1,
+            "weight": 2
+          },
+          {
+            "task": "family",
+            "title": "陪伴家人",
+            "required": 1,
+            "scheduled": 1,
+            "preferred": 1,
+            "weight": 3
+          },
+          {
+            "task": "admin",
+            "title": "整理账单",
+            "required": 1,
+            "scheduled": 1,
+            "preferred": 1,
+            "weight": 1
+          },
+          {
+            "task": "rest",
+            "title": "留出休息",
+            "required": 2,
+            "scheduled": 2,
+            "preferred": 2,
+            "weight": 2
+          }
+        ],
+        "conflicts_and_errors": [],
+        "daily_minutes": {
+          "1": 90,
+          "2": 90,
+          "3": 120,
+          "4": 90,
+          "5": 90,
+          "6": 180,
+          "7": 210
+        }
+      },
+      "html_days": 7,
+      "source_sha256": "1acb0e5c49517ff65520abd20ed5e507c0c78cc8190c6190dde9b738310808cc"
+    },
+    {
+      "snapshot": "artifacts/final",
+      "score": 100.0,
+      "gates": {
+        "valid_schedule": true,
+        "no_conflicts": true,
+        "within_awake_hours": true,
+        "allowed_days": true,
+        "correct_duration": true,
+        "session_limits": true,
+        "daily_load": true
+      },
+      "metrics": {
+        "coverage": 1.0,
+        "preference_coverage": 1.0,
+        "tasks": [
+          {
+            "task": "exercise",
+            "title": "锻炼",
+            "required": 3,
+            "scheduled": 3,
+            "preferred": 3,
+            "weight": 2
+          },
+          {
+            "task": "reading",
+            "title": "阅读",
+            "required": 3,
+            "scheduled": 3,
+            "preferred": 3,
+            "weight": 1
+          },
+          {
+            "task": "study",
+            "title": "系统学习",
+            "required": 2,
+            "scheduled": 2,
+            "preferred": 2,
+            "weight": 3
+          },
+          {
+            "task": "groceries",
+            "title": "采购",
+            "required": 1,
+            "scheduled": 1,
+            "preferred": 1,
+            "weight": 1
+          },
+          {
+            "task": "mealprep",
+            "title": "准备下周餐食",
+            "required": 1,
+            "scheduled": 1,
+            "preferred": 1,
+            "weight": 2
+          },
+          {
+            "task": "family",
+            "title": "陪伴家人",
+            "required": 1,
+            "scheduled": 1,
+            "preferred": 1,
+            "weight": 3
+          },
+          {
+            "task": "admin",
+            "title": "整理账单",
+            "required": 1,
+            "scheduled": 1,
+            "preferred": 1,
+            "weight": 1
+          },
+          {
+            "task": "rest",
+            "title": "留出休息",
+            "required": 2,
+            "scheduled": 2,
+            "preferred": 2,
+            "weight": 2
+          }
+        ],
+        "conflicts_and_errors": [],
+        "daily_minutes": {
+          "1": 90,
+          "2": 90,
+          "3": 120,
+          "4": 90,
+          "5": 90,
+          "6": 180,
+          "7": 210
+        }
+      },
+      "html_days": 7,
+      "source_sha256": "1acb0e5c49517ff65520abd20ed5e507c0c78cc8190c6190dde9b738310808cc"
+    }
+  ],
+  "all_passed": true
+}

@@ -1,0 +1,41 @@
+{
+  "files": [
+    {
+      "path": "out/gates.json",
+      "bytes": 53,
+      "sha256": "27b6e5be647112307342556e315ff72b9c95f04dbed98475904745714c173538"
+    },
+    {
+      "path": "out/generation.json",
+      "bytes": 459,
+      "sha256": "efed874f0864abe3e08f4c4306a9ba136dedece4c1c5bf8d76da7e656a31d0be"
+    },
+    {
+      "path": "out/notes.txt",
+      "bytes": 80,
+      "sha256": "e9ffe2fe106940cf2eff91186ca12b6fac4ef7860d30e4080117dc5f777fe0dd"
+    },
+    {
+      "path": "out/posts.html",
+      "bytes": 1318,
+      "sha256": "2e15101b1c868bb74b142a87f911334d4b353306e5fb63136baae67c02c45f90"
+    },
+    {
+      "path": "out/posts.md",
+      "bytes": 1064,
+      "sha256": "423807235729317fc5dec046d667ed47abaf1691e581d81e3479828b2aa8d10c"
+    },
+    {
+      "path": "out/reading.md",
+      "bytes": 622,
+      "sha256": "ce64cd18a6ced878f6990716295958243ae24678c0df2c454c27ec616ae859ed"
+    },
+    {
+      "path": "writing-guide.md",
+      "bytes": 294,
+      "sha256": "658d61b98d5d5e197f6477c6af2ac86217942da9a6d263c484f4886aa3e4beaf"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": []
+}

@@ -1,0 +1,29 @@
+{
+  "round": 1,
+  "status": "KEEP",
+  "hypothesis": "用侧后方晨光和较暗背景衬托杯口上方的细薄蒸汽，并排除浓烟与遮挡，预计能提高蒸汽可见性及简报符合度。",
+  "score": 61.0,
+  "best": 61.0,
+  "gates": {
+    "真实服务结果已取得": true,
+    "视频可读取且尺寸时长符合": true,
+    "min_chars": true,
+    "check:静帧没有明显的人脸、品牌标志、水印或额外文字。": true,
+    "check:主体没有明显破碎、重复杯柄或严重几何形变。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "真实生成事件 808a1a4ca031435e8415b360a7959f42；1.90秒，704×512；相同请求缓存复用=False。评委仅看抽帧，声音与完整运动仍需播放检查。\nsteam 4.0/10: 八张静帧中都能看见蒸汽，但它呈宽大浓白的带状和团状，向上延伸出画面，明显超过简报要求的细微程度，未达到5分以上所需的自然表现；图片没有可逐字引用的文字。\nsubject 6.0/10: 八张静帧中的浅米白陶瓷杯都很突出，釉面反光和比例基本可信，但杯底被下边缘裁切、杯柄左缘也贴边裁切，未达到8分要求的完整呈现；图片没有可逐字引用的文字。\n[cli:codex:gpt-6.1-sol] 将蒸汽减薄、减淡，收敛为杯口上方少量半透明细丝，避免形成浓白烟带。",
+  "commit": "538e28f71a9b",
+  "changed": [
+    "generation.json"
+  ],
+  "ignored": [],
+  "agent_seconds": 38.3,
+  "judge_seconds": 44.9,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "rounds/r001/artifacts",
+  "holdout": null,
+  "note": "score 60.5 -> 61",
+  "time": "2026-10-23T16:39:03+00:00"
+}

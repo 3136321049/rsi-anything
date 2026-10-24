@@ -1,0 +1,13 @@
+{
+  "score": 89.6,
+  "gates": {
+    "prompt_present": true,
+    "exit_code": true
+  },
+  "feedback": "43/48 correct with cli:codex:gpt-5.6-sol. Most common mistakes: expected cancel_order, got other (x3); expected wrong_item, got refund (x1); expected wrong_item, got other (x1)\nExamples:\nexpected wrong_item, got refund: 饭到了但是少了一份米饭，退钱吧\nexpected wrong_item, got other: Thanks for the quick refund last time, but today my burger is missing \nexpected cancel_order, got other: 能帮我把地址改成公司吗？订单刚下\nexpected cancel_order, got other: Can you add a side of fries to the order I just placed?\nexpected cancel_order, got other: 麻烦备注一下不要香菜，刚才忘写了",
+  "metrics": {
+    "model": "cli:codex:gpt-5.6-sol",
+    "errors": 0
+  },
+  "error": ""
+}

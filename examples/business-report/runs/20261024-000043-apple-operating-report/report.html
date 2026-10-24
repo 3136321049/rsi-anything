@@ -1,0 +1,1221 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSI run 20261024-000043-apple-operating-report</title>
+<style>
+:root { --bg:#fbfaf7; --fg:#1d1d1b; --muted:#6b6a64; --line:#e4e1d8; --accent:#2f6fde; --keep:#1f9d55; --drop:#b7b3a6; }
+@media (prefers-color-scheme: dark) { :root { --bg:#161614; --fg:#ecebe6; --muted:#a3a198; --line:#2c2b27; --accent:#7aa7ff; --keep:#4cc38a; --drop:#5b5950; } }
+body { background:var(--bg); color:var(--fg); font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; margin:0; }
+main { max-width:960px; margin:0 auto; padding:32px 16px 64px; }
+h1 { font-size:22px; margin:0 0 4px; } .muted { color:var(--muted); }
+.stats { display:flex; gap:24px; flex-wrap:wrap; margin:20px 0; } .stat b { display:block; font-size:26px; }
+svg { width:100%; height:auto; border:1px solid var(--line); border-radius:8px; }
+.best { fill:none; stroke:var(--accent); stroke-width:2; } .kept { fill:var(--keep); } .dropped { fill:var(--drop); }
+.tick { fill:var(--muted); font-size:11px; }
+table { width:100%; border-collapse:collapse; margin-top:20px; font-size:14px; }
+td,th { border-bottom:1px solid var(--line); padding:6px 8px; text-align:left; vertical-align:top; }
+tr.s-keep td:nth-child(2) { color:var(--keep); font-weight:600; }
+pre { overflow-x:auto; background:color-mix(in srgb, var(--line) 40%, transparent); padding:12px; border-radius:8px; }
+details { border:1px solid var(--line); border-radius:8px; padding:12px; margin:12px 0; } summary { cursor:pointer; font-weight:600; }
+.artifact img,.artifact video { max-width:100%; max-height:560px; } .artifact pre { max-height:420px; white-space:pre-wrap; overflow:auto; } a { color:var(--accent); }
+</style></head><body><main>
+<h1>apple-operating-report</h1>
+<div class="muted">面向不熟悉财报的产品经理，改进 Apple 2024 财年经营分析报告 report.md 和图表配置 charts.json。
+资料只有 judge/facts.json。说明总营收、产品与服务结构、营业利润与净利润的不同走势、资料局限。
+正文数字用 {{资料键}} 插值，键见 judge/facts.json；财年可以直接写 2023、2024。
+引用使用 [S1]、[S2]。不要写股价、评级或投资建议。图表只能选择资料中现有指标。</div>
+<p class="muted">运行状态：finished。已保存 8 条模型调用记录；调用费用：工具未提供。</p>
+<p><a href="config/rsi.yaml">任务配置</a> · <a href="config/execution.json">模型与运行参数</a></p>
+<div class="stats">
+<div class="stat"><span class="muted">baseline</span><b>53.5</b></div>
+<div class="stat"><span class="muted">best</span><b>74</b></div>
+<div class="stat"><span class="muted">rounds / kept</span><b>3 / 1</b></div>
+<div class="stat"><span class="muted">agent</span><b style="font-size:16px">codex</b></div>
+</div>
+<svg viewBox="0 0 720 260" role="img" aria-label="score by round"><polyline points="48.0,210.3 266.7,68.3 485.3,68.3 704.0,68.3" class="best"/><circle cx="48.0" cy="210.3" r="5" class="kept"><title>r0 BASELINE 53.5</title></circle><circle cx="266.7" cy="68.3" r="5" class="kept"><title>r1 KEEP 74</title></circle><circle cx="485.3" cy="33.7" r="3.5" class="dropped"><title>r2 REVERT 79</title></circle><circle cx="704.0" cy="154.9" r="3.5" class="dropped"><title>r3 REVERT 61.5</title></circle><text x="40" y="210.3" class="tick" text-anchor="end">53.5</text><text x="40" y="122.0" class="tick" text-anchor="end">66.2</text><text x="40" y="33.7" class="tick" text-anchor="end">79</text><text x="48.0" y="250" class="tick" text-anchor="middle">r0</text><text x="266.7" y="250" class="tick" text-anchor="middle">r1</text><text x="485.3" y="250" class="tick" text-anchor="middle">r2</text><text x="704.0" y="250" class="tick" text-anchor="middle">r3</text></svg>
+<p class="muted">Line: best score so far. Green: kept. Grey: judged and thrown away.
+
+Stopped: reached 3 rounds.</p>
+<table><thead><tr><th>round</th><th>status</th><th>score</th><th>best</th><th>change</th><th>why</th></tr></thead>
+<tbody><tr class='s-baseline'><td>0</td><td>◆ BASELINE</td><td>53.5</td><td>53.5</td><td>baseline</td><td></td></tr><tr class='s-keep'><td>1</td><td>▲ KEEP</td><td>74</td><td>74</td><td>用可追踪的论据链解释服务增量如何抵消产品下降，以及一次性税费如何影响净利润，并明确资料不能支持的推论，预计可提高主旨和推理评分。</td><td>score 53.5 -&gt; 74; head-to-head 2/2</td></tr><tr class='s-revert'><td>2</td><td>· REVERT</td><td>79</td><td>74</td><td>用两张收入图配合对照表解释服务增长如何抵消产品下降，将两种利润集中比较，并在开头突出服务占比变化，预计提高图表使用和主旨评分。</td><td>higher score but lost head-to-head (1/2 votes)</td></tr><tr class='s-revert'><td>3</td><td>· REVERT</td><td>61.5</td><td>74</td><td>用同表对照总营收、产品和服务，保留两种利润图并说明纵轴差异，在开头突出服务占比变化，预计减少比较成本并提高图表使用和主旨评分。</td><td>score 61.5 is not better than 74 (required margin: 0 or 0%)</td></tr></tbody></table>
+<h2>产物版本</h2><details><summary>初始产物</summary><div class='artifact'><p><a href="artifacts/baseline/files/charts.json">charts.json</a></p><pre>{
+  &quot;metrics&quot;: [
+    &quot;revenue&quot;,
+    &quot;services&quot;
+  ]
+}
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/chart-1.mmd">out/chart-1.mmd</a></p><span class="muted">145 bytes</span></div><div class='artifact'><p><a href="artifacts/baseline/files/out/chart-2.mmd">out/chart-2.mmd</a></p><span class="muted">146 bytes</span></div><div class='artifact'><p><a href="artifacts/baseline/files/out/evaluation.md">out/evaluation.md</a></p><pre># Apple 2024 财年经营观察
+
+本文使用固定历史资料，不构成投资建议。金额口径为百万美元，财年而非自然年。[S1]
+
+## 经营数字
+
+2024 财年总营收为 391,035 百万美元，2023 财年为 383,285 百万美元，同比 +2.02%。产品营收从 298,085 百万美元 变为 294,866 百万美元；服务营收从 85,200 百万美元 变为 96,169 百万美元。这些变化值得关注。[S1]
+
+## 盈利表现
+
+营业利润由 114,301 百万美元 增至 123,216 百万美元，净利润则由 96,995 百万美元 降至 93,736 百万美元。资料还列出一次性所得税费用 10,246 百万美元。营业利润与净利润的变动方向不同，应该分别观察。[S1][S2]
+
+## 局限
+
+两年数字能够描述变化，但尚不足以解释每项变化的原因。资料不包含未来需求和估值，不能据此推断未来收益。市场竞争、供应链以及监管变化仍需要后续跟踪。[S2]
+
+
+所选图表：
+图1：总营收，2023=383,285；2024=391,035；单位百万美元。
+图2：服务营收，2023=85,200；2024=96,169；单位百万美元。</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;正文有实质内容&quot;: true,
+  &quot;数字资料键存在&quot;: true,
+  &quot;金额和比率使用资料插值&quot;: true,
+  &quot;关键数字齐全&quot;: true,
+  &quot;来源编号有效&quot;: true,
+  &quot;限定经营分析用途&quot;: true,
+  &quot;图表指标有效&quot;: true
+}</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/metrics.json">out/metrics.json</a></p><pre>{
+  &quot;unit&quot;: &quot;百万美元&quot;,
+  &quot;series&quot;: {
+    &quot;revenue&quot;: {
+      &quot;label&quot;: &quot;总营收&quot;,
+      &quot;2023&quot;: 383285,
+      &quot;2024&quot;: 391035
+    },
+    &quot;products&quot;: {
+      &quot;label&quot;: &quot;产品营收&quot;,
+      &quot;2023&quot;: 298085,
+      &quot;2024&quot;: 294866
+    },
+    &quot;services&quot;: {
+      &quot;label&quot;: &quot;服务营收&quot;,
+      &quot;2023&quot;: 85200,
+      &quot;2024&quot;: 96169
+    },
+    &quot;operating_income&quot;: {
+      &quot;label&quot;: &quot;营业利润&quot;,
+      &quot;2023&quot;: 114301,
+      &quot;2024&quot;: 123216
+    },
+    &quot;net_income&quot;: {
+      &quot;label&quot;: &quot;净利润&quot;,
+      &quot;2023&quot;: 96995,
+      &quot;2024&quot;: 93736
+    }
+  },
+  &quot;rendered_values&quot;: {
+    &quot;revenue_2023&quot;: &quot;383,285 百万美元&quot;,
+    &quot;revenue_2024&quot;: &quot;391,035 百万美元&quot;,
+    &quot;revenue_growth&quot;: &quot;+2.02%&quot;,
+    &quot;products_2023&quot;: &quot;298,085 百万美元&quot;,
+    &quot;products_2024&quot;: &quot;294,866 百万美元&quot;,
+    &quot;products_growth&quot;: &quot;-1.08%&quot;,
+    &quot;services_2023&quot;: &quot;85,200 百万美元&quot;,
+    &quot;services_2024&quot;: &quot;96,169 百万美元&quot;,
+    &quot;services_growth&quot;: &quot;+12.87%&quot;,
+    &quot;operating_income_2023&quot;: &quot;114,301 百万美元&quot;,
+    &quot;operating_income_2024&quot;: &quot;123,216 百万美元&quot;,
+    &quot;operating_income_growth&quot;: &quot;+7.80%&quot;,
+    &quot;net_income_2023&quot;: &quot;96,995 百万美元&quot;,
+    &quot;net_income_2024&quot;: &quot;93,736 百万美元&quot;,
+    &quot;net_income_growth&quot;: &quot;-3.36%&quot;,
+    &quot;services_share_2023&quot;: &quot;22.23%&quot;,
+    &quot;services_share_2024&quot;: &quot;24.59%&quot;,
+    &quot;tax_charge_2024&quot;: &quot;10,246 百万美元&quot;
+  },
+  &quot;selected_charts&quot;: [
+    &quot;revenue&quot;,
+    &quot;services&quot;
+  ]
+}</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/notes.txt">out/notes.txt</a></p><pre>程序只核对资料键、单位及图表数据；论据和结论是否相称由模型评委判断。</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/report.html">out/report.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;title&gt;经营分析报告&lt;/title&gt;&lt;style&gt;body{max-width:900px;margin:40px auto;padding:0 24px;font:17px/1.8 system-ui;color:#183047;background:#f7f9fc}pre{white-space:pre-wrap;font:inherit}table{border-collapse:collapse;width:100%;background:white}td,th{padding:12px;border:1px solid #d7e0e8;text-align:left}article{background:white;padding:24px;border-radius:12px}a{color:#185b9c}&lt;/style&gt;&lt;article&gt;&lt;pre&gt;# Apple 2024 财年经营观察
+
+本文使用固定历史资料，不构成投资建议。金额口径为百万美元，财年而非自然年。[S1]
+
+## 经营数字
+
+2024 财年总营收为 391,035 百万美元，2023 财年为 383,285 百万美元，同比 +2.02%。产品营收从 298,085 百万美元 变为 294,866 百万美元；服务营收从 85,200 百万美元 变为 96,169 百万美元。这些变化值得关注。[S1]
+
+## 盈利表现
+
+营业利润由 114,301 百万美元 增至 123,216 百万美元，净利润则由 96,995 百万美元 降至 93,736 百万美元。资料还列出一次性所得税费用 10,246 百万美元。营业利润与净利润的变动方向不同，应该分别观察。[S1][S2]
+
+## 局限
+
+两年数字能够描述变化，但尚不足以解释每项变化的原因。资料不包含未来需求和估值，不能据此推断未来收益。市场竞争、供应链以及监管变化仍需要后续跟踪。[S2]
+&lt;/pre&gt;&lt;/article&gt;&lt;h2&gt;所选指标（百万美元）&lt;/h2&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;指标&lt;/th&gt;&lt;th&gt;2023&lt;/th&gt;&lt;th&gt;2024&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;总营收&lt;/td&gt;&lt;td&gt;383,285&lt;/td&gt;&lt;td&gt;391,035&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;服务营收&lt;/td&gt;&lt;td&gt;85,200&lt;/td&gt;&lt;td&gt;96,169&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;pre class=&quot;mermaid&quot;&gt;xychart-beta
+    title &amp;quot;总营收（百万美元）&amp;quot;
+    x-axis [&amp;quot;2023&amp;quot;, &amp;quot;2024&amp;quot;]
+    y-axis &amp;quot;百万美元&amp;quot; 0 --&amp;gt; 437960
+    bar [383285, 391035]
+&lt;/pre&gt;&lt;pre class=&quot;mermaid&quot;&gt;xychart-beta
+    title &amp;quot;服务营收（百万美元）&amp;quot;
+    x-axis [&amp;quot;2023&amp;quot;, &amp;quot;2024&amp;quot;]
+    y-axis &amp;quot;百万美元&amp;quot; 0 --&amp;gt; 107710
+    bar [85200, 96169]
+&lt;/pre&gt;&lt;h2&gt;资料来源&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;[S1] &lt;a href=&quot;https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf&quot;&gt;Apple FY24 Q4 Consolidated Financial Statements&lt;/a&gt;&lt;/li&gt;&lt;li&gt;[S2] &lt;a href=&quot;https://www.apple.com/newsroom/2024/10/apple-reports-fourth-quarter-results/&quot;&gt;Apple reports fourth quarter results&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;图形需联网加载 Mermaid；离线时正文与上方数值表仍可阅读。&lt;/p&gt;&lt;script type=&quot;module&quot;&gt;import mermaid from &#x27;https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs&#x27;;mermaid.initialize({startOnLoad:true,securityLevel:&#x27;strict&#x27;});&lt;/script&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/report.md">out/report.md</a></p><pre># Apple 2024 财年经营观察
+
+本文使用固定历史资料，不构成投资建议。金额口径为百万美元，财年而非自然年。[S1]
+
+## 经营数字
+
+2024 财年总营收为 391,035 百万美元，2023 财年为 383,285 百万美元，同比 +2.02%。产品营收从 298,085 百万美元 变为 294,866 百万美元；服务营收从 85,200 百万美元 变为 96,169 百万美元。这些变化值得关注。[S1]
+
+## 盈利表现
+
+营业利润由 114,301 百万美元 增至 123,216 百万美元，净利润则由 96,995 百万美元 降至 93,736 百万美元。资料还列出一次性所得税费用 10,246 百万美元。营业利润与净利润的变动方向不同，应该分别观察。[S1][S2]
+
+## 局限
+
+两年数字能够描述变化，但尚不足以解释每项变化的原因。资料不包含未来需求和估值，不能据此推断未来收益。市场竞争、供应链以及监管变化仍需要后续跟踪。[S2]
+
+
+## 数据图表
+
+```mermaid
+xychart-beta
+    title &quot;总营收（百万美元）&quot;
+    x-axis [&quot;2023&quot;, &quot;2024&quot;]
+    y-axis &quot;百万美元&quot; 0 --&gt; 437960
+    bar [383285, 391035]
+```
+
+```mermaid
+xychart-beta
+    title &quot;服务营收（百万美元）&quot;
+    x-axis [&quot;2023&quot;, &quot;2024&quot;]
+    y-axis &quot;百万美元&quot; 0 --&gt; 107710
+    bar [85200, 96169]
+```
+
+## 来源
+
+[S1] Apple FY24 Q4 Consolidated Financial Statements — https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf
+[S2] Apple reports fourth quarter results — https://www.apple.com/newsroom/2024/10/apple-reports-fourth-quarter-results/</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/report.md">report.md</a></p><pre># Apple 2024 财年经营观察
+
+本文使用固定历史资料，不构成投资建议。金额口径为百万美元，财年而非自然年。[S1]
+
+## 经营数字
+
+2024 财年总营收为 {{revenue_2024}}，2023 财年为 {{revenue_2023}}，同比 {{revenue_growth}}。产品营收从 {{products_2023}} 变为 {{products_2024}}；服务营收从 {{services_2023}} 变为 {{services_2024}}。这些变化值得关注。[S1]
+
+## 盈利表现
+
+营业利润由 {{operating_income_2023}} 增至 {{operating_income_2024}}，净利润则由 {{net_income_2023}} 降至 {{net_income_2024}}。资料还列出一次性所得税费用 {{tax_charge_2024}}。营业利润与净利润的变动方向不同，应该分别观察。[S1][S2]
+
+## 局限
+
+两年数字能够描述变化，但尚不足以解释每项变化的原因。资料不包含未来需求和估值，不能据此推断未来收益。市场竞争、供应链以及监管变化仍需要后续跟踪。[S2]
+</pre></div></details><details><summary>第 1 轮 · KEEP</summary><div class='artifact'><p><a href="rounds/r001/artifacts/files/charts.json">charts.json</a></p><pre>{
+  &quot;metrics&quot;: [
+    &quot;services&quot;,
+    &quot;operating_income&quot;,
+    &quot;net_income&quot;
+  ]
+}
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/chart-1.mmd">out/chart-1.mmd</a></p><span class="muted">146 bytes</span></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/chart-2.mmd">out/chart-2.mmd</a></p><span class="muted">148 bytes</span></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/chart-3.mmd">out/chart-3.mmd</a></p><span class="muted">143 bytes</span></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/evaluation.md">out/evaluation.md</a></p><pre># Apple 2024 财年经营观察
+
+2024 财年最值得关注的是：总营收小幅增长，但产品营收下降，服务营收增加并抵消了产品的减少额；营业利润上升，净利润却下降。前者说明收入结构在变化，后者需要结合一次性所得税费用理解，不能仅凭净利润下降就判断核心经营恶化。[S1][S2]
+
+本文使用固定历史资料，不构成投资建议。以下均为全年数据，财年不同于自然年；金额单位为百万美元，利润采用财报列报口径。[S1]
+
+## 营收增长来自哪部分
+
+总营收从 2023 财年的 383,285 百万美元 增至 2024 财年的 391,035 百万美元，同比 +2.02%。其中，产品营收从 298,085 百万美元 降至 294,866 百万美元，服务营收从 85,200 百万美元 增至 96,169 百万美元。[S1]
+
+从金额贡献看，总营收增加额等于服务增加额减去产品减少额。服务的增加额不仅补上产品的缺口，还留下了总营收的净增量。因此，总营收增长不代表产品和服务都在增长。服务占总营收的比重也从 22.23% 升至 24.59%，但产品仍是收入的大头。看服务营收图时，应结合这两个占比理解服务权重的上升，不能把服务单项增长当成公司整体的增长速度。[S1]
+
+这能说明哪部分贡献了收入增量，却不能解释增长原因。资料没有销量、价格、付费用户或细分业务数据，无法判断变化来自卖得更多、价格变化还是业务组合变化，也不能把服务收入增长直接解释为利润增长。[S1]
+
+## 为什么营业利润上升，净利润却下降
+
+营业利润可以理解为营收扣掉营业成本和经营费用后的利润；净利润还要计入营业之外的收支及所得税。因此，两者回答的问题不同：前者帮助观察经营环节的盈利，后者反映这些项目全部计入后剩下的利润。[S1]
+
+2024 财年营业利润由 114,301 百万美元 增至 123,216 百万美元，同比 +7.80%；净利润则由 96,995 百万美元 降至 93,736 百万美元，同比 -3.36%。并排看营业利润和净利润图，重点是变动方向相反，而不是只看谁的柱子更高；各图纵轴范围不同，比较幅度应以金额和同比为准。[S1]
+
+资料列示，与欧盟税务裁决有关的一次性所得税费用为 10,246 百万美元。这项费用计入所得税，压低净利润，不扣减营业利润；费用金额大于全年净利润的减少额，说明它对理解两种利润的不同走势很重要。费用虽在当季确认，这里讨论的是其对全年结果的影响，没有将季度同比混入全年比较。[S1][S2]
+
+因此，净利润下降不能直接证明核心经营恶化；营业利润上升也不等于最终净利润上升。这里保留财报列报的净利润，不把加回一次性费用后的金额当作实际净利润；仅凭现有资料，也不能把全部利润变化归因于税费，或断言服务增长导致了营业利润提高。[S1][S2]
+
+## 这些资料还不能回答什么
+
+这些是历史年度结果，不是最新经营表现或未来预测。两年数据能确认收入结构和利润方向的变化，不能证明趋势会持续。若要判断服务增长能否延续，需要后续的用户、价格及业务拆分数据；若要解释营业利润为何提高，需要成本、费用和产品与服务各自的盈利数据；若要完整解释净利润变化，还需要其他收支和税项的明细。[S1]
+
+资料没有未来需求预期和竞争对手对比。后续可观察服务占比及两种利润能否持续改善，并结合市场竞争、供应链和监管变化理解结果，而不能只凭本期增长外推未来。[S2]
+
+
+所选图表：
+图1：服务营收，2023=85,200；2024=96,169；单位百万美元。
+图2：营业利润，2023=114,301；2024=123,216；单位百万美元。
+图3：净利润，2023=96,995；2024=93,736；单位百万美元。</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;正文有实质内容&quot;: true,
+  &quot;数字资料键存在&quot;: true,
+  &quot;金额和比率使用资料插值&quot;: true,
+  &quot;关键数字齐全&quot;: true,
+  &quot;来源编号有效&quot;: true,
+  &quot;限定经营分析用途&quot;: true,
+  &quot;图表指标有效&quot;: true
+}</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/metrics.json">out/metrics.json</a></p><pre>{
+  &quot;unit&quot;: &quot;百万美元&quot;,
+  &quot;series&quot;: {
+    &quot;revenue&quot;: {
+      &quot;label&quot;: &quot;总营收&quot;,
+      &quot;2023&quot;: 383285,
+      &quot;2024&quot;: 391035
+    },
+    &quot;products&quot;: {
+      &quot;label&quot;: &quot;产品营收&quot;,
+      &quot;2023&quot;: 298085,
+      &quot;2024&quot;: 294866
+    },
+    &quot;services&quot;: {
+      &quot;label&quot;: &quot;服务营收&quot;,
+      &quot;2023&quot;: 85200,
+      &quot;2024&quot;: 96169
+    },
+    &quot;operating_income&quot;: {
+      &quot;label&quot;: &quot;营业利润&quot;,
+      &quot;2023&quot;: 114301,
+      &quot;2024&quot;: 123216
+    },
+    &quot;net_income&quot;: {
+      &quot;label&quot;: &quot;净利润&quot;,
+      &quot;2023&quot;: 96995,
+      &quot;2024&quot;: 93736
+    }
+  },
+  &quot;rendered_values&quot;: {
+    &quot;revenue_2023&quot;: &quot;383,285 百万美元&quot;,
+    &quot;revenue_2024&quot;: &quot;391,035 百万美元&quot;,
+    &quot;revenue_growth&quot;: &quot;+2.02%&quot;,
+    &quot;products_2023&quot;: &quot;298,085 百万美元&quot;,
+    &quot;products_2024&quot;: &quot;294,866 百万美元&quot;,
+    &quot;products_growth&quot;: &quot;-1.08%&quot;,
+    &quot;services_2023&quot;: &quot;85,200 百万美元&quot;,
+    &quot;services_2024&quot;: &quot;96,169 百万美元&quot;,
+    &quot;services_growth&quot;: &quot;+12.87%&quot;,
+    &quot;operating_income_2023&quot;: &quot;114,301 百万美元&quot;,
+    &quot;operating_income_2024&quot;: &quot;123,216 百万美元&quot;,
+    &quot;operating_income_growth&quot;: &quot;+7.80%&quot;,
+    &quot;net_income_2023&quot;: &quot;96,995 百万美元&quot;,
+    &quot;net_income_2024&quot;: &quot;93,736 百万美元&quot;,
+    &quot;net_income_growth&quot;: &quot;-3.36%&quot;,
+    &quot;services_share_2023&quot;: &quot;22.23%&quot;,
+    &quot;services_share_2024&quot;: &quot;24.59%&quot;,
+    &quot;tax_charge_2024&quot;: &quot;10,246 百万美元&quot;
+  },
+  &quot;selected_charts&quot;: [
+    &quot;services&quot;,
+    &quot;operating_income&quot;,
+    &quot;net_income&quot;
+  ]
+}</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>程序只核对资料键、单位及图表数据；论据和结论是否相称由模型评委判断。</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/report.html">out/report.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;title&gt;经营分析报告&lt;/title&gt;&lt;style&gt;body{max-width:900px;margin:40px auto;padding:0 24px;font:17px/1.8 system-ui;color:#183047;background:#f7f9fc}pre{white-space:pre-wrap;font:inherit}table{border-collapse:collapse;width:100%;background:white}td,th{padding:12px;border:1px solid #d7e0e8;text-align:left}article{background:white;padding:24px;border-radius:12px}a{color:#185b9c}&lt;/style&gt;&lt;article&gt;&lt;pre&gt;# Apple 2024 财年经营观察
+
+2024 财年最值得关注的是：总营收小幅增长，但产品营收下降，服务营收增加并抵消了产品的减少额；营业利润上升，净利润却下降。前者说明收入结构在变化，后者需要结合一次性所得税费用理解，不能仅凭净利润下降就判断核心经营恶化。[S1][S2]
+
+本文使用固定历史资料，不构成投资建议。以下均为全年数据，财年不同于自然年；金额单位为百万美元，利润采用财报列报口径。[S1]
+
+## 营收增长来自哪部分
+
+总营收从 2023 财年的 383,285 百万美元 增至 2024 财年的 391,035 百万美元，同比 +2.02%。其中，产品营收从 298,085 百万美元 降至 294,866 百万美元，服务营收从 85,200 百万美元 增至 96,169 百万美元。[S1]
+
+从金额贡献看，总营收增加额等于服务增加额减去产品减少额。服务的增加额不仅补上产品的缺口，还留下了总营收的净增量。因此，总营收增长不代表产品和服务都在增长。服务占总营收的比重也从 22.23% 升至 24.59%，但产品仍是收入的大头。看服务营收图时，应结合这两个占比理解服务权重的上升，不能把服务单项增长当成公司整体的增长速度。[S1]
+
+这能说明哪部分贡献了收入增量，却不能解释增长原因。资料没有销量、价格、付费用户或细分业务数据，无法判断变化来自卖得更多、价格变化还是业务组合变化，也不能把服务收入增长直接解释为利润增长。[S1]
+
+## 为什么营业利润上升，净利润却下降
+
+营业利润可以理解为营收扣掉营业成本和经营费用后的利润；净利润还要计入营业之外的收支及所得税。因此，两者回答的问题不同：前者帮助观察经营环节的盈利，后者反映这些项目全部计入后剩下的利润。[S1]
+
+2024 财年营业利润由 114,301 百万美元 增至 123,216 百万美元，同比 +7.80%；净利润则由 96,995 百万美元 降至 93,736 百万美元，同比 -3.36%。并排看营业利润和净利润图，重点是变动方向相反，而不是只看谁的柱子更高；各图纵轴范围不同，比较幅度应以金额和同比为准。[S1]
+
+资料列示，与欧盟税务裁决有关的一次性所得税费用为 10,246 百万美元。这项费用计入所得税，压低净利润，不扣减营业利润；费用金额大于全年净利润的减少额，说明它对理解两种利润的不同走势很重要。费用虽在当季确认，这里讨论的是其对全年结果的影响，没有将季度同比混入全年比较。[S1][S2]
+
+因此，净利润下降不能直接证明核心经营恶化；营业利润上升也不等于最终净利润上升。这里保留财报列报的净利润，不把加回一次性费用后的金额当作实际净利润；仅凭现有资料，也不能把全部利润变化归因于税费，或断言服务增长导致了营业利润提高。[S1][S2]
+
+## 这些资料还不能回答什么
+
+这些是历史年度结果，不是最新经营表现或未来预测。两年数据能确认收入结构和利润方向的变化，不能证明趋势会持续。若要判断服务增长能否延续，需要后续的用户、价格及业务拆分数据；若要解释营业利润为何提高，需要成本、费用和产品与服务各自的盈利数据；若要完整解释净利润变化，还需要其他收支和税项的明细。[S1]
+
+资料没有未来需求预期和竞争对手对比。后续可观察服务占比及两种利润能否持续改善，并结合市场竞争、供应链和监管变化理解结果，而不能只凭本期增长外推未来。[S2]
+&lt;/pre&gt;&lt;/article&gt;&lt;h2&gt;所选指标（百万美元）&lt;/h2&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;指标&lt;/th&gt;&lt;th&gt;2023&lt;/th&gt;&lt;th&gt;2024&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;服务营收&lt;/td&gt;&lt;td&gt;85,200&lt;/td&gt;&lt;td&gt;96,169&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;营业利润&lt;/td&gt;&lt;td&gt;114,301&lt;/td&gt;&lt;td&gt;123,216&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;净利润&lt;/td&gt;&lt;td&gt;96,995&lt;/td&gt;&lt;td&gt;93,736&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;pre class=&quot;mermaid&quot;&gt;xychart-beta
+    title &amp;quot;服务营收（百万美元）&amp;quot;
+    x-axis [&amp;quot;2023&amp;quot;, &amp;quot;2024&amp;quot;]
+    y-axis &amp;quot;百万美元&amp;quot; 0 --&amp;gt; 107710
+    bar [85200, 96169]
+&lt;/pre&gt;&lt;pre class=&quot;mermaid&quot;&gt;xychart-beta
+    title &amp;quot;营业利润（百万美元）&amp;quot;
+    x-axis [&amp;quot;2023&amp;quot;, &amp;quot;2024&amp;quot;]
+    y-axis &amp;quot;百万美元&amp;quot; 0 --&amp;gt; 138002
+    bar [114301, 123216]
+&lt;/pre&gt;&lt;pre class=&quot;mermaid&quot;&gt;xychart-beta
+    title &amp;quot;净利润（百万美元）&amp;quot;
+    x-axis [&amp;quot;2023&amp;quot;, &amp;quot;2024&amp;quot;]
+    y-axis &amp;quot;百万美元&amp;quot; 0 --&amp;gt; 108635
+    bar [96995, 93736]
+&lt;/pre&gt;&lt;h2&gt;资料来源&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;[S1] &lt;a href=&quot;https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf&quot;&gt;Apple FY24 Q4 Consolidated Financial Statements&lt;/a&gt;&lt;/li&gt;&lt;li&gt;[S2] &lt;a href=&quot;https://www.apple.com/newsroom/2024/10/apple-reports-fourth-quarter-results/&quot;&gt;Apple reports fourth quarter results&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;图形需联网加载 Mermaid；离线时正文与上方数值表仍可阅读。&lt;/p&gt;&lt;script type=&quot;module&quot;&gt;import mermaid from &#x27;https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs&#x27;;mermaid.initialize({startOnLoad:true,securityLevel:&#x27;strict&#x27;});&lt;/script&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/report.md">out/report.md</a></p><pre># Apple 2024 财年经营观察
+
+2024 财年最值得关注的是：总营收小幅增长，但产品营收下降，服务营收增加并抵消了产品的减少额；营业利润上升，净利润却下降。前者说明收入结构在变化，后者需要结合一次性所得税费用理解，不能仅凭净利润下降就判断核心经营恶化。[S1][S2]
+
+本文使用固定历史资料，不构成投资建议。以下均为全年数据，财年不同于自然年；金额单位为百万美元，利润采用财报列报口径。[S1]
+
+## 营收增长来自哪部分
+
+总营收从 2023 财年的 383,285 百万美元 增至 2024 财年的 391,035 百万美元，同比 +2.02%。其中，产品营收从 298,085 百万美元 降至 294,866 百万美元，服务营收从 85,200 百万美元 增至 96,169 百万美元。[S1]
+
+从金额贡献看，总营收增加额等于服务增加额减去产品减少额。服务的增加额不仅补上产品的缺口，还留下了总营收的净增量。因此，总营收增长不代表产品和服务都在增长。服务占总营收的比重也从 22.23% 升至 24.59%，但产品仍是收入的大头。看服务营收图时，应结合这两个占比理解服务权重的上升，不能把服务单项增长当成公司整体的增长速度。[S1]
+
+这能说明哪部分贡献了收入增量，却不能解释增长原因。资料没有销量、价格、付费用户或细分业务数据，无法判断变化来自卖得更多、价格变化还是业务组合变化，也不能把服务收入增长直接解释为利润增长。[S1]
+
+## 为什么营业利润上升，净利润却下降
+
+营业利润可以理解为营收扣掉营业成本和经营费用后的利润；净利润还要计入营业之外的收支及所得税。因此，两者回答的问题不同：前者帮助观察经营环节的盈利，后者反映这些项目全部计入后剩下的利润。[S1]
+
+2024 财年营业利润由 114,301 百万美元 增至 123,216 百万美元，同比 +7.80%；净利润则由 96,995 百万美元 降至 93,736 百万美元，同比 -3.36%。并排看营业利润和净利润图，重点是变动方向相反，而不是只看谁的柱子更高；各图纵轴范围不同，比较幅度应以金额和同比为准。[S1]
+
+资料列示，与欧盟税务裁决有关的一次性所得税费用为 10,246 百万美元。这项费用计入所得税，压低净利润，不扣减营业利润；费用金额大于全年净利润的减少额，说明它对理解两种利润的不同走势很重要。费用虽在当季确认，这里讨论的是其对全年结果的影响，没有将季度同比混入全年比较。[S1][S2]
+
+因此，净利润下降不能直接证明核心经营恶化；营业利润上升也不等于最终净利润上升。这里保留财报列报的净利润，不把加回一次性费用后的金额当作实际净利润；仅凭现有资料，也不能把全部利润变化归因于税费，或断言服务增长导致了营业利润提高。[S1][S2]
+
+## 这些资料还不能回答什么
+
+这些是历史年度结果，不是最新经营表现或未来预测。两年数据能确认收入结构和利润方向的变化，不能证明趋势会持续。若要判断服务增长能否延续，需要后续的用户、价格及业务拆分数据；若要解释营业利润为何提高，需要成本、费用和产品与服务各自的盈利数据；若要完整解释净利润变化，还需要其他收支和税项的明细。[S1]
+
+资料没有未来需求预期和竞争对手对比。后续可观察服务占比及两种利润能否持续改善，并结合市场竞争、供应链和监管变化理解结果，而不能只凭本期增长外推未来。[S2]
+
+
+## 数据图表
+
+```mermaid
+xychart-beta
+    title &quot;服务营收（百万美元）&quot;
+    x-axis [&quot;2023&quot;, &quot;2024&quot;]
+    y-axis &quot;百万美元&quot; 0 --&gt; 107710
+    bar [85200, 96169]
+```
+
+```mermaid
+xychart-beta
+    title &quot;营业利润（百万美元）&quot;
+    x-axis [&quot;2023&quot;, &quot;2024&quot;]
+    y-axis &quot;百万美元&quot; 0 --&gt; 138002
+    bar [114301, 123216]
+```
+
+```mermaid
+xychart-beta
+    title &quot;净利润（百万美元）&quot;
+    x-axis [&quot;2023&quot;, &quot;2024&quot;]
+    y-axis &quot;百万美元&quot; 0 --&gt; 108635
+    bar [96995, 93736]
+```
+
+## 来源
+
+[S1] Apple FY24 Q4 Consolidated Financial Statements — https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf
+[S2] Apple reports fourth quarter results — https://www.apple.com/newsroom/2024/10/apple-reports-fourth-quarter-results/</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/report.md">report.md</a></p><pre># Apple 2024 财年经营观察
+
+2024 财年最值得关注的是：总营收小幅增长，但产品营收下降，服务营收增加并抵消了产品的减少额；营业利润上升，净利润却下降。前者说明收入结构在变化，后者需要结合一次性所得税费用理解，不能仅凭净利润下降就判断核心经营恶化。[S1][S2]
+
+本文使用固定历史资料，不构成投资建议。以下均为全年数据，财年不同于自然年；金额单位为百万美元，利润采用财报列报口径。[S1]
+
+## 营收增长来自哪部分
+
+总营收从 2023 财年的 {{revenue_2023}} 增至 2024 财年的 {{revenue_2024}}，同比 {{revenue_growth}}。其中，产品营收从 {{products_2023}} 降至 {{products_2024}}，服务营收从 {{services_2023}} 增至 {{services_2024}}。[S1]
+
+从金额贡献看，总营收增加额等于服务增加额减去产品减少额。服务的增加额不仅补上产品的缺口，还留下了总营收的净增量。因此，总营收增长不代表产品和服务都在增长。服务占总营收的比重也从 {{services_share_2023}} 升至 {{services_share_2024}}，但产品仍是收入的大头。看服务营收图时，应结合这两个占比理解服务权重的上升，不能把服务单项增长当成公司整体的增长速度。[S1]
+
+这能说明哪部分贡献了收入增量，却不能解释增长原因。资料没有销量、价格、付费用户或细分业务数据，无法判断变化来自卖得更多、价格变化还是业务组合变化，也不能把服务收入增长直接解释为利润增长。[S1]
+
+## 为什么营业利润上升，净利润却下降
+
+营业利润可以理解为营收扣掉营业成本和经营费用后的利润；净利润还要计入营业之外的收支及所得税。因此，两者回答的问题不同：前者帮助观察经营环节的盈利，后者反映这些项目全部计入后剩下的利润。[S1]
+
+2024 财年营业利润由 {{operating_income_2023}} 增至 {{operating_income_2024}}，同比 {{operating_income_growth}}；净利润则由 {{net_income_2023}} 降至 {{net_income_2024}}，同比 {{net_income_growth}}。并排看营业利润和净利润图，重点是变动方向相反，而不是只看谁的柱子更高；各图纵轴范围不同，比较幅度应以金额和同比为准。[S1]
+
+资料列示，与欧盟税务裁决有关的一次性所得税费用为 {{tax_charge_2024}}。这项费用计入所得税，压低净利润，不扣减营业利润；费用金额大于全年净利润的减少额，说明它对理解两种利润的不同走势很重要。费用虽在当季确认，这里讨论的是其对全年结果的影响，没有将季度同比混入全年比较。[S1][S2]
+
+因此，净利润下降不能直接证明核心经营恶化；营业利润上升也不等于最终净利润上升。这里保留财报列报的净利润，不把加回一次性费用后的金额当作实际净利润；仅凭现有资料，也不能把全部利润变化归因于税费，或断言服务增长导致了营业利润提高。[S1][S2]
+
+## 这些资料还不能回答什么
+
+这些是历史年度结果，不是最新经营表现或未来预测。两年数据能确认收入结构和利润方向的变化，不能证明趋势会持续。若要判断服务增长能否延续，需要后续的用户、价格及业务拆分数据；若要解释营业利润为何提高，需要成本、费用和产品与服务各自的盈利数据；若要完整解释净利润变化，还需要其他收支和税项的明细。[S1]
+
+资料没有未来需求预期和竞争对手对比。后续可观察服务占比及两种利润能否持续改善，并结合市场竞争、供应链和监管变化理解结果，而不能只凭本期增长外推未来。[S2]
+</pre></div></details><details><summary>第 2 轮 · REVERT</summary><div class='artifact'><p><a href="rounds/r002/artifacts/files/charts.json">charts.json</a></p><pre>{
+  &quot;metrics&quot;: [
+    &quot;products&quot;,
+    &quot;services&quot;
+  ]
+}
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/chart-1.mmd">out/chart-1.mmd</a></p><span class="muted">148 bytes</span></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/chart-2.mmd">out/chart-2.mmd</a></p><span class="muted">146 bytes</span></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/evaluation.md">out/evaluation.md</a></p><pre># Apple 2024 财年经营观察
+
+2024 财年总营收同比 +2.02%，增长来自服务增加抵消产品减少，服务占比从 22.23% 升至 24.59%。与此同时，营业利润上升、净利润下降，需要结合一次性所得税费用理解，不能仅凭净利润下降就判断核心经营恶化。[S1][S2]
+
+本文使用固定历史资料，不构成投资建议。以下均为全年数据，财年不同于自然年；金额单位为百万美元，利润采用财报列报口径。[S1]
+
+## 营收增长来自哪部分
+
+把产品、服务和总量放在一起看：产品下降，服务上升，两者相加后的总营收仍增长。[S1]
+
+| 收入项目 | 2023 财年 | 2024 财年 | 同比 |
+| --- | --- | --- | --- |
+| 产品营收 | 298,085 百万美元 | 294,866 百万美元 | -1.08% |
+| 服务营收 | 85,200 百万美元 | 96,169 百万美元 | +12.87% |
+| 总营收（产品与服务之和） | 383,285 百万美元 | 391,035 百万美元 | +2.02% |
+
+表中全年金额与同比均来自 [S1]。
+
+下方产品营收图与服务营收图分别展示两年的下降和上升。读图要回答的是：服务增加的金额能否补上产品减少的金额？结合表中金额可知，服务的增加额不仅补上缺口，还留下了总营收的净增量。这解释了为什么产品下降时，总营收仍能增长，也说明服务权重在上升，但产品仍是收入的大头。[S1]
+
+两张图的纵轴均为百万美元、从零起，但上限不同；不能直接比较柱子的高度或高低差。比较收入规模及增减金额时看上表，比较各自增长速度时看同比，也不要把两项同比直接相加。
+
+这能说明哪部分贡献了收入增量，却不能解释增长原因。资料没有销量、价格、付费用户或细分业务数据，无法判断变化来自卖得更多、价格变化还是业务组合变化，也不能把服务收入增长直接解释为利润增长。[S1]
+
+## 为什么营业利润上升，净利润却下降
+
+营业利润可以理解为营收扣掉营业成本和经营费用后的利润；净利润还要计入营业之外的收支及所得税。因此，两者回答的问题不同：前者帮助观察经营环节的盈利，后者反映这些项目全部计入后剩下的利润。[S1]
+
+两种利润放在同一张表里，重点看同比方向：经营环节的利润提高，最终留下的净利润却减少。[S1]
+
+| 利润口径 | 2023 财年 | 2024 财年 | 同比 |
+| --- | --- | --- | --- |
+| 营业利润 | 114,301 百万美元 | 123,216 百万美元 | +7.80% |
+| 净利润 | 96,995 百万美元 | 93,736 百万美元 | -3.36% |
+
+表中均为财报列报的全年利润，来源为 [S1]。
+
+资料列示，与欧盟税务裁决有关的一次性所得税费用为 10,246 百万美元。这项费用计入所得税，压低净利润，不扣减营业利润；费用金额大于全年净利润的减少额，说明它对理解两种利润的不同走势很重要。费用虽在当季确认，这里讨论的是其对全年结果的影响，没有将季度同比混入全年比较。[S1][S2]
+
+因此，净利润下降不能直接证明核心经营恶化；营业利润上升也不等于最终净利润上升。这里保留财报列报的净利润，不把加回一次性费用后的金额当作实际净利润；仅凭现有资料，也不能把全部利润变化归因于税费，或断言服务增长导致了营业利润提高。[S1][S2]
+
+## 这些资料还不能回答什么
+
+这些是历史年度结果，不是最新经营表现或未来预测。两年数据能确认收入结构和利润方向的变化，不能证明趋势会持续。若要判断服务增长能否延续，需要后续的用户、价格及业务拆分数据；若要解释营业利润为何提高，需要成本、费用和产品与服务各自的盈利数据；若要完整解释净利润变化，还需要其他收支和税项的明细。[S1]
+
+资料没有未来需求预期和竞争对手对比。后续可观察服务占比及两种利润能否持续改善，并结合市场竞争、供应链和监管变化理解结果，而不能只凭本期增长外推未来。[S2]
+
+
+所选图表：
+图1：产品营收，2023=298,085；2024=294,866；单位百万美元。
+图2：服务营收，2023=85,200；2024=96,169；单位百万美元。</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;正文有实质内容&quot;: true,
+  &quot;数字资料键存在&quot;: true,
+  &quot;金额和比率使用资料插值&quot;: true,
+  &quot;关键数字齐全&quot;: true,
+  &quot;来源编号有效&quot;: true,
+  &quot;限定经营分析用途&quot;: true,
+  &quot;图表指标有效&quot;: true
+}</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/metrics.json">out/metrics.json</a></p><pre>{
+  &quot;unit&quot;: &quot;百万美元&quot;,
+  &quot;series&quot;: {
+    &quot;revenue&quot;: {
+      &quot;label&quot;: &quot;总营收&quot;,
+      &quot;2023&quot;: 383285,
+      &quot;2024&quot;: 391035
+    },
+    &quot;products&quot;: {
+      &quot;label&quot;: &quot;产品营收&quot;,
+      &quot;2023&quot;: 298085,
+      &quot;2024&quot;: 294866
+    },
+    &quot;services&quot;: {
+      &quot;label&quot;: &quot;服务营收&quot;,
+      &quot;2023&quot;: 85200,
+      &quot;2024&quot;: 96169
+    },
+    &quot;operating_income&quot;: {
+      &quot;label&quot;: &quot;营业利润&quot;,
+      &quot;2023&quot;: 114301,
+      &quot;2024&quot;: 123216
+    },
+    &quot;net_income&quot;: {
+      &quot;label&quot;: &quot;净利润&quot;,
+      &quot;2023&quot;: 96995,
+      &quot;2024&quot;: 93736
+    }
+  },
+  &quot;rendered_values&quot;: {
+    &quot;revenue_2023&quot;: &quot;383,285 百万美元&quot;,
+    &quot;revenue_2024&quot;: &quot;391,035 百万美元&quot;,
+    &quot;revenue_growth&quot;: &quot;+2.02%&quot;,
+    &quot;products_2023&quot;: &quot;298,085 百万美元&quot;,
+    &quot;products_2024&quot;: &quot;294,866 百万美元&quot;,
+    &quot;products_growth&quot;: &quot;-1.08%&quot;,
+    &quot;services_2023&quot;: &quot;85,200 百万美元&quot;,
+    &quot;services_2024&quot;: &quot;96,169 百万美元&quot;,
+    &quot;services_growth&quot;: &quot;+12.87%&quot;,
+    &quot;operating_income_2023&quot;: &quot;114,301 百万美元&quot;,
+    &quot;operating_income_2024&quot;: &quot;123,216 百万美元&quot;,
+    &quot;operating_income_growth&quot;: &quot;+7.80%&quot;,
+    &quot;net_income_2023&quot;: &quot;96,995 百万美元&quot;,
+    &quot;net_income_2024&quot;: &quot;93,736 百万美元&quot;,
+    &quot;net_income_growth&quot;: &quot;-3.36%&quot;,
+    &quot;services_share_2023&quot;: &quot;22.23%&quot;,
+    &quot;services_share_2024&quot;: &quot;24.59%&quot;,
+    &quot;tax_charge_2024&quot;: &quot;10,246 百万美元&quot;
+  },
+  &quot;selected_charts&quot;: [
+    &quot;products&quot;,
+    &quot;services&quot;
+  ]
+}</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>程序只核对资料键、单位及图表数据；论据和结论是否相称由模型评委判断。</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/report.html">out/report.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;title&gt;经营分析报告&lt;/title&gt;&lt;style&gt;body{max-width:900px;margin:40px auto;padding:0 24px;font:17px/1.8 system-ui;color:#183047;background:#f7f9fc}pre{white-space:pre-wrap;font:inherit}table{border-collapse:collapse;width:100%;background:white}td,th{padding:12px;border:1px solid #d7e0e8;text-align:left}article{background:white;padding:24px;border-radius:12px}a{color:#185b9c}&lt;/style&gt;&lt;article&gt;&lt;pre&gt;# Apple 2024 财年经营观察
+
+2024 财年总营收同比 +2.02%，增长来自服务增加抵消产品减少，服务占比从 22.23% 升至 24.59%。与此同时，营业利润上升、净利润下降，需要结合一次性所得税费用理解，不能仅凭净利润下降就判断核心经营恶化。[S1][S2]
+
+本文使用固定历史资料，不构成投资建议。以下均为全年数据，财年不同于自然年；金额单位为百万美元，利润采用财报列报口径。[S1]
+
+## 营收增长来自哪部分
+
+把产品、服务和总量放在一起看：产品下降，服务上升，两者相加后的总营收仍增长。[S1]
+
+| 收入项目 | 2023 财年 | 2024 财年 | 同比 |
+| --- | --- | --- | --- |
+| 产品营收 | 298,085 百万美元 | 294,866 百万美元 | -1.08% |
+| 服务营收 | 85,200 百万美元 | 96,169 百万美元 | +12.87% |
+| 总营收（产品与服务之和） | 383,285 百万美元 | 391,035 百万美元 | +2.02% |
+
+表中全年金额与同比均来自 [S1]。
+
+下方产品营收图与服务营收图分别展示两年的下降和上升。读图要回答的是：服务增加的金额能否补上产品减少的金额？结合表中金额可知，服务的增加额不仅补上缺口，还留下了总营收的净增量。这解释了为什么产品下降时，总营收仍能增长，也说明服务权重在上升，但产品仍是收入的大头。[S1]
+
+两张图的纵轴均为百万美元、从零起，但上限不同；不能直接比较柱子的高度或高低差。比较收入规模及增减金额时看上表，比较各自增长速度时看同比，也不要把两项同比直接相加。
+
+这能说明哪部分贡献了收入增量，却不能解释增长原因。资料没有销量、价格、付费用户或细分业务数据，无法判断变化来自卖得更多、价格变化还是业务组合变化，也不能把服务收入增长直接解释为利润增长。[S1]
+
+## 为什么营业利润上升，净利润却下降
+
+营业利润可以理解为营收扣掉营业成本和经营费用后的利润；净利润还要计入营业之外的收支及所得税。因此，两者回答的问题不同：前者帮助观察经营环节的盈利，后者反映这些项目全部计入后剩下的利润。[S1]
+
+两种利润放在同一张表里，重点看同比方向：经营环节的利润提高，最终留下的净利润却减少。[S1]
+
+| 利润口径 | 2023 财年 | 2024 财年 | 同比 |
+| --- | --- | --- | --- |
+| 营业利润 | 114,301 百万美元 | 123,216 百万美元 | +7.80% |
+| 净利润 | 96,995 百万美元 | 93,736 百万美元 | -3.36% |
+
+表中均为财报列报的全年利润，来源为 [S1]。
+
+资料列示，与欧盟税务裁决有关的一次性所得税费用为 10,246 百万美元。这项费用计入所得税，压低净利润，不扣减营业利润；费用金额大于全年净利润的减少额，说明它对理解两种利润的不同走势很重要。费用虽在当季确认，这里讨论的是其对全年结果的影响，没有将季度同比混入全年比较。[S1][S2]
+
+因此，净利润下降不能直接证明核心经营恶化；营业利润上升也不等于最终净利润上升。这里保留财报列报的净利润，不把加回一次性费用后的金额当作实际净利润；仅凭现有资料，也不能把全部利润变化归因于税费，或断言服务增长导致了营业利润提高。[S1][S2]
+
+## 这些资料还不能回答什么
+
+这些是历史年度结果，不是最新经营表现或未来预测。两年数据能确认收入结构和利润方向的变化，不能证明趋势会持续。若要判断服务增长能否延续，需要后续的用户、价格及业务拆分数据；若要解释营业利润为何提高，需要成本、费用和产品与服务各自的盈利数据；若要完整解释净利润变化，还需要其他收支和税项的明细。[S1]
+
+资料没有未来需求预期和竞争对手对比。后续可观察服务占比及两种利润能否持续改善，并结合市场竞争、供应链和监管变化理解结果，而不能只凭本期增长外推未来。[S2]
+&lt;/pre&gt;&lt;/article&gt;&lt;h2&gt;所选指标（百万美元）&lt;/h2&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;指标&lt;/th&gt;&lt;th&gt;2023&lt;/th&gt;&lt;th&gt;2024&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;产品营收&lt;/td&gt;&lt;td&gt;298,085&lt;/td&gt;&lt;td&gt;294,866&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;服务营收&lt;/td&gt;&lt;td&gt;85,200&lt;/td&gt;&lt;td&gt;96,169&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;pre class=&quot;mermaid&quot;&gt;xychart-beta
+    title &amp;quot;产品营收（百万美元）&amp;quot;
+    x-axis [&amp;quot;2023&amp;quot;, &amp;quot;2024&amp;quot;]
+    y-axis &amp;quot;百万美元&amp;quot; 0 --&amp;gt; 333856
+    bar [298085, 294866]
+&lt;/pre&gt;&lt;pre class=&quot;mermaid&quot;&gt;xychart-beta
+    title &amp;quot;服务营收（百万美元）&amp;quot;
+    x-axis [&amp;quot;2023&amp;quot;, &amp;quot;2024&amp;quot;]
+    y-axis &amp;quot;百万美元&amp;quot; 0 --&amp;gt; 107710
+    bar [85200, 96169]
+&lt;/pre&gt;&lt;h2&gt;资料来源&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;[S1] &lt;a href=&quot;https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf&quot;&gt;Apple FY24 Q4 Consolidated Financial Statements&lt;/a&gt;&lt;/li&gt;&lt;li&gt;[S2] &lt;a href=&quot;https://www.apple.com/newsroom/2024/10/apple-reports-fourth-quarter-results/&quot;&gt;Apple reports fourth quarter results&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;图形需联网加载 Mermaid；离线时正文与上方数值表仍可阅读。&lt;/p&gt;&lt;script type=&quot;module&quot;&gt;import mermaid from &#x27;https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs&#x27;;mermaid.initialize({startOnLoad:true,securityLevel:&#x27;strict&#x27;});&lt;/script&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/report.md">out/report.md</a></p><pre># Apple 2024 财年经营观察
+
+2024 财年总营收同比 +2.02%，增长来自服务增加抵消产品减少，服务占比从 22.23% 升至 24.59%。与此同时，营业利润上升、净利润下降，需要结合一次性所得税费用理解，不能仅凭净利润下降就判断核心经营恶化。[S1][S2]
+
+本文使用固定历史资料，不构成投资建议。以下均为全年数据，财年不同于自然年；金额单位为百万美元，利润采用财报列报口径。[S1]
+
+## 营收增长来自哪部分
+
+把产品、服务和总量放在一起看：产品下降，服务上升，两者相加后的总营收仍增长。[S1]
+
+| 收入项目 | 2023 财年 | 2024 财年 | 同比 |
+| --- | --- | --- | --- |
+| 产品营收 | 298,085 百万美元 | 294,866 百万美元 | -1.08% |
+| 服务营收 | 85,200 百万美元 | 96,169 百万美元 | +12.87% |
+| 总营收（产品与服务之和） | 383,285 百万美元 | 391,035 百万美元 | +2.02% |
+
+表中全年金额与同比均来自 [S1]。
+
+下方产品营收图与服务营收图分别展示两年的下降和上升。读图要回答的是：服务增加的金额能否补上产品减少的金额？结合表中金额可知，服务的增加额不仅补上缺口，还留下了总营收的净增量。这解释了为什么产品下降时，总营收仍能增长，也说明服务权重在上升，但产品仍是收入的大头。[S1]
+
+两张图的纵轴均为百万美元、从零起，但上限不同；不能直接比较柱子的高度或高低差。比较收入规模及增减金额时看上表，比较各自增长速度时看同比，也不要把两项同比直接相加。
+
+这能说明哪部分贡献了收入增量，却不能解释增长原因。资料没有销量、价格、付费用户或细分业务数据，无法判断变化来自卖得更多、价格变化还是业务组合变化，也不能把服务收入增长直接解释为利润增长。[S1]
+
+## 为什么营业利润上升，净利润却下降
+
+营业利润可以理解为营收扣掉营业成本和经营费用后的利润；净利润还要计入营业之外的收支及所得税。因此，两者回答的问题不同：前者帮助观察经营环节的盈利，后者反映这些项目全部计入后剩下的利润。[S1]
+
+两种利润放在同一张表里，重点看同比方向：经营环节的利润提高，最终留下的净利润却减少。[S1]
+
+| 利润口径 | 2023 财年 | 2024 财年 | 同比 |
+| --- | --- | --- | --- |
+| 营业利润 | 114,301 百万美元 | 123,216 百万美元 | +7.80% |
+| 净利润 | 96,995 百万美元 | 93,736 百万美元 | -3.36% |
+
+表中均为财报列报的全年利润，来源为 [S1]。
+
+资料列示，与欧盟税务裁决有关的一次性所得税费用为 10,246 百万美元。这项费用计入所得税，压低净利润，不扣减营业利润；费用金额大于全年净利润的减少额，说明它对理解两种利润的不同走势很重要。费用虽在当季确认，这里讨论的是其对全年结果的影响，没有将季度同比混入全年比较。[S1][S2]
+
+因此，净利润下降不能直接证明核心经营恶化；营业利润上升也不等于最终净利润上升。这里保留财报列报的净利润，不把加回一次性费用后的金额当作实际净利润；仅凭现有资料，也不能把全部利润变化归因于税费，或断言服务增长导致了营业利润提高。[S1][S2]
+
+## 这些资料还不能回答什么
+
+这些是历史年度结果，不是最新经营表现或未来预测。两年数据能确认收入结构和利润方向的变化，不能证明趋势会持续。若要判断服务增长能否延续，需要后续的用户、价格及业务拆分数据；若要解释营业利润为何提高，需要成本、费用和产品与服务各自的盈利数据；若要完整解释净利润变化，还需要其他收支和税项的明细。[S1]
+
+资料没有未来需求预期和竞争对手对比。后续可观察服务占比及两种利润能否持续改善，并结合市场竞争、供应链和监管变化理解结果，而不能只凭本期增长外推未来。[S2]
+
+
+## 数据图表
+
+```mermaid
+xychart-beta
+    title &quot;产品营收（百万美元）&quot;
+    x-axis [&quot;2023&quot;, &quot;2024&quot;]
+    y-axis &quot;百万美元&quot; 0 --&gt; 333856
+    bar [298085, 294866]
+```
+
+```mermaid
+xychart-beta
+    title &quot;服务营收（百万美元）&quot;
+    x-axis [&quot;2023&quot;, &quot;2024&quot;]
+    y-axis &quot;百万美元&quot; 0 --&gt; 107710
+    bar [85200, 96169]
+```
+
+## 来源
+
+[S1] Apple FY24 Q4 Consolidated Financial Statements — https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf
+[S2] Apple reports fourth quarter results — https://www.apple.com/newsroom/2024/10/apple-reports-fourth-quarter-results/</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/report.md">report.md</a></p><pre># Apple 2024 财年经营观察
+
+2024 财年总营收同比 {{revenue_growth}}，增长来自服务增加抵消产品减少，服务占比从 {{services_share_2023}} 升至 {{services_share_2024}}。与此同时，营业利润上升、净利润下降，需要结合一次性所得税费用理解，不能仅凭净利润下降就判断核心经营恶化。[S1][S2]
+
+本文使用固定历史资料，不构成投资建议。以下均为全年数据，财年不同于自然年；金额单位为百万美元，利润采用财报列报口径。[S1]
+
+## 营收增长来自哪部分
+
+把产品、服务和总量放在一起看：产品下降，服务上升，两者相加后的总营收仍增长。[S1]
+
+| 收入项目 | 2023 财年 | 2024 财年 | 同比 |
+| --- | --- | --- | --- |
+| 产品营收 | {{products_2023}} | {{products_2024}} | {{products_growth}} |
+| 服务营收 | {{services_2023}} | {{services_2024}} | {{services_growth}} |
+| 总营收（产品与服务之和） | {{revenue_2023}} | {{revenue_2024}} | {{revenue_growth}} |
+
+表中全年金额与同比均来自 [S1]。
+
+下方产品营收图与服务营收图分别展示两年的下降和上升。读图要回答的是：服务增加的金额能否补上产品减少的金额？结合表中金额可知，服务的增加额不仅补上缺口，还留下了总营收的净增量。这解释了为什么产品下降时，总营收仍能增长，也说明服务权重在上升，但产品仍是收入的大头。[S1]
+
+两张图的纵轴均为百万美元、从零起，但上限不同；不能直接比较柱子的高度或高低差。比较收入规模及增减金额时看上表，比较各自增长速度时看同比，也不要把两项同比直接相加。
+
+这能说明哪部分贡献了收入增量，却不能解释增长原因。资料没有销量、价格、付费用户或细分业务数据，无法判断变化来自卖得更多、价格变化还是业务组合变化，也不能把服务收入增长直接解释为利润增长。[S1]
+
+## 为什么营业利润上升，净利润却下降
+
+营业利润可以理解为营收扣掉营业成本和经营费用后的利润；净利润还要计入营业之外的收支及所得税。因此，两者回答的问题不同：前者帮助观察经营环节的盈利，后者反映这些项目全部计入后剩下的利润。[S1]
+
+两种利润放在同一张表里，重点看同比方向：经营环节的利润提高，最终留下的净利润却减少。[S1]
+
+| 利润口径 | 2023 财年 | 2024 财年 | 同比 |
+| --- | --- | --- | --- |
+| 营业利润 | {{operating_income_2023}} | {{operating_income_2024}} | {{operating_income_growth}} |
+| 净利润 | {{net_income_2023}} | {{net_income_2024}} | {{net_income_growth}} |
+
+表中均为财报列报的全年利润，来源为 [S1]。
+
+资料列示，与欧盟税务裁决有关的一次性所得税费用为 {{tax_charge_2024}}。这项费用计入所得税，压低净利润，不扣减营业利润；费用金额大于全年净利润的减少额，说明它对理解两种利润的不同走势很重要。费用虽在当季确认，这里讨论的是其对全年结果的影响，没有将季度同比混入全年比较。[S1][S2]
+
+因此，净利润下降不能直接证明核心经营恶化；营业利润上升也不等于最终净利润上升。这里保留财报列报的净利润，不把加回一次性费用后的金额当作实际净利润；仅凭现有资料，也不能把全部利润变化归因于税费，或断言服务增长导致了营业利润提高。[S1][S2]
+
+## 这些资料还不能回答什么
+
+这些是历史年度结果，不是最新经营表现或未来预测。两年数据能确认收入结构和利润方向的变化，不能证明趋势会持续。若要判断服务增长能否延续，需要后续的用户、价格及业务拆分数据；若要解释营业利润为何提高，需要成本、费用和产品与服务各自的盈利数据；若要完整解释净利润变化，还需要其他收支和税项的明细。[S1]
+
+资料没有未来需求预期和竞争对手对比。后续可观察服务占比及两种利润能否持续改善，并结合市场竞争、供应链和监管变化理解结果，而不能只凭本期增长外推未来。[S2]
+</pre></div></details><details><summary>第 3 轮 · REVERT</summary><div class='artifact'><p><a href="rounds/r003/artifacts/files/charts.json">charts.json</a></p><pre>{
+  &quot;metrics&quot;: [
+    &quot;operating_income&quot;,
+    &quot;net_income&quot;
+  ]
+}
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/chart-1.mmd">out/chart-1.mmd</a></p><span class="muted">148 bytes</span></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/chart-2.mmd">out/chart-2.mmd</a></p><span class="muted">143 bytes</span></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/evaluation.md">out/evaluation.md</a></p><pre># Apple 2024 财年经营观察
+
+2024 财年的营收增长由服务贡献：服务增加额抵消了产品减少额，服务占总营收的比重从 22.23% 升至 24.59%。与此同时，营业利润上升，净利润却下降；理解这个分化，需要考虑一次性所得税费用，不能仅凭净利润下降就判断核心经营恶化。[S1][S2]
+
+本文使用固定历史资料，不构成投资建议。以下均为全年数据，财年不同于自然年；金额单位为百万美元，利润采用财报列报口径。[S1]
+
+## 营收增长来自哪部分
+
+把总量和组成放在一起看，才能判断增长来自哪里。下表均为全年营收，总营收等于产品营收加服务营收；各行同比以各自上年营收为基数，不能直接相加。[S1]
+
+| 营收项目 | 2023 财年 | 2024 财年 | 同比 |
+| --- | --- | --- | --- |
+| 总营收 | 383,285 百万美元 | 391,035 百万美元 | +2.02% |
+| 产品 | 298,085 百万美元 | 294,866 百万美元 | -1.08% |
+| 服务 | 85,200 百万美元 | 96,169 百万美元 | +12.87% |
+
+读表重点是金额之间的关系：总营收增加额等于服务增加额减去产品减少额。服务的增加额不仅补上产品的缺口，还留下了总营收的净增量。因此，总营收增长不代表产品和服务都在增长；服务权重上升，也不代表它已超过产品，产品仍是收入的大头。[S1]
+
+这能说明哪部分贡献了收入增量，却不能解释增长原因。资料没有销量、价格、付费用户或细分业务数据，无法判断变化来自卖得更多、价格变化还是业务组合变化，也不能把服务收入增长直接解释为利润增长。[S1]
+
+## 为什么营业利润上升，净利润却下降
+
+营业利润可以理解为营收扣掉营业成本和经营费用后的利润；净利润还要计入营业之外的收支及所得税。因此，两者回答的问题不同：前者帮助观察经营环节的盈利，后者反映这些项目全部计入后剩下的利润。[S1]
+
+2024 财年营业利润由 114,301 百万美元 增至 123,216 百万美元，同比 +7.80%；净利润则由 96,995 百万美元 降至 93,736 百万美元，同比 -3.36%。[S1]
+
+下方图表依次展示营业利润和净利润。先在每张图内比较年度变化：营业利润的柱子升高，净利润的柱子降低，说明经营环节和最终利润的方向不同。两图纵轴均从零开始、单位均为百万美元，但上限不同，跨图比较变化幅度应看上述同比，不能直接比较柱子的高度差。[S1]
+
+资料列示，与欧盟税务裁决有关的一次性所得税费用为 10,246 百万美元。这项费用计入所得税，压低净利润，不扣减营业利润；费用金额大于全年净利润的减少额，说明它对理解两种利润的不同走势很重要。费用虽在当季确认，这里讨论的是其对全年结果的影响，没有将季度同比混入全年比较。[S1][S2]
+
+因此，净利润下降不能直接证明核心经营恶化；营业利润上升也不等于最终净利润上升。这里保留财报列报的净利润，不把加回一次性费用后的金额当作实际净利润；仅凭现有资料，也不能把全部利润变化归因于税费，或断言服务增长导致了营业利润提高。[S1][S2]
+
+## 这些资料还不能回答什么
+
+这些是历史年度结果，不是最新经营表现或未来预测。两年数据能确认收入结构和利润方向的变化，不能证明趋势会持续。若要判断服务增长能否延续，需要后续的用户、价格及业务拆分数据；若要解释营业利润为何提高，需要成本、费用和产品与服务各自的盈利数据；若要完整解释净利润变化，还需要其他收支和税项的明细。[S1]
+
+资料没有未来需求预期和竞争对手对比。后续可观察服务占比及两种利润能否持续改善，并结合市场竞争、供应链和监管变化理解结果，而不能只凭本期增长外推未来。[S2]
+
+
+所选图表：
+图1：营业利润，2023=114,301；2024=123,216；单位百万美元。
+图2：净利润，2023=96,995；2024=93,736；单位百万美元。</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;正文有实质内容&quot;: true,
+  &quot;数字资料键存在&quot;: true,
+  &quot;金额和比率使用资料插值&quot;: true,
+  &quot;关键数字齐全&quot;: true,
+  &quot;来源编号有效&quot;: true,
+  &quot;限定经营分析用途&quot;: true,
+  &quot;图表指标有效&quot;: true
+}</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/metrics.json">out/metrics.json</a></p><pre>{
+  &quot;unit&quot;: &quot;百万美元&quot;,
+  &quot;series&quot;: {
+    &quot;revenue&quot;: {
+      &quot;label&quot;: &quot;总营收&quot;,
+      &quot;2023&quot;: 383285,
+      &quot;2024&quot;: 391035
+    },
+    &quot;products&quot;: {
+      &quot;label&quot;: &quot;产品营收&quot;,
+      &quot;2023&quot;: 298085,
+      &quot;2024&quot;: 294866
+    },
+    &quot;services&quot;: {
+      &quot;label&quot;: &quot;服务营收&quot;,
+      &quot;2023&quot;: 85200,
+      &quot;2024&quot;: 96169
+    },
+    &quot;operating_income&quot;: {
+      &quot;label&quot;: &quot;营业利润&quot;,
+      &quot;2023&quot;: 114301,
+      &quot;2024&quot;: 123216
+    },
+    &quot;net_income&quot;: {
+      &quot;label&quot;: &quot;净利润&quot;,
+      &quot;2023&quot;: 96995,
+      &quot;2024&quot;: 93736
+    }
+  },
+  &quot;rendered_values&quot;: {
+    &quot;revenue_2023&quot;: &quot;383,285 百万美元&quot;,
+    &quot;revenue_2024&quot;: &quot;391,035 百万美元&quot;,
+    &quot;revenue_growth&quot;: &quot;+2.02%&quot;,
+    &quot;products_2023&quot;: &quot;298,085 百万美元&quot;,
+    &quot;products_2024&quot;: &quot;294,866 百万美元&quot;,
+    &quot;products_growth&quot;: &quot;-1.08%&quot;,
+    &quot;services_2023&quot;: &quot;85,200 百万美元&quot;,
+    &quot;services_2024&quot;: &quot;96,169 百万美元&quot;,
+    &quot;services_growth&quot;: &quot;+12.87%&quot;,
+    &quot;operating_income_2023&quot;: &quot;114,301 百万美元&quot;,
+    &quot;operating_income_2024&quot;: &quot;123,216 百万美元&quot;,
+    &quot;operating_income_growth&quot;: &quot;+7.80%&quot;,
+    &quot;net_income_2023&quot;: &quot;96,995 百万美元&quot;,
+    &quot;net_income_2024&quot;: &quot;93,736 百万美元&quot;,
+    &quot;net_income_growth&quot;: &quot;-3.36%&quot;,
+    &quot;services_share_2023&quot;: &quot;22.23%&quot;,
+    &quot;services_share_2024&quot;: &quot;24.59%&quot;,
+    &quot;tax_charge_2024&quot;: &quot;10,246 百万美元&quot;
+  },
+  &quot;selected_charts&quot;: [
+    &quot;operating_income&quot;,
+    &quot;net_income&quot;
+  ]
+}</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>程序只核对资料键、单位及图表数据；论据和结论是否相称由模型评委判断。</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/report.html">out/report.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;title&gt;经营分析报告&lt;/title&gt;&lt;style&gt;body{max-width:900px;margin:40px auto;padding:0 24px;font:17px/1.8 system-ui;color:#183047;background:#f7f9fc}pre{white-space:pre-wrap;font:inherit}table{border-collapse:collapse;width:100%;background:white}td,th{padding:12px;border:1px solid #d7e0e8;text-align:left}article{background:white;padding:24px;border-radius:12px}a{color:#185b9c}&lt;/style&gt;&lt;article&gt;&lt;pre&gt;# Apple 2024 财年经营观察
+
+2024 财年的营收增长由服务贡献：服务增加额抵消了产品减少额，服务占总营收的比重从 22.23% 升至 24.59%。与此同时，营业利润上升，净利润却下降；理解这个分化，需要考虑一次性所得税费用，不能仅凭净利润下降就判断核心经营恶化。[S1][S2]
+
+本文使用固定历史资料，不构成投资建议。以下均为全年数据，财年不同于自然年；金额单位为百万美元，利润采用财报列报口径。[S1]
+
+## 营收增长来自哪部分
+
+把总量和组成放在一起看，才能判断增长来自哪里。下表均为全年营收，总营收等于产品营收加服务营收；各行同比以各自上年营收为基数，不能直接相加。[S1]
+
+| 营收项目 | 2023 财年 | 2024 财年 | 同比 |
+| --- | --- | --- | --- |
+| 总营收 | 383,285 百万美元 | 391,035 百万美元 | +2.02% |
+| 产品 | 298,085 百万美元 | 294,866 百万美元 | -1.08% |
+| 服务 | 85,200 百万美元 | 96,169 百万美元 | +12.87% |
+
+读表重点是金额之间的关系：总营收增加额等于服务增加额减去产品减少额。服务的增加额不仅补上产品的缺口，还留下了总营收的净增量。因此，总营收增长不代表产品和服务都在增长；服务权重上升，也不代表它已超过产品，产品仍是收入的大头。[S1]
+
+这能说明哪部分贡献了收入增量，却不能解释增长原因。资料没有销量、价格、付费用户或细分业务数据，无法判断变化来自卖得更多、价格变化还是业务组合变化，也不能把服务收入增长直接解释为利润增长。[S1]
+
+## 为什么营业利润上升，净利润却下降
+
+营业利润可以理解为营收扣掉营业成本和经营费用后的利润；净利润还要计入营业之外的收支及所得税。因此，两者回答的问题不同：前者帮助观察经营环节的盈利，后者反映这些项目全部计入后剩下的利润。[S1]
+
+2024 财年营业利润由 114,301 百万美元 增至 123,216 百万美元，同比 +7.80%；净利润则由 96,995 百万美元 降至 93,736 百万美元，同比 -3.36%。[S1]
+
+下方图表依次展示营业利润和净利润。先在每张图内比较年度变化：营业利润的柱子升高，净利润的柱子降低，说明经营环节和最终利润的方向不同。两图纵轴均从零开始、单位均为百万美元，但上限不同，跨图比较变化幅度应看上述同比，不能直接比较柱子的高度差。[S1]
+
+资料列示，与欧盟税务裁决有关的一次性所得税费用为 10,246 百万美元。这项费用计入所得税，压低净利润，不扣减营业利润；费用金额大于全年净利润的减少额，说明它对理解两种利润的不同走势很重要。费用虽在当季确认，这里讨论的是其对全年结果的影响，没有将季度同比混入全年比较。[S1][S2]
+
+因此，净利润下降不能直接证明核心经营恶化；营业利润上升也不等于最终净利润上升。这里保留财报列报的净利润，不把加回一次性费用后的金额当作实际净利润；仅凭现有资料，也不能把全部利润变化归因于税费，或断言服务增长导致了营业利润提高。[S1][S2]
+
+## 这些资料还不能回答什么
+
+这些是历史年度结果，不是最新经营表现或未来预测。两年数据能确认收入结构和利润方向的变化，不能证明趋势会持续。若要判断服务增长能否延续，需要后续的用户、价格及业务拆分数据；若要解释营业利润为何提高，需要成本、费用和产品与服务各自的盈利数据；若要完整解释净利润变化，还需要其他收支和税项的明细。[S1]
+
+资料没有未来需求预期和竞争对手对比。后续可观察服务占比及两种利润能否持续改善，并结合市场竞争、供应链和监管变化理解结果，而不能只凭本期增长外推未来。[S2]
+&lt;/pre&gt;&lt;/article&gt;&lt;h2&gt;所选指标（百万美元）&lt;/h2&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;指标&lt;/th&gt;&lt;th&gt;2023&lt;/th&gt;&lt;th&gt;2024&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;营业利润&lt;/td&gt;&lt;td&gt;114,301&lt;/td&gt;&lt;td&gt;123,216&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;净利润&lt;/td&gt;&lt;td&gt;96,995&lt;/td&gt;&lt;td&gt;93,736&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;pre class=&quot;mermaid&quot;&gt;xychart-beta
+    title &amp;quot;营业利润（百万美元）&amp;quot;
+    x-axis [&amp;quot;2023&amp;quot;, &amp;quot;2024&amp;quot;]
+    y-axis &amp;quot;百万美元&amp;quot; 0 --&amp;gt; 138002
+    bar [114301, 123216]
+&lt;/pre&gt;&lt;pre class=&quot;mermaid&quot;&gt;xychart-beta
+    title &amp;quot;净利润（百万美元）&amp;quot;
+    x-axis [&amp;quot;2023&amp;quot;, &amp;quot;2024&amp;quot;]
+    y-axis &amp;quot;百万美元&amp;quot; 0 --&amp;gt; 108635
+    bar [96995, 93736]
+&lt;/pre&gt;&lt;h2&gt;资料来源&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;[S1] &lt;a href=&quot;https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf&quot;&gt;Apple FY24 Q4 Consolidated Financial Statements&lt;/a&gt;&lt;/li&gt;&lt;li&gt;[S2] &lt;a href=&quot;https://www.apple.com/newsroom/2024/10/apple-reports-fourth-quarter-results/&quot;&gt;Apple reports fourth quarter results&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;图形需联网加载 Mermaid；离线时正文与上方数值表仍可阅读。&lt;/p&gt;&lt;script type=&quot;module&quot;&gt;import mermaid from &#x27;https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs&#x27;;mermaid.initialize({startOnLoad:true,securityLevel:&#x27;strict&#x27;});&lt;/script&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/report.md">out/report.md</a></p><pre># Apple 2024 财年经营观察
+
+2024 财年的营收增长由服务贡献：服务增加额抵消了产品减少额，服务占总营收的比重从 22.23% 升至 24.59%。与此同时，营业利润上升，净利润却下降；理解这个分化，需要考虑一次性所得税费用，不能仅凭净利润下降就判断核心经营恶化。[S1][S2]
+
+本文使用固定历史资料，不构成投资建议。以下均为全年数据，财年不同于自然年；金额单位为百万美元，利润采用财报列报口径。[S1]
+
+## 营收增长来自哪部分
+
+把总量和组成放在一起看，才能判断增长来自哪里。下表均为全年营收，总营收等于产品营收加服务营收；各行同比以各自上年营收为基数，不能直接相加。[S1]
+
+| 营收项目 | 2023 财年 | 2024 财年 | 同比 |
+| --- | --- | --- | --- |
+| 总营收 | 383,285 百万美元 | 391,035 百万美元 | +2.02% |
+| 产品 | 298,085 百万美元 | 294,866 百万美元 | -1.08% |
+| 服务 | 85,200 百万美元 | 96,169 百万美元 | +12.87% |
+
+读表重点是金额之间的关系：总营收增加额等于服务增加额减去产品减少额。服务的增加额不仅补上产品的缺口，还留下了总营收的净增量。因此，总营收增长不代表产品和服务都在增长；服务权重上升，也不代表它已超过产品，产品仍是收入的大头。[S1]
+
+这能说明哪部分贡献了收入增量，却不能解释增长原因。资料没有销量、价格、付费用户或细分业务数据，无法判断变化来自卖得更多、价格变化还是业务组合变化，也不能把服务收入增长直接解释为利润增长。[S1]
+
+## 为什么营业利润上升，净利润却下降
+
+营业利润可以理解为营收扣掉营业成本和经营费用后的利润；净利润还要计入营业之外的收支及所得税。因此，两者回答的问题不同：前者帮助观察经营环节的盈利，后者反映这些项目全部计入后剩下的利润。[S1]
+
+2024 财年营业利润由 114,301 百万美元 增至 123,216 百万美元，同比 +7.80%；净利润则由 96,995 百万美元 降至 93,736 百万美元，同比 -3.36%。[S1]
+
+下方图表依次展示营业利润和净利润。先在每张图内比较年度变化：营业利润的柱子升高，净利润的柱子降低，说明经营环节和最终利润的方向不同。两图纵轴均从零开始、单位均为百万美元，但上限不同，跨图比较变化幅度应看上述同比，不能直接比较柱子的高度差。[S1]
+
+资料列示，与欧盟税务裁决有关的一次性所得税费用为 10,246 百万美元。这项费用计入所得税，压低净利润，不扣减营业利润；费用金额大于全年净利润的减少额，说明它对理解两种利润的不同走势很重要。费用虽在当季确认，这里讨论的是其对全年结果的影响，没有将季度同比混入全年比较。[S1][S2]
+
+因此，净利润下降不能直接证明核心经营恶化；营业利润上升也不等于最终净利润上升。这里保留财报列报的净利润，不把加回一次性费用后的金额当作实际净利润；仅凭现有资料，也不能把全部利润变化归因于税费，或断言服务增长导致了营业利润提高。[S1][S2]
+
+## 这些资料还不能回答什么
+
+这些是历史年度结果，不是最新经营表现或未来预测。两年数据能确认收入结构和利润方向的变化，不能证明趋势会持续。若要判断服务增长能否延续，需要后续的用户、价格及业务拆分数据；若要解释营业利润为何提高，需要成本、费用和产品与服务各自的盈利数据；若要完整解释净利润变化，还需要其他收支和税项的明细。[S1]
+
+资料没有未来需求预期和竞争对手对比。后续可观察服务占比及两种利润能否持续改善，并结合市场竞争、供应链和监管变化理解结果，而不能只凭本期增长外推未来。[S2]
+
+
+## 数据图表
+
+```mermaid
+xychart-beta
+    title &quot;营业利润（百万美元）&quot;
+    x-axis [&quot;2023&quot;, &quot;2024&quot;]
+    y-axis &quot;百万美元&quot; 0 --&gt; 138002
+    bar [114301, 123216]
+```
+
+```mermaid
+xychart-beta
+    title &quot;净利润（百万美元）&quot;
+    x-axis [&quot;2023&quot;, &quot;2024&quot;]
+    y-axis &quot;百万美元&quot; 0 --&gt; 108635
+    bar [96995, 93736]
+```
+
+## 来源
+
+[S1] Apple FY24 Q4 Consolidated Financial Statements — https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf
+[S2] Apple reports fourth quarter results — https://www.apple.com/newsroom/2024/10/apple-reports-fourth-quarter-results/</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/report.md">report.md</a></p><pre># Apple 2024 财年经营观察
+
+2024 财年的营收增长由服务贡献：服务增加额抵消了产品减少额，服务占总营收的比重从 {{services_share_2023}} 升至 {{services_share_2024}}。与此同时，营业利润上升，净利润却下降；理解这个分化，需要考虑一次性所得税费用，不能仅凭净利润下降就判断核心经营恶化。[S1][S2]
+
+本文使用固定历史资料，不构成投资建议。以下均为全年数据，财年不同于自然年；金额单位为百万美元，利润采用财报列报口径。[S1]
+
+## 营收增长来自哪部分
+
+把总量和组成放在一起看，才能判断增长来自哪里。下表均为全年营收，总营收等于产品营收加服务营收；各行同比以各自上年营收为基数，不能直接相加。[S1]
+
+| 营收项目 | 2023 财年 | 2024 财年 | 同比 |
+| --- | --- | --- | --- |
+| 总营收 | {{revenue_2023}} | {{revenue_2024}} | {{revenue_growth}} |
+| 产品 | {{products_2023}} | {{products_2024}} | {{products_growth}} |
+| 服务 | {{services_2023}} | {{services_2024}} | {{services_growth}} |
+
+读表重点是金额之间的关系：总营收增加额等于服务增加额减去产品减少额。服务的增加额不仅补上产品的缺口，还留下了总营收的净增量。因此，总营收增长不代表产品和服务都在增长；服务权重上升，也不代表它已超过产品，产品仍是收入的大头。[S1]
+
+这能说明哪部分贡献了收入增量，却不能解释增长原因。资料没有销量、价格、付费用户或细分业务数据，无法判断变化来自卖得更多、价格变化还是业务组合变化，也不能把服务收入增长直接解释为利润增长。[S1]
+
+## 为什么营业利润上升，净利润却下降
+
+营业利润可以理解为营收扣掉营业成本和经营费用后的利润；净利润还要计入营业之外的收支及所得税。因此，两者回答的问题不同：前者帮助观察经营环节的盈利，后者反映这些项目全部计入后剩下的利润。[S1]
+
+2024 财年营业利润由 {{operating_income_2023}} 增至 {{operating_income_2024}}，同比 {{operating_income_growth}}；净利润则由 {{net_income_2023}} 降至 {{net_income_2024}}，同比 {{net_income_growth}}。[S1]
+
+下方图表依次展示营业利润和净利润。先在每张图内比较年度变化：营业利润的柱子升高，净利润的柱子降低，说明经营环节和最终利润的方向不同。两图纵轴均从零开始、单位均为百万美元，但上限不同，跨图比较变化幅度应看上述同比，不能直接比较柱子的高度差。[S1]
+
+资料列示，与欧盟税务裁决有关的一次性所得税费用为 {{tax_charge_2024}}。这项费用计入所得税，压低净利润，不扣减营业利润；费用金额大于全年净利润的减少额，说明它对理解两种利润的不同走势很重要。费用虽在当季确认，这里讨论的是其对全年结果的影响，没有将季度同比混入全年比较。[S1][S2]
+
+因此，净利润下降不能直接证明核心经营恶化；营业利润上升也不等于最终净利润上升。这里保留财报列报的净利润，不把加回一次性费用后的金额当作实际净利润；仅凭现有资料，也不能把全部利润变化归因于税费，或断言服务增长导致了营业利润提高。[S1][S2]
+
+## 这些资料还不能回答什么
+
+这些是历史年度结果，不是最新经营表现或未来预测。两年数据能确认收入结构和利润方向的变化，不能证明趋势会持续。若要判断服务增长能否延续，需要后续的用户、价格及业务拆分数据；若要解释营业利润为何提高，需要成本、费用和产品与服务各自的盈利数据；若要完整解释净利润变化，还需要其他收支和税项的明细。[S1]
+
+资料没有未来需求预期和竞争对手对比。后续可观察服务占比及两种利润能否持续改善，并结合市场竞争、供应链和监管变化理解结果，而不能只凭本期增长外推未来。[S2]
+</pre></div></details><details><summary>最终产物</summary><div class='artifact'><p><a href="artifacts/final/files/charts.json">charts.json</a></p><pre>{
+  &quot;metrics&quot;: [
+    &quot;services&quot;,
+    &quot;operating_income&quot;,
+    &quot;net_income&quot;
+  ]
+}
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/chart-1.mmd">out/chart-1.mmd</a></p><span class="muted">146 bytes</span></div><div class='artifact'><p><a href="artifacts/final/files/out/chart-2.mmd">out/chart-2.mmd</a></p><span class="muted">148 bytes</span></div><div class='artifact'><p><a href="artifacts/final/files/out/chart-3.mmd">out/chart-3.mmd</a></p><span class="muted">143 bytes</span></div><div class='artifact'><p><a href="artifacts/final/files/out/evaluation.md">out/evaluation.md</a></p><pre># Apple 2024 财年经营观察
+
+2024 财年最值得关注的是：总营收小幅增长，但产品营收下降，服务营收增加并抵消了产品的减少额；营业利润上升，净利润却下降。前者说明收入结构在变化，后者需要结合一次性所得税费用理解，不能仅凭净利润下降就判断核心经营恶化。[S1][S2]
+
+本文使用固定历史资料，不构成投资建议。以下均为全年数据，财年不同于自然年；金额单位为百万美元，利润采用财报列报口径。[S1]
+
+## 营收增长来自哪部分
+
+总营收从 2023 财年的 383,285 百万美元 增至 2024 财年的 391,035 百万美元，同比 +2.02%。其中，产品营收从 298,085 百万美元 降至 294,866 百万美元，服务营收从 85,200 百万美元 增至 96,169 百万美元。[S1]
+
+从金额贡献看，总营收增加额等于服务增加额减去产品减少额。服务的增加额不仅补上产品的缺口，还留下了总营收的净增量。因此，总营收增长不代表产品和服务都在增长。服务占总营收的比重也从 22.23% 升至 24.59%，但产品仍是收入的大头。看服务营收图时，应结合这两个占比理解服务权重的上升，不能把服务单项增长当成公司整体的增长速度。[S1]
+
+这能说明哪部分贡献了收入增量，却不能解释增长原因。资料没有销量、价格、付费用户或细分业务数据，无法判断变化来自卖得更多、价格变化还是业务组合变化，也不能把服务收入增长直接解释为利润增长。[S1]
+
+## 为什么营业利润上升，净利润却下降
+
+营业利润可以理解为营收扣掉营业成本和经营费用后的利润；净利润还要计入营业之外的收支及所得税。因此，两者回答的问题不同：前者帮助观察经营环节的盈利，后者反映这些项目全部计入后剩下的利润。[S1]
+
+2024 财年营业利润由 114,301 百万美元 增至 123,216 百万美元，同比 +7.80%；净利润则由 96,995 百万美元 降至 93,736 百万美元，同比 -3.36%。并排看营业利润和净利润图，重点是变动方向相反，而不是只看谁的柱子更高；各图纵轴范围不同，比较幅度应以金额和同比为准。[S1]
+
+资料列示，与欧盟税务裁决有关的一次性所得税费用为 10,246 百万美元。这项费用计入所得税，压低净利润，不扣减营业利润；费用金额大于全年净利润的减少额，说明它对理解两种利润的不同走势很重要。费用虽在当季确认，这里讨论的是其对全年结果的影响，没有将季度同比混入全年比较。[S1][S2]
+
+因此，净利润下降不能直接证明核心经营恶化；营业利润上升也不等于最终净利润上升。这里保留财报列报的净利润，不把加回一次性费用后的金额当作实际净利润；仅凭现有资料，也不能把全部利润变化归因于税费，或断言服务增长导致了营业利润提高。[S1][S2]
+
+## 这些资料还不能回答什么
+
+这些是历史年度结果，不是最新经营表现或未来预测。两年数据能确认收入结构和利润方向的变化，不能证明趋势会持续。若要判断服务增长能否延续，需要后续的用户、价格及业务拆分数据；若要解释营业利润为何提高，需要成本、费用和产品与服务各自的盈利数据；若要完整解释净利润变化，还需要其他收支和税项的明细。[S1]
+
+资料没有未来需求预期和竞争对手对比。后续可观察服务占比及两种利润能否持续改善，并结合市场竞争、供应链和监管变化理解结果，而不能只凭本期增长外推未来。[S2]
+
+
+所选图表：
+图1：服务营收，2023=85,200；2024=96,169；单位百万美元。
+图2：营业利润，2023=114,301；2024=123,216；单位百万美元。
+图3：净利润，2023=96,995；2024=93,736；单位百万美元。</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;正文有实质内容&quot;: true,
+  &quot;数字资料键存在&quot;: true,
+  &quot;金额和比率使用资料插值&quot;: true,
+  &quot;关键数字齐全&quot;: true,
+  &quot;来源编号有效&quot;: true,
+  &quot;限定经营分析用途&quot;: true,
+  &quot;图表指标有效&quot;: true
+}</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/metrics.json">out/metrics.json</a></p><pre>{
+  &quot;unit&quot;: &quot;百万美元&quot;,
+  &quot;series&quot;: {
+    &quot;revenue&quot;: {
+      &quot;label&quot;: &quot;总营收&quot;,
+      &quot;2023&quot;: 383285,
+      &quot;2024&quot;: 391035
+    },
+    &quot;products&quot;: {
+      &quot;label&quot;: &quot;产品营收&quot;,
+      &quot;2023&quot;: 298085,
+      &quot;2024&quot;: 294866
+    },
+    &quot;services&quot;: {
+      &quot;label&quot;: &quot;服务营收&quot;,
+      &quot;2023&quot;: 85200,
+      &quot;2024&quot;: 96169
+    },
+    &quot;operating_income&quot;: {
+      &quot;label&quot;: &quot;营业利润&quot;,
+      &quot;2023&quot;: 114301,
+      &quot;2024&quot;: 123216
+    },
+    &quot;net_income&quot;: {
+      &quot;label&quot;: &quot;净利润&quot;,
+      &quot;2023&quot;: 96995,
+      &quot;2024&quot;: 93736
+    }
+  },
+  &quot;rendered_values&quot;: {
+    &quot;revenue_2023&quot;: &quot;383,285 百万美元&quot;,
+    &quot;revenue_2024&quot;: &quot;391,035 百万美元&quot;,
+    &quot;revenue_growth&quot;: &quot;+2.02%&quot;,
+    &quot;products_2023&quot;: &quot;298,085 百万美元&quot;,
+    &quot;products_2024&quot;: &quot;294,866 百万美元&quot;,
+    &quot;products_growth&quot;: &quot;-1.08%&quot;,
+    &quot;services_2023&quot;: &quot;85,200 百万美元&quot;,
+    &quot;services_2024&quot;: &quot;96,169 百万美元&quot;,
+    &quot;services_growth&quot;: &quot;+12.87%&quot;,
+    &quot;operating_income_2023&quot;: &quot;114,301 百万美元&quot;,
+    &quot;operating_income_2024&quot;: &quot;123,216 百万美元&quot;,
+    &quot;operating_income_growth&quot;: &quot;+7.80%&quot;,
+    &quot;net_income_2023&quot;: &quot;96,995 百万美元&quot;,
+    &quot;net_income_2024&quot;: &quot;93,736 百万美元&quot;,
+    &quot;net_income_growth&quot;: &quot;-3.36%&quot;,
+    &quot;services_share_2023&quot;: &quot;22.23%&quot;,
+    &quot;services_share_2024&quot;: &quot;24.59%&quot;,
+    &quot;tax_charge_2024&quot;: &quot;10,246 百万美元&quot;
+  },
+  &quot;selected_charts&quot;: [
+    &quot;services&quot;,
+    &quot;operating_income&quot;,
+    &quot;net_income&quot;
+  ]
+}</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/notes.txt">out/notes.txt</a></p><pre>程序只核对资料键、单位及图表数据；论据和结论是否相称由模型评委判断。</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/report.html">out/report.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;title&gt;经营分析报告&lt;/title&gt;&lt;style&gt;body{max-width:900px;margin:40px auto;padding:0 24px;font:17px/1.8 system-ui;color:#183047;background:#f7f9fc}pre{white-space:pre-wrap;font:inherit}table{border-collapse:collapse;width:100%;background:white}td,th{padding:12px;border:1px solid #d7e0e8;text-align:left}article{background:white;padding:24px;border-radius:12px}a{color:#185b9c}&lt;/style&gt;&lt;article&gt;&lt;pre&gt;# Apple 2024 财年经营观察
+
+2024 财年最值得关注的是：总营收小幅增长，但产品营收下降，服务营收增加并抵消了产品的减少额；营业利润上升，净利润却下降。前者说明收入结构在变化，后者需要结合一次性所得税费用理解，不能仅凭净利润下降就判断核心经营恶化。[S1][S2]
+
+本文使用固定历史资料，不构成投资建议。以下均为全年数据，财年不同于自然年；金额单位为百万美元，利润采用财报列报口径。[S1]
+
+## 营收增长来自哪部分
+
+总营收从 2023 财年的 383,285 百万美元 增至 2024 财年的 391,035 百万美元，同比 +2.02%。其中，产品营收从 298,085 百万美元 降至 294,866 百万美元，服务营收从 85,200 百万美元 增至 96,169 百万美元。[S1]
+
+从金额贡献看，总营收增加额等于服务增加额减去产品减少额。服务的增加额不仅补上产品的缺口，还留下了总营收的净增量。因此，总营收增长不代表产品和服务都在增长。服务占总营收的比重也从 22.23% 升至 24.59%，但产品仍是收入的大头。看服务营收图时，应结合这两个占比理解服务权重的上升，不能把服务单项增长当成公司整体的增长速度。[S1]
+
+这能说明哪部分贡献了收入增量，却不能解释增长原因。资料没有销量、价格、付费用户或细分业务数据，无法判断变化来自卖得更多、价格变化还是业务组合变化，也不能把服务收入增长直接解释为利润增长。[S1]
+
+## 为什么营业利润上升，净利润却下降
+
+营业利润可以理解为营收扣掉营业成本和经营费用后的利润；净利润还要计入营业之外的收支及所得税。因此，两者回答的问题不同：前者帮助观察经营环节的盈利，后者反映这些项目全部计入后剩下的利润。[S1]
+
+2024 财年营业利润由 114,301 百万美元 增至 123,216 百万美元，同比 +7.80%；净利润则由 96,995 百万美元 降至 93,736 百万美元，同比 -3.36%。并排看营业利润和净利润图，重点是变动方向相反，而不是只看谁的柱子更高；各图纵轴范围不同，比较幅度应以金额和同比为准。[S1]
+
+资料列示，与欧盟税务裁决有关的一次性所得税费用为 10,246 百万美元。这项费用计入所得税，压低净利润，不扣减营业利润；费用金额大于全年净利润的减少额，说明它对理解两种利润的不同走势很重要。费用虽在当季确认，这里讨论的是其对全年结果的影响，没有将季度同比混入全年比较。[S1][S2]
+
+因此，净利润下降不能直接证明核心经营恶化；营业利润上升也不等于最终净利润上升。这里保留财报列报的净利润，不把加回一次性费用后的金额当作实际净利润；仅凭现有资料，也不能把全部利润变化归因于税费，或断言服务增长导致了营业利润提高。[S1][S2]
+
+## 这些资料还不能回答什么
+
+这些是历史年度结果，不是最新经营表现或未来预测。两年数据能确认收入结构和利润方向的变化，不能证明趋势会持续。若要判断服务增长能否延续，需要后续的用户、价格及业务拆分数据；若要解释营业利润为何提高，需要成本、费用和产品与服务各自的盈利数据；若要完整解释净利润变化，还需要其他收支和税项的明细。[S1]
+
+资料没有未来需求预期和竞争对手对比。后续可观察服务占比及两种利润能否持续改善，并结合市场竞争、供应链和监管变化理解结果，而不能只凭本期增长外推未来。[S2]
+&lt;/pre&gt;&lt;/article&gt;&lt;h2&gt;所选指标（百万美元）&lt;/h2&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;指标&lt;/th&gt;&lt;th&gt;2023&lt;/th&gt;&lt;th&gt;2024&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;服务营收&lt;/td&gt;&lt;td&gt;85,200&lt;/td&gt;&lt;td&gt;96,169&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;营业利润&lt;/td&gt;&lt;td&gt;114,301&lt;/td&gt;&lt;td&gt;123,216&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;净利润&lt;/td&gt;&lt;td&gt;96,995&lt;/td&gt;&lt;td&gt;93,736&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;pre class=&quot;mermaid&quot;&gt;xychart-beta
+    title &amp;quot;服务营收（百万美元）&amp;quot;
+    x-axis [&amp;quot;2023&amp;quot;, &amp;quot;2024&amp;quot;]
+    y-axis &amp;quot;百万美元&amp;quot; 0 --&amp;gt; 107710
+    bar [85200, 96169]
+&lt;/pre&gt;&lt;pre class=&quot;mermaid&quot;&gt;xychart-beta
+    title &amp;quot;营业利润（百万美元）&amp;quot;
+    x-axis [&amp;quot;2023&amp;quot;, &amp;quot;2024&amp;quot;]
+    y-axis &amp;quot;百万美元&amp;quot; 0 --&amp;gt; 138002
+    bar [114301, 123216]
+&lt;/pre&gt;&lt;pre class=&quot;mermaid&quot;&gt;xychart-beta
+    title &amp;quot;净利润（百万美元）&amp;quot;
+    x-axis [&amp;quot;2023&amp;quot;, &amp;quot;2024&amp;quot;]
+    y-axis &amp;quot;百万美元&amp;quot; 0 --&amp;gt; 108635
+    bar [96995, 93736]
+&lt;/pre&gt;&lt;h2&gt;资料来源&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;[S1] &lt;a href=&quot;https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf&quot;&gt;Apple FY24 Q4 Consolidated Financial Statements&lt;/a&gt;&lt;/li&gt;&lt;li&gt;[S2] &lt;a href=&quot;https://www.apple.com/newsroom/2024/10/apple-reports-fourth-quarter-results/&quot;&gt;Apple reports fourth quarter results&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;图形需联网加载 Mermaid；离线时正文与上方数值表仍可阅读。&lt;/p&gt;&lt;script type=&quot;module&quot;&gt;import mermaid from &#x27;https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs&#x27;;mermaid.initialize({startOnLoad:true,securityLevel:&#x27;strict&#x27;});&lt;/script&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/report.md">out/report.md</a></p><pre># Apple 2024 财年经营观察
+
+2024 财年最值得关注的是：总营收小幅增长，但产品营收下降，服务营收增加并抵消了产品的减少额；营业利润上升，净利润却下降。前者说明收入结构在变化，后者需要结合一次性所得税费用理解，不能仅凭净利润下降就判断核心经营恶化。[S1][S2]
+
+本文使用固定历史资料，不构成投资建议。以下均为全年数据，财年不同于自然年；金额单位为百万美元，利润采用财报列报口径。[S1]
+
+## 营收增长来自哪部分
+
+总营收从 2023 财年的 383,285 百万美元 增至 2024 财年的 391,035 百万美元，同比 +2.02%。其中，产品营收从 298,085 百万美元 降至 294,866 百万美元，服务营收从 85,200 百万美元 增至 96,169 百万美元。[S1]
+
+从金额贡献看，总营收增加额等于服务增加额减去产品减少额。服务的增加额不仅补上产品的缺口，还留下了总营收的净增量。因此，总营收增长不代表产品和服务都在增长。服务占总营收的比重也从 22.23% 升至 24.59%，但产品仍是收入的大头。看服务营收图时，应结合这两个占比理解服务权重的上升，不能把服务单项增长当成公司整体的增长速度。[S1]
+
+这能说明哪部分贡献了收入增量，却不能解释增长原因。资料没有销量、价格、付费用户或细分业务数据，无法判断变化来自卖得更多、价格变化还是业务组合变化，也不能把服务收入增长直接解释为利润增长。[S1]
+
+## 为什么营业利润上升，净利润却下降
+
+营业利润可以理解为营收扣掉营业成本和经营费用后的利润；净利润还要计入营业之外的收支及所得税。因此，两者回答的问题不同：前者帮助观察经营环节的盈利，后者反映这些项目全部计入后剩下的利润。[S1]
+
+2024 财年营业利润由 114,301 百万美元 增至 123,216 百万美元，同比 +7.80%；净利润则由 96,995 百万美元 降至 93,736 百万美元，同比 -3.36%。并排看营业利润和净利润图，重点是变动方向相反，而不是只看谁的柱子更高；各图纵轴范围不同，比较幅度应以金额和同比为准。[S1]
+
+资料列示，与欧盟税务裁决有关的一次性所得税费用为 10,246 百万美元。这项费用计入所得税，压低净利润，不扣减营业利润；费用金额大于全年净利润的减少额，说明它对理解两种利润的不同走势很重要。费用虽在当季确认，这里讨论的是其对全年结果的影响，没有将季度同比混入全年比较。[S1][S2]
+
+因此，净利润下降不能直接证明核心经营恶化；营业利润上升也不等于最终净利润上升。这里保留财报列报的净利润，不把加回一次性费用后的金额当作实际净利润；仅凭现有资料，也不能把全部利润变化归因于税费，或断言服务增长导致了营业利润提高。[S1][S2]
+
+## 这些资料还不能回答什么
+
+这些是历史年度结果，不是最新经营表现或未来预测。两年数据能确认收入结构和利润方向的变化，不能证明趋势会持续。若要判断服务增长能否延续，需要后续的用户、价格及业务拆分数据；若要解释营业利润为何提高，需要成本、费用和产品与服务各自的盈利数据；若要完整解释净利润变化，还需要其他收支和税项的明细。[S1]
+
+资料没有未来需求预期和竞争对手对比。后续可观察服务占比及两种利润能否持续改善，并结合市场竞争、供应链和监管变化理解结果，而不能只凭本期增长外推未来。[S2]
+
+
+## 数据图表
+
+```mermaid
+xychart-beta
+    title &quot;服务营收（百万美元）&quot;
+    x-axis [&quot;2023&quot;, &quot;2024&quot;]
+    y-axis &quot;百万美元&quot; 0 --&gt; 107710
+    bar [85200, 96169]
+```
+
+```mermaid
+xychart-beta
+    title &quot;营业利润（百万美元）&quot;
+    x-axis [&quot;2023&quot;, &quot;2024&quot;]
+    y-axis &quot;百万美元&quot; 0 --&gt; 138002
+    bar [114301, 123216]
+```
+
+```mermaid
+xychart-beta
+    title &quot;净利润（百万美元）&quot;
+    x-axis [&quot;2023&quot;, &quot;2024&quot;]
+    y-axis &quot;百万美元&quot; 0 --&gt; 108635
+    bar [96995, 93736]
+```
+
+## 来源
+
+[S1] Apple FY24 Q4 Consolidated Financial Statements — https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf
+[S2] Apple reports fourth quarter results — https://www.apple.com/newsroom/2024/10/apple-reports-fourth-quarter-results/</pre></div><div class='artifact'><p><a href="artifacts/final/files/report.md">report.md</a></p><pre># Apple 2024 财年经营观察
+
+2024 财年最值得关注的是：总营收小幅增长，但产品营收下降，服务营收增加并抵消了产品的减少额；营业利润上升，净利润却下降。前者说明收入结构在变化，后者需要结合一次性所得税费用理解，不能仅凭净利润下降就判断核心经营恶化。[S1][S2]
+
+本文使用固定历史资料，不构成投资建议。以下均为全年数据，财年不同于自然年；金额单位为百万美元，利润采用财报列报口径。[S1]
+
+## 营收增长来自哪部分
+
+总营收从 2023 财年的 {{revenue_2023}} 增至 2024 财年的 {{revenue_2024}}，同比 {{revenue_growth}}。其中，产品营收从 {{products_2023}} 降至 {{products_2024}}，服务营收从 {{services_2023}} 增至 {{services_2024}}。[S1]
+
+从金额贡献看，总营收增加额等于服务增加额减去产品减少额。服务的增加额不仅补上产品的缺口，还留下了总营收的净增量。因此，总营收增长不代表产品和服务都在增长。服务占总营收的比重也从 {{services_share_2023}} 升至 {{services_share_2024}}，但产品仍是收入的大头。看服务营收图时，应结合这两个占比理解服务权重的上升，不能把服务单项增长当成公司整体的增长速度。[S1]
+
+这能说明哪部分贡献了收入增量，却不能解释增长原因。资料没有销量、价格、付费用户或细分业务数据，无法判断变化来自卖得更多、价格变化还是业务组合变化，也不能把服务收入增长直接解释为利润增长。[S1]
+
+## 为什么营业利润上升，净利润却下降
+
+营业利润可以理解为营收扣掉营业成本和经营费用后的利润；净利润还要计入营业之外的收支及所得税。因此，两者回答的问题不同：前者帮助观察经营环节的盈利，后者反映这些项目全部计入后剩下的利润。[S1]
+
+2024 财年营业利润由 {{operating_income_2023}} 增至 {{operating_income_2024}}，同比 {{operating_income_growth}}；净利润则由 {{net_income_2023}} 降至 {{net_income_2024}}，同比 {{net_income_growth}}。并排看营业利润和净利润图，重点是变动方向相反，而不是只看谁的柱子更高；各图纵轴范围不同，比较幅度应以金额和同比为准。[S1]
+
+资料列示，与欧盟税务裁决有关的一次性所得税费用为 {{tax_charge_2024}}。这项费用计入所得税，压低净利润，不扣减营业利润；费用金额大于全年净利润的减少额，说明它对理解两种利润的不同走势很重要。费用虽在当季确认，这里讨论的是其对全年结果的影响，没有将季度同比混入全年比较。[S1][S2]
+
+因此，净利润下降不能直接证明核心经营恶化；营业利润上升也不等于最终净利润上升。这里保留财报列报的净利润，不把加回一次性费用后的金额当作实际净利润；仅凭现有资料，也不能把全部利润变化归因于税费，或断言服务增长导致了营业利润提高。[S1][S2]
+
+## 这些资料还不能回答什么
+
+这些是历史年度结果，不是最新经营表现或未来预测。两年数据能确认收入结构和利润方向的变化，不能证明趋势会持续。若要判断服务增长能否延续，需要后续的用户、价格及业务拆分数据；若要解释营业利润为何提高，需要成本、费用和产品与服务各自的盈利数据；若要完整解释净利润变化，还需要其他收支和税项的明细。[S1]
+
+资料没有未来需求预期和竞争对手对比。后续可观察服务占比及两种利润能否持续改善，并结合市场竞争、供应链和监管变化理解结果，而不能只凭本期增长外推未来。[S2]
+</pre></div></details>
+<h2>Champion vs. start</h2><pre>charts.json |  5 +++--
+ report.md   | 28 +++++++++++++++++++++-------
+ 2 files changed, 24 insertions(+), 9 deletions(-)</pre>
+<p class="muted">Branch <code>rsi/20261024-000043-apple-operating-report</code>. Generated by RSI-Anything.</p>
+</main></body></html>

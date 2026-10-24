@@ -1,0 +1,33 @@
+{
+  "total": 15,
+  "passed": 12,
+  "failed": [
+    {
+      "test": "fixed_expense_tests.ExpenseTests.test_date_reject_invalid",
+      "detail": "Traceback (most recent call last):\n  File \"judge/test_expense.py\", line 60, in test_date_reject_invalid\n    monthly_totals([{\"date\": \"2026-02-30\", \"category\": \"交通\", \"amount\": \"3\"}], \"2026-02\")\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "fixed_expense_tests.ExpenseTests.test_month_refund",
+      "detail": "Traceback (most recent call last):\n  File \"judge/test_expense.py\", line 52, in test_month_refund\n    self.assertEqual(monthly_totals(rows, \"2026-10\"), {\"餐饮\": 1000})\nAssertionError: {'餐饮': 1500} != {'餐饮': 1000}\n- {'餐饮': 1500}\n?         ^\n\n+ {'餐饮': 1000}\n?         ^\n\n"
+    },
+    {
+      "test": "fixed_expense_tests.ExpenseTests.test_month_reject_invalid",
+      "detail": "Traceback (most recent call last):\n  File \"judge/test_expense.py\", line 56, in test_month_reject_invalid\n    monthly_totals([], \"2026-1\")\nAssertionError: ValueError not raised\n"
+    }
+  ],
+  "skipped": 0,
+  "passed_tests": [
+    "fixed_expense_tests.ExpenseTests.test_amount_exact_cents",
+    "fixed_expense_tests.ExpenseTests.test_amount_reject_extra_precision",
+    "fixed_expense_tests.ExpenseTests.test_amount_reject_non_finite",
+    "fixed_expense_tests.ExpenseTests.test_amount_signed",
+    "fixed_expense_tests.ExpenseTests.test_amount_whole",
+    "fixed_expense_tests.ExpenseTests.test_does_not_mutate_input",
+    "fixed_expense_tests.ExpenseTests.test_month_empty",
+    "fixed_expense_tests.ExpenseTests.test_month_filter",
+    "fixed_expense_tests.ExpenseTests.test_split_even",
+    "fixed_expense_tests.ExpenseTests.test_split_reject_invalid",
+    "fixed_expense_tests.ExpenseTests.test_split_remainder",
+    "fixed_expense_tests.ExpenseTests.test_split_small_total"
+  ]
+}

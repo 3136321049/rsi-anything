@@ -1,0 +1,23 @@
+name: gpu-softmax-speed
+goal: |
+  在已授权的 Linux NVIDIA GPU 上优化 candidate.py 的 softmax(x)，满足 judge/cases.json 的固定数值检查。
+  输入为连续二维 CUDA float32/float16 张量，输出与输入形状、设备、类型一致，不修改输入。
+  得分是固定性能用例上 torch.softmax 耗时除以候选耗时的几何平均；最少提高 3% 才保留。
+  可以调整 Triton 并行方式、启动参数和实现，不能改参考、用例、计时方式或推理模块。
+  同时查看小型随机初始化推理模块替换前后的耗时，但模块倍数单列，不当成算子倍数或服务性能。
+  环境不可用时停止并报告，不使用 CPU 或模拟数字冒充 GPU 结果。
+artifact: [candidate.py]
+outputs: [out]
+judge:
+  type: command
+  run: "{python} judge/check.py"
+  files: [judge]
+  min_gain: 3%
+  timeout: 300
+agent:
+  use: auto
+  timeout: 900
+budget:
+  rounds: 6
+  minutes: 90
+  stagnation: 3

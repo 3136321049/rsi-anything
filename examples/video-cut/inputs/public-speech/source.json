@@ -1,0 +1,13 @@
+{
+  "title": "John F. Kennedy Inauguration Speech",
+  "recorded": "1961-01-20",
+  "source": "https://commons.wikimedia.org/wiki/File:John_F._Kennedy_Inauguration_Speech.ogv",
+  "license_label": "Public Domain Mark 1.0 (as stated on source page)",
+  "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "transcript_source": "https://commons.wikimedia.org/wiki/TimedText:John_F._Kennedy_Inauguration_Speech.ogv.en.srt",
+  "excerpt_original_start_seconds": 71.291,
+  "excerpt_duration_seconds": 330,
+  "preparation": "公开视频截取连续片段；保留公开字幕的语句片段与时间，去掉纯舞台提示，将时间减去片段起点；未经模型选句。",
+  "media_sha256": "d8e8c13060b994d790663afe05ede3c53763ad3db192bee6cc06705ce8fd8c45",
+  "sentences_sha256": "16b22e465d276301df2e854e6d301414773d21fc6e4907b0cfaa5719a101d43a"
+}

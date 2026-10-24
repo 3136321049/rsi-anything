@@ -1,0 +1,24 @@
+{
+  "round": 2,
+  "status": "REVERT",
+  "hypothesis": "将蒸汽限定为杯口上方一两缕近乎透明、升起数厘米便消散的细丝，并排除宽白烟带与高耸烟柱，预计能改善蒸汽过浓的问题，提高自然细微程度的评分。",
+  "score": 0.0,
+  "best": 61.0,
+  "gates": {
+    "prepare": false
+  },
+  "feedback": "prepare step failed: 视频服务返回错误：null",
+  "commit": "",
+  "changed": [
+    "generation.json"
+  ],
+  "ignored": [],
+  "agent_seconds": 40.5,
+  "judge_seconds": 11.9,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "rounds/r002/artifacts",
+  "holdout": null,
+  "note": "failed gates: prepare",
+  "time": "2026-10-23T16:39:55+00:00"
+}

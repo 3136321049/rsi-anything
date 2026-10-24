@@ -1,0 +1,24 @@
+{
+  "round": 0,
+  "status": "BASELINE",
+  "hypothesis": "",
+  "score": 7.567,
+  "best": 7.567,
+  "gates": {
+    "positive_finite_equity": true,
+    "minimum_trades": true,
+    "exit_code": true
+  },
+  "feedback": "累计收益 27.72%，最大回撤 13.44%，模拟成交 76 笔，费用与滑点合计 638.48 USDT。得分为收益减去 1.5 倍回撤。",
+  "commit": "00ad62cc8054",
+  "changed": [],
+  "ignored": [],
+  "agent_seconds": 0.0,
+  "judge_seconds": 0.33739041700027883,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "artifacts/baseline",
+  "holdout": null,
+  "note": "",
+  "time": "2026-10-23T16:15:18+00:00"
+}

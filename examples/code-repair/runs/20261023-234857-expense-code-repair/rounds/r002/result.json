@@ -1,0 +1,26 @@
+{
+  "round": 2,
+  "status": "KEEP",
+  "hypothesis": "修复均分时丢失余数和缺少参数校验的问题，使金额完整分配并拒绝非法输入，因此提高固定测试通过率。",
+  "score": 80.0,
+  "best": 80.0,
+  "gates": {
+    "tests_executed": true,
+    "no_skips": true,
+    "exit_code": true
+  },
+  "feedback": "固定测试通过 12/15。\nfixed_expense_tests.ExpenseTests.test_date_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_month_refund: ?         ^\nfixed_expense_tests.ExpenseTests.test_month_reject_invalid: AssertionError: ValueError not raised",
+  "commit": "b328f9976781",
+  "changed": [
+    "expense.py"
+  ],
+  "ignored": [],
+  "agent_seconds": 34.1,
+  "judge_seconds": 0.0,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "rounds/r002/artifacts",
+  "holdout": null,
+  "note": "score 60 -> 80",
+  "time": "2026-10-23T15:50:15+00:00"
+}

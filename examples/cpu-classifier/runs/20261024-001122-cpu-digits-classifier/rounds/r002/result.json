@@ -1,0 +1,20 @@
+{
+  "round": 2,
+  "status": "NO_CHANGE",
+  "hypothesis": "测试增大 gamma，让分类边界更关注局部笔画差异，期望改善数字 5、9 的识别；评分未支持该假设，已撤销。",
+  "score": null,
+  "best": 99.333,
+  "gates": {},
+  "feedback": "",
+  "commit": "",
+  "changed": [],
+  "ignored": [],
+  "agent_seconds": 62.6324601250235,
+  "judge_seconds": 0.0,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "rounds/r002/artifacts",
+  "holdout": null,
+  "note": "no edits inside the artifact paths",
+  "time": "2026-10-23T16:13:28+00:00"
+}

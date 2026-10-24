@@ -1,0 +1,10 @@
+{
+  "model": "svm",
+  "scaling": "none",
+  "pca_components": 0,
+  "params": {
+    "C": 10,
+    "gamma": 0.001,
+    "kernel": "rbf"
+  }
+}

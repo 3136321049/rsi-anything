@@ -1,0 +1,31 @@
+{
+  "score": 49.058,
+  "gates": {
+    "positive_finite_equity": true,
+    "minimum_trades": true,
+    "exit_code": true
+  },
+  "feedback": "累计收益 91.12%，最大回撤 28.04%，模拟成交 16 笔，费用与滑点合计 256.89 USDT。得分为收益减去 1.5 倍回撤。",
+  "metrics": {
+    "return_percent": 91.124,
+    "max_drawdown_percent": 28.0442,
+    "buy_hold_return_percent": 206.1687,
+    "trade_orders": 16,
+    "total_cost": 256.8869,
+    "starting_cash": 10000,
+    "ending_equity": 19112.4044,
+    "evaluation_start": "2023-07-01",
+    "evaluation_end": "2024-12-31",
+    "observations": 550,
+    "cost_bps_per_side": 15.0,
+    "configuration": {
+      "fast_window": 10,
+      "slow_window": 30,
+      "threshold_bps": 0,
+      "allocation": 0.7
+    },
+    "data_sha256": "b9dd21e29974b4c13babd79214e43a15829abf52580d3d23c0c6450c1053b8d3"
+  },
+  "seconds": 0.398981292033568,
+  "error": ""
+}

@@ -1,0 +1,13 @@
+diff --git a/training.json b/training.json
+index 1768b87..76e78af 100644
+--- a/training.json
++++ b/training.json
+@@ -1,6 +1,6 @@
+ {
+-  "model": "tree",
++  "model": "svm",
+   "scaling": "none",
+   "pca_components": 0,
+-  "params": {"max_depth": 3, "min_samples_leaf": 1}
++  "params": {"C": 10, "gamma": "scale", "kernel": "rbf"}
+ }

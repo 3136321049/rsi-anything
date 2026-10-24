@@ -1,0 +1,41 @@
+{
+  "files": [
+    {
+      "path": "edit.json",
+      "bytes": 69,
+      "sha256": "a9886f26a59b11322023ebaf462fc9e7ac9f5b706146772be266b4ec3faefee2"
+    },
+    {
+      "path": "out/cut.mp4",
+      "bytes": 3362818,
+      "sha256": "e2b4f39105daa4ef47cb8394e60c22ad989cf6c087718899d2dea98867a09304"
+    },
+    {
+      "path": "out/cut.srt",
+      "bytes": 743,
+      "sha256": "86cbd58551c37588970fb9077d611e2696968f69947832653331dc7965a09c69"
+    },
+    {
+      "path": "out/cut.txt",
+      "bytes": 479,
+      "sha256": "052cade35420cd76fc159be8c0dca1dbf66d69d29549832b173b8cb503cab394"
+    },
+    {
+      "path": "out/gates.json",
+      "bytes": 86,
+      "sha256": "58d95e93ac20a7422b994d0aec8215935bca6ee5d0460afad7a6274a86559d12"
+    },
+    {
+      "path": "out/media.json",
+      "bytes": 270,
+      "sha256": "62933eb67c085b95032fb200ade0161051331f5ceb60e2541524ecd77bc40dc6"
+    },
+    {
+      "path": "out/notes.txt",
+      "bytes": 80,
+      "sha256": "fee8c3de527e56907fde401f629eeeda6fabd5f2adc91f5fa8b4c7e0ed4a48fb"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": []
+}

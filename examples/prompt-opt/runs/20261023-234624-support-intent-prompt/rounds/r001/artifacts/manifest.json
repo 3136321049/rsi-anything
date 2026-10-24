@@ -1,0 +1,21 @@
+{
+  "files": [
+    {
+      "path": "out/development.json",
+      "bytes": 8032,
+      "sha256": "869da24eba33540813f7a26ee26747c228ad83713907df56e8ca73467255f42e"
+    },
+    {
+      "path": "out/development.md",
+      "bytes": 636,
+      "sha256": "5debe538c83e068cf5c7480c739b3534a63567ebd2839a684b5c13b9f4dba189"
+    },
+    {
+      "path": "prompt.md",
+      "bytes": 557,
+      "sha256": "a39b8d0e1867b9aff0b23e7e4ec8f21360535a6e081a9787ed108c49be6ebe74"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": []
+}

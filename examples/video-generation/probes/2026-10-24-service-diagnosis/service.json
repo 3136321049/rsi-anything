@@ -1,0 +1,24 @@
+{
+  "endpoint": "https://lightricks-ltx-video-distilled.hf.space",
+  "gradio_version": "5.42.0",
+  "show_error": false,
+  "input_labels": [
+    "Prompt",
+    "Negative Prompt",
+    "image_n",
+    "video_n",
+    "Height",
+    "Width",
+    "task",
+    "Video Duration (seconds)",
+    "Frames to use from input video",
+    "Seed",
+    "Randomize Seed",
+    "Guidance Scale (CFG)",
+    "Improve Texture (multi-scale)"
+  ],
+  "checked_at": "2026-10-23T16:51:47.100082+00:00",
+  "upstream_commit": "8a42e93469c66b62d794b83a4233f5fc8439e2b5",
+  "runtime_stage": "RUNNING",
+  "app_py_sha256": "e9c0315f33a4619e3ff2e2d15386ff6160f4dfb589485e9d87933d705dccc89b"
+}

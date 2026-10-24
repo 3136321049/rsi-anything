@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-24",
+  "command": "python judge/check.py --probe",
+  "exit_code": 2,
+  "status": "environment_unavailable",
+  "score": null,
+  "gpu_measurement_performed": false,
+  "candidate_imported": false,
+  "environment": {
+    "status": "environment_unavailable",
+    "system": "Darwin",
+    "machine": "arm64",
+    "python": "3.9.6",
+    "torch": null,
+    "triton": null,
+    "cuda": null,
+    "device": null,
+    "reason": "本模板要求 Linux x86_64 和 NVIDIA CUDA GPU；当前平台不支持此路径。"
+  },
+  "checks": [
+    "命令在本机真实执行，返回环境不可用",
+    "默认检查与 --probe 均退出 2，score 为 null",
+    "没有 GPU 计时、模型调用或 CPU 替代分数"
+  ],
+  "files": [
+    {
+      "path": "environment.json",
+      "sha256": "8bcd48a597ae48e56dc690bd9db317b3f0bc15f9c3d48acb9517e1caf428cd03",
+      "bytes": 276
+    },
+    {
+      "path": "metrics.json",
+      "sha256": "7637beb47680d498c62f25f931bd1634f25b0370f7e2e5fda591d6ef4ed6fe75",
+      "bytes": 559
+    },
+    {
+      "path": "report.md",
+      "sha256": "00283bfdd34b84604874aef01ec44cb4b0a467f6c5a2443dea4dcbc612a3e4a8",
+      "bytes": 220
+    }
+  ]
+}

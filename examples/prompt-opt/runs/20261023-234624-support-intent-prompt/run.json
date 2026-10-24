@@ -1,0 +1,28 @@
+{
+  "run_id": "20261023-234624-support-intent-prompt",
+  "contract": "support-intent-prompt",
+  "contract_digest": "d255c767d2b1",
+  "goal": "Improve prompt.md, the instructions a language model follows to label a customer message of a food-delivery\napp with exactly one intent. Score = accuracy (%) on the labeled examples in judge/dev.jsonl (48 messages, mixed Chinese and English).\nThe prompt must work for any new message, so write general rules, not answers for specific examples.",
+  "base": "4122571670f414cb51c4cbb0572da9c07b659c4c",
+  "branch": "rsi/20261023-234624-support-intent-prompt",
+  "project": ".",
+  "agent": "codex",
+  "judge": "command",
+  "jury": [],
+  "started": "2026-10-23T15:46:24+00:00",
+  "status": "finished",
+  "phase": "finished",
+  "active_round": null,
+  "finished": "2026-10-23T15:49:54+00:00",
+  "error": null,
+  "stop_reason": "reached 3 rounds",
+  "updated": "2026-10-23T15:49:54+00:00",
+  "champion": "4122571670f414cb51c4cbb0572da9c07b659c4c",
+  "elapsed_seconds": 209.791097084,
+  "final_snapshot_champion": "4122571670f414cb51c4cbb0572da9c07b659c4c",
+  "holdout": {
+    "baseline": 82.8,
+    "final": 82.8
+  },
+  "final_artifacts": "artifacts/final"
+}

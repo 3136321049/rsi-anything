@@ -1,0 +1,26 @@
+{
+  "round": 3,
+  "status": "KEEP",
+  "hypothesis": "保持 10/30 日均线和零入场差值，将仓位提高至 70%，预期收益增量超过最大回撤增量的 1.5 倍，从而提高得分。",
+  "score": 49.058,
+  "best": 49.058,
+  "gates": {
+    "positive_finite_equity": true,
+    "minimum_trades": true,
+    "exit_code": true
+  },
+  "feedback": "累计收益 91.12%，最大回撤 28.04%，模拟成交 16 笔，费用与滑点合计 256.89 USDT。得分为收益减去 1.5 倍回撤。",
+  "commit": "f1fb95f73845",
+  "changed": [
+    "strategy.json"
+  ],
+  "ignored": [],
+  "agent_seconds": 46.4,
+  "judge_seconds": 0.4,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "rounds/r003/artifacts",
+  "holdout": null,
+  "note": "score 39.857 -> 49.058",
+  "time": "2026-10-23T16:18:33+00:00"
+}

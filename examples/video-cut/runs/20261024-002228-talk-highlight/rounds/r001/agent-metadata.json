@@ -1,0 +1,15 @@
+{
+  "actual_model": null,
+  "usage": {
+    "input_tokens": 78218,
+    "cached_input_tokens": 63872,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1078,
+    "reasoning_output_tokens": 507
+  },
+  "requested_model": "gpt-6.1-sol",
+  "adapter": "codex",
+  "seconds": 53.912,
+  "cost_usd": null,
+  "returncode": 0
+}

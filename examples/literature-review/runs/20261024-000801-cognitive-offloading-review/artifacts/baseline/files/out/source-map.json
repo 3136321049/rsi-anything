@@ -1,0 +1,68 @@
+{
+  "claims": [
+    {
+      "claim": "Sparrow等人的实验发现，当人们预期日后仍能访问资料时，对信息内容的回忆较少，对获取位置的回忆较好。",
+      "sources": [
+        "S1"
+      ],
+      "in_text": true,
+      "cited_near_claim": true,
+      "passed": true
+    },
+    {
+      "claim": "Risko与Gilbert的综述把认知外包理解为借助外部行动降低任务的信息处理需求。",
+      "sources": [
+        "S2"
+      ],
+      "in_text": true,
+      "cited_near_claim": true,
+      "passed": true
+    },
+    {
+      "claim": "UNESCO提出生成式AI教育应用应重视人的能动性与隐私，并检验教育适用性。",
+      "sources": [
+        "S3"
+      ],
+      "in_text": true,
+      "cited_near_claim": true,
+      "passed": true
+    }
+  ],
+  "covered_sources": [
+    "S1",
+    "S2",
+    "S3"
+  ],
+  "all_sources": {
+    "S1": {
+      "title": "Google effects on memory: cognitive consequences of having information at our fingertips",
+      "authors": "Betsy Sparrow; Jenny Liu; Daniel M. Wegner",
+      "year": 2011,
+      "kind": "实验研究",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/21764755/",
+      "doi": "10.1126/science.1207745",
+      "summary": "摘要汇总四项研究：预期未来能再次访问资料时，人们对信息内容本身的回忆较少，对到哪里寻找信息的回忆较好。",
+      "limit": "给定摘要不提供长期课堂学习效果，也不涉及现代生成式AI；不能推出互联网使所有人记忆力永久下降。"
+    },
+    "S2": {
+      "title": "Cognitive Offloading",
+      "authors": "Evan F. Risko; Sam J. Gilbert",
+      "year": 2016,
+      "kind": "理论综述",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/27542527/",
+      "doi": "10.1016/j.tics.2016.07.002",
+      "summary": "把部分信息处理交给环境或工具，以减少任务的认知需求，属于认知外包。综述讨论什么触发外包，以及外包的认知后果，并提出连接多领域结果的元认知框架。",
+      "limit": "这是综述框架，不是单次干预试验；概念本身不证明任何具体工具必然提升或损害学习。"
+    },
+    "S3": {
+      "title": "Guidance for generative AI in education and research",
+      "authors": "Fengchun Miao; Wayne Holmes; UNESCO",
+      "year": 2023,
+      "kind": "政策指导",
+      "url": "https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research?hub=387",
+      "doi": "10.54675/EWZM9535",
+      "summary": "指南主张以人为中心应用生成式AI，保护隐私，并让教育机构检验工具的教育适用性。它讨论教学设计与研究使用，也重视人的能动性。",
+      "limit": "政策建议不是证明学习效果的实验结果；连接到认知外包是作者的分析推论，需要明确说明。"
+    }
+  }
+}

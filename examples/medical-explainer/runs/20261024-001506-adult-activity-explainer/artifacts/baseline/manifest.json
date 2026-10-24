@@ -1,0 +1,41 @@
+{
+  "files": [
+    {
+      "path": "explainer.md",
+      "bytes": 1010,
+      "sha256": "778b6154f85621a8a9274ed2b575e1dfdaac23a751411de01516eb6bb0a20313"
+    },
+    {
+      "path": "out/checklist.json",
+      "bytes": 482,
+      "sha256": "3c3056d7e07868f47fbe747e8952259adb76dc87010015791c3eab2c9939306f"
+    },
+    {
+      "path": "out/evaluation.md",
+      "bytes": 989,
+      "sha256": "8311b058bb178ef695b815212b6cfbcd63b2ef24768bc15b44f94816a57c9307"
+    },
+    {
+      "path": "out/explainer.html",
+      "bytes": 2220,
+      "sha256": "fb5358c09ae20b72bf55738aa31ba0097e8a82cb48aad682a9b46c274b466460"
+    },
+    {
+      "path": "out/explainer.md",
+      "bytes": 1312,
+      "sha256": "7d2e275edea089693af351cae7f7e20f6a5c2b245b89e0d9c09cbcadfb9b9b49"
+    },
+    {
+      "path": "out/gates.json",
+      "bytes": 227,
+      "sha256": "e4ac829ae4f32e383451ef80831685a2233c679f6d327cf570425134d9ec5a2d"
+    },
+    {
+      "path": "out/notes.txt",
+      "bytes": 144,
+      "sha256": "e090697e1b94e188266476048512462d3a9bcb91a4d9bd7fb4f359ebd4b4cb07"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": []
+}

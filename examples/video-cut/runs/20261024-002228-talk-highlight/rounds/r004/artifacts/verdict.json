@@ -1,0 +1,80 @@
+{
+  "score": 75.0,
+  "gates": {
+    "valid_edit": true,
+    "duration_40_75s": true,
+    "segments_4_14": true,
+    "rendered": true,
+    "substance": true,
+    "not_repetitive": true,
+    "no_placeholder": true,
+    "no_evaluator_address": true,
+    "check:成片里没有\"后面再说\"\"第二点\"这类引用了被剪掉内容的句子，或者被引用的内容也在成片里。": true,
+    "check:成片没有因为剪辑而让某个方法的意思和原分享相反或被曲解。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "cut: 8 sentences, 47.6s (allowed 40-75s); order [32, 33, 34, 27, 28, 29, 30, 31]\nvalue 6.0/10: 观众能理解支持新兴国家自由、维护盟友合作两项承诺，但有限篇幅分给两个方向，合作主题的挑战和意义说明仍较单薄。\nhook 8.0/10: 以摆脱殖民却可能迎来更残酷暴政的反差开场，但第二句转向盟友承诺，没有继续展开这个冲突，尚不足以形成必须看完的吸引力。\n[cli:codex:gpt-6.1-sol] 将开头关于新兴国家的承诺替换为原稿中完整的“The world is very different now.”及紧随其后的“For man holds…”一句，用消除贫困与毁灭人类的反差引出合作的必要性，并核对口播总时长达到40到75秒。",
+  "metrics": {
+    "criteria": {
+      "hook": 8.0,
+      "coherence": 8.0,
+      "value": 6.0,
+      "ending": 8.0,
+      "pacing": 8.0
+    },
+    "jury": [
+      "cli:codex:gpt-6.1-sol"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "hook": {
+            "score": 8,
+            "evidence": "one form of colonial control shall not have\npassed away merely to be replaced by a far more iron tyranny.",
+            "why": "以摆脱殖民却可能迎来更残酷暴政的反差开场，但第二句转向盟友承诺，没有继续展开这个冲突，尚不足以形成必须看完的吸引力。"
+          },
+          "coherence": {
+            "score": 8,
+            "evidence": "United, there is little we\ncannot do in a host of cooperative ventures.",
+            "why": "团结与分裂的论述能清楚承接对老盟友的承诺，但从新兴国家转向老盟友有一处主题跳跃，未达到完整短讲的连贯程度。"
+          },
+          "value": {
+            "score": 6,
+            "evidence": "we\npledge the loyalty of faithful friends.",
+            "why": "观众能理解支持新兴国家自由、维护盟友合作两项承诺，但有限篇幅分给两个方向，合作主题的挑战和意义说明仍较单薄。"
+          },
+          "ending": {
+            "score": 8,
+            "evidence": "Divided, there is little\nwe can do—for we dare not meet a powerful challenge at odds\nand split asunder.",
+            "why": "以分裂导致无力应对挑战收束合作主题，语意完整且有力度，但没有回应开场的新兴国家处境，整体收束尚不充分。"
+          },
+          "pacing": {
+            "score": 8,
+            "evidence": "United, there is little we\ncannot do in a host of cooperative ventures. Divided, there is little\nwe can do",
+            "why": "没有寒暄，团结与分裂的对照推进紧凑，但开头较长的新兴国家承诺占用篇幅后未再展开，削弱了单一主题的推进效率。"
+          }
+        },
+        "checks": {
+          "成片里没有\"后面再说\"\"第二点\"这类引用了被剪掉内容的句子，或者被引用的内容也在成片里。": {
+            "pass": true,
+            "why": "没有悬空的预告、编号或指代，团结与分裂的论述有明确的盟友语境。"
+          },
+          "成片没有因为剪辑而让某个方法的意思和原分享相反或被曲解。": {
+            "pass": true,
+            "why": "虽然调整了两组承诺的顺序，但各句完整，仍保留反对殖民控制被暴政取代、强调盟友团结的原意。"
+          }
+        },
+        "manipulation": false,
+        "top_fix": "将开头关于新兴国家的承诺替换为原稿中完整的“The world is very different now.”及紧随其后的“For man holds…”一句，用消除贫困与毁灭人类的反差引出合作的必要性，并核对口播总时长达到40到75秒。",
+        "_model": "cli:codex:gpt-6.1-sol",
+        "_cost": null
+      }
+    ],
+    "cost_usd": null
+  },
+  "seconds": 32.753695291999975,
+  "error": ""
+}

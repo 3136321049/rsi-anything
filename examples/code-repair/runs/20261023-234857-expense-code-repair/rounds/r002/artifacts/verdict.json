@@ -1,0 +1,16 @@
+{
+  "score": 80.0,
+  "gates": {
+    "tests_executed": true,
+    "no_skips": true,
+    "exit_code": true
+  },
+  "feedback": "固定测试通过 12/15。\nfixed_expense_tests.ExpenseTests.test_date_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_month_refund: ?         ^\nfixed_expense_tests.ExpenseTests.test_month_reject_invalid: AssertionError: ValueError not raised",
+  "metrics": {
+    "tests_passed": 12,
+    "tests_total": 15,
+    "all_tests_passed": false
+  },
+  "seconds": 0.028080291999998508,
+  "error": ""
+}

@@ -1,0 +1,38 @@
+{
+  "status": "generated",
+  "purpose": "匿名免费服务连通测试，不是多轮优化结果",
+  "source": "https://huggingface.co/spaces/Lightricks/ltx-video-distilled",
+  "request": {
+    "data": [
+      "A ceramic mug on a wooden table. Steam rises gently while the camera slowly moves closer. Natural morning window light.",
+      "blurry, jittery, text, watermark",
+      null,
+      null,
+      512,
+      704,
+      "text-to-video",
+      2,
+      9,
+      42,
+      false,
+      1,
+      false
+    ]
+  },
+  "event_id": "6a11b731c55a4553b7567f34cd29e09b",
+  "probe": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 704,
+        "height": 512
+      }
+    ],
+    "format": {
+      "duration": "1.900000",
+      "size": "50859"
+    }
+  },
+  "sha256": "b21709d93a6bd606f8d5fe64a6d272faca9acb379b1dfc48c22d285ae3bc75e2"
+}

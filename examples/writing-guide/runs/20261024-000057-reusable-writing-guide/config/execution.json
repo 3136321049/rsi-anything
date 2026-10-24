@@ -1,0 +1,73 @@
+{
+  "agent": {
+    "use": "codex",
+    "model": "gpt-6.1-sol",
+    "timeout": 600,
+    "command": "",
+    "extra_args": [],
+    "resolved_adapter": "codex",
+    "requested_model": "gpt-6.1-sol",
+    "actual_model": null,
+    "reasoning_effort": "medium"
+  },
+  "judge": {
+    "type": "rubric",
+    "files": [
+      "judge"
+    ],
+    "direction": "maximize",
+    "min_delta": 0.0,
+    "min_gain": 0.0,
+    "repeats": 1,
+    "timeout": 900,
+    "run": "",
+    "prepare": "{python} judge/generate.py development",
+    "rubric": "judge/rubric.yaml",
+    "inputs": [
+      "out/posts.md"
+    ],
+    "models": [
+      "cli:codex:gpt-6.1-sol"
+    ],
+    "samples": 1,
+    "pairwise": true
+  },
+  "jury": [
+    "cli:codex:gpt-6.1-sol"
+  ],
+  "holdout": {
+    "type": "rubric",
+    "files": [
+      "holdout"
+    ],
+    "direction": "maximize",
+    "min_delta": 0.0,
+    "min_gain": 0.0,
+    "repeats": 1,
+    "timeout": 900,
+    "run": "",
+    "prepare": "{python} judge/generate.py holdout",
+    "rubric": "judge/rubric.yaml",
+    "inputs": [
+      "out/posts.md"
+    ],
+    "models": [
+      "cli:codex:gpt-6.1-sol"
+    ],
+    "samples": 1,
+    "pairwise": true
+  },
+  "budget": {
+    "rounds": 5,
+    "minutes": 60.0,
+    "stagnation": 4,
+    "target": null
+  },
+  "artifact": [
+    "writing-guide.md"
+  ],
+  "outputs": [
+    "out"
+  ],
+  "task_model": null
+}

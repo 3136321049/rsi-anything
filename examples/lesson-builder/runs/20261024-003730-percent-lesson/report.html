@@ -1,0 +1,3009 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSI run 20261024-003730-percent-lesson</title>
+<style>
+:root { --bg:#fbfaf7; --fg:#1d1d1b; --muted:#6b6a64; --line:#e4e1d8; --accent:#2f6fde; --keep:#1f9d55; --drop:#b7b3a6; }
+@media (prefers-color-scheme: dark) { :root { --bg:#161614; --fg:#ecebe6; --muted:#a3a198; --line:#2c2b27; --accent:#7aa7ff; --keep:#4cc38a; --drop:#5b5950; } }
+body { background:var(--bg); color:var(--fg); font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; margin:0; }
+main { max-width:960px; margin:0 auto; padding:32px 16px 64px; }
+h1 { font-size:22px; margin:0 0 4px; } .muted { color:var(--muted); }
+.stats { display:flex; gap:24px; flex-wrap:wrap; margin:20px 0; } .stat b { display:block; font-size:26px; }
+svg { width:100%; height:auto; border:1px solid var(--line); border-radius:8px; }
+.best { fill:none; stroke:var(--accent); stroke-width:2; } .kept { fill:var(--keep); } .dropped { fill:var(--drop); }
+.tick { fill:var(--muted); font-size:11px; }
+table { width:100%; border-collapse:collapse; margin-top:20px; font-size:14px; }
+td,th { border-bottom:1px solid var(--line); padding:6px 8px; text-align:left; vertical-align:top; }
+tr.s-keep td:nth-child(2) { color:var(--keep); font-weight:600; }
+pre { overflow-x:auto; background:color-mix(in srgb, var(--line) 40%, transparent); padding:12px; border-radius:8px; }
+details { border:1px solid var(--line); border-radius:8px; padding:12px; margin:12px 0; } summary { cursor:pointer; font-weight:600; }
+.artifact img,.artifact video { max-width:100%; max-height:560px; } .artifact pre { max-height:420px; white-space:pre-wrap; overflow:auto; } a { color:var(--accent); }
+.artifact-source { border-left:3px solid var(--accent); padding:8px 12px; background:var(--line); }
+</style></head><body><main>
+<h1>percent-lesson</h1>
+<div class="muted">修改 lesson.md，为初中学生解释百分比、变化率、还原原量、连续变化和百分点的区别。
+可以调整结构、例题与逐步解释，遵循 judge/brief.md；不要逐题抄写 judge/exercises.json 的测试题答案。
+评分时受限学生模型只看到讲义和题目，需给答案、推理及讲义原句依据；程序按固定答案实际判分。</div>
+<p class="muted">运行状态：finished。已保存 4 条模型调用记录；调用费用：工具未提供。</p>
+<p><a href="config/rsi.yaml">任务配置</a> · <a href="config/execution.json">模型与运行参数</a></p>
+<div class="stats">
+<div class="stat"><span class="muted">baseline</span><b>20</b></div>
+<div class="stat"><span class="muted">best</span><b>100</b></div>
+<div class="stat"><span class="muted">rounds / kept</span><b>3 / 1</b></div>
+<div class="stat"><span class="muted">agent</span><b style="font-size:16px">codex</b></div>
+</div>
+<svg viewBox="0 0 720 260" role="img" aria-label="score by round"><polyline points="48.0,210.3 266.7,33.7 485.3,33.7 704.0,33.7" class="best"/><circle cx="48.0" cy="210.3" r="5" class="kept"><title>r0 BASELINE 20</title></circle><circle cx="266.7" cy="33.7" r="5" class="kept"><title>r1 KEEP 100</title></circle><circle cx="485.3" cy="33.7" r="3.5" class="dropped"><title>r2 REVERT 100</title></circle><circle cx="704.0" cy="33.7" r="3.5" class="dropped"><title>r3 REVERT 100</title></circle><text x="40" y="210.3" class="tick" text-anchor="end">20</text><text x="40" y="122.0" class="tick" text-anchor="end">60</text><text x="40" y="33.7" class="tick" text-anchor="end">100</text><text x="48.0" y="250" class="tick" text-anchor="middle">r0</text><text x="266.7" y="250" class="tick" text-anchor="middle">r1</text><text x="485.3" y="250" class="tick" text-anchor="middle">r2</text><text x="704.0" y="250" class="tick" text-anchor="middle">r3</text></svg>
+<p class="muted">Line: best score so far. Green: kept. Grey: judged and thrown away.
+
+Stopped: reached 3 rounds.</p>
+<table><thead><tr><th>round</th><th>status</th><th>score</th><th>best</th><th>change</th><th>why</th></tr></thead>
+<tbody><tr class='s-baseline'><td>0</td><td>◆ BASELINE</td><td>20</td><td>20</td><td>baseline</td><td></td></tr><tr class='s-keep'><td>1</td><td>▲ KEEP</td><td>100</td><td>100</td><td>围绕“部分＝整体×比例”补齐逆向求解和整体变化的判断方法，应能减少因讲义缺少方法而无法作答的情况，提高得分。</td><td>score 20 -&gt; 100</td></tr><tr class='s-revert'><td>2</td><td>· REVERT</td><td>100</td><td>100</td><td>补清“各步倍数连乘后与1比较”的方法，减少连续变化中误加减百分比的错误，提高作答稳定性。</td><td>score 100 is not better than 100 (required margin: 1 or 0%)</td></tr><tr class='s-revert'><td>3</td><td>· REVERT</td><td>100</td><td>100</td><td>补清变化量与变化后数量的区别，减少还原原量时选错比例的错误，提高作答稳定性；当前已满分，无法进一步提高分数。</td><td>score 100 is not better than 100 (required margin: 1 or 0%)</td></tr></tbody></table>
+<h2>产物版本</h2><details><summary>初始产物</summary><p class='artifact-source'>来源：独立评审目录。正式分数以账本记录和评审结论为准。</p><div class='artifact'><p><a href="artifacts/baseline/files/lesson.md">lesson.md</a></p><pre># 从整体的一部分理解百分比
+
+百分比就是把整体看成一百份，表示其中有多少份。百分之二十可以写成20%，也就是0.2。做题前，先说清楚哪个量是整体，哪个量是部分，单位是什么。
+
+## 已知整体，求其中一部分
+
+求一个数量的百分之几，可以把整体数量乘以对应的小数。比如一盒彩笔有50支，其中20%是蓝色，则蓝色彩笔有50×0.2=10支。这里整体是50支，比例是20%，所求部分是10支。
+
+另一个例子：一本书共80页，读完了25%，已读页数为80×0.25=20页。计算结果要写单位，才能知道自己算的是页数，不是比例。
+
+## 做题顺序
+
+先读清题目，再找到整体和比例，把百分数换成小数，然后计算。最后检查答案：如果求的是整体的一部分，结果通常不应大于整体；比例越大，对应的部分也越大。不要看到两个数字就直接相乘，应先解释每个数字的意义。
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/exercise-results.md">out/exercise-results.md</a></p><pre># 固定练习结果
+
+有依据答对 2/10；纯数值正确率 20.0%。
+
+## P1 基本求部分
+
+一批练习本共240本，其中35%是方格本。方格本有多少本？
+
+学生答案：84 本
+
+学生推导：整体是240本，方格本占35%。把35%换成0.35，计算240×0.35=84，所以方格本有84本。
+
+讲义依据：求一个数量的百分之几，可以把整体数量乘以对应的小数。
+
+固定解答：240×0.35=84。
+
+## P2 还原原量
+
+书店打八折后一本书售价72元。原价是多少元？
+
+学生答案：None 元
+
+学生推导：可以确定72元是原价的80%，但讲义只讲了已知整体后用乘法求部分，没有讲已知部分和比例怎样反求整体。
+
+讲义依据：求一个数量的百分之几，可以把整体数量乘以对应的小数。
+
+固定解答：打八折保留原价的0.8，72÷0.8=90。
+
+## P3 增长率
+
+某社团人数从40人增加到50人。增长率是多少百分比？答案填百分数前的数值。
+
+学生答案：None %
+
+学生推导：人数增加了50-40=10人，但讲义没有说明增长率应以哪个量为整体，也没有讲怎样根据增加量和原人数求增长率。
+
+讲义依据：做题前，先说清楚哪个量是整体，哪个量是部分，单位是什么。
+
+固定解答：增加10人，以原来的40人为基数，10÷40×100=25。
+
+## P4 减少率
+
+一项活动的报名人数由125人减少到100人。减少率是多少百分比？答案填百分数前的数值。
+
+学生答案：None %
+
+学生推导：人数减少了125-100=25人，但讲义没有讲怎样根据减少量和原人数求减少率。
+
+讲义依据：求一个数量的百分之几，可以把整体数量乘以对应的小数。
+
+固定解答：减少25人，以原来的125人为基数，25÷125×100=20。
+
+## P5 连续变化
+
+一件商品原价200元，先涨价10%，再降价10%。最后价格是多少元？
+
+学生答案：198 元
+
+学生推导：原价是200元，涨价部分为200×0.1=20元，涨价后是220元；再以220元为整体，降价部分为220×0.1=22元，最后价格是220-22=198元。
+
+讲义依据：求一个数量的百分之几，可以把整体数量乘以对应的小数。
+
+固定解答：200×1.1×0.9=198，两个百分比的基数不同。
+
+## P6 百分点
+
+某问卷中支持比例由30%升到42%。上升了多少个百分点？
+
+学生答案：None 个百分点
+
+学生推导：讲义没有解释“百分点”的含义，也没有提供计算百分点变化的方法。
+
+讲义依据：百分比就是把整体看成一百份，表示其中有多少份。
+
+固定解答：42%-30%=12个百分点。
+
+## P7 变化后还原
+
+一袋米取出原有重量的25%后，剩下18千克。原有多少千克？
+
+学生答案：None 千克
+
+学生推导：取出25%后剩下的是原有重量的75%，但讲义只讲了已知整体求部分，没有讲已知剩余部分和比例怎样反求原有重量。
+
+讲义依据：求一个数量的百分之几，可以把整体数量乘以对应的小数。
+
+固定解答：剩下75%，18÷0.75=24。
+
+## P8 整体变化
+
+甲班有30人，其中40%参加合唱；乙班有20人，其中25%参加合唱。两班合计有多少百分比参加合唱？答案填百分数前的数值。
+
+学生答案：None %
+
+学生推导：按讲义可算出甲班参加合唱的有30×0.4=12人，乙班有20×0.25=5人，合计17人、总人数50人；但讲义没有讲怎样由部分人数和总人数反求百分比。
+
+讲义依据：求一个数量的百分之几，可以把整体数量乘以对应的小数。
+
+固定解答：人数为12+5=17，整体为50，17÷50×100=34。
+
+## P9 反向变化率
+
+一个数先减少20%后，要回到原来的数，需要在减少后的基础上增加多少百分比？答案填百分数前的数值。
+
+学生答案：None %
+
+学生推导：可以把原来的数设为一个整体，并算出减少后剩下原来的80%，但讲义没有讲以减少后的数量为新整体时，怎样反求恢复所需的增长百分比。
+
+讲义依据：做题前，先说清楚哪个量是整体，哪个量是部分，单位是什么。
+
+固定解答：减少后是原量0.8，需增加0.2÷0.8=25%。
+
+## P10 比例与部分
+
+一杯糖水总重150克，其中糖占12%。加入50克水后，糖占总重多少百分比？答案填百分数前的数值。
+
+学生答案：None %
+
+学生推导：按讲义可算出糖有150×0.12=18克，加水后总重为200克；但讲义没有讲怎样由糖的重量和新的总重量反求糖所占的百分比。
+
+讲义依据：求一个数量的百分之几，可以把整体数量乘以对应的小数。
+
+固定解答：糖18克不变，总重200克，18÷200×100=9。
+
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/gates.json">out/gates.json</a></p><pre>{&quot;讲义有实质内容&quot;: true, &quot;不直接复制测试题&quot;: true}</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/lesson.html">out/lesson.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;title&gt;百分比讲义与练习结果&lt;/title&gt;&lt;style&gt;body{max-width:900px;margin:40px auto;padding:20px;font:17px/1.8 system-ui;color:#17384d}pre{white-space:pre-wrap;font:inherit}section{background:#f3f7fa;padding:24px;margin:20px 0}&lt;/style&gt;&lt;section&gt;&lt;pre&gt;# 从整体的一部分理解百分比
+
+百分比就是把整体看成一百份，表示其中有多少份。百分之二十可以写成20%，也就是0.2。做题前，先说清楚哪个量是整体，哪个量是部分，单位是什么。
+
+## 已知整体，求其中一部分
+
+求一个数量的百分之几，可以把整体数量乘以对应的小数。比如一盒彩笔有50支，其中20%是蓝色，则蓝色彩笔有50×0.2=10支。这里整体是50支，比例是20%，所求部分是10支。
+
+另一个例子：一本书共80页，读完了25%，已读页数为80×0.25=20页。计算结果要写单位，才能知道自己算的是页数，不是比例。
+
+## 做题顺序
+
+先读清题目，再找到整体和比例，把百分数换成小数，然后计算。最后检查答案：如果求的是整体的一部分，结果通常不应大于整体；比例越大，对应的部分也越大。不要看到两个数字就直接相乘，应先解释每个数字的意义。
+&lt;/pre&gt;&lt;/section&gt;&lt;section&gt;&lt;pre&gt;# 固定练习结果
+
+有依据答对 2/10；纯数值正确率 20.0%。
+
+## P1 基本求部分
+
+一批练习本共240本，其中35%是方格本。方格本有多少本？
+
+学生答案：84 本
+
+学生推导：整体是240本，方格本占35%。把35%换成0.35，计算240×0.35=84，所以方格本有84本。
+
+讲义依据：求一个数量的百分之几，可以把整体数量乘以对应的小数。
+
+固定解答：240×0.35=84。
+
+## P2 还原原量
+
+书店打八折后一本书售价72元。原价是多少元？
+
+学生答案：None 元
+
+学生推导：可以确定72元是原价的80%，但讲义只讲了已知整体后用乘法求部分，没有讲已知部分和比例怎样反求整体。
+
+讲义依据：求一个数量的百分之几，可以把整体数量乘以对应的小数。
+
+固定解答：打八折保留原价的0.8，72÷0.8=90。
+
+## P3 增长率
+
+某社团人数从40人增加到50人。增长率是多少百分比？答案填百分数前的数值。
+
+学生答案：None %
+
+学生推导：人数增加了50-40=10人，但讲义没有说明增长率应以哪个量为整体，也没有讲怎样根据增加量和原人数求增长率。
+
+讲义依据：做题前，先说清楚哪个量是整体，哪个量是部分，单位是什么。
+
+固定解答：增加10人，以原来的40人为基数，10÷40×100=25。
+
+## P4 减少率
+
+一项活动的报名人数由125人减少到100人。减少率是多少百分比？答案填百分数前的数值。
+
+学生答案：None %
+
+学生推导：人数减少了125-100=25人，但讲义没有讲怎样根据减少量和原人数求减少率。
+
+讲义依据：求一个数量的百分之几，可以把整体数量乘以对应的小数。
+
+固定解答：减少25人，以原来的125人为基数，25÷125×100=20。
+
+## P5 连续变化
+
+一件商品原价200元，先涨价10%，再降价10%。最后价格是多少元？
+
+学生答案：198 元
+
+学生推导：原价是200元，涨价部分为200×0.1=20元，涨价后是220元；再以220元为整体，降价部分为220×0.1=22元，最后价格是220-22=198元。
+
+讲义依据：求一个数量的百分之几，可以把整体数量乘以对应的小数。
+
+固定解答：200×1.1×0.9=198，两个百分比的基数不同。
+
+## P6 百分点
+
+某问卷中支持比例由30%升到42%。上升了多少个百分点？
+
+学生答案：None 个百分点
+
+学生推导：讲义没有解释“百分点”的含义，也没有提供计算百分点变化的方法。
+
+讲义依据：百分比就是把整体看成一百份，表示其中有多少份。
+
+固定解答：42%-30%=12个百分点。
+
+## P7 变化后还原
+
+一袋米取出原有重量的25%后，剩下18千克。原有多少千克？
+
+学生答案：None 千克
+
+学生推导：取出25%后剩下的是原有重量的75%，但讲义只讲了已知整体求部分，没有讲已知剩余部分和比例怎样反求原有重量。
+
+讲义依据：求一个数量的百分之几，可以把整体数量乘以对应的小数。
+
+固定解答：剩下75%，18÷0.75=24。
+
+## P8 整体变化
+
+甲班有30人，其中40%参加合唱；乙班有20人，其中25%参加合唱。两班合计有多少百分比参加合唱？答案填百分数前的数值。
+
+学生答案：None %
+
+学生推导：按讲义可算出甲班参加合唱的有30×0.4=12人，乙班有20×0.25=5人，合计17人、总人数50人；但讲义没有讲怎样由部分人数和总人数反求百分比。
+
+讲义依据：求一个数量的百分之几，可以把整体数量乘以对应的小数。
+
+固定解答：人数为12+5=17，整体为50，17÷50×100=34。
+
+## P9 反向变化率
+
+一个数先减少20%后，要回到原来的数，需要在减少后的基础上增加多少百分比？答案填百分数前的数值。
+
+学生答案：None %
+
+学生推导：可以把原来的数设为一个整体，并算出减少后剩下原来的80%，但讲义没有讲以减少后的数量为新整体时，怎样反求恢复所需的增长百分比。
+
+讲义依据：做题前，先说清楚哪个量是整体，哪个量是部分，单位是什么。
+
+固定解答：减少后是原量0.8，需增加0.2÷0.8=25%。
+
+## P10 比例与部分
+
+一杯糖水总重150克，其中糖占12%。加入50克水后，糖占总重多少百分比？答案填百分数前的数值。
+
+学生答案：None %
+
+学生推导：按讲义可算出糖有150×0.12=18克，加水后总重为200克；但讲义没有讲怎样由糖的重量和新的总重量反求糖所占的百分比。
+
+讲义依据：求一个数量的百分之几，可以把整体数量乘以对应的小数。
+
+固定解答：糖18克不变，总重200克，18÷200×100=9。
+
+&lt;/pre&gt;&lt;/section&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/lesson.md">out/lesson.md</a></p><pre># 从整体的一部分理解百分比
+
+百分比就是把整体看成一百份，表示其中有多少份。百分之二十可以写成20%，也就是0.2。做题前，先说清楚哪个量是整体，哪个量是部分，单位是什么。
+
+## 已知整体，求其中一部分
+
+求一个数量的百分之几，可以把整体数量乘以对应的小数。比如一盒彩笔有50支，其中20%是蓝色，则蓝色彩笔有50×0.2=10支。这里整体是50支，比例是20%，所求部分是10支。
+
+另一个例子：一本书共80页，读完了25%，已读页数为80×0.25=20页。计算结果要写单位，才能知道自己算的是页数，不是比例。
+
+## 做题顺序
+
+先读清题目，再找到整体和比例，把百分数换成小数，然后计算。最后检查答案：如果求的是整体的一部分，结果通常不应大于整体；比例越大，对应的部分也越大。不要看到两个数字就直接相乘，应先解释每个数字的意义。
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/mistakes.json">out/mistakes.json</a></p><pre>[
+  {
+    &quot;id&quot;: &quot;P2&quot;,
+    &quot;topic&quot;: &quot;还原原量&quot;,
+    &quot;question&quot;: &quot;书店打八折后一本书售价72元。原价是多少元？&quot;,
+    &quot;expected&quot;: 90,
+    &quot;unit&quot;: &quot;元&quot;,
+    &quot;tolerance&quot;: 0.0001,
+    &quot;solution&quot;: &quot;打八折保留原价的0.8，72÷0.8=90。&quot;,
+    &quot;answer&quot;: null,
+    &quot;reason&quot;: &quot;可以确定72元是原价的80%，但讲义只讲了已知整体后用乘法求部分，没有讲已知部分和比例怎样反求整体。&quot;,
+    &quot;lesson_quote&quot;: &quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;,
+    &quot;numeric_correct&quot;: false,
+    &quot;quote_found&quot;: true,
+    &quot;supported_correct&quot;: false
+  },
+  {
+    &quot;id&quot;: &quot;P3&quot;,
+    &quot;topic&quot;: &quot;增长率&quot;,
+    &quot;question&quot;: &quot;某社团人数从40人增加到50人。增长率是多少百分比？答案填百分数前的数值。&quot;,
+    &quot;expected&quot;: 25,
+    &quot;unit&quot;: &quot;%&quot;,
+    &quot;tolerance&quot;: 0.0001,
+    &quot;solution&quot;: &quot;增加10人，以原来的40人为基数，10÷40×100=25。&quot;,
+    &quot;answer&quot;: null,
+    &quot;reason&quot;: &quot;人数增加了50-40=10人，但讲义没有说明增长率应以哪个量为整体，也没有讲怎样根据增加量和原人数求增长率。&quot;,
+    &quot;lesson_quote&quot;: &quot;做题前，先说清楚哪个量是整体，哪个量是部分，单位是什么。&quot;,
+    &quot;numeric_correct&quot;: false,
+    &quot;quote_found&quot;: true,
+    &quot;supported_correct&quot;: false
+  },
+  {
+    &quot;id&quot;: &quot;P4&quot;,
+    &quot;topic&quot;: &quot;减少率&quot;,
+    &quot;question&quot;: &quot;一项活动的报名人数由125人减少到100人。减少率是多少百分比？答案填百分数前的数值。&quot;,
+    &quot;expected&quot;: 20,
+    &quot;unit&quot;: &quot;%&quot;,
+    &quot;tolerance&quot;: 0.0001,
+    &quot;solution&quot;: &quot;减少25人，以原来的125人为基数，25÷125×100=20。&quot;,
+    &quot;answer&quot;: null,
+    &quot;reason&quot;: &quot;人数减少了125-100=25人，但讲义没有讲怎样根据减少量和原人数求减少率。&quot;,
+    &quot;lesson_quote&quot;: &quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;,
+    &quot;numeric_correct&quot;: false,
+    &quot;quote_found&quot;: true,
+    &quot;supported_correct&quot;: false
+  },
+  {
+    &quot;id&quot;: &quot;P6&quot;,
+    &quot;topic&quot;: &quot;百分点&quot;,
+    &quot;question&quot;: &quot;某问卷中支持比例由30%升到42%。上升了多少个百分点？&quot;,
+    &quot;expected&quot;: 12,
+    &quot;unit&quot;: &quot;个百分点&quot;,
+    &quot;tolerance&quot;: 0.0001,
+    &quot;solution&quot;: &quot;42%-30%=12个百分点。&quot;,
+    &quot;answer&quot;: null,
+    &quot;reason&quot;: &quot;讲义没有解释“百分点”的含义，也没有提供计算百分点变化的方法。&quot;,
+    &quot;lesson_quote&quot;: &quot;百分比就是把整体看成一百份，表示其中有多少份。&quot;,
+    &quot;numeric_correct&quot;: false,
+    &quot;quote_found&quot;: true,
+    &quot;supported_correct&quot;: false
+  },
+  {
+    &quot;id&quot;: &quot;P7&quot;,
+    &quot;topic&quot;: &quot;变化后还原&quot;,
+    &quot;question&quot;: &quot;一袋米取出原有重量的25%后，剩下18千克。原有多少千克？&quot;,
+    &quot;expected&quot;: 24,
+    &quot;unit&quot;: &quot;千克&quot;,
+    &quot;tolerance&quot;: 0.0001,
+    &quot;solution&quot;: &quot;剩下75%，18÷0.75=24。&quot;,
+    &quot;answer&quot;: null,
+    &quot;reason&quot;: &quot;取出25%后剩下的是原有重量的75%，但讲义只讲了已知整体求部分，没有讲已知剩余部分和比例怎样反求原有重量。&quot;,
+    &quot;lesson_quote&quot;: &quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;,
+    &quot;numeric_correct&quot;: false,
+    &quot;quote_found&quot;: true,
+    &quot;supported_correct&quot;: false
+  },
+  {
+    &quot;id&quot;: &quot;P8&quot;,
+    &quot;topic&quot;: &quot;整体变化&quot;,
+    &quot;question&quot;: &quot;甲班有30人，其中40%参加合唱；乙班有20人，其中25%参加合唱。两班合计有多少百分比参加合唱？答案填百分数前的数值。&quot;,
+    &quot;expected&quot;: 34,
+    &quot;unit&quot;: &quot;%&quot;,
+    &quot;tolerance&quot;: 0.0001,
+    &quot;solution&quot;: &quot;人数为12+5=17，整体为50，17÷50×100=34。&quot;,
+    &quot;answer&quot;: null,
+    &quot;reason&quot;: &quot;按讲义可算出甲班参加合唱的有30×0.4=12人，乙班有20×0.25=5人，合计17人、总人数50人；但讲义没有讲怎样由部分人数和总人数反求百分比。&quot;,
+    &quot;lesson_quote&quot;: &quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;,
+    &quot;numeric_correct&quot;: false,
+    &quot;quote_found&quot;: true,
+    &quot;supported_correct&quot;: false
+  },
+  {
+    &quot;id&quot;: &quot;P9&quot;,
+    &quot;topic&quot;: &quot;反向变化率&quot;,
+    &quot;question&quot;: &quot;一个数先减少20%后，要回到原来的数，需要在减少后的基础上增加多少百分比？答案填百分数前的数值。&quot;,
+    &quot;expected&quot;: 25,
+    &quot;unit&quot;: &quot;%&quot;,
+    &quot;tolerance&quot;: 0.0001,
+    &quot;solution&quot;: &quot;减少后是原量0.8，需增加0.2÷0.8=25%。&quot;,
+    &quot;answer&quot;: null,
+    &quot;reason&quot;: &quot;可以把原来的数设为一个整体，并算出减少后剩下原来的80%，但讲义没有讲以减少后的数量为新整体时，怎样反求恢复所需的增长百分比。&quot;,
+    &quot;lesson_quote&quot;: &quot;做题前，先说清楚哪个量是整体，哪个量是部分，单位是什么。&quot;,
+    &quot;numeric_correct&quot;: false,
+    &quot;quote_found&quot;: true,
+    &quot;supported_correct&quot;: false
+  },
+  {
+    &quot;id&quot;: &quot;P10&quot;,
+    &quot;topic&quot;: &quot;比例与部分&quot;,
+    &quot;question&quot;: &quot;一杯糖水总重150克，其中糖占12%。加入50克水后，糖占总重多少百分比？答案填百分数前的数值。&quot;,
+    &quot;expected&quot;: 9,
+    &quot;unit&quot;: &quot;%&quot;,
+    &quot;tolerance&quot;: 0.0001,
+    &quot;solution&quot;: &quot;糖18克不变，总重200克，18÷200×100=9。&quot;,
+    &quot;answer&quot;: null,
+    &quot;reason&quot;: &quot;按讲义可算出糖有150×0.12=18克，加水后总重为200克；但讲义没有讲怎样由糖的重量和新的总重量反求糖所占的百分比。&quot;,
+    &quot;lesson_quote&quot;: &quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;,
+    &quot;numeric_correct&quot;: false,
+    &quot;quote_found&quot;: true,
+    &quot;supported_correct&quot;: false
+  }
+]</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/results.json">out/results.json</a></p><pre>{
+  &quot;score&quot;: 20.0,
+  &quot;numeric_accuracy&quot;: 20.0,
+  &quot;correct&quot;: 2,
+  &quot;total&quot;: 10,
+  &quot;answers&quot;: [
+    {
+      &quot;id&quot;: &quot;P1&quot;,
+      &quot;topic&quot;: &quot;基本求部分&quot;,
+      &quot;question&quot;: &quot;一批练习本共240本，其中35%是方格本。方格本有多少本？&quot;,
+      &quot;expected&quot;: 84,
+      &quot;unit&quot;: &quot;本&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;240×0.35=84。&quot;,
+      &quot;answer&quot;: 84,
+      &quot;reason&quot;: &quot;整体是240本，方格本占35%。把35%换成0.35，计算240×0.35=84，所以方格本有84本。&quot;,
+      &quot;lesson_quote&quot;: &quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P2&quot;,
+      &quot;topic&quot;: &quot;还原原量&quot;,
+      &quot;question&quot;: &quot;书店打八折后一本书售价72元。原价是多少元？&quot;,
+      &quot;expected&quot;: 90,
+      &quot;unit&quot;: &quot;元&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;打八折保留原价的0.8，72÷0.8=90。&quot;,
+      &quot;answer&quot;: null,
+      &quot;reason&quot;: &quot;可以确定72元是原价的80%，但讲义只讲了已知整体后用乘法求部分，没有讲已知部分和比例怎样反求整体。&quot;,
+      &quot;lesson_quote&quot;: &quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;,
+      &quot;numeric_correct&quot;: false,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;P3&quot;,
+      &quot;topic&quot;: &quot;增长率&quot;,
+      &quot;question&quot;: &quot;某社团人数从40人增加到50人。增长率是多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 25,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;增加10人，以原来的40人为基数，10÷40×100=25。&quot;,
+      &quot;answer&quot;: null,
+      &quot;reason&quot;: &quot;人数增加了50-40=10人，但讲义没有说明增长率应以哪个量为整体，也没有讲怎样根据增加量和原人数求增长率。&quot;,
+      &quot;lesson_quote&quot;: &quot;做题前，先说清楚哪个量是整体，哪个量是部分，单位是什么。&quot;,
+      &quot;numeric_correct&quot;: false,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;P4&quot;,
+      &quot;topic&quot;: &quot;减少率&quot;,
+      &quot;question&quot;: &quot;一项活动的报名人数由125人减少到100人。减少率是多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 20,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;减少25人，以原来的125人为基数，25÷125×100=20。&quot;,
+      &quot;answer&quot;: null,
+      &quot;reason&quot;: &quot;人数减少了125-100=25人，但讲义没有讲怎样根据减少量和原人数求减少率。&quot;,
+      &quot;lesson_quote&quot;: &quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;,
+      &quot;numeric_correct&quot;: false,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;P5&quot;,
+      &quot;topic&quot;: &quot;连续变化&quot;,
+      &quot;question&quot;: &quot;一件商品原价200元，先涨价10%，再降价10%。最后价格是多少元？&quot;,
+      &quot;expected&quot;: 198,
+      &quot;unit&quot;: &quot;元&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;200×1.1×0.9=198，两个百分比的基数不同。&quot;,
+      &quot;answer&quot;: 198,
+      &quot;reason&quot;: &quot;原价是200元，涨价部分为200×0.1=20元，涨价后是220元；再以220元为整体，降价部分为220×0.1=22元，最后价格是220-22=198元。&quot;,
+      &quot;lesson_quote&quot;: &quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P6&quot;,
+      &quot;topic&quot;: &quot;百分点&quot;,
+      &quot;question&quot;: &quot;某问卷中支持比例由30%升到42%。上升了多少个百分点？&quot;,
+      &quot;expected&quot;: 12,
+      &quot;unit&quot;: &quot;个百分点&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;42%-30%=12个百分点。&quot;,
+      &quot;answer&quot;: null,
+      &quot;reason&quot;: &quot;讲义没有解释“百分点”的含义，也没有提供计算百分点变化的方法。&quot;,
+      &quot;lesson_quote&quot;: &quot;百分比就是把整体看成一百份，表示其中有多少份。&quot;,
+      &quot;numeric_correct&quot;: false,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;P7&quot;,
+      &quot;topic&quot;: &quot;变化后还原&quot;,
+      &quot;question&quot;: &quot;一袋米取出原有重量的25%后，剩下18千克。原有多少千克？&quot;,
+      &quot;expected&quot;: 24,
+      &quot;unit&quot;: &quot;千克&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;剩下75%，18÷0.75=24。&quot;,
+      &quot;answer&quot;: null,
+      &quot;reason&quot;: &quot;取出25%后剩下的是原有重量的75%，但讲义只讲了已知整体求部分，没有讲已知剩余部分和比例怎样反求原有重量。&quot;,
+      &quot;lesson_quote&quot;: &quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;,
+      &quot;numeric_correct&quot;: false,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;P8&quot;,
+      &quot;topic&quot;: &quot;整体变化&quot;,
+      &quot;question&quot;: &quot;甲班有30人，其中40%参加合唱；乙班有20人，其中25%参加合唱。两班合计有多少百分比参加合唱？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 34,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;人数为12+5=17，整体为50，17÷50×100=34。&quot;,
+      &quot;answer&quot;: null,
+      &quot;reason&quot;: &quot;按讲义可算出甲班参加合唱的有30×0.4=12人，乙班有20×0.25=5人，合计17人、总人数50人；但讲义没有讲怎样由部分人数和总人数反求百分比。&quot;,
+      &quot;lesson_quote&quot;: &quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;,
+      &quot;numeric_correct&quot;: false,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;P9&quot;,
+      &quot;topic&quot;: &quot;反向变化率&quot;,
+      &quot;question&quot;: &quot;一个数先减少20%后，要回到原来的数，需要在减少后的基础上增加多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 25,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;减少后是原量0.8，需增加0.2÷0.8=25%。&quot;,
+      &quot;answer&quot;: null,
+      &quot;reason&quot;: &quot;可以把原来的数设为一个整体，并算出减少后剩下原来的80%，但讲义没有讲以减少后的数量为新整体时，怎样反求恢复所需的增长百分比。&quot;,
+      &quot;lesson_quote&quot;: &quot;做题前，先说清楚哪个量是整体，哪个量是部分，单位是什么。&quot;,
+      &quot;numeric_correct&quot;: false,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;P10&quot;,
+      &quot;topic&quot;: &quot;比例与部分&quot;,
+      &quot;question&quot;: &quot;一杯糖水总重150克，其中糖占12%。加入50克水后，糖占总重多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 9,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;糖18克不变，总重200克，18÷200×100=9。&quot;,
+      &quot;answer&quot;: null,
+      &quot;reason&quot;: &quot;按讲义可算出糖有150×0.12=18克，加水后总重为200克；但讲义没有讲怎样由糖的重量和新的总重量反求糖所占的百分比。&quot;,
+      &quot;lesson_quote&quot;: &quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;,
+      &quot;numeric_correct&quot;: false,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: false
+    }
+  ],
+  &quot;requested_model&quot;: &quot;cli:codex:gpt-5.6-sol&quot;,
+  &quot;actual_model&quot;: null,
+  &quot;usage&quot;: {
+    &quot;input_tokens&quot;: 16135,
+    &quot;cached_input_tokens&quot;: 11264,
+    &quot;cache_write_input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 1564,
+    &quot;reasoning_output_tokens&quot;: 813
+  },
+  &quot;seconds&quot;: 30.308443958,
+  &quot;cost_usd&quot;: null,
+  &quot;scope&quot;: &quot;受限模型依据讲义作答；不是人类学习效果，原句匹配不证明语义支持。&quot;
+}</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/student-response.txt">out/student-response.txt</a></p><pre>{&quot;answers&quot;:[{&quot;id&quot;:&quot;P1&quot;,&quot;answer&quot;:84,&quot;reason&quot;:&quot;整体是240本，方格本占35%。把35%换成0.35，计算240×0.35=84，所以方格本有84本。&quot;,&quot;lesson_quote&quot;:&quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;},{&quot;id&quot;:&quot;P2&quot;,&quot;answer&quot;:null,&quot;reason&quot;:&quot;可以确定72元是原价的80%，但讲义只讲了已知整体后用乘法求部分，没有讲已知部分和比例怎样反求整体。&quot;,&quot;lesson_quote&quot;:&quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;},{&quot;id&quot;:&quot;P3&quot;,&quot;answer&quot;:null,&quot;reason&quot;:&quot;人数增加了50-40=10人，但讲义没有说明增长率应以哪个量为整体，也没有讲怎样根据增加量和原人数求增长率。&quot;,&quot;lesson_quote&quot;:&quot;做题前，先说清楚哪个量是整体，哪个量是部分，单位是什么。&quot;},{&quot;id&quot;:&quot;P4&quot;,&quot;answer&quot;:null,&quot;reason&quot;:&quot;人数减少了125-100=25人，但讲义没有讲怎样根据减少量和原人数求减少率。&quot;,&quot;lesson_quote&quot;:&quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;},{&quot;id&quot;:&quot;P5&quot;,&quot;answer&quot;:198,&quot;reason&quot;:&quot;原价是200元，涨价部分为200×0.1=20元，涨价后是220元；再以220元为整体，降价部分为220×0.1=22元，最后价格是220-22=198元。&quot;,&quot;lesson_quote&quot;:&quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;},{&quot;id&quot;:&quot;P6&quot;,&quot;answer&quot;:null,&quot;reason&quot;:&quot;讲义没有解释“百分点”的含义，也没有提供计算百分点变化的方法。&quot;,&quot;lesson_quote&quot;:&quot;百分比就是把整体看成一百份，表示其中有多少份。&quot;},{&quot;id&quot;:&quot;P7&quot;,&quot;answer&quot;:null,&quot;reason&quot;:&quot;取出25%后剩下的是原有重量的75%，但讲义只讲了已知整体求部分，没有讲已知剩余部分和比例怎样反求原有重量。&quot;,&quot;lesson_quote&quot;:&quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;},{&quot;id&quot;:&quot;P8&quot;,&quot;answer&quot;:null,&quot;reason&quot;:&quot;按讲义可算出甲班参加合唱的有30×0.4=12人，乙班有20×0.25=5人，合计17人、总人数50人；但讲义没有讲怎样由部分人数和总人数反求百分比。&quot;,&quot;lesson_quote&quot;:&quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;},{&quot;id&quot;:&quot;P9&quot;,&quot;answer&quot;:null,&quot;reason&quot;:&quot;可以把原来的数设为一个整体，并算出减少后剩下原来的80%，但讲义没有讲以减少后的数量为新整体时，怎样反求恢复所需的增长百分比。&quot;,&quot;lesson_quote&quot;:&quot;做题前，先说清楚哪个量是整体，哪个量是部分，单位是什么。&quot;},{&quot;id&quot;:&quot;P10&quot;,&quot;answer&quot;:null,&quot;reason&quot;:&quot;按讲义可算出糖有150×0.12=18克，加水后总重为200克；但讲义没有讲怎样由糖的重量和新的总重量反求糖所占的百分比。&quot;,&quot;lesson_quote&quot;:&quot;求一个数量的百分之几，可以把整体数量乘以对应的小数。&quot;}]}</pre></div></details><details><summary>第 1 轮 · KEEP</summary><p class='artifact-source'>来源：独立评审目录。正式分数以账本记录和评审结论为准。</p><div class='artifact'><p><a href="rounds/r001/artifacts/files/lesson.md">lesson.md</a></p><pre># 从“以谁为整体”理解百分比
+
+百分比就是把整体看成一百份，表示其中有多少份。百分之二十写成20%，也就是20÷100＝0.2。整体对应100%，一半对应50%。百分比表示两个量的关系，本身不是人数、价格或重量。
+
+做题前，先把“谁占谁的百分之几”说完整：“蓝色彩笔占全部彩笔的20%”中，全部彩笔是整体，蓝色彩笔是部分。比较两个数量时，“甲比乙多百分之几”以乙为整体，因为是在与乙比较。
+
+## 一个关系，三种求法
+
+部分＝整体×比例；已知整体和比例求部分用乘法，已知部分和比例求整体用除法，已知部分和整体求比例也用除法。
+
+比例参与乘除时先换成小数；小数写成百分数时乘100，再加上百分号。例如0.08＝8%，0.6＝60%，1.2＝120%。
+
+**求部分：部分＝整体×比例。** 一盒彩笔有50支，其中20%是蓝色，则蓝色彩笔有50×0.2＝10支。这里50支是整体，10支是部分，20%是比例。另如一本书共80页，读完25%，已读80×0.25＝20页。
+
+**求整体：整体＝部分÷对应的比例。** 一套卡片中有15张动物卡，占全部卡片的30%，则全部有15÷0.3＝50张。因为“全部张数×0.3＝15”，反过来就用15除以0.3。必须让部分与比例对应，不能拿动物卡张数除以其他种类的比例。
+
+**求比例：比例＝部分÷整体，再把所得小数写成百分数。** 例如60人中有18人步行到校，步行比例为18÷60＝0.3＝30%。部分和整体须使用相同单位。若题目要求百分数前的数值，30%对应的数值是30。
+
+## 增长、减少与还原原量
+
+增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。
+
+例如树苗从60棵增至78棵，增加78－60＝18棵，增长率为18÷60＝0.3＝30%。从80棵减至68棵，减少80－68＝12棵，减少率为12÷80＝0.15＝15%。“增加了30%”说的是增加量占原量的30%；“增加到原来的130%”说的是新量占原量的130%。
+
+增长后的新量＝原量×（1＋增长率），减少后的新量＝原量×（1－减少率），式中的变化率用小数表示。例如原有60棵，增加30%后有60×1.3＝78棵。
+
+已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。例如取出原有果汁的40%后剩下21升，剩下的比例是100%－40%＝60%，原有21÷0.6＝35升。不能把剩余量当作原量，再乘40%求取出量。
+
+打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。一件商品打七折后售价56元，原价为56÷0.7＝80元。
+
+## 连续变化：每一步都重新找整体
+
+连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。也可以把原量依次乘上每一步的变化倍数。
+
+例如一件商品原价300元，先涨价20%，再降价20%。第一次以300元为整体，涨后300×1.2＝360元；第二次以360元为整体，降后360×0.8＝288元。合起来是300×1.2×0.8＝288元。虽然两个变化率相同，涨了60元，降了72元，不能相互抵消。
+
+恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。如果只知道减少率而不知道具体数量，可以先假设原量为100，再按相同方法计算。
+
+例如原量减少40%，假设原来是100，减少后为60，恢复需要增加40，恢复所需增长率为40÷60≈66.67%。这与原先的减少率不同，因为两次比较的整体不同。
+
+## 合并或加入东西后，重新计算比例
+
+合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。不能直接平均各群体的百分比，除非各群体的整体数量相等。
+
+例如甲组50人，60%戴眼镜；乙组25人，24%戴眼镜。戴眼镜的共50×0.6＋25×0.24＝30＋6＝36人，合并后共75人，比例为36÷75＝0.48＝48%。
+
+加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。例如盐水中加纯水，盐的重量不变，盐水总重增加。
+
+一杯盐水重250克，盐占8%，盐有250×0.08＝20克；加入150克纯水后，总重为400克，盐仍是20克，含盐比例变成20÷400＝0.05＝5%。
+
+## 百分点与百分比变化
+
+百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。百分点比较的是比例本身的差，不是相对原比例的增长率。
+
+例如通过率由40%升到50%，上升了50－40＝10个百分点；如果问通过率增长了百分之几，则要以原通过率为整体，计算（50%－40%）÷40%＝0.25＝25%。上升10个百分点和增长25%描述的是同一次变化，但含义不同。由50%降到40%时，下降10个百分点，减少率却是（50%－40%）÷50%＝20%。
+
+## 算完怎样检查
+
+先明确题目求的是数量、比例、变化率还是百分点，再写出对应关系，最后计算并写单位。求部分通常应小于或等于整体；用不足100%的部分还原整体，整体应比已知部分大。计算变化率时检查分母是不是变化前的量；遇到连续变化、合并或加水，要检查整体是否已经改变。
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/exercise-results.md">out/exercise-results.md</a></p><pre># 固定练习结果
+
+有依据答对 10/10；纯数值正确率 100.0%。
+
+## P1 基本求部分
+
+一批练习本共240本，其中35%是方格本。方格本有多少本？
+
+学生答案：84 本
+
+学生推导：240本是整体，35%化为0.35。方格本数量为240×0.35＝84本。
+
+讲义依据：求部分：部分＝整体×比例。
+
+固定解答：240×0.35=84。
+
+## P2 还原原量
+
+书店打八折后一本书售价72元。原价是多少元？
+
+学生答案：90 元
+
+学生推导：八折表示售价是原价的80%，即0.8。原价为72÷0.8＝90元。
+
+讲义依据：打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。
+
+固定解答：打八折保留原价的0.8，72÷0.8=90。
+
+## P3 增长率
+
+某社团人数从40人增加到50人。增长率是多少百分比？答案填百分数前的数值。
+
+学生答案：25 %
+
+学生推导：增加人数为50－40＝10人，以原来的40人为整体，增长率为10÷40＝0.25＝25%，所以填25。
+
+讲义依据：增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。
+
+固定解答：增加10人，以原来的40人为基数，10÷40×100=25。
+
+## P4 减少率
+
+一项活动的报名人数由125人减少到100人。减少率是多少百分比？答案填百分数前的数值。
+
+学生答案：20 %
+
+学生推导：减少人数为125－100＝25人，以原来的125人为整体，减少率为25÷125＝0.2＝20%，所以填20。
+
+讲义依据：增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。
+
+固定解答：减少25人，以原来的125人为基数，25÷125×100=20。
+
+## P5 连续变化
+
+一件商品原价200元，先涨价10%，再降价10%。最后价格是多少元？
+
+学生答案：198 元
+
+学生推导：先涨价10%后的价格为200×1.1＝220元；再以220元为整体降价10%，最后价格为220×0.9＝198元。
+
+讲义依据：连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。
+
+固定解答：200×1.1×0.9=198，两个百分比的基数不同。
+
+## P6 百分点
+
+某问卷中支持比例由30%升到42%。上升了多少个百分点？
+
+学生答案：12 个百分点
+
+学生推导：百分点是两个百分数之差，因此上升了42－30＝12个百分点。
+
+讲义依据：百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。
+
+固定解答：42%-30%=12个百分点。
+
+## P7 变化后还原
+
+一袋米取出原有重量的25%后，剩下18千克。原有多少千克？
+
+学生答案：24 千克
+
+学生推导：取出25%后剩下的比例为100%－25%＝75%，即0.75。原有重量为18÷0.75＝24千克。
+
+讲义依据：已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。
+
+固定解答：剩下75%，18÷0.75=24。
+
+## P8 整体变化
+
+甲班有30人，其中40%参加合唱；乙班有20人，其中25%参加合唱。两班合计有多少百分比参加合唱？答案填百分数前的数值。
+
+学生答案：34 %
+
+学生推导：甲班参加合唱的有30×0.4＝12人，乙班有20×0.25＝5人；合计17人，总人数为30＋20＝50人，参加比例为17÷50＝0.34＝34%，所以填34。
+
+讲义依据：合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。
+
+固定解答：人数为12+5=17，整体为50，17÷50×100=34。
+
+## P9 反向变化率
+
+一个数先减少20%后，要回到原来的数，需要在减少后的基础上增加多少百分比？答案填百分数前的数值。
+
+学生答案：25 %
+
+学生推导：假设原数为100，减少20%后为100×0.8＝80；回到100需要增加20，以减少后的80为整体，所需增长率为20÷80＝0.25＝25%，所以填25。
+
+讲义依据：恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。
+
+固定解答：减少后是原量0.8，需增加0.2÷0.8=25%。
+
+## P10 比例与部分
+
+一杯糖水总重150克，其中糖占12%。加入50克水后，糖占总重多少百分比？答案填百分数前的数值。
+
+学生答案：9 %
+
+学生推导：原有糖150×0.12＝18克；加入50克水后，糖仍为18克，总重变为150＋50＝200克，糖的比例为18÷200＝0.09＝9%，所以填9。
+
+讲义依据：加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。
+
+固定解答：糖18克不变，总重200克，18÷200×100=9。
+
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{&quot;讲义有实质内容&quot;: true, &quot;不直接复制测试题&quot;: true}</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/lesson.html">out/lesson.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;title&gt;百分比讲义与练习结果&lt;/title&gt;&lt;style&gt;body{max-width:900px;margin:40px auto;padding:20px;font:17px/1.8 system-ui;color:#17384d}pre{white-space:pre-wrap;font:inherit}section{background:#f3f7fa;padding:24px;margin:20px 0}&lt;/style&gt;&lt;section&gt;&lt;pre&gt;# 从“以谁为整体”理解百分比
+
+百分比就是把整体看成一百份，表示其中有多少份。百分之二十写成20%，也就是20÷100＝0.2。整体对应100%，一半对应50%。百分比表示两个量的关系，本身不是人数、价格或重量。
+
+做题前，先把“谁占谁的百分之几”说完整：“蓝色彩笔占全部彩笔的20%”中，全部彩笔是整体，蓝色彩笔是部分。比较两个数量时，“甲比乙多百分之几”以乙为整体，因为是在与乙比较。
+
+## 一个关系，三种求法
+
+部分＝整体×比例；已知整体和比例求部分用乘法，已知部分和比例求整体用除法，已知部分和整体求比例也用除法。
+
+比例参与乘除时先换成小数；小数写成百分数时乘100，再加上百分号。例如0.08＝8%，0.6＝60%，1.2＝120%。
+
+**求部分：部分＝整体×比例。** 一盒彩笔有50支，其中20%是蓝色，则蓝色彩笔有50×0.2＝10支。这里50支是整体，10支是部分，20%是比例。另如一本书共80页，读完25%，已读80×0.25＝20页。
+
+**求整体：整体＝部分÷对应的比例。** 一套卡片中有15张动物卡，占全部卡片的30%，则全部有15÷0.3＝50张。因为“全部张数×0.3＝15”，反过来就用15除以0.3。必须让部分与比例对应，不能拿动物卡张数除以其他种类的比例。
+
+**求比例：比例＝部分÷整体，再把所得小数写成百分数。** 例如60人中有18人步行到校，步行比例为18÷60＝0.3＝30%。部分和整体须使用相同单位。若题目要求百分数前的数值，30%对应的数值是30。
+
+## 增长、减少与还原原量
+
+增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。
+
+例如树苗从60棵增至78棵，增加78－60＝18棵，增长率为18÷60＝0.3＝30%。从80棵减至68棵，减少80－68＝12棵，减少率为12÷80＝0.15＝15%。“增加了30%”说的是增加量占原量的30%；“增加到原来的130%”说的是新量占原量的130%。
+
+增长后的新量＝原量×（1＋增长率），减少后的新量＝原量×（1－减少率），式中的变化率用小数表示。例如原有60棵，增加30%后有60×1.3＝78棵。
+
+已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。例如取出原有果汁的40%后剩下21升，剩下的比例是100%－40%＝60%，原有21÷0.6＝35升。不能把剩余量当作原量，再乘40%求取出量。
+
+打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。一件商品打七折后售价56元，原价为56÷0.7＝80元。
+
+## 连续变化：每一步都重新找整体
+
+连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。也可以把原量依次乘上每一步的变化倍数。
+
+例如一件商品原价300元，先涨价20%，再降价20%。第一次以300元为整体，涨后300×1.2＝360元；第二次以360元为整体，降后360×0.8＝288元。合起来是300×1.2×0.8＝288元。虽然两个变化率相同，涨了60元，降了72元，不能相互抵消。
+
+恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。如果只知道减少率而不知道具体数量，可以先假设原量为100，再按相同方法计算。
+
+例如原量减少40%，假设原来是100，减少后为60，恢复需要增加40，恢复所需增长率为40÷60≈66.67%。这与原先的减少率不同，因为两次比较的整体不同。
+
+## 合并或加入东西后，重新计算比例
+
+合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。不能直接平均各群体的百分比，除非各群体的整体数量相等。
+
+例如甲组50人，60%戴眼镜；乙组25人，24%戴眼镜。戴眼镜的共50×0.6＋25×0.24＝30＋6＝36人，合并后共75人，比例为36÷75＝0.48＝48%。
+
+加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。例如盐水中加纯水，盐的重量不变，盐水总重增加。
+
+一杯盐水重250克，盐占8%，盐有250×0.08＝20克；加入150克纯水后，总重为400克，盐仍是20克，含盐比例变成20÷400＝0.05＝5%。
+
+## 百分点与百分比变化
+
+百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。百分点比较的是比例本身的差，不是相对原比例的增长率。
+
+例如通过率由40%升到50%，上升了50－40＝10个百分点；如果问通过率增长了百分之几，则要以原通过率为整体，计算（50%－40%）÷40%＝0.25＝25%。上升10个百分点和增长25%描述的是同一次变化，但含义不同。由50%降到40%时，下降10个百分点，减少率却是（50%－40%）÷50%＝20%。
+
+## 算完怎样检查
+
+先明确题目求的是数量、比例、变化率还是百分点，再写出对应关系，最后计算并写单位。求部分通常应小于或等于整体；用不足100%的部分还原整体，整体应比已知部分大。计算变化率时检查分母是不是变化前的量；遇到连续变化、合并或加水，要检查整体是否已经改变。
+&lt;/pre&gt;&lt;/section&gt;&lt;section&gt;&lt;pre&gt;# 固定练习结果
+
+有依据答对 10/10；纯数值正确率 100.0%。
+
+## P1 基本求部分
+
+一批练习本共240本，其中35%是方格本。方格本有多少本？
+
+学生答案：84 本
+
+学生推导：240本是整体，35%化为0.35。方格本数量为240×0.35＝84本。
+
+讲义依据：求部分：部分＝整体×比例。
+
+固定解答：240×0.35=84。
+
+## P2 还原原量
+
+书店打八折后一本书售价72元。原价是多少元？
+
+学生答案：90 元
+
+学生推导：八折表示售价是原价的80%，即0.8。原价为72÷0.8＝90元。
+
+讲义依据：打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。
+
+固定解答：打八折保留原价的0.8，72÷0.8=90。
+
+## P3 增长率
+
+某社团人数从40人增加到50人。增长率是多少百分比？答案填百分数前的数值。
+
+学生答案：25 %
+
+学生推导：增加人数为50－40＝10人，以原来的40人为整体，增长率为10÷40＝0.25＝25%，所以填25。
+
+讲义依据：增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。
+
+固定解答：增加10人，以原来的40人为基数，10÷40×100=25。
+
+## P4 减少率
+
+一项活动的报名人数由125人减少到100人。减少率是多少百分比？答案填百分数前的数值。
+
+学生答案：20 %
+
+学生推导：减少人数为125－100＝25人，以原来的125人为整体，减少率为25÷125＝0.2＝20%，所以填20。
+
+讲义依据：增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。
+
+固定解答：减少25人，以原来的125人为基数，25÷125×100=20。
+
+## P5 连续变化
+
+一件商品原价200元，先涨价10%，再降价10%。最后价格是多少元？
+
+学生答案：198 元
+
+学生推导：先涨价10%后的价格为200×1.1＝220元；再以220元为整体降价10%，最后价格为220×0.9＝198元。
+
+讲义依据：连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。
+
+固定解答：200×1.1×0.9=198，两个百分比的基数不同。
+
+## P6 百分点
+
+某问卷中支持比例由30%升到42%。上升了多少个百分点？
+
+学生答案：12 个百分点
+
+学生推导：百分点是两个百分数之差，因此上升了42－30＝12个百分点。
+
+讲义依据：百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。
+
+固定解答：42%-30%=12个百分点。
+
+## P7 变化后还原
+
+一袋米取出原有重量的25%后，剩下18千克。原有多少千克？
+
+学生答案：24 千克
+
+学生推导：取出25%后剩下的比例为100%－25%＝75%，即0.75。原有重量为18÷0.75＝24千克。
+
+讲义依据：已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。
+
+固定解答：剩下75%，18÷0.75=24。
+
+## P8 整体变化
+
+甲班有30人，其中40%参加合唱；乙班有20人，其中25%参加合唱。两班合计有多少百分比参加合唱？答案填百分数前的数值。
+
+学生答案：34 %
+
+学生推导：甲班参加合唱的有30×0.4＝12人，乙班有20×0.25＝5人；合计17人，总人数为30＋20＝50人，参加比例为17÷50＝0.34＝34%，所以填34。
+
+讲义依据：合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。
+
+固定解答：人数为12+5=17，整体为50，17÷50×100=34。
+
+## P9 反向变化率
+
+一个数先减少20%后，要回到原来的数，需要在减少后的基础上增加多少百分比？答案填百分数前的数值。
+
+学生答案：25 %
+
+学生推导：假设原数为100，减少20%后为100×0.8＝80；回到100需要增加20，以减少后的80为整体，所需增长率为20÷80＝0.25＝25%，所以填25。
+
+讲义依据：恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。
+
+固定解答：减少后是原量0.8，需增加0.2÷0.8=25%。
+
+## P10 比例与部分
+
+一杯糖水总重150克，其中糖占12%。加入50克水后，糖占总重多少百分比？答案填百分数前的数值。
+
+学生答案：9 %
+
+学生推导：原有糖150×0.12＝18克；加入50克水后，糖仍为18克，总重变为150＋50＝200克，糖的比例为18÷200＝0.09＝9%，所以填9。
+
+讲义依据：加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。
+
+固定解答：糖18克不变，总重200克，18÷200×100=9。
+
+&lt;/pre&gt;&lt;/section&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/lesson.md">out/lesson.md</a></p><pre># 从“以谁为整体”理解百分比
+
+百分比就是把整体看成一百份，表示其中有多少份。百分之二十写成20%，也就是20÷100＝0.2。整体对应100%，一半对应50%。百分比表示两个量的关系，本身不是人数、价格或重量。
+
+做题前，先把“谁占谁的百分之几”说完整：“蓝色彩笔占全部彩笔的20%”中，全部彩笔是整体，蓝色彩笔是部分。比较两个数量时，“甲比乙多百分之几”以乙为整体，因为是在与乙比较。
+
+## 一个关系，三种求法
+
+部分＝整体×比例；已知整体和比例求部分用乘法，已知部分和比例求整体用除法，已知部分和整体求比例也用除法。
+
+比例参与乘除时先换成小数；小数写成百分数时乘100，再加上百分号。例如0.08＝8%，0.6＝60%，1.2＝120%。
+
+**求部分：部分＝整体×比例。** 一盒彩笔有50支，其中20%是蓝色，则蓝色彩笔有50×0.2＝10支。这里50支是整体，10支是部分，20%是比例。另如一本书共80页，读完25%，已读80×0.25＝20页。
+
+**求整体：整体＝部分÷对应的比例。** 一套卡片中有15张动物卡，占全部卡片的30%，则全部有15÷0.3＝50张。因为“全部张数×0.3＝15”，反过来就用15除以0.3。必须让部分与比例对应，不能拿动物卡张数除以其他种类的比例。
+
+**求比例：比例＝部分÷整体，再把所得小数写成百分数。** 例如60人中有18人步行到校，步行比例为18÷60＝0.3＝30%。部分和整体须使用相同单位。若题目要求百分数前的数值，30%对应的数值是30。
+
+## 增长、减少与还原原量
+
+增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。
+
+例如树苗从60棵增至78棵，增加78－60＝18棵，增长率为18÷60＝0.3＝30%。从80棵减至68棵，减少80－68＝12棵，减少率为12÷80＝0.15＝15%。“增加了30%”说的是增加量占原量的30%；“增加到原来的130%”说的是新量占原量的130%。
+
+增长后的新量＝原量×（1＋增长率），减少后的新量＝原量×（1－减少率），式中的变化率用小数表示。例如原有60棵，增加30%后有60×1.3＝78棵。
+
+已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。例如取出原有果汁的40%后剩下21升，剩下的比例是100%－40%＝60%，原有21÷0.6＝35升。不能把剩余量当作原量，再乘40%求取出量。
+
+打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。一件商品打七折后售价56元，原价为56÷0.7＝80元。
+
+## 连续变化：每一步都重新找整体
+
+连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。也可以把原量依次乘上每一步的变化倍数。
+
+例如一件商品原价300元，先涨价20%，再降价20%。第一次以300元为整体，涨后300×1.2＝360元；第二次以360元为整体，降后360×0.8＝288元。合起来是300×1.2×0.8＝288元。虽然两个变化率相同，涨了60元，降了72元，不能相互抵消。
+
+恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。如果只知道减少率而不知道具体数量，可以先假设原量为100，再按相同方法计算。
+
+例如原量减少40%，假设原来是100，减少后为60，恢复需要增加40，恢复所需增长率为40÷60≈66.67%。这与原先的减少率不同，因为两次比较的整体不同。
+
+## 合并或加入东西后，重新计算比例
+
+合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。不能直接平均各群体的百分比，除非各群体的整体数量相等。
+
+例如甲组50人，60%戴眼镜；乙组25人，24%戴眼镜。戴眼镜的共50×0.6＋25×0.24＝30＋6＝36人，合并后共75人，比例为36÷75＝0.48＝48%。
+
+加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。例如盐水中加纯水，盐的重量不变，盐水总重增加。
+
+一杯盐水重250克，盐占8%，盐有250×0.08＝20克；加入150克纯水后，总重为400克，盐仍是20克，含盐比例变成20÷400＝0.05＝5%。
+
+## 百分点与百分比变化
+
+百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。百分点比较的是比例本身的差，不是相对原比例的增长率。
+
+例如通过率由40%升到50%，上升了50－40＝10个百分点；如果问通过率增长了百分之几，则要以原通过率为整体，计算（50%－40%）÷40%＝0.25＝25%。上升10个百分点和增长25%描述的是同一次变化，但含义不同。由50%降到40%时，下降10个百分点，减少率却是（50%－40%）÷50%＝20%。
+
+## 算完怎样检查
+
+先明确题目求的是数量、比例、变化率还是百分点，再写出对应关系，最后计算并写单位。求部分通常应小于或等于整体；用不足100%的部分还原整体，整体应比已知部分大。计算变化率时检查分母是不是变化前的量；遇到连续变化、合并或加水，要检查整体是否已经改变。
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/mistakes.json">out/mistakes.json</a></p><pre>[]</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/results.json">out/results.json</a></p><pre>{
+  &quot;score&quot;: 100.0,
+  &quot;numeric_accuracy&quot;: 100.0,
+  &quot;correct&quot;: 10,
+  &quot;total&quot;: 10,
+  &quot;answers&quot;: [
+    {
+      &quot;id&quot;: &quot;P1&quot;,
+      &quot;topic&quot;: &quot;基本求部分&quot;,
+      &quot;question&quot;: &quot;一批练习本共240本，其中35%是方格本。方格本有多少本？&quot;,
+      &quot;expected&quot;: 84,
+      &quot;unit&quot;: &quot;本&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;240×0.35=84。&quot;,
+      &quot;answer&quot;: 84,
+      &quot;reason&quot;: &quot;240本是整体，35%化为0.35。方格本数量为240×0.35＝84本。&quot;,
+      &quot;lesson_quote&quot;: &quot;求部分：部分＝整体×比例。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P2&quot;,
+      &quot;topic&quot;: &quot;还原原量&quot;,
+      &quot;question&quot;: &quot;书店打八折后一本书售价72元。原价是多少元？&quot;,
+      &quot;expected&quot;: 90,
+      &quot;unit&quot;: &quot;元&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;打八折保留原价的0.8，72÷0.8=90。&quot;,
+      &quot;answer&quot;: 90,
+      &quot;reason&quot;: &quot;八折表示售价是原价的80%，即0.8。原价为72÷0.8＝90元。&quot;,
+      &quot;lesson_quote&quot;: &quot;打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P3&quot;,
+      &quot;topic&quot;: &quot;增长率&quot;,
+      &quot;question&quot;: &quot;某社团人数从40人增加到50人。增长率是多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 25,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;增加10人，以原来的40人为基数，10÷40×100=25。&quot;,
+      &quot;answer&quot;: 25,
+      &quot;reason&quot;: &quot;增加人数为50－40＝10人，以原来的40人为整体，增长率为10÷40＝0.25＝25%，所以填25。&quot;,
+      &quot;lesson_quote&quot;: &quot;增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P4&quot;,
+      &quot;topic&quot;: &quot;减少率&quot;,
+      &quot;question&quot;: &quot;一项活动的报名人数由125人减少到100人。减少率是多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 20,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;减少25人，以原来的125人为基数，25÷125×100=20。&quot;,
+      &quot;answer&quot;: 20,
+      &quot;reason&quot;: &quot;减少人数为125－100＝25人，以原来的125人为整体，减少率为25÷125＝0.2＝20%，所以填20。&quot;,
+      &quot;lesson_quote&quot;: &quot;增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P5&quot;,
+      &quot;topic&quot;: &quot;连续变化&quot;,
+      &quot;question&quot;: &quot;一件商品原价200元，先涨价10%，再降价10%。最后价格是多少元？&quot;,
+      &quot;expected&quot;: 198,
+      &quot;unit&quot;: &quot;元&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;200×1.1×0.9=198，两个百分比的基数不同。&quot;,
+      &quot;answer&quot;: 198,
+      &quot;reason&quot;: &quot;先涨价10%后的价格为200×1.1＝220元；再以220元为整体降价10%，最后价格为220×0.9＝198元。&quot;,
+      &quot;lesson_quote&quot;: &quot;连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P6&quot;,
+      &quot;topic&quot;: &quot;百分点&quot;,
+      &quot;question&quot;: &quot;某问卷中支持比例由30%升到42%。上升了多少个百分点？&quot;,
+      &quot;expected&quot;: 12,
+      &quot;unit&quot;: &quot;个百分点&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;42%-30%=12个百分点。&quot;,
+      &quot;answer&quot;: 12,
+      &quot;reason&quot;: &quot;百分点是两个百分数之差，因此上升了42－30＝12个百分点。&quot;,
+      &quot;lesson_quote&quot;: &quot;百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P7&quot;,
+      &quot;topic&quot;: &quot;变化后还原&quot;,
+      &quot;question&quot;: &quot;一袋米取出原有重量的25%后，剩下18千克。原有多少千克？&quot;,
+      &quot;expected&quot;: 24,
+      &quot;unit&quot;: &quot;千克&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;剩下75%，18÷0.75=24。&quot;,
+      &quot;answer&quot;: 24,
+      &quot;reason&quot;: &quot;取出25%后剩下的比例为100%－25%＝75%，即0.75。原有重量为18÷0.75＝24千克。&quot;,
+      &quot;lesson_quote&quot;: &quot;已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P8&quot;,
+      &quot;topic&quot;: &quot;整体变化&quot;,
+      &quot;question&quot;: &quot;甲班有30人，其中40%参加合唱；乙班有20人，其中25%参加合唱。两班合计有多少百分比参加合唱？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 34,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;人数为12+5=17，整体为50，17÷50×100=34。&quot;,
+      &quot;answer&quot;: 34,
+      &quot;reason&quot;: &quot;甲班参加合唱的有30×0.4＝12人，乙班有20×0.25＝5人；合计17人，总人数为30＋20＝50人，参加比例为17÷50＝0.34＝34%，所以填34。&quot;,
+      &quot;lesson_quote&quot;: &quot;合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P9&quot;,
+      &quot;topic&quot;: &quot;反向变化率&quot;,
+      &quot;question&quot;: &quot;一个数先减少20%后，要回到原来的数，需要在减少后的基础上增加多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 25,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;减少后是原量0.8，需增加0.2÷0.8=25%。&quot;,
+      &quot;answer&quot;: 25,
+      &quot;reason&quot;: &quot;假设原数为100，减少20%后为100×0.8＝80；回到100需要增加20，以减少后的80为整体，所需增长率为20÷80＝0.25＝25%，所以填25。&quot;,
+      &quot;lesson_quote&quot;: &quot;恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P10&quot;,
+      &quot;topic&quot;: &quot;比例与部分&quot;,
+      &quot;question&quot;: &quot;一杯糖水总重150克，其中糖占12%。加入50克水后，糖占总重多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 9,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;糖18克不变，总重200克，18÷200×100=9。&quot;,
+      &quot;answer&quot;: 9,
+      &quot;reason&quot;: &quot;原有糖150×0.12＝18克；加入50克水后，糖仍为18克，总重变为150＋50＝200克，糖的比例为18÷200＝0.09＝9%，所以填9。&quot;,
+      &quot;lesson_quote&quot;: &quot;加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    }
+  ],
+  &quot;requested_model&quot;: &quot;cli:codex:gpt-5.6-sol&quot;,
+  &quot;actual_model&quot;: null,
+  &quot;usage&quot;: {
+    &quot;input_tokens&quot;: 17497,
+    &quot;cached_input_tokens&quot;: 11264,
+    &quot;cache_write_input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 902,
+    &quot;reasoning_output_tokens&quot;: 53
+  },
+  &quot;seconds&quot;: 17.967617875000002,
+  &quot;cost_usd&quot;: null,
+  &quot;scope&quot;: &quot;受限模型依据讲义作答；不是人类学习效果，原句匹配不证明语义支持。&quot;
+}</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/student-response.txt">out/student-response.txt</a></p><pre>{&quot;answers&quot;:[{&quot;id&quot;:&quot;P1&quot;,&quot;answer&quot;:84,&quot;reason&quot;:&quot;240本是整体，35%化为0.35。方格本数量为240×0.35＝84本。&quot;,&quot;lesson_quote&quot;:&quot;求部分：部分＝整体×比例。&quot;},{&quot;id&quot;:&quot;P2&quot;,&quot;answer&quot;:90,&quot;reason&quot;:&quot;八折表示售价是原价的80%，即0.8。原价为72÷0.8＝90元。&quot;,&quot;lesson_quote&quot;:&quot;打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。&quot;},{&quot;id&quot;:&quot;P3&quot;,&quot;answer&quot;:25,&quot;reason&quot;:&quot;增加人数为50－40＝10人，以原来的40人为整体，增长率为10÷40＝0.25＝25%，所以填25。&quot;,&quot;lesson_quote&quot;:&quot;增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。&quot;},{&quot;id&quot;:&quot;P4&quot;,&quot;answer&quot;:20,&quot;reason&quot;:&quot;减少人数为125－100＝25人，以原来的125人为整体，减少率为25÷125＝0.2＝20%，所以填20。&quot;,&quot;lesson_quote&quot;:&quot;增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。&quot;},{&quot;id&quot;:&quot;P5&quot;,&quot;answer&quot;:198,&quot;reason&quot;:&quot;先涨价10%后的价格为200×1.1＝220元；再以220元为整体降价10%，最后价格为220×0.9＝198元。&quot;,&quot;lesson_quote&quot;:&quot;连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。&quot;},{&quot;id&quot;:&quot;P6&quot;,&quot;answer&quot;:12,&quot;reason&quot;:&quot;百分点是两个百分数之差，因此上升了42－30＝12个百分点。&quot;,&quot;lesson_quote&quot;:&quot;百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。&quot;},{&quot;id&quot;:&quot;P7&quot;,&quot;answer&quot;:24,&quot;reason&quot;:&quot;取出25%后剩下的比例为100%－25%＝75%，即0.75。原有重量为18÷0.75＝24千克。&quot;,&quot;lesson_quote&quot;:&quot;已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。&quot;},{&quot;id&quot;:&quot;P8&quot;,&quot;answer&quot;:34,&quot;reason&quot;:&quot;甲班参加合唱的有30×0.4＝12人，乙班有20×0.25＝5人；合计17人，总人数为30＋20＝50人，参加比例为17÷50＝0.34＝34%，所以填34。&quot;,&quot;lesson_quote&quot;:&quot;合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。&quot;},{&quot;id&quot;:&quot;P9&quot;,&quot;answer&quot;:25,&quot;reason&quot;:&quot;假设原数为100，减少20%后为100×0.8＝80；回到100需要增加20，以减少后的80为整体，所需增长率为20÷80＝0.25＝25%，所以填25。&quot;,&quot;lesson_quote&quot;:&quot;恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。&quot;},{&quot;id&quot;:&quot;P10&quot;,&quot;answer&quot;:9,&quot;reason&quot;:&quot;原有糖150×0.12＝18克；加入50克水后，糖仍为18克，总重变为150＋50＝200克，糖的比例为18÷200＝0.09＝9%，所以填9。&quot;,&quot;lesson_quote&quot;:&quot;加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。&quot;}]}</pre></div></details><details><summary>第 2 轮 · REVERT</summary><p class='artifact-source'>来源：独立评审目录。正式分数以账本记录和评审结论为准。</p><div class='artifact'><p><a href="rounds/r002/artifacts/files/lesson.md">lesson.md</a></p><pre># 从“以谁为整体”理解百分比
+
+百分比就是把整体看成一百份，表示其中有多少份。百分之二十写成20%，也就是20÷100＝0.2。整体对应100%，一半对应50%。百分比表示两个量的关系，本身不是人数、价格或重量。
+
+做题前，先把“谁占谁的百分之几”说完整：“蓝色彩笔占全部彩笔的20%”中，全部彩笔是整体，蓝色彩笔是部分。比较两个数量时，“甲比乙多百分之几”以乙为整体，因为是在与乙比较。
+
+## 一个关系，三种求法
+
+部分＝整体×比例；已知整体和比例求部分用乘法，已知部分和比例求整体用除法，已知部分和整体求比例也用除法。
+
+比例参与乘除时先换成小数；小数写成百分数时乘100，再加上百分号。例如0.08＝8%，0.6＝60%，1.2＝120%。
+
+**求部分：部分＝整体×比例。** 一盒彩笔有50支，其中20%是蓝色，则蓝色彩笔有50×0.2＝10支。这里50支是整体，10支是部分，20%是比例。另如一本书共80页，读完25%，已读80×0.25＝20页。
+
+**求整体：整体＝部分÷对应的比例。** 一套卡片中有15张动物卡，占全部卡片的30%，则全部有15÷0.3＝50张。因为“全部张数×0.3＝15”，反过来就用15除以0.3。必须让部分与比例对应，不能拿动物卡张数除以其他种类的比例。
+
+**求比例：比例＝部分÷整体，再把所得小数写成百分数。** 例如60人中有18人步行到校，步行比例为18÷60＝0.3＝30%。部分和整体须使用相同单位。若题目要求百分数前的数值，30%对应的数值是30。
+
+## 增长、减少与还原原量
+
+增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。
+
+例如树苗从60棵增至78棵，增加78－60＝18棵，增长率为18÷60＝0.3＝30%。从80棵减至68棵，减少80－68＝12棵，减少率为12÷80＝0.15＝15%。“增加了30%”说的是增加量占原量的30%；“增加到原来的130%”说的是新量占原量的130%。
+
+增长后的新量＝原量×（1＋增长率），减少后的新量＝原量×（1－减少率），式中的变化率用小数表示。例如原有60棵，增加30%后有60×1.3＝78棵。
+
+已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。例如取出原有果汁的40%后剩下21升，剩下的比例是100%－40%＝60%，原有21÷0.6＝35升。不能把剩余量当作原量，再乘40%求取出量。
+
+打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。一件商品打七折后售价56元，原价为56÷0.7＝80元。
+
+## 连续变化：每一步都重新找整体
+
+连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。也可以把原量依次乘上每一步的变化倍数。
+
+例如一件商品原价300元，先涨价20%，再降价20%。第一次以300元为整体，涨后300×1.2＝360元；第二次以360元为整体，降后360×0.8＝288元。合起来是300×1.2×0.8＝288元。虽然两个变化率相同，涨了60元，降了72元，不能相互抵消。
+
+求连续变化后的总变化率，先把各步的变化倍数相乘，得到最终量与原量的比值。乘积大于1时，总增长率＝乘积－1；乘积小于1时，总减少率＝1－乘积；乘积等于1时，最终量等于原量。上例中1.2×0.8＝0.96，表示最终价格是原价的96%，所以总共降价4%；也可用（300－288）÷300＝4%检查。总变化率以最初的原量为整体，不能直接把各步的百分比相加减。
+
+恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。如果只知道减少率而不知道具体数量，可以先假设原量为100，再按相同方法计算。
+
+例如原量减少40%，假设原来是100，减少后为60，恢复需要增加40，恢复所需增长率为40÷60≈66.67%。这与原先的减少率不同，因为两次比较的整体不同。
+
+## 合并或加入东西后，重新计算比例
+
+合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。不能直接平均各群体的百分比，除非各群体的整体数量相等。
+
+例如甲组50人，60%戴眼镜；乙组25人，24%戴眼镜。戴眼镜的共50×0.6＋25×0.24＝30＋6＝36人，合并后共75人，比例为36÷75＝0.48＝48%。
+
+加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。例如盐水中加纯水，盐的重量不变，盐水总重增加。
+
+一杯盐水重250克，盐占8%，盐有250×0.08＝20克；加入150克纯水后，总重为400克，盐仍是20克，含盐比例变成20÷400＝0.05＝5%。
+
+## 百分点与百分比变化
+
+百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。百分点比较的是比例本身的差，不是相对原比例的增长率。
+
+例如通过率由40%升到50%，上升了50－40＝10个百分点；如果问通过率增长了百分之几，则要以原通过率为整体，计算（50%－40%）÷40%＝0.25＝25%。上升10个百分点和增长25%描述的是同一次变化，但含义不同。由50%降到40%时，下降10个百分点，减少率却是（50%－40%）÷50%＝20%。
+
+## 算完怎样检查
+
+先明确题目求的是数量、比例、变化率还是百分点，再写出对应关系，最后计算并写单位。求部分通常应小于或等于整体；用不足100%的部分还原整体，整体应比已知部分大。计算变化率时检查分母是不是变化前的量；遇到连续变化、合并或加水，要检查整体是否已经改变。
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/exercise-results.md">out/exercise-results.md</a></p><pre># 固定练习结果
+
+有依据答对 10/10；纯数值正确率 100.0%。
+
+## P1 基本求部分
+
+一批练习本共240本，其中35%是方格本。方格本有多少本？
+
+学生答案：84 本
+
+学生推导：240本是整体，35%换成小数0.35。方格本数量为240×0.35＝84本。
+
+讲义依据：求部分：部分＝整体×比例。
+
+固定解答：240×0.35=84。
+
+## P2 还原原量
+
+书店打八折后一本书售价72元。原价是多少元？
+
+学生答案：90 元
+
+学生推导：八折表示售价是原价的80%，即0.8。原价为72÷0.8＝90元。
+
+讲义依据：一件商品打七折后售价56元，原价为56÷0.7＝80元。
+
+固定解答：打八折保留原价的0.8，72÷0.8=90。
+
+## P3 增长率
+
+某社团人数从40人增加到50人。增长率是多少百分比？答案填百分数前的数值。
+
+学生答案：25 %
+
+学生推导：增加人数为50－40＝10人，以原来的40人为整体，增长率为10÷40＝0.25＝25%，所以填25。
+
+讲义依据：增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。
+
+固定解答：增加10人，以原来的40人为基数，10÷40×100=25。
+
+## P4 减少率
+
+一项活动的报名人数由125人减少到100人。减少率是多少百分比？答案填百分数前的数值。
+
+学生答案：20 %
+
+学生推导：减少人数为125－100＝25人，以原来的125人为整体，减少率为25÷125＝0.2＝20%，所以填20。
+
+讲义依据：增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。
+
+固定解答：减少25人，以原来的125人为基数，25÷125×100=20。
+
+## P5 连续变化
+
+一件商品原价200元，先涨价10%，再降价10%。最后价格是多少元？
+
+学生答案：198 元
+
+学生推导：先涨价10%后的价格为200×1.1＝220元；再以220元为整体降价10%，最后价格为220×0.9＝198元。
+
+讲义依据：连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。
+
+固定解答：200×1.1×0.9=198，两个百分比的基数不同。
+
+## P6 百分点
+
+某问卷中支持比例由30%升到42%。上升了多少个百分点？
+
+学生答案：12 个百分点
+
+学生推导：百分点是两个百分数之差，42－30＝12，因此上升了12个百分点。
+
+讲义依据：百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。
+
+固定解答：42%-30%=12个百分点。
+
+## P7 变化后还原
+
+一袋米取出原有重量的25%后，剩下18千克。原有多少千克？
+
+学生答案：24 千克
+
+学生推导：取出25%后剩下的比例为100%－25%＝75%，即0.75。原有重量为18÷0.75＝24千克。
+
+讲义依据：已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。
+
+固定解答：剩下75%，18÷0.75=24。
+
+## P8 整体变化
+
+甲班有30人，其中40%参加合唱；乙班有20人，其中25%参加合唱。两班合计有多少百分比参加合唱？答案填百分数前的数值。
+
+学生答案：34 %
+
+学生推导：甲班参加合唱的有30×0.4＝12人，乙班有20×0.25＝5人；合计17人，总人数为30＋20＝50人，参加比例为17÷50＝0.34＝34%，所以填34。
+
+讲义依据：合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。
+
+固定解答：人数为12+5=17，整体为50，17÷50×100=34。
+
+## P9 反向变化率
+
+一个数先减少20%后，要回到原来的数，需要在减少后的基础上增加多少百分比？答案填百分数前的数值。
+
+学生答案：25 %
+
+学生推导：假设原数为100，减少20%后为100×0.8＝80。回到100需要增加20，以减少后的80为整体，所需增长率为20÷80＝0.25＝25%，所以填25。
+
+讲义依据：恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。
+
+固定解答：减少后是原量0.8，需增加0.2÷0.8=25%。
+
+## P10 比例与部分
+
+一杯糖水总重150克，其中糖占12%。加入50克水后，糖占总重多少百分比？答案填百分数前的数值。
+
+学生答案：9 %
+
+学生推导：原有糖150×0.12＝18克。加入50克水后，糖仍为18克，总重变为150＋50＝200克，糖的比例为18÷200＝0.09＝9%，所以填9。
+
+讲义依据：加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。
+
+固定解答：糖18克不变，总重200克，18÷200×100=9。
+
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{&quot;讲义有实质内容&quot;: true, &quot;不直接复制测试题&quot;: true}</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/lesson.html">out/lesson.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;title&gt;百分比讲义与练习结果&lt;/title&gt;&lt;style&gt;body{max-width:900px;margin:40px auto;padding:20px;font:17px/1.8 system-ui;color:#17384d}pre{white-space:pre-wrap;font:inherit}section{background:#f3f7fa;padding:24px;margin:20px 0}&lt;/style&gt;&lt;section&gt;&lt;pre&gt;# 从“以谁为整体”理解百分比
+
+百分比就是把整体看成一百份，表示其中有多少份。百分之二十写成20%，也就是20÷100＝0.2。整体对应100%，一半对应50%。百分比表示两个量的关系，本身不是人数、价格或重量。
+
+做题前，先把“谁占谁的百分之几”说完整：“蓝色彩笔占全部彩笔的20%”中，全部彩笔是整体，蓝色彩笔是部分。比较两个数量时，“甲比乙多百分之几”以乙为整体，因为是在与乙比较。
+
+## 一个关系，三种求法
+
+部分＝整体×比例；已知整体和比例求部分用乘法，已知部分和比例求整体用除法，已知部分和整体求比例也用除法。
+
+比例参与乘除时先换成小数；小数写成百分数时乘100，再加上百分号。例如0.08＝8%，0.6＝60%，1.2＝120%。
+
+**求部分：部分＝整体×比例。** 一盒彩笔有50支，其中20%是蓝色，则蓝色彩笔有50×0.2＝10支。这里50支是整体，10支是部分，20%是比例。另如一本书共80页，读完25%，已读80×0.25＝20页。
+
+**求整体：整体＝部分÷对应的比例。** 一套卡片中有15张动物卡，占全部卡片的30%，则全部有15÷0.3＝50张。因为“全部张数×0.3＝15”，反过来就用15除以0.3。必须让部分与比例对应，不能拿动物卡张数除以其他种类的比例。
+
+**求比例：比例＝部分÷整体，再把所得小数写成百分数。** 例如60人中有18人步行到校，步行比例为18÷60＝0.3＝30%。部分和整体须使用相同单位。若题目要求百分数前的数值，30%对应的数值是30。
+
+## 增长、减少与还原原量
+
+增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。
+
+例如树苗从60棵增至78棵，增加78－60＝18棵，增长率为18÷60＝0.3＝30%。从80棵减至68棵，减少80－68＝12棵，减少率为12÷80＝0.15＝15%。“增加了30%”说的是增加量占原量的30%；“增加到原来的130%”说的是新量占原量的130%。
+
+增长后的新量＝原量×（1＋增长率），减少后的新量＝原量×（1－减少率），式中的变化率用小数表示。例如原有60棵，增加30%后有60×1.3＝78棵。
+
+已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。例如取出原有果汁的40%后剩下21升，剩下的比例是100%－40%＝60%，原有21÷0.6＝35升。不能把剩余量当作原量，再乘40%求取出量。
+
+打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。一件商品打七折后售价56元，原价为56÷0.7＝80元。
+
+## 连续变化：每一步都重新找整体
+
+连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。也可以把原量依次乘上每一步的变化倍数。
+
+例如一件商品原价300元，先涨价20%，再降价20%。第一次以300元为整体，涨后300×1.2＝360元；第二次以360元为整体，降后360×0.8＝288元。合起来是300×1.2×0.8＝288元。虽然两个变化率相同，涨了60元，降了72元，不能相互抵消。
+
+求连续变化后的总变化率，先把各步的变化倍数相乘，得到最终量与原量的比值。乘积大于1时，总增长率＝乘积－1；乘积小于1时，总减少率＝1－乘积；乘积等于1时，最终量等于原量。上例中1.2×0.8＝0.96，表示最终价格是原价的96%，所以总共降价4%；也可用（300－288）÷300＝4%检查。总变化率以最初的原量为整体，不能直接把各步的百分比相加减。
+
+恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。如果只知道减少率而不知道具体数量，可以先假设原量为100，再按相同方法计算。
+
+例如原量减少40%，假设原来是100，减少后为60，恢复需要增加40，恢复所需增长率为40÷60≈66.67%。这与原先的减少率不同，因为两次比较的整体不同。
+
+## 合并或加入东西后，重新计算比例
+
+合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。不能直接平均各群体的百分比，除非各群体的整体数量相等。
+
+例如甲组50人，60%戴眼镜；乙组25人，24%戴眼镜。戴眼镜的共50×0.6＋25×0.24＝30＋6＝36人，合并后共75人，比例为36÷75＝0.48＝48%。
+
+加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。例如盐水中加纯水，盐的重量不变，盐水总重增加。
+
+一杯盐水重250克，盐占8%，盐有250×0.08＝20克；加入150克纯水后，总重为400克，盐仍是20克，含盐比例变成20÷400＝0.05＝5%。
+
+## 百分点与百分比变化
+
+百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。百分点比较的是比例本身的差，不是相对原比例的增长率。
+
+例如通过率由40%升到50%，上升了50－40＝10个百分点；如果问通过率增长了百分之几，则要以原通过率为整体，计算（50%－40%）÷40%＝0.25＝25%。上升10个百分点和增长25%描述的是同一次变化，但含义不同。由50%降到40%时，下降10个百分点，减少率却是（50%－40%）÷50%＝20%。
+
+## 算完怎样检查
+
+先明确题目求的是数量、比例、变化率还是百分点，再写出对应关系，最后计算并写单位。求部分通常应小于或等于整体；用不足100%的部分还原整体，整体应比已知部分大。计算变化率时检查分母是不是变化前的量；遇到连续变化、合并或加水，要检查整体是否已经改变。
+&lt;/pre&gt;&lt;/section&gt;&lt;section&gt;&lt;pre&gt;# 固定练习结果
+
+有依据答对 10/10；纯数值正确率 100.0%。
+
+## P1 基本求部分
+
+一批练习本共240本，其中35%是方格本。方格本有多少本？
+
+学生答案：84 本
+
+学生推导：240本是整体，35%换成小数0.35。方格本数量为240×0.35＝84本。
+
+讲义依据：求部分：部分＝整体×比例。
+
+固定解答：240×0.35=84。
+
+## P2 还原原量
+
+书店打八折后一本书售价72元。原价是多少元？
+
+学生答案：90 元
+
+学生推导：八折表示售价是原价的80%，即0.8。原价为72÷0.8＝90元。
+
+讲义依据：一件商品打七折后售价56元，原价为56÷0.7＝80元。
+
+固定解答：打八折保留原价的0.8，72÷0.8=90。
+
+## P3 增长率
+
+某社团人数从40人增加到50人。增长率是多少百分比？答案填百分数前的数值。
+
+学生答案：25 %
+
+学生推导：增加人数为50－40＝10人，以原来的40人为整体，增长率为10÷40＝0.25＝25%，所以填25。
+
+讲义依据：增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。
+
+固定解答：增加10人，以原来的40人为基数，10÷40×100=25。
+
+## P4 减少率
+
+一项活动的报名人数由125人减少到100人。减少率是多少百分比？答案填百分数前的数值。
+
+学生答案：20 %
+
+学生推导：减少人数为125－100＝25人，以原来的125人为整体，减少率为25÷125＝0.2＝20%，所以填20。
+
+讲义依据：增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。
+
+固定解答：减少25人，以原来的125人为基数，25÷125×100=20。
+
+## P5 连续变化
+
+一件商品原价200元，先涨价10%，再降价10%。最后价格是多少元？
+
+学生答案：198 元
+
+学生推导：先涨价10%后的价格为200×1.1＝220元；再以220元为整体降价10%，最后价格为220×0.9＝198元。
+
+讲义依据：连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。
+
+固定解答：200×1.1×0.9=198，两个百分比的基数不同。
+
+## P6 百分点
+
+某问卷中支持比例由30%升到42%。上升了多少个百分点？
+
+学生答案：12 个百分点
+
+学生推导：百分点是两个百分数之差，42－30＝12，因此上升了12个百分点。
+
+讲义依据：百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。
+
+固定解答：42%-30%=12个百分点。
+
+## P7 变化后还原
+
+一袋米取出原有重量的25%后，剩下18千克。原有多少千克？
+
+学生答案：24 千克
+
+学生推导：取出25%后剩下的比例为100%－25%＝75%，即0.75。原有重量为18÷0.75＝24千克。
+
+讲义依据：已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。
+
+固定解答：剩下75%，18÷0.75=24。
+
+## P8 整体变化
+
+甲班有30人，其中40%参加合唱；乙班有20人，其中25%参加合唱。两班合计有多少百分比参加合唱？答案填百分数前的数值。
+
+学生答案：34 %
+
+学生推导：甲班参加合唱的有30×0.4＝12人，乙班有20×0.25＝5人；合计17人，总人数为30＋20＝50人，参加比例为17÷50＝0.34＝34%，所以填34。
+
+讲义依据：合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。
+
+固定解答：人数为12+5=17，整体为50，17÷50×100=34。
+
+## P9 反向变化率
+
+一个数先减少20%后，要回到原来的数，需要在减少后的基础上增加多少百分比？答案填百分数前的数值。
+
+学生答案：25 %
+
+学生推导：假设原数为100，减少20%后为100×0.8＝80。回到100需要增加20，以减少后的80为整体，所需增长率为20÷80＝0.25＝25%，所以填25。
+
+讲义依据：恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。
+
+固定解答：减少后是原量0.8，需增加0.2÷0.8=25%。
+
+## P10 比例与部分
+
+一杯糖水总重150克，其中糖占12%。加入50克水后，糖占总重多少百分比？答案填百分数前的数值。
+
+学生答案：9 %
+
+学生推导：原有糖150×0.12＝18克。加入50克水后，糖仍为18克，总重变为150＋50＝200克，糖的比例为18÷200＝0.09＝9%，所以填9。
+
+讲义依据：加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。
+
+固定解答：糖18克不变，总重200克，18÷200×100=9。
+
+&lt;/pre&gt;&lt;/section&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/lesson.md">out/lesson.md</a></p><pre># 从“以谁为整体”理解百分比
+
+百分比就是把整体看成一百份，表示其中有多少份。百分之二十写成20%，也就是20÷100＝0.2。整体对应100%，一半对应50%。百分比表示两个量的关系，本身不是人数、价格或重量。
+
+做题前，先把“谁占谁的百分之几”说完整：“蓝色彩笔占全部彩笔的20%”中，全部彩笔是整体，蓝色彩笔是部分。比较两个数量时，“甲比乙多百分之几”以乙为整体，因为是在与乙比较。
+
+## 一个关系，三种求法
+
+部分＝整体×比例；已知整体和比例求部分用乘法，已知部分和比例求整体用除法，已知部分和整体求比例也用除法。
+
+比例参与乘除时先换成小数；小数写成百分数时乘100，再加上百分号。例如0.08＝8%，0.6＝60%，1.2＝120%。
+
+**求部分：部分＝整体×比例。** 一盒彩笔有50支，其中20%是蓝色，则蓝色彩笔有50×0.2＝10支。这里50支是整体，10支是部分，20%是比例。另如一本书共80页，读完25%，已读80×0.25＝20页。
+
+**求整体：整体＝部分÷对应的比例。** 一套卡片中有15张动物卡，占全部卡片的30%，则全部有15÷0.3＝50张。因为“全部张数×0.3＝15”，反过来就用15除以0.3。必须让部分与比例对应，不能拿动物卡张数除以其他种类的比例。
+
+**求比例：比例＝部分÷整体，再把所得小数写成百分数。** 例如60人中有18人步行到校，步行比例为18÷60＝0.3＝30%。部分和整体须使用相同单位。若题目要求百分数前的数值，30%对应的数值是30。
+
+## 增长、减少与还原原量
+
+增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。
+
+例如树苗从60棵增至78棵，增加78－60＝18棵，增长率为18÷60＝0.3＝30%。从80棵减至68棵，减少80－68＝12棵，减少率为12÷80＝0.15＝15%。“增加了30%”说的是增加量占原量的30%；“增加到原来的130%”说的是新量占原量的130%。
+
+增长后的新量＝原量×（1＋增长率），减少后的新量＝原量×（1－减少率），式中的变化率用小数表示。例如原有60棵，增加30%后有60×1.3＝78棵。
+
+已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。例如取出原有果汁的40%后剩下21升，剩下的比例是100%－40%＝60%，原有21÷0.6＝35升。不能把剩余量当作原量，再乘40%求取出量。
+
+打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。一件商品打七折后售价56元，原价为56÷0.7＝80元。
+
+## 连续变化：每一步都重新找整体
+
+连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。也可以把原量依次乘上每一步的变化倍数。
+
+例如一件商品原价300元，先涨价20%，再降价20%。第一次以300元为整体，涨后300×1.2＝360元；第二次以360元为整体，降后360×0.8＝288元。合起来是300×1.2×0.8＝288元。虽然两个变化率相同，涨了60元，降了72元，不能相互抵消。
+
+求连续变化后的总变化率，先把各步的变化倍数相乘，得到最终量与原量的比值。乘积大于1时，总增长率＝乘积－1；乘积小于1时，总减少率＝1－乘积；乘积等于1时，最终量等于原量。上例中1.2×0.8＝0.96，表示最终价格是原价的96%，所以总共降价4%；也可用（300－288）÷300＝4%检查。总变化率以最初的原量为整体，不能直接把各步的百分比相加减。
+
+恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。如果只知道减少率而不知道具体数量，可以先假设原量为100，再按相同方法计算。
+
+例如原量减少40%，假设原来是100，减少后为60，恢复需要增加40，恢复所需增长率为40÷60≈66.67%。这与原先的减少率不同，因为两次比较的整体不同。
+
+## 合并或加入东西后，重新计算比例
+
+合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。不能直接平均各群体的百分比，除非各群体的整体数量相等。
+
+例如甲组50人，60%戴眼镜；乙组25人，24%戴眼镜。戴眼镜的共50×0.6＋25×0.24＝30＋6＝36人，合并后共75人，比例为36÷75＝0.48＝48%。
+
+加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。例如盐水中加纯水，盐的重量不变，盐水总重增加。
+
+一杯盐水重250克，盐占8%，盐有250×0.08＝20克；加入150克纯水后，总重为400克，盐仍是20克，含盐比例变成20÷400＝0.05＝5%。
+
+## 百分点与百分比变化
+
+百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。百分点比较的是比例本身的差，不是相对原比例的增长率。
+
+例如通过率由40%升到50%，上升了50－40＝10个百分点；如果问通过率增长了百分之几，则要以原通过率为整体，计算（50%－40%）÷40%＝0.25＝25%。上升10个百分点和增长25%描述的是同一次变化，但含义不同。由50%降到40%时，下降10个百分点，减少率却是（50%－40%）÷50%＝20%。
+
+## 算完怎样检查
+
+先明确题目求的是数量、比例、变化率还是百分点，再写出对应关系，最后计算并写单位。求部分通常应小于或等于整体；用不足100%的部分还原整体，整体应比已知部分大。计算变化率时检查分母是不是变化前的量；遇到连续变化、合并或加水，要检查整体是否已经改变。
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/mistakes.json">out/mistakes.json</a></p><pre>[]</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/results.json">out/results.json</a></p><pre>{
+  &quot;score&quot;: 100.0,
+  &quot;numeric_accuracy&quot;: 100.0,
+  &quot;correct&quot;: 10,
+  &quot;total&quot;: 10,
+  &quot;answers&quot;: [
+    {
+      &quot;id&quot;: &quot;P1&quot;,
+      &quot;topic&quot;: &quot;基本求部分&quot;,
+      &quot;question&quot;: &quot;一批练习本共240本，其中35%是方格本。方格本有多少本？&quot;,
+      &quot;expected&quot;: 84,
+      &quot;unit&quot;: &quot;本&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;240×0.35=84。&quot;,
+      &quot;answer&quot;: 84,
+      &quot;reason&quot;: &quot;240本是整体，35%换成小数0.35。方格本数量为240×0.35＝84本。&quot;,
+      &quot;lesson_quote&quot;: &quot;求部分：部分＝整体×比例。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P2&quot;,
+      &quot;topic&quot;: &quot;还原原量&quot;,
+      &quot;question&quot;: &quot;书店打八折后一本书售价72元。原价是多少元？&quot;,
+      &quot;expected&quot;: 90,
+      &quot;unit&quot;: &quot;元&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;打八折保留原价的0.8，72÷0.8=90。&quot;,
+      &quot;answer&quot;: 90,
+      &quot;reason&quot;: &quot;八折表示售价是原价的80%，即0.8。原价为72÷0.8＝90元。&quot;,
+      &quot;lesson_quote&quot;: &quot;一件商品打七折后售价56元，原价为56÷0.7＝80元。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P3&quot;,
+      &quot;topic&quot;: &quot;增长率&quot;,
+      &quot;question&quot;: &quot;某社团人数从40人增加到50人。增长率是多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 25,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;增加10人，以原来的40人为基数，10÷40×100=25。&quot;,
+      &quot;answer&quot;: 25,
+      &quot;reason&quot;: &quot;增加人数为50－40＝10人，以原来的40人为整体，增长率为10÷40＝0.25＝25%，所以填25。&quot;,
+      &quot;lesson_quote&quot;: &quot;增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P4&quot;,
+      &quot;topic&quot;: &quot;减少率&quot;,
+      &quot;question&quot;: &quot;一项活动的报名人数由125人减少到100人。减少率是多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 20,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;减少25人，以原来的125人为基数，25÷125×100=20。&quot;,
+      &quot;answer&quot;: 20,
+      &quot;reason&quot;: &quot;减少人数为125－100＝25人，以原来的125人为整体，减少率为25÷125＝0.2＝20%，所以填20。&quot;,
+      &quot;lesson_quote&quot;: &quot;增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P5&quot;,
+      &quot;topic&quot;: &quot;连续变化&quot;,
+      &quot;question&quot;: &quot;一件商品原价200元，先涨价10%，再降价10%。最后价格是多少元？&quot;,
+      &quot;expected&quot;: 198,
+      &quot;unit&quot;: &quot;元&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;200×1.1×0.9=198，两个百分比的基数不同。&quot;,
+      &quot;answer&quot;: 198,
+      &quot;reason&quot;: &quot;先涨价10%后的价格为200×1.1＝220元；再以220元为整体降价10%，最后价格为220×0.9＝198元。&quot;,
+      &quot;lesson_quote&quot;: &quot;连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P6&quot;,
+      &quot;topic&quot;: &quot;百分点&quot;,
+      &quot;question&quot;: &quot;某问卷中支持比例由30%升到42%。上升了多少个百分点？&quot;,
+      &quot;expected&quot;: 12,
+      &quot;unit&quot;: &quot;个百分点&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;42%-30%=12个百分点。&quot;,
+      &quot;answer&quot;: 12,
+      &quot;reason&quot;: &quot;百分点是两个百分数之差，42－30＝12，因此上升了12个百分点。&quot;,
+      &quot;lesson_quote&quot;: &quot;百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P7&quot;,
+      &quot;topic&quot;: &quot;变化后还原&quot;,
+      &quot;question&quot;: &quot;一袋米取出原有重量的25%后，剩下18千克。原有多少千克？&quot;,
+      &quot;expected&quot;: 24,
+      &quot;unit&quot;: &quot;千克&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;剩下75%，18÷0.75=24。&quot;,
+      &quot;answer&quot;: 24,
+      &quot;reason&quot;: &quot;取出25%后剩下的比例为100%－25%＝75%，即0.75。原有重量为18÷0.75＝24千克。&quot;,
+      &quot;lesson_quote&quot;: &quot;已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P8&quot;,
+      &quot;topic&quot;: &quot;整体变化&quot;,
+      &quot;question&quot;: &quot;甲班有30人，其中40%参加合唱；乙班有20人，其中25%参加合唱。两班合计有多少百分比参加合唱？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 34,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;人数为12+5=17，整体为50，17÷50×100=34。&quot;,
+      &quot;answer&quot;: 34,
+      &quot;reason&quot;: &quot;甲班参加合唱的有30×0.4＝12人，乙班有20×0.25＝5人；合计17人，总人数为30＋20＝50人，参加比例为17÷50＝0.34＝34%，所以填34。&quot;,
+      &quot;lesson_quote&quot;: &quot;合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P9&quot;,
+      &quot;topic&quot;: &quot;反向变化率&quot;,
+      &quot;question&quot;: &quot;一个数先减少20%后，要回到原来的数，需要在减少后的基础上增加多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 25,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;减少后是原量0.8，需增加0.2÷0.8=25%。&quot;,
+      &quot;answer&quot;: 25,
+      &quot;reason&quot;: &quot;假设原数为100，减少20%后为100×0.8＝80。回到100需要增加20，以减少后的80为整体，所需增长率为20÷80＝0.25＝25%，所以填25。&quot;,
+      &quot;lesson_quote&quot;: &quot;恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P10&quot;,
+      &quot;topic&quot;: &quot;比例与部分&quot;,
+      &quot;question&quot;: &quot;一杯糖水总重150克，其中糖占12%。加入50克水后，糖占总重多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 9,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;糖18克不变，总重200克，18÷200×100=9。&quot;,
+      &quot;answer&quot;: 9,
+      &quot;reason&quot;: &quot;原有糖150×0.12＝18克。加入50克水后，糖仍为18克，总重变为150＋50＝200克，糖的比例为18÷200＝0.09＝9%，所以填9。&quot;,
+      &quot;lesson_quote&quot;: &quot;加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    }
+  ],
+  &quot;requested_model&quot;: &quot;cli:codex:gpt-5.6-sol&quot;,
+  &quot;actual_model&quot;: null,
+  &quot;usage&quot;: {
+    &quot;input_tokens&quot;: 17638,
+    &quot;cached_input_tokens&quot;: 11264,
+    &quot;cache_write_input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 993,
+    &quot;reasoning_output_tokens&quot;: 133
+  },
+  &quot;seconds&quot;: 22.440464125000002,
+  &quot;cost_usd&quot;: null,
+  &quot;scope&quot;: &quot;受限模型依据讲义作答；不是人类学习效果，原句匹配不证明语义支持。&quot;
+}</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/student-response.txt">out/student-response.txt</a></p><pre>{&quot;answers&quot;:[{&quot;id&quot;:&quot;P1&quot;,&quot;answer&quot;:84,&quot;reason&quot;:&quot;240本是整体，35%换成小数0.35。方格本数量为240×0.35＝84本。&quot;,&quot;lesson_quote&quot;:&quot;求部分：部分＝整体×比例。&quot;},{&quot;id&quot;:&quot;P2&quot;,&quot;answer&quot;:90,&quot;reason&quot;:&quot;八折表示售价是原价的80%，即0.8。原价为72÷0.8＝90元。&quot;,&quot;lesson_quote&quot;:&quot;一件商品打七折后售价56元，原价为56÷0.7＝80元。&quot;},{&quot;id&quot;:&quot;P3&quot;,&quot;answer&quot;:25,&quot;reason&quot;:&quot;增加人数为50－40＝10人，以原来的40人为整体，增长率为10÷40＝0.25＝25%，所以填25。&quot;,&quot;lesson_quote&quot;:&quot;增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。&quot;},{&quot;id&quot;:&quot;P4&quot;,&quot;answer&quot;:20,&quot;reason&quot;:&quot;减少人数为125－100＝25人，以原来的125人为整体，减少率为25÷125＝0.2＝20%，所以填20。&quot;,&quot;lesson_quote&quot;:&quot;增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。&quot;},{&quot;id&quot;:&quot;P5&quot;,&quot;answer&quot;:198,&quot;reason&quot;:&quot;先涨价10%后的价格为200×1.1＝220元；再以220元为整体降价10%，最后价格为220×0.9＝198元。&quot;,&quot;lesson_quote&quot;:&quot;连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。&quot;},{&quot;id&quot;:&quot;P6&quot;,&quot;answer&quot;:12,&quot;reason&quot;:&quot;百分点是两个百分数之差，42－30＝12，因此上升了12个百分点。&quot;,&quot;lesson_quote&quot;:&quot;百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。&quot;},{&quot;id&quot;:&quot;P7&quot;,&quot;answer&quot;:24,&quot;reason&quot;:&quot;取出25%后剩下的比例为100%－25%＝75%，即0.75。原有重量为18÷0.75＝24千克。&quot;,&quot;lesson_quote&quot;:&quot;已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。&quot;},{&quot;id&quot;:&quot;P8&quot;,&quot;answer&quot;:34,&quot;reason&quot;:&quot;甲班参加合唱的有30×0.4＝12人，乙班有20×0.25＝5人；合计17人，总人数为30＋20＝50人，参加比例为17÷50＝0.34＝34%，所以填34。&quot;,&quot;lesson_quote&quot;:&quot;合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。&quot;},{&quot;id&quot;:&quot;P9&quot;,&quot;answer&quot;:25,&quot;reason&quot;:&quot;假设原数为100，减少20%后为100×0.8＝80。回到100需要增加20，以减少后的80为整体，所需增长率为20÷80＝0.25＝25%，所以填25。&quot;,&quot;lesson_quote&quot;:&quot;恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。&quot;},{&quot;id&quot;:&quot;P10&quot;,&quot;answer&quot;:9,&quot;reason&quot;:&quot;原有糖150×0.12＝18克。加入50克水后，糖仍为18克，总重变为150＋50＝200克，糖的比例为18÷200＝0.09＝9%，所以填9。&quot;,&quot;lesson_quote&quot;:&quot;加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。&quot;}]}</pre></div></details><details><summary>第 3 轮 · REVERT</summary><p class='artifact-source'>来源：独立评审目录。正式分数以账本记录和评审结论为准。</p><div class='artifact'><p><a href="rounds/r003/artifacts/files/lesson.md">lesson.md</a></p><pre># 从“以谁为整体”理解百分比
+
+百分比就是把整体看成一百份，表示其中有多少份。百分之二十写成20%，也就是20÷100＝0.2。整体对应100%，一半对应50%。百分比表示两个量的关系，本身不是人数、价格或重量。
+
+做题前，先把“谁占谁的百分之几”说完整：“蓝色彩笔占全部彩笔的20%”中，全部彩笔是整体，蓝色彩笔是部分。比较两个数量时，“甲比乙多百分之几”以乙为整体，因为是在与乙比较。
+
+## 一个关系，三种求法
+
+部分＝整体×比例；已知整体和比例求部分用乘法，已知部分和比例求整体用除法，已知部分和整体求比例也用除法。
+
+比例参与乘除时先换成小数；小数写成百分数时乘100，再加上百分号。例如0.08＝8%，0.6＝60%，1.2＝120%。
+
+**求部分：部分＝整体×比例。** 一盒彩笔有50支，其中20%是蓝色，则蓝色彩笔有50×0.2＝10支。这里50支是整体，10支是部分，20%是比例。另如一本书共80页，读完25%，已读80×0.25＝20页。
+
+**求整体：整体＝部分÷对应的比例。** 一套卡片中有15张动物卡，占全部卡片的30%，则全部有15÷0.3＝50张。因为“全部张数×0.3＝15”，反过来就用15除以0.3。必须让部分与比例对应，不能拿动物卡张数除以其他种类的比例。
+
+**求比例：比例＝部分÷整体，再把所得小数写成百分数。** 例如60人中有18人步行到校，步行比例为18÷60＝0.3＝30%。部分和整体须使用相同单位。若题目要求百分数前的数值，30%对应的数值是30。
+
+## 增长、减少与还原原量
+
+增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。
+
+例如树苗从60棵增至78棵，增加78－60＝18棵，增长率为18÷60＝0.3＝30%。从80棵减至68棵，减少80－68＝12棵，减少率为12÷80＝0.15＝15%。“增加了30%”说的是增加量占原量的30%；“增加到原来的130%”说的是新量占原量的130%。
+
+增长后的新量＝原量×（1＋增长率），减少后的新量＝原量×（1－减少率），式中的变化率用小数表示。例如原有60棵，增加30%后有60×1.3＝78棵。
+
+读题时要分清“变化了多少”和“变化到多少”：增加了或减少了原量的某个百分比，说的是变化量；增加到或减少到原量的某个百分比，说的是新量。“减少了原量的30%”表示还剩原量的70%，新量＝原量×0.7；“减少到原量的30%”表示还剩原量的30%，新量＝原量×0.3。已知新量求原量时，应除以新量占原量的比例，所以上面两种情况分别除以0.7和0.3。
+
+已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。例如取出原有果汁的40%后剩下21升，剩下的比例是100%－40%＝60%，原有21÷0.6＝35升。不能把剩余量当作原量，再乘40%求取出量。
+
+打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。一件商品打七折后售价56元，原价为56÷0.7＝80元。
+
+## 连续变化：每一步都重新找整体
+
+连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。也可以把原量依次乘上每一步的变化倍数。
+
+例如一件商品原价300元，先涨价20%，再降价20%。第一次以300元为整体，涨后300×1.2＝360元；第二次以360元为整体，降后360×0.8＝288元。合起来是300×1.2×0.8＝288元。虽然两个变化率相同，涨了60元，降了72元，不能相互抵消。
+
+恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。如果只知道减少率而不知道具体数量，可以先假设原量为100，再按相同方法计算。
+
+例如原量减少40%，假设原来是100，减少后为60，恢复需要增加40，恢复所需增长率为40÷60≈66.67%。这与原先的减少率不同，因为两次比较的整体不同。
+
+## 合并或加入东西后，重新计算比例
+
+合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。不能直接平均各群体的百分比，除非各群体的整体数量相等。
+
+例如甲组50人，60%戴眼镜；乙组25人，24%戴眼镜。戴眼镜的共50×0.6＋25×0.24＝30＋6＝36人，合并后共75人，比例为36÷75＝0.48＝48%。
+
+加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。例如盐水中加纯水，盐的重量不变，盐水总重增加。
+
+一杯盐水重250克，盐占8%，盐有250×0.08＝20克；加入150克纯水后，总重为400克，盐仍是20克，含盐比例变成20÷400＝0.05＝5%。
+
+## 百分点与百分比变化
+
+百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。百分点比较的是比例本身的差，不是相对原比例的增长率。
+
+例如通过率由40%升到50%，上升了50－40＝10个百分点；如果问通过率增长了百分之几，则要以原通过率为整体，计算（50%－40%）÷40%＝0.25＝25%。上升10个百分点和增长25%描述的是同一次变化，但含义不同。由50%降到40%时，下降10个百分点，减少率却是（50%－40%）÷50%＝20%。
+
+## 算完怎样检查
+
+先明确题目求的是数量、比例、变化率还是百分点，再写出对应关系，最后计算并写单位。求部分通常应小于或等于整体；用不足100%的部分还原整体，整体应比已知部分大。计算变化率时检查分母是不是变化前的量；遇到连续变化、合并或加水，要检查整体是否已经改变。
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/exercise-results.md">out/exercise-results.md</a></p><pre># 固定练习结果
+
+有依据答对 10/10；纯数值正确率 100.0%。
+
+## P1 基本求部分
+
+一批练习本共240本，其中35%是方格本。方格本有多少本？
+
+学生答案：84 本
+
+学生推导：240本是整体，35%换成小数0.35。方格本数量为240×0.35＝84本。
+
+讲义依据：部分＝整体×比例；已知整体和比例求部分用乘法，已知部分和比例求整体用除法，已知部分和整体求比例也用除法。
+
+固定解答：240×0.35=84。
+
+## P2 还原原量
+
+书店打八折后一本书售价72元。原价是多少元？
+
+学生答案：90 元
+
+学生推导：八折表示售价是原价的80%，即0.8。原价为72÷0.8＝90元。
+
+讲义依据：一件商品打七折后售价56元，原价为56÷0.7＝80元。
+
+固定解答：打八折保留原价的0.8，72÷0.8=90。
+
+## P3 增长率
+
+某社团人数从40人增加到50人。增长率是多少百分比？答案填百分数前的数值。
+
+学生答案：25 %
+
+学生推导：增加人数为50－40＝10人，以原来的40人为整体，增长率为10÷40＝0.25＝25%，所以填25。
+
+讲义依据：增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。
+
+固定解答：增加10人，以原来的40人为基数，10÷40×100=25。
+
+## P4 减少率
+
+一项活动的报名人数由125人减少到100人。减少率是多少百分比？答案填百分数前的数值。
+
+学生答案：20 %
+
+学生推导：减少人数为125－100＝25人，以原来的125人为整体，减少率为25÷125＝0.2＝20%，所以填20。
+
+讲义依据：增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。
+
+固定解答：减少25人，以原来的125人为基数，25÷125×100=20。
+
+## P5 连续变化
+
+一件商品原价200元，先涨价10%，再降价10%。最后价格是多少元？
+
+学生答案：198 元
+
+学生推导：先涨价10%后的价格为200×1.1＝220元；再以220元为整体降价10%，最后价格为220×0.9＝198元。
+
+讲义依据：连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。
+
+固定解答：200×1.1×0.9=198，两个百分比的基数不同。
+
+## P6 百分点
+
+某问卷中支持比例由30%升到42%。上升了多少个百分点？
+
+学生答案：12 个百分点
+
+学生推导：百分点是两个百分数之差，42－30＝12，因此上升12个百分点。
+
+讲义依据：百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。
+
+固定解答：42%-30%=12个百分点。
+
+## P7 变化后还原
+
+一袋米取出原有重量的25%后，剩下18千克。原有多少千克？
+
+学生答案：24 千克
+
+学生推导：取出25%后还剩原有重量的75%，即0.75。原有重量为18÷0.75＝24千克。
+
+讲义依据：已知新量求原量时，应除以新量占原量的比例，所以上面两种情况分别除以0.7和0.3。
+
+固定解答：剩下75%，18÷0.75=24。
+
+## P8 整体变化
+
+甲班有30人，其中40%参加合唱；乙班有20人，其中25%参加合唱。两班合计有多少百分比参加合唱？答案填百分数前的数值。
+
+学生答案：34 %
+
+学生推导：甲班参加合唱的有30×0.4＝12人，乙班有20×0.25＝5人；两班共17人参加，总人数为30＋20＝50人，比例为17÷50＝0.34＝34%，所以填34。
+
+讲义依据：合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。
+
+固定解答：人数为12+5=17，整体为50，17÷50×100=34。
+
+## P9 反向变化率
+
+一个数先减少20%后，要回到原来的数，需要在减少后的基础上增加多少百分比？答案填百分数前的数值。
+
+学生答案：25 %
+
+学生推导：假设原数为100，减少20%后为100×0.8＝80。回到100需要增加20，以减少后的80为整体，所需增长率为20÷80＝0.25＝25%，所以填25。
+
+讲义依据：恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。
+
+固定解答：减少后是原量0.8，需增加0.2÷0.8=25%。
+
+## P10 比例与部分
+
+一杯糖水总重150克，其中糖占12%。加入50克水后，糖占总重多少百分比？答案填百分数前的数值。
+
+学生答案：9 %
+
+学生推导：原有糖150×0.12＝18克。加入50克水后，糖仍为18克，总重变为150＋50＝200克，糖的比例为18÷200＝0.09＝9%，所以填9。
+
+讲义依据：加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。
+
+固定解答：糖18克不变，总重200克，18÷200×100=9。
+
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{&quot;讲义有实质内容&quot;: true, &quot;不直接复制测试题&quot;: true}</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/lesson.html">out/lesson.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;title&gt;百分比讲义与练习结果&lt;/title&gt;&lt;style&gt;body{max-width:900px;margin:40px auto;padding:20px;font:17px/1.8 system-ui;color:#17384d}pre{white-space:pre-wrap;font:inherit}section{background:#f3f7fa;padding:24px;margin:20px 0}&lt;/style&gt;&lt;section&gt;&lt;pre&gt;# 从“以谁为整体”理解百分比
+
+百分比就是把整体看成一百份，表示其中有多少份。百分之二十写成20%，也就是20÷100＝0.2。整体对应100%，一半对应50%。百分比表示两个量的关系，本身不是人数、价格或重量。
+
+做题前，先把“谁占谁的百分之几”说完整：“蓝色彩笔占全部彩笔的20%”中，全部彩笔是整体，蓝色彩笔是部分。比较两个数量时，“甲比乙多百分之几”以乙为整体，因为是在与乙比较。
+
+## 一个关系，三种求法
+
+部分＝整体×比例；已知整体和比例求部分用乘法，已知部分和比例求整体用除法，已知部分和整体求比例也用除法。
+
+比例参与乘除时先换成小数；小数写成百分数时乘100，再加上百分号。例如0.08＝8%，0.6＝60%，1.2＝120%。
+
+**求部分：部分＝整体×比例。** 一盒彩笔有50支，其中20%是蓝色，则蓝色彩笔有50×0.2＝10支。这里50支是整体，10支是部分，20%是比例。另如一本书共80页，读完25%，已读80×0.25＝20页。
+
+**求整体：整体＝部分÷对应的比例。** 一套卡片中有15张动物卡，占全部卡片的30%，则全部有15÷0.3＝50张。因为“全部张数×0.3＝15”，反过来就用15除以0.3。必须让部分与比例对应，不能拿动物卡张数除以其他种类的比例。
+
+**求比例：比例＝部分÷整体，再把所得小数写成百分数。** 例如60人中有18人步行到校，步行比例为18÷60＝0.3＝30%。部分和整体须使用相同单位。若题目要求百分数前的数值，30%对应的数值是30。
+
+## 增长、减少与还原原量
+
+增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。
+
+例如树苗从60棵增至78棵，增加78－60＝18棵，增长率为18÷60＝0.3＝30%。从80棵减至68棵，减少80－68＝12棵，减少率为12÷80＝0.15＝15%。“增加了30%”说的是增加量占原量的30%；“增加到原来的130%”说的是新量占原量的130%。
+
+增长后的新量＝原量×（1＋增长率），减少后的新量＝原量×（1－减少率），式中的变化率用小数表示。例如原有60棵，增加30%后有60×1.3＝78棵。
+
+读题时要分清“变化了多少”和“变化到多少”：增加了或减少了原量的某个百分比，说的是变化量；增加到或减少到原量的某个百分比，说的是新量。“减少了原量的30%”表示还剩原量的70%，新量＝原量×0.7；“减少到原量的30%”表示还剩原量的30%，新量＝原量×0.3。已知新量求原量时，应除以新量占原量的比例，所以上面两种情况分别除以0.7和0.3。
+
+已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。例如取出原有果汁的40%后剩下21升，剩下的比例是100%－40%＝60%，原有21÷0.6＝35升。不能把剩余量当作原量，再乘40%求取出量。
+
+打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。一件商品打七折后售价56元，原价为56÷0.7＝80元。
+
+## 连续变化：每一步都重新找整体
+
+连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。也可以把原量依次乘上每一步的变化倍数。
+
+例如一件商品原价300元，先涨价20%，再降价20%。第一次以300元为整体，涨后300×1.2＝360元；第二次以360元为整体，降后360×0.8＝288元。合起来是300×1.2×0.8＝288元。虽然两个变化率相同，涨了60元，降了72元，不能相互抵消。
+
+恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。如果只知道减少率而不知道具体数量，可以先假设原量为100，再按相同方法计算。
+
+例如原量减少40%，假设原来是100，减少后为60，恢复需要增加40，恢复所需增长率为40÷60≈66.67%。这与原先的减少率不同，因为两次比较的整体不同。
+
+## 合并或加入东西后，重新计算比例
+
+合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。不能直接平均各群体的百分比，除非各群体的整体数量相等。
+
+例如甲组50人，60%戴眼镜；乙组25人，24%戴眼镜。戴眼镜的共50×0.6＋25×0.24＝30＋6＝36人，合并后共75人，比例为36÷75＝0.48＝48%。
+
+加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。例如盐水中加纯水，盐的重量不变，盐水总重增加。
+
+一杯盐水重250克，盐占8%，盐有250×0.08＝20克；加入150克纯水后，总重为400克，盐仍是20克，含盐比例变成20÷400＝0.05＝5%。
+
+## 百分点与百分比变化
+
+百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。百分点比较的是比例本身的差，不是相对原比例的增长率。
+
+例如通过率由40%升到50%，上升了50－40＝10个百分点；如果问通过率增长了百分之几，则要以原通过率为整体，计算（50%－40%）÷40%＝0.25＝25%。上升10个百分点和增长25%描述的是同一次变化，但含义不同。由50%降到40%时，下降10个百分点，减少率却是（50%－40%）÷50%＝20%。
+
+## 算完怎样检查
+
+先明确题目求的是数量、比例、变化率还是百分点，再写出对应关系，最后计算并写单位。求部分通常应小于或等于整体；用不足100%的部分还原整体，整体应比已知部分大。计算变化率时检查分母是不是变化前的量；遇到连续变化、合并或加水，要检查整体是否已经改变。
+&lt;/pre&gt;&lt;/section&gt;&lt;section&gt;&lt;pre&gt;# 固定练习结果
+
+有依据答对 10/10；纯数值正确率 100.0%。
+
+## P1 基本求部分
+
+一批练习本共240本，其中35%是方格本。方格本有多少本？
+
+学生答案：84 本
+
+学生推导：240本是整体，35%换成小数0.35。方格本数量为240×0.35＝84本。
+
+讲义依据：部分＝整体×比例；已知整体和比例求部分用乘法，已知部分和比例求整体用除法，已知部分和整体求比例也用除法。
+
+固定解答：240×0.35=84。
+
+## P2 还原原量
+
+书店打八折后一本书售价72元。原价是多少元？
+
+学生答案：90 元
+
+学生推导：八折表示售价是原价的80%，即0.8。原价为72÷0.8＝90元。
+
+讲义依据：一件商品打七折后售价56元，原价为56÷0.7＝80元。
+
+固定解答：打八折保留原价的0.8，72÷0.8=90。
+
+## P3 增长率
+
+某社团人数从40人增加到50人。增长率是多少百分比？答案填百分数前的数值。
+
+学生答案：25 %
+
+学生推导：增加人数为50－40＝10人，以原来的40人为整体，增长率为10÷40＝0.25＝25%，所以填25。
+
+讲义依据：增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。
+
+固定解答：增加10人，以原来的40人为基数，10÷40×100=25。
+
+## P4 减少率
+
+一项活动的报名人数由125人减少到100人。减少率是多少百分比？答案填百分数前的数值。
+
+学生答案：20 %
+
+学生推导：减少人数为125－100＝25人，以原来的125人为整体，减少率为25÷125＝0.2＝20%，所以填20。
+
+讲义依据：增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。
+
+固定解答：减少25人，以原来的125人为基数，25÷125×100=20。
+
+## P5 连续变化
+
+一件商品原价200元，先涨价10%，再降价10%。最后价格是多少元？
+
+学生答案：198 元
+
+学生推导：先涨价10%后的价格为200×1.1＝220元；再以220元为整体降价10%，最后价格为220×0.9＝198元。
+
+讲义依据：连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。
+
+固定解答：200×1.1×0.9=198，两个百分比的基数不同。
+
+## P6 百分点
+
+某问卷中支持比例由30%升到42%。上升了多少个百分点？
+
+学生答案：12 个百分点
+
+学生推导：百分点是两个百分数之差，42－30＝12，因此上升12个百分点。
+
+讲义依据：百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。
+
+固定解答：42%-30%=12个百分点。
+
+## P7 变化后还原
+
+一袋米取出原有重量的25%后，剩下18千克。原有多少千克？
+
+学生答案：24 千克
+
+学生推导：取出25%后还剩原有重量的75%，即0.75。原有重量为18÷0.75＝24千克。
+
+讲义依据：已知新量求原量时，应除以新量占原量的比例，所以上面两种情况分别除以0.7和0.3。
+
+固定解答：剩下75%，18÷0.75=24。
+
+## P8 整体变化
+
+甲班有30人，其中40%参加合唱；乙班有20人，其中25%参加合唱。两班合计有多少百分比参加合唱？答案填百分数前的数值。
+
+学生答案：34 %
+
+学生推导：甲班参加合唱的有30×0.4＝12人，乙班有20×0.25＝5人；两班共17人参加，总人数为30＋20＝50人，比例为17÷50＝0.34＝34%，所以填34。
+
+讲义依据：合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。
+
+固定解答：人数为12+5=17，整体为50，17÷50×100=34。
+
+## P9 反向变化率
+
+一个数先减少20%后，要回到原来的数，需要在减少后的基础上增加多少百分比？答案填百分数前的数值。
+
+学生答案：25 %
+
+学生推导：假设原数为100，减少20%后为100×0.8＝80。回到100需要增加20，以减少后的80为整体，所需增长率为20÷80＝0.25＝25%，所以填25。
+
+讲义依据：恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。
+
+固定解答：减少后是原量0.8，需增加0.2÷0.8=25%。
+
+## P10 比例与部分
+
+一杯糖水总重150克，其中糖占12%。加入50克水后，糖占总重多少百分比？答案填百分数前的数值。
+
+学生答案：9 %
+
+学生推导：原有糖150×0.12＝18克。加入50克水后，糖仍为18克，总重变为150＋50＝200克，糖的比例为18÷200＝0.09＝9%，所以填9。
+
+讲义依据：加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。
+
+固定解答：糖18克不变，总重200克，18÷200×100=9。
+
+&lt;/pre&gt;&lt;/section&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/lesson.md">out/lesson.md</a></p><pre># 从“以谁为整体”理解百分比
+
+百分比就是把整体看成一百份，表示其中有多少份。百分之二十写成20%，也就是20÷100＝0.2。整体对应100%，一半对应50%。百分比表示两个量的关系，本身不是人数、价格或重量。
+
+做题前，先把“谁占谁的百分之几”说完整：“蓝色彩笔占全部彩笔的20%”中，全部彩笔是整体，蓝色彩笔是部分。比较两个数量时，“甲比乙多百分之几”以乙为整体，因为是在与乙比较。
+
+## 一个关系，三种求法
+
+部分＝整体×比例；已知整体和比例求部分用乘法，已知部分和比例求整体用除法，已知部分和整体求比例也用除法。
+
+比例参与乘除时先换成小数；小数写成百分数时乘100，再加上百分号。例如0.08＝8%，0.6＝60%，1.2＝120%。
+
+**求部分：部分＝整体×比例。** 一盒彩笔有50支，其中20%是蓝色，则蓝色彩笔有50×0.2＝10支。这里50支是整体，10支是部分，20%是比例。另如一本书共80页，读完25%，已读80×0.25＝20页。
+
+**求整体：整体＝部分÷对应的比例。** 一套卡片中有15张动物卡，占全部卡片的30%，则全部有15÷0.3＝50张。因为“全部张数×0.3＝15”，反过来就用15除以0.3。必须让部分与比例对应，不能拿动物卡张数除以其他种类的比例。
+
+**求比例：比例＝部分÷整体，再把所得小数写成百分数。** 例如60人中有18人步行到校，步行比例为18÷60＝0.3＝30%。部分和整体须使用相同单位。若题目要求百分数前的数值，30%对应的数值是30。
+
+## 增长、减少与还原原量
+
+增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。
+
+例如树苗从60棵增至78棵，增加78－60＝18棵，增长率为18÷60＝0.3＝30%。从80棵减至68棵，减少80－68＝12棵，减少率为12÷80＝0.15＝15%。“增加了30%”说的是增加量占原量的30%；“增加到原来的130%”说的是新量占原量的130%。
+
+增长后的新量＝原量×（1＋增长率），减少后的新量＝原量×（1－减少率），式中的变化率用小数表示。例如原有60棵，增加30%后有60×1.3＝78棵。
+
+读题时要分清“变化了多少”和“变化到多少”：增加了或减少了原量的某个百分比，说的是变化量；增加到或减少到原量的某个百分比，说的是新量。“减少了原量的30%”表示还剩原量的70%，新量＝原量×0.7；“减少到原量的30%”表示还剩原量的30%，新量＝原量×0.3。已知新量求原量时，应除以新量占原量的比例，所以上面两种情况分别除以0.7和0.3。
+
+已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。例如取出原有果汁的40%后剩下21升，剩下的比例是100%－40%＝60%，原有21÷0.6＝35升。不能把剩余量当作原量，再乘40%求取出量。
+
+打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。一件商品打七折后售价56元，原价为56÷0.7＝80元。
+
+## 连续变化：每一步都重新找整体
+
+连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。也可以把原量依次乘上每一步的变化倍数。
+
+例如一件商品原价300元，先涨价20%，再降价20%。第一次以300元为整体，涨后300×1.2＝360元；第二次以360元为整体，降后360×0.8＝288元。合起来是300×1.2×0.8＝288元。虽然两个变化率相同，涨了60元，降了72元，不能相互抵消。
+
+恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。如果只知道减少率而不知道具体数量，可以先假设原量为100，再按相同方法计算。
+
+例如原量减少40%，假设原来是100，减少后为60，恢复需要增加40，恢复所需增长率为40÷60≈66.67%。这与原先的减少率不同，因为两次比较的整体不同。
+
+## 合并或加入东西后，重新计算比例
+
+合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。不能直接平均各群体的百分比，除非各群体的整体数量相等。
+
+例如甲组50人，60%戴眼镜；乙组25人，24%戴眼镜。戴眼镜的共50×0.6＋25×0.24＝30＋6＝36人，合并后共75人，比例为36÷75＝0.48＝48%。
+
+加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。例如盐水中加纯水，盐的重量不变，盐水总重增加。
+
+一杯盐水重250克，盐占8%，盐有250×0.08＝20克；加入150克纯水后，总重为400克，盐仍是20克，含盐比例变成20÷400＝0.05＝5%。
+
+## 百分点与百分比变化
+
+百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。百分点比较的是比例本身的差，不是相对原比例的增长率。
+
+例如通过率由40%升到50%，上升了50－40＝10个百分点；如果问通过率增长了百分之几，则要以原通过率为整体，计算（50%－40%）÷40%＝0.25＝25%。上升10个百分点和增长25%描述的是同一次变化，但含义不同。由50%降到40%时，下降10个百分点，减少率却是（50%－40%）÷50%＝20%。
+
+## 算完怎样检查
+
+先明确题目求的是数量、比例、变化率还是百分点，再写出对应关系，最后计算并写单位。求部分通常应小于或等于整体；用不足100%的部分还原整体，整体应比已知部分大。计算变化率时检查分母是不是变化前的量；遇到连续变化、合并或加水，要检查整体是否已经改变。
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/mistakes.json">out/mistakes.json</a></p><pre>[]</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/results.json">out/results.json</a></p><pre>{
+  &quot;score&quot;: 100.0,
+  &quot;numeric_accuracy&quot;: 100.0,
+  &quot;correct&quot;: 10,
+  &quot;total&quot;: 10,
+  &quot;answers&quot;: [
+    {
+      &quot;id&quot;: &quot;P1&quot;,
+      &quot;topic&quot;: &quot;基本求部分&quot;,
+      &quot;question&quot;: &quot;一批练习本共240本，其中35%是方格本。方格本有多少本？&quot;,
+      &quot;expected&quot;: 84,
+      &quot;unit&quot;: &quot;本&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;240×0.35=84。&quot;,
+      &quot;answer&quot;: 84,
+      &quot;reason&quot;: &quot;240本是整体，35%换成小数0.35。方格本数量为240×0.35＝84本。&quot;,
+      &quot;lesson_quote&quot;: &quot;部分＝整体×比例；已知整体和比例求部分用乘法，已知部分和比例求整体用除法，已知部分和整体求比例也用除法。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P2&quot;,
+      &quot;topic&quot;: &quot;还原原量&quot;,
+      &quot;question&quot;: &quot;书店打八折后一本书售价72元。原价是多少元？&quot;,
+      &quot;expected&quot;: 90,
+      &quot;unit&quot;: &quot;元&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;打八折保留原价的0.8，72÷0.8=90。&quot;,
+      &quot;answer&quot;: 90,
+      &quot;reason&quot;: &quot;八折表示售价是原价的80%，即0.8。原价为72÷0.8＝90元。&quot;,
+      &quot;lesson_quote&quot;: &quot;一件商品打七折后售价56元，原价为56÷0.7＝80元。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P3&quot;,
+      &quot;topic&quot;: &quot;增长率&quot;,
+      &quot;question&quot;: &quot;某社团人数从40人增加到50人。增长率是多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 25,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;增加10人，以原来的40人为基数，10÷40×100=25。&quot;,
+      &quot;answer&quot;: 25,
+      &quot;reason&quot;: &quot;增加人数为50－40＝10人，以原来的40人为整体，增长率为10÷40＝0.25＝25%，所以填25。&quot;,
+      &quot;lesson_quote&quot;: &quot;增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P4&quot;,
+      &quot;topic&quot;: &quot;减少率&quot;,
+      &quot;question&quot;: &quot;一项活动的报名人数由125人减少到100人。减少率是多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 20,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;减少25人，以原来的125人为基数，25÷125×100=20。&quot;,
+      &quot;answer&quot;: 20,
+      &quot;reason&quot;: &quot;减少人数为125－100＝25人，以原来的125人为整体，减少率为25÷125＝0.2＝20%，所以填20。&quot;,
+      &quot;lesson_quote&quot;: &quot;增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P5&quot;,
+      &quot;topic&quot;: &quot;连续变化&quot;,
+      &quot;question&quot;: &quot;一件商品原价200元，先涨价10%，再降价10%。最后价格是多少元？&quot;,
+      &quot;expected&quot;: 198,
+      &quot;unit&quot;: &quot;元&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;200×1.1×0.9=198，两个百分比的基数不同。&quot;,
+      &quot;answer&quot;: 198,
+      &quot;reason&quot;: &quot;先涨价10%后的价格为200×1.1＝220元；再以220元为整体降价10%，最后价格为220×0.9＝198元。&quot;,
+      &quot;lesson_quote&quot;: &quot;连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P6&quot;,
+      &quot;topic&quot;: &quot;百分点&quot;,
+      &quot;question&quot;: &quot;某问卷中支持比例由30%升到42%。上升了多少个百分点？&quot;,
+      &quot;expected&quot;: 12,
+      &quot;unit&quot;: &quot;个百分点&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;42%-30%=12个百分点。&quot;,
+      &quot;answer&quot;: 12,
+      &quot;reason&quot;: &quot;百分点是两个百分数之差，42－30＝12，因此上升12个百分点。&quot;,
+      &quot;lesson_quote&quot;: &quot;百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P7&quot;,
+      &quot;topic&quot;: &quot;变化后还原&quot;,
+      &quot;question&quot;: &quot;一袋米取出原有重量的25%后，剩下18千克。原有多少千克？&quot;,
+      &quot;expected&quot;: 24,
+      &quot;unit&quot;: &quot;千克&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;剩下75%，18÷0.75=24。&quot;,
+      &quot;answer&quot;: 24,
+      &quot;reason&quot;: &quot;取出25%后还剩原有重量的75%，即0.75。原有重量为18÷0.75＝24千克。&quot;,
+      &quot;lesson_quote&quot;: &quot;已知新量求原量时，应除以新量占原量的比例，所以上面两种情况分别除以0.7和0.3。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P8&quot;,
+      &quot;topic&quot;: &quot;整体变化&quot;,
+      &quot;question&quot;: &quot;甲班有30人，其中40%参加合唱；乙班有20人，其中25%参加合唱。两班合计有多少百分比参加合唱？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 34,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;人数为12+5=17，整体为50，17÷50×100=34。&quot;,
+      &quot;answer&quot;: 34,
+      &quot;reason&quot;: &quot;甲班参加合唱的有30×0.4＝12人，乙班有20×0.25＝5人；两班共17人参加，总人数为30＋20＝50人，比例为17÷50＝0.34＝34%，所以填34。&quot;,
+      &quot;lesson_quote&quot;: &quot;合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P9&quot;,
+      &quot;topic&quot;: &quot;反向变化率&quot;,
+      &quot;question&quot;: &quot;一个数先减少20%后，要回到原来的数，需要在减少后的基础上增加多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 25,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;减少后是原量0.8，需增加0.2÷0.8=25%。&quot;,
+      &quot;answer&quot;: 25,
+      &quot;reason&quot;: &quot;假设原数为100，减少20%后为100×0.8＝80。回到100需要增加20，以减少后的80为整体，所需增长率为20÷80＝0.25＝25%，所以填25。&quot;,
+      &quot;lesson_quote&quot;: &quot;恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P10&quot;,
+      &quot;topic&quot;: &quot;比例与部分&quot;,
+      &quot;question&quot;: &quot;一杯糖水总重150克，其中糖占12%。加入50克水后，糖占总重多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 9,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;糖18克不变，总重200克，18÷200×100=9。&quot;,
+      &quot;answer&quot;: 9,
+      &quot;reason&quot;: &quot;原有糖150×0.12＝18克。加入50克水后，糖仍为18克，总重变为150＋50＝200克，糖的比例为18÷200＝0.09＝9%，所以填9。&quot;,
+      &quot;lesson_quote&quot;: &quot;加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    }
+  ],
+  &quot;requested_model&quot;: &quot;cli:codex:gpt-5.6-sol&quot;,
+  &quot;actual_model&quot;: null,
+  &quot;usage&quot;: {
+    &quot;input_tokens&quot;: 17632,
+    &quot;cached_input_tokens&quot;: 11264,
+    &quot;cache_write_input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 1031,
+    &quot;reasoning_output_tokens&quot;: 148
+  },
+  &quot;seconds&quot;: 19.529582125,
+  &quot;cost_usd&quot;: null,
+  &quot;scope&quot;: &quot;受限模型依据讲义作答；不是人类学习效果，原句匹配不证明语义支持。&quot;
+}</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/student-response.txt">out/student-response.txt</a></p><pre>{&quot;answers&quot;:[{&quot;id&quot;:&quot;P1&quot;,&quot;answer&quot;:84,&quot;reason&quot;:&quot;240本是整体，35%换成小数0.35。方格本数量为240×0.35＝84本。&quot;,&quot;lesson_quote&quot;:&quot;部分＝整体×比例；已知整体和比例求部分用乘法，已知部分和比例求整体用除法，已知部分和整体求比例也用除法。&quot;},{&quot;id&quot;:&quot;P2&quot;,&quot;answer&quot;:90,&quot;reason&quot;:&quot;八折表示售价是原价的80%，即0.8。原价为72÷0.8＝90元。&quot;,&quot;lesson_quote&quot;:&quot;一件商品打七折后售价56元，原价为56÷0.7＝80元。&quot;},{&quot;id&quot;:&quot;P3&quot;,&quot;answer&quot;:25,&quot;reason&quot;:&quot;增加人数为50－40＝10人，以原来的40人为整体，增长率为10÷40＝0.25＝25%，所以填25。&quot;,&quot;lesson_quote&quot;:&quot;增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。&quot;},{&quot;id&quot;:&quot;P4&quot;,&quot;answer&quot;:20,&quot;reason&quot;:&quot;减少人数为125－100＝25人，以原来的125人为整体，减少率为25÷125＝0.2＝20%，所以填20。&quot;,&quot;lesson_quote&quot;:&quot;增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。&quot;},{&quot;id&quot;:&quot;P5&quot;,&quot;answer&quot;:198,&quot;reason&quot;:&quot;先涨价10%后的价格为200×1.1＝220元；再以220元为整体降价10%，最后价格为220×0.9＝198元。&quot;,&quot;lesson_quote&quot;:&quot;连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。&quot;},{&quot;id&quot;:&quot;P6&quot;,&quot;answer&quot;:12,&quot;reason&quot;:&quot;百分点是两个百分数之差，42－30＝12，因此上升12个百分点。&quot;,&quot;lesson_quote&quot;:&quot;百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。&quot;},{&quot;id&quot;:&quot;P7&quot;,&quot;answer&quot;:24,&quot;reason&quot;:&quot;取出25%后还剩原有重量的75%，即0.75。原有重量为18÷0.75＝24千克。&quot;,&quot;lesson_quote&quot;:&quot;已知新量求原量时，应除以新量占原量的比例，所以上面两种情况分别除以0.7和0.3。&quot;},{&quot;id&quot;:&quot;P8&quot;,&quot;answer&quot;:34,&quot;reason&quot;:&quot;甲班参加合唱的有30×0.4＝12人，乙班有20×0.25＝5人；两班共17人参加，总人数为30＋20＝50人，比例为17÷50＝0.34＝34%，所以填34。&quot;,&quot;lesson_quote&quot;:&quot;合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。&quot;},{&quot;id&quot;:&quot;P9&quot;,&quot;answer&quot;:25,&quot;reason&quot;:&quot;假设原数为100，减少20%后为100×0.8＝80。回到100需要增加20，以减少后的80为整体，所需增长率为20÷80＝0.25＝25%，所以填25。&quot;,&quot;lesson_quote&quot;:&quot;恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。&quot;},{&quot;id&quot;:&quot;P10&quot;,&quot;answer&quot;:9,&quot;reason&quot;:&quot;原有糖150×0.12＝18克。加入50克水后，糖仍为18克，总重变为150＋50＝200克，糖的比例为18÷200＝0.09＝9%，所以填9。&quot;,&quot;lesson_quote&quot;:&quot;加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。&quot;}]}</pre></div></details><details><summary>最终产物</summary><p class='artifact-source'>来源：已保存的评审版本 rounds/r001/artifacts。复制最终作品不会新增评分；正式分数以账本和评审结论为准。</p><div class='artifact'><p><a href="artifacts/final/files/lesson.md">lesson.md</a></p><pre># 从“以谁为整体”理解百分比
+
+百分比就是把整体看成一百份，表示其中有多少份。百分之二十写成20%，也就是20÷100＝0.2。整体对应100%，一半对应50%。百分比表示两个量的关系，本身不是人数、价格或重量。
+
+做题前，先把“谁占谁的百分之几”说完整：“蓝色彩笔占全部彩笔的20%”中，全部彩笔是整体，蓝色彩笔是部分。比较两个数量时，“甲比乙多百分之几”以乙为整体，因为是在与乙比较。
+
+## 一个关系，三种求法
+
+部分＝整体×比例；已知整体和比例求部分用乘法，已知部分和比例求整体用除法，已知部分和整体求比例也用除法。
+
+比例参与乘除时先换成小数；小数写成百分数时乘100，再加上百分号。例如0.08＝8%，0.6＝60%，1.2＝120%。
+
+**求部分：部分＝整体×比例。** 一盒彩笔有50支，其中20%是蓝色，则蓝色彩笔有50×0.2＝10支。这里50支是整体，10支是部分，20%是比例。另如一本书共80页，读完25%，已读80×0.25＝20页。
+
+**求整体：整体＝部分÷对应的比例。** 一套卡片中有15张动物卡，占全部卡片的30%，则全部有15÷0.3＝50张。因为“全部张数×0.3＝15”，反过来就用15除以0.3。必须让部分与比例对应，不能拿动物卡张数除以其他种类的比例。
+
+**求比例：比例＝部分÷整体，再把所得小数写成百分数。** 例如60人中有18人步行到校，步行比例为18÷60＝0.3＝30%。部分和整体须使用相同单位。若题目要求百分数前的数值，30%对应的数值是30。
+
+## 增长、减少与还原原量
+
+增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。
+
+例如树苗从60棵增至78棵，增加78－60＝18棵，增长率为18÷60＝0.3＝30%。从80棵减至68棵，减少80－68＝12棵，减少率为12÷80＝0.15＝15%。“增加了30%”说的是增加量占原量的30%；“增加到原来的130%”说的是新量占原量的130%。
+
+增长后的新量＝原量×（1＋增长率），减少后的新量＝原量×（1－减少率），式中的变化率用小数表示。例如原有60棵，增加30%后有60×1.3＝78棵。
+
+已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。例如取出原有果汁的40%后剩下21升，剩下的比例是100%－40%＝60%，原有21÷0.6＝35升。不能把剩余量当作原量，再乘40%求取出量。
+
+打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。一件商品打七折后售价56元，原价为56÷0.7＝80元。
+
+## 连续变化：每一步都重新找整体
+
+连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。也可以把原量依次乘上每一步的变化倍数。
+
+例如一件商品原价300元，先涨价20%，再降价20%。第一次以300元为整体，涨后300×1.2＝360元；第二次以360元为整体，降后360×0.8＝288元。合起来是300×1.2×0.8＝288元。虽然两个变化率相同，涨了60元，降了72元，不能相互抵消。
+
+恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。如果只知道减少率而不知道具体数量，可以先假设原量为100，再按相同方法计算。
+
+例如原量减少40%，假设原来是100，减少后为60，恢复需要增加40，恢复所需增长率为40÷60≈66.67%。这与原先的减少率不同，因为两次比较的整体不同。
+
+## 合并或加入东西后，重新计算比例
+
+合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。不能直接平均各群体的百分比，除非各群体的整体数量相等。
+
+例如甲组50人，60%戴眼镜；乙组25人，24%戴眼镜。戴眼镜的共50×0.6＋25×0.24＝30＋6＝36人，合并后共75人，比例为36÷75＝0.48＝48%。
+
+加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。例如盐水中加纯水，盐的重量不变，盐水总重增加。
+
+一杯盐水重250克，盐占8%，盐有250×0.08＝20克；加入150克纯水后，总重为400克，盐仍是20克，含盐比例变成20÷400＝0.05＝5%。
+
+## 百分点与百分比变化
+
+百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。百分点比较的是比例本身的差，不是相对原比例的增长率。
+
+例如通过率由40%升到50%，上升了50－40＝10个百分点；如果问通过率增长了百分之几，则要以原通过率为整体，计算（50%－40%）÷40%＝0.25＝25%。上升10个百分点和增长25%描述的是同一次变化，但含义不同。由50%降到40%时，下降10个百分点，减少率却是（50%－40%）÷50%＝20%。
+
+## 算完怎样检查
+
+先明确题目求的是数量、比例、变化率还是百分点，再写出对应关系，最后计算并写单位。求部分通常应小于或等于整体；用不足100%的部分还原整体，整体应比已知部分大。计算变化率时检查分母是不是变化前的量；遇到连续变化、合并或加水，要检查整体是否已经改变。
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/exercise-results.md">out/exercise-results.md</a></p><pre># 固定练习结果
+
+有依据答对 10/10；纯数值正确率 100.0%。
+
+## P1 基本求部分
+
+一批练习本共240本，其中35%是方格本。方格本有多少本？
+
+学生答案：84 本
+
+学生推导：240本是整体，35%化为0.35。方格本数量为240×0.35＝84本。
+
+讲义依据：求部分：部分＝整体×比例。
+
+固定解答：240×0.35=84。
+
+## P2 还原原量
+
+书店打八折后一本书售价72元。原价是多少元？
+
+学生答案：90 元
+
+学生推导：八折表示售价是原价的80%，即0.8。原价为72÷0.8＝90元。
+
+讲义依据：打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。
+
+固定解答：打八折保留原价的0.8，72÷0.8=90。
+
+## P3 增长率
+
+某社团人数从40人增加到50人。增长率是多少百分比？答案填百分数前的数值。
+
+学生答案：25 %
+
+学生推导：增加人数为50－40＝10人，以原来的40人为整体，增长率为10÷40＝0.25＝25%，所以填25。
+
+讲义依据：增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。
+
+固定解答：增加10人，以原来的40人为基数，10÷40×100=25。
+
+## P4 减少率
+
+一项活动的报名人数由125人减少到100人。减少率是多少百分比？答案填百分数前的数值。
+
+学生答案：20 %
+
+学生推导：减少人数为125－100＝25人，以原来的125人为整体，减少率为25÷125＝0.2＝20%，所以填20。
+
+讲义依据：增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。
+
+固定解答：减少25人，以原来的125人为基数，25÷125×100=20。
+
+## P5 连续变化
+
+一件商品原价200元，先涨价10%，再降价10%。最后价格是多少元？
+
+学生答案：198 元
+
+学生推导：先涨价10%后的价格为200×1.1＝220元；再以220元为整体降价10%，最后价格为220×0.9＝198元。
+
+讲义依据：连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。
+
+固定解答：200×1.1×0.9=198，两个百分比的基数不同。
+
+## P6 百分点
+
+某问卷中支持比例由30%升到42%。上升了多少个百分点？
+
+学生答案：12 个百分点
+
+学生推导：百分点是两个百分数之差，因此上升了42－30＝12个百分点。
+
+讲义依据：百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。
+
+固定解答：42%-30%=12个百分点。
+
+## P7 变化后还原
+
+一袋米取出原有重量的25%后，剩下18千克。原有多少千克？
+
+学生答案：24 千克
+
+学生推导：取出25%后剩下的比例为100%－25%＝75%，即0.75。原有重量为18÷0.75＝24千克。
+
+讲义依据：已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。
+
+固定解答：剩下75%，18÷0.75=24。
+
+## P8 整体变化
+
+甲班有30人，其中40%参加合唱；乙班有20人，其中25%参加合唱。两班合计有多少百分比参加合唱？答案填百分数前的数值。
+
+学生答案：34 %
+
+学生推导：甲班参加合唱的有30×0.4＝12人，乙班有20×0.25＝5人；合计17人，总人数为30＋20＝50人，参加比例为17÷50＝0.34＝34%，所以填34。
+
+讲义依据：合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。
+
+固定解答：人数为12+5=17，整体为50，17÷50×100=34。
+
+## P9 反向变化率
+
+一个数先减少20%后，要回到原来的数，需要在减少后的基础上增加多少百分比？答案填百分数前的数值。
+
+学生答案：25 %
+
+学生推导：假设原数为100，减少20%后为100×0.8＝80；回到100需要增加20，以减少后的80为整体，所需增长率为20÷80＝0.25＝25%，所以填25。
+
+讲义依据：恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。
+
+固定解答：减少后是原量0.8，需增加0.2÷0.8=25%。
+
+## P10 比例与部分
+
+一杯糖水总重150克，其中糖占12%。加入50克水后，糖占总重多少百分比？答案填百分数前的数值。
+
+学生答案：9 %
+
+学生推导：原有糖150×0.12＝18克；加入50克水后，糖仍为18克，总重变为150＋50＝200克，糖的比例为18÷200＝0.09＝9%，所以填9。
+
+讲义依据：加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。
+
+固定解答：糖18克不变，总重200克，18÷200×100=9。
+
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/gates.json">out/gates.json</a></p><pre>{&quot;讲义有实质内容&quot;: true, &quot;不直接复制测试题&quot;: true}</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/lesson.html">out/lesson.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;title&gt;百分比讲义与练习结果&lt;/title&gt;&lt;style&gt;body{max-width:900px;margin:40px auto;padding:20px;font:17px/1.8 system-ui;color:#17384d}pre{white-space:pre-wrap;font:inherit}section{background:#f3f7fa;padding:24px;margin:20px 0}&lt;/style&gt;&lt;section&gt;&lt;pre&gt;# 从“以谁为整体”理解百分比
+
+百分比就是把整体看成一百份，表示其中有多少份。百分之二十写成20%，也就是20÷100＝0.2。整体对应100%，一半对应50%。百分比表示两个量的关系，本身不是人数、价格或重量。
+
+做题前，先把“谁占谁的百分之几”说完整：“蓝色彩笔占全部彩笔的20%”中，全部彩笔是整体，蓝色彩笔是部分。比较两个数量时，“甲比乙多百分之几”以乙为整体，因为是在与乙比较。
+
+## 一个关系，三种求法
+
+部分＝整体×比例；已知整体和比例求部分用乘法，已知部分和比例求整体用除法，已知部分和整体求比例也用除法。
+
+比例参与乘除时先换成小数；小数写成百分数时乘100，再加上百分号。例如0.08＝8%，0.6＝60%，1.2＝120%。
+
+**求部分：部分＝整体×比例。** 一盒彩笔有50支，其中20%是蓝色，则蓝色彩笔有50×0.2＝10支。这里50支是整体，10支是部分，20%是比例。另如一本书共80页，读完25%，已读80×0.25＝20页。
+
+**求整体：整体＝部分÷对应的比例。** 一套卡片中有15张动物卡，占全部卡片的30%，则全部有15÷0.3＝50张。因为“全部张数×0.3＝15”，反过来就用15除以0.3。必须让部分与比例对应，不能拿动物卡张数除以其他种类的比例。
+
+**求比例：比例＝部分÷整体，再把所得小数写成百分数。** 例如60人中有18人步行到校，步行比例为18÷60＝0.3＝30%。部分和整体须使用相同单位。若题目要求百分数前的数值，30%对应的数值是30。
+
+## 增长、减少与还原原量
+
+增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。
+
+例如树苗从60棵增至78棵，增加78－60＝18棵，增长率为18÷60＝0.3＝30%。从80棵减至68棵，减少80－68＝12棵，减少率为12÷80＝0.15＝15%。“增加了30%”说的是增加量占原量的30%；“增加到原来的130%”说的是新量占原量的130%。
+
+增长后的新量＝原量×（1＋增长率），减少后的新量＝原量×（1－减少率），式中的变化率用小数表示。例如原有60棵，增加30%后有60×1.3＝78棵。
+
+已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。例如取出原有果汁的40%后剩下21升，剩下的比例是100%－40%＝60%，原有21÷0.6＝35升。不能把剩余量当作原量，再乘40%求取出量。
+
+打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。一件商品打七折后售价56元，原价为56÷0.7＝80元。
+
+## 连续变化：每一步都重新找整体
+
+连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。也可以把原量依次乘上每一步的变化倍数。
+
+例如一件商品原价300元，先涨价20%，再降价20%。第一次以300元为整体，涨后300×1.2＝360元；第二次以360元为整体，降后360×0.8＝288元。合起来是300×1.2×0.8＝288元。虽然两个变化率相同，涨了60元，降了72元，不能相互抵消。
+
+恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。如果只知道减少率而不知道具体数量，可以先假设原量为100，再按相同方法计算。
+
+例如原量减少40%，假设原来是100，减少后为60，恢复需要增加40，恢复所需增长率为40÷60≈66.67%。这与原先的减少率不同，因为两次比较的整体不同。
+
+## 合并或加入东西后，重新计算比例
+
+合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。不能直接平均各群体的百分比，除非各群体的整体数量相等。
+
+例如甲组50人，60%戴眼镜；乙组25人，24%戴眼镜。戴眼镜的共50×0.6＋25×0.24＝30＋6＝36人，合并后共75人，比例为36÷75＝0.48＝48%。
+
+加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。例如盐水中加纯水，盐的重量不变，盐水总重增加。
+
+一杯盐水重250克，盐占8%，盐有250×0.08＝20克；加入150克纯水后，总重为400克，盐仍是20克，含盐比例变成20÷400＝0.05＝5%。
+
+## 百分点与百分比变化
+
+百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。百分点比较的是比例本身的差，不是相对原比例的增长率。
+
+例如通过率由40%升到50%，上升了50－40＝10个百分点；如果问通过率增长了百分之几，则要以原通过率为整体，计算（50%－40%）÷40%＝0.25＝25%。上升10个百分点和增长25%描述的是同一次变化，但含义不同。由50%降到40%时，下降10个百分点，减少率却是（50%－40%）÷50%＝20%。
+
+## 算完怎样检查
+
+先明确题目求的是数量、比例、变化率还是百分点，再写出对应关系，最后计算并写单位。求部分通常应小于或等于整体；用不足100%的部分还原整体，整体应比已知部分大。计算变化率时检查分母是不是变化前的量；遇到连续变化、合并或加水，要检查整体是否已经改变。
+&lt;/pre&gt;&lt;/section&gt;&lt;section&gt;&lt;pre&gt;# 固定练习结果
+
+有依据答对 10/10；纯数值正确率 100.0%。
+
+## P1 基本求部分
+
+一批练习本共240本，其中35%是方格本。方格本有多少本？
+
+学生答案：84 本
+
+学生推导：240本是整体，35%化为0.35。方格本数量为240×0.35＝84本。
+
+讲义依据：求部分：部分＝整体×比例。
+
+固定解答：240×0.35=84。
+
+## P2 还原原量
+
+书店打八折后一本书售价72元。原价是多少元？
+
+学生答案：90 元
+
+学生推导：八折表示售价是原价的80%，即0.8。原价为72÷0.8＝90元。
+
+讲义依据：打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。
+
+固定解答：打八折保留原价的0.8，72÷0.8=90。
+
+## P3 增长率
+
+某社团人数从40人增加到50人。增长率是多少百分比？答案填百分数前的数值。
+
+学生答案：25 %
+
+学生推导：增加人数为50－40＝10人，以原来的40人为整体，增长率为10÷40＝0.25＝25%，所以填25。
+
+讲义依据：增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。
+
+固定解答：增加10人，以原来的40人为基数，10÷40×100=25。
+
+## P4 减少率
+
+一项活动的报名人数由125人减少到100人。减少率是多少百分比？答案填百分数前的数值。
+
+学生答案：20 %
+
+学生推导：减少人数为125－100＝25人，以原来的125人为整体，减少率为25÷125＝0.2＝20%，所以填20。
+
+讲义依据：增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。
+
+固定解答：减少25人，以原来的125人为基数，25÷125×100=20。
+
+## P5 连续变化
+
+一件商品原价200元，先涨价10%，再降价10%。最后价格是多少元？
+
+学生答案：198 元
+
+学生推导：先涨价10%后的价格为200×1.1＝220元；再以220元为整体降价10%，最后价格为220×0.9＝198元。
+
+讲义依据：连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。
+
+固定解答：200×1.1×0.9=198，两个百分比的基数不同。
+
+## P6 百分点
+
+某问卷中支持比例由30%升到42%。上升了多少个百分点？
+
+学生答案：12 个百分点
+
+学生推导：百分点是两个百分数之差，因此上升了42－30＝12个百分点。
+
+讲义依据：百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。
+
+固定解答：42%-30%=12个百分点。
+
+## P7 变化后还原
+
+一袋米取出原有重量的25%后，剩下18千克。原有多少千克？
+
+学生答案：24 千克
+
+学生推导：取出25%后剩下的比例为100%－25%＝75%，即0.75。原有重量为18÷0.75＝24千克。
+
+讲义依据：已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。
+
+固定解答：剩下75%，18÷0.75=24。
+
+## P8 整体变化
+
+甲班有30人，其中40%参加合唱；乙班有20人，其中25%参加合唱。两班合计有多少百分比参加合唱？答案填百分数前的数值。
+
+学生答案：34 %
+
+学生推导：甲班参加合唱的有30×0.4＝12人，乙班有20×0.25＝5人；合计17人，总人数为30＋20＝50人，参加比例为17÷50＝0.34＝34%，所以填34。
+
+讲义依据：合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。
+
+固定解答：人数为12+5=17，整体为50，17÷50×100=34。
+
+## P9 反向变化率
+
+一个数先减少20%后，要回到原来的数，需要在减少后的基础上增加多少百分比？答案填百分数前的数值。
+
+学生答案：25 %
+
+学生推导：假设原数为100，减少20%后为100×0.8＝80；回到100需要增加20，以减少后的80为整体，所需增长率为20÷80＝0.25＝25%，所以填25。
+
+讲义依据：恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。
+
+固定解答：减少后是原量0.8，需增加0.2÷0.8=25%。
+
+## P10 比例与部分
+
+一杯糖水总重150克，其中糖占12%。加入50克水后，糖占总重多少百分比？答案填百分数前的数值。
+
+学生答案：9 %
+
+学生推导：原有糖150×0.12＝18克；加入50克水后，糖仍为18克，总重变为150＋50＝200克，糖的比例为18÷200＝0.09＝9%，所以填9。
+
+讲义依据：加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。
+
+固定解答：糖18克不变，总重200克，18÷200×100=9。
+
+&lt;/pre&gt;&lt;/section&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/lesson.md">out/lesson.md</a></p><pre># 从“以谁为整体”理解百分比
+
+百分比就是把整体看成一百份，表示其中有多少份。百分之二十写成20%，也就是20÷100＝0.2。整体对应100%，一半对应50%。百分比表示两个量的关系，本身不是人数、价格或重量。
+
+做题前，先把“谁占谁的百分之几”说完整：“蓝色彩笔占全部彩笔的20%”中，全部彩笔是整体，蓝色彩笔是部分。比较两个数量时，“甲比乙多百分之几”以乙为整体，因为是在与乙比较。
+
+## 一个关系，三种求法
+
+部分＝整体×比例；已知整体和比例求部分用乘法，已知部分和比例求整体用除法，已知部分和整体求比例也用除法。
+
+比例参与乘除时先换成小数；小数写成百分数时乘100，再加上百分号。例如0.08＝8%，0.6＝60%，1.2＝120%。
+
+**求部分：部分＝整体×比例。** 一盒彩笔有50支，其中20%是蓝色，则蓝色彩笔有50×0.2＝10支。这里50支是整体，10支是部分，20%是比例。另如一本书共80页，读完25%，已读80×0.25＝20页。
+
+**求整体：整体＝部分÷对应的比例。** 一套卡片中有15张动物卡，占全部卡片的30%，则全部有15÷0.3＝50张。因为“全部张数×0.3＝15”，反过来就用15除以0.3。必须让部分与比例对应，不能拿动物卡张数除以其他种类的比例。
+
+**求比例：比例＝部分÷整体，再把所得小数写成百分数。** 例如60人中有18人步行到校，步行比例为18÷60＝0.3＝30%。部分和整体须使用相同单位。若题目要求百分数前的数值，30%对应的数值是30。
+
+## 增长、减少与还原原量
+
+增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。
+
+例如树苗从60棵增至78棵，增加78－60＝18棵，增长率为18÷60＝0.3＝30%。从80棵减至68棵，减少80－68＝12棵，减少率为12÷80＝0.15＝15%。“增加了30%”说的是增加量占原量的30%；“增加到原来的130%”说的是新量占原量的130%。
+
+增长后的新量＝原量×（1＋增长率），减少后的新量＝原量×（1－减少率），式中的变化率用小数表示。例如原有60棵，增加30%后有60×1.3＝78棵。
+
+已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。例如取出原有果汁的40%后剩下21升，剩下的比例是100%－40%＝60%，原有21÷0.6＝35升。不能把剩余量当作原量，再乘40%求取出量。
+
+打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。一件商品打七折后售价56元，原价为56÷0.7＝80元。
+
+## 连续变化：每一步都重新找整体
+
+连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。也可以把原量依次乘上每一步的变化倍数。
+
+例如一件商品原价300元，先涨价20%，再降价20%。第一次以300元为整体，涨后300×1.2＝360元；第二次以360元为整体，降后360×0.8＝288元。合起来是300×1.2×0.8＝288元。虽然两个变化率相同，涨了60元，降了72元，不能相互抵消。
+
+恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。如果只知道减少率而不知道具体数量，可以先假设原量为100，再按相同方法计算。
+
+例如原量减少40%，假设原来是100，减少后为60，恢复需要增加40，恢复所需增长率为40÷60≈66.67%。这与原先的减少率不同，因为两次比较的整体不同。
+
+## 合并或加入东西后，重新计算比例
+
+合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。不能直接平均各群体的百分比，除非各群体的整体数量相等。
+
+例如甲组50人，60%戴眼镜；乙组25人，24%戴眼镜。戴眼镜的共50×0.6＋25×0.24＝30＋6＝36人，合并后共75人，比例为36÷75＝0.48＝48%。
+
+加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。例如盐水中加纯水，盐的重量不变，盐水总重增加。
+
+一杯盐水重250克，盐占8%，盐有250×0.08＝20克；加入150克纯水后，总重为400克，盐仍是20克，含盐比例变成20÷400＝0.05＝5%。
+
+## 百分点与百分比变化
+
+百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。百分点比较的是比例本身的差，不是相对原比例的增长率。
+
+例如通过率由40%升到50%，上升了50－40＝10个百分点；如果问通过率增长了百分之几，则要以原通过率为整体，计算（50%－40%）÷40%＝0.25＝25%。上升10个百分点和增长25%描述的是同一次变化，但含义不同。由50%降到40%时，下降10个百分点，减少率却是（50%－40%）÷50%＝20%。
+
+## 算完怎样检查
+
+先明确题目求的是数量、比例、变化率还是百分点，再写出对应关系，最后计算并写单位。求部分通常应小于或等于整体；用不足100%的部分还原整体，整体应比已知部分大。计算变化率时检查分母是不是变化前的量；遇到连续变化、合并或加水，要检查整体是否已经改变。
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/mistakes.json">out/mistakes.json</a></p><pre>[]</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/results.json">out/results.json</a></p><pre>{
+  &quot;score&quot;: 100.0,
+  &quot;numeric_accuracy&quot;: 100.0,
+  &quot;correct&quot;: 10,
+  &quot;total&quot;: 10,
+  &quot;answers&quot;: [
+    {
+      &quot;id&quot;: &quot;P1&quot;,
+      &quot;topic&quot;: &quot;基本求部分&quot;,
+      &quot;question&quot;: &quot;一批练习本共240本，其中35%是方格本。方格本有多少本？&quot;,
+      &quot;expected&quot;: 84,
+      &quot;unit&quot;: &quot;本&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;240×0.35=84。&quot;,
+      &quot;answer&quot;: 84,
+      &quot;reason&quot;: &quot;240本是整体，35%化为0.35。方格本数量为240×0.35＝84本。&quot;,
+      &quot;lesson_quote&quot;: &quot;求部分：部分＝整体×比例。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P2&quot;,
+      &quot;topic&quot;: &quot;还原原量&quot;,
+      &quot;question&quot;: &quot;书店打八折后一本书售价72元。原价是多少元？&quot;,
+      &quot;expected&quot;: 90,
+      &quot;unit&quot;: &quot;元&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;打八折保留原价的0.8，72÷0.8=90。&quot;,
+      &quot;answer&quot;: 90,
+      &quot;reason&quot;: &quot;八折表示售价是原价的80%，即0.8。原价为72÷0.8＝90元。&quot;,
+      &quot;lesson_quote&quot;: &quot;打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P3&quot;,
+      &quot;topic&quot;: &quot;增长率&quot;,
+      &quot;question&quot;: &quot;某社团人数从40人增加到50人。增长率是多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 25,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;增加10人，以原来的40人为基数，10÷40×100=25。&quot;,
+      &quot;answer&quot;: 25,
+      &quot;reason&quot;: &quot;增加人数为50－40＝10人，以原来的40人为整体，增长率为10÷40＝0.25＝25%，所以填25。&quot;,
+      &quot;lesson_quote&quot;: &quot;增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P4&quot;,
+      &quot;topic&quot;: &quot;减少率&quot;,
+      &quot;question&quot;: &quot;一项活动的报名人数由125人减少到100人。减少率是多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 20,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;减少25人，以原来的125人为基数，25÷125×100=20。&quot;,
+      &quot;answer&quot;: 20,
+      &quot;reason&quot;: &quot;减少人数为125－100＝25人，以原来的125人为整体，减少率为25÷125＝0.2＝20%，所以填20。&quot;,
+      &quot;lesson_quote&quot;: &quot;增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P5&quot;,
+      &quot;topic&quot;: &quot;连续变化&quot;,
+      &quot;question&quot;: &quot;一件商品原价200元，先涨价10%，再降价10%。最后价格是多少元？&quot;,
+      &quot;expected&quot;: 198,
+      &quot;unit&quot;: &quot;元&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;200×1.1×0.9=198，两个百分比的基数不同。&quot;,
+      &quot;answer&quot;: 198,
+      &quot;reason&quot;: &quot;先涨价10%后的价格为200×1.1＝220元；再以220元为整体降价10%，最后价格为220×0.9＝198元。&quot;,
+      &quot;lesson_quote&quot;: &quot;连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P6&quot;,
+      &quot;topic&quot;: &quot;百分点&quot;,
+      &quot;question&quot;: &quot;某问卷中支持比例由30%升到42%。上升了多少个百分点？&quot;,
+      &quot;expected&quot;: 12,
+      &quot;unit&quot;: &quot;个百分点&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;42%-30%=12个百分点。&quot;,
+      &quot;answer&quot;: 12,
+      &quot;reason&quot;: &quot;百分点是两个百分数之差，因此上升了42－30＝12个百分点。&quot;,
+      &quot;lesson_quote&quot;: &quot;百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P7&quot;,
+      &quot;topic&quot;: &quot;变化后还原&quot;,
+      &quot;question&quot;: &quot;一袋米取出原有重量的25%后，剩下18千克。原有多少千克？&quot;,
+      &quot;expected&quot;: 24,
+      &quot;unit&quot;: &quot;千克&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;剩下75%，18÷0.75=24。&quot;,
+      &quot;answer&quot;: 24,
+      &quot;reason&quot;: &quot;取出25%后剩下的比例为100%－25%＝75%，即0.75。原有重量为18÷0.75＝24千克。&quot;,
+      &quot;lesson_quote&quot;: &quot;已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P8&quot;,
+      &quot;topic&quot;: &quot;整体变化&quot;,
+      &quot;question&quot;: &quot;甲班有30人，其中40%参加合唱；乙班有20人，其中25%参加合唱。两班合计有多少百分比参加合唱？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 34,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;人数为12+5=17，整体为50，17÷50×100=34。&quot;,
+      &quot;answer&quot;: 34,
+      &quot;reason&quot;: &quot;甲班参加合唱的有30×0.4＝12人，乙班有20×0.25＝5人；合计17人，总人数为30＋20＝50人，参加比例为17÷50＝0.34＝34%，所以填34。&quot;,
+      &quot;lesson_quote&quot;: &quot;合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P9&quot;,
+      &quot;topic&quot;: &quot;反向变化率&quot;,
+      &quot;question&quot;: &quot;一个数先减少20%后，要回到原来的数，需要在减少后的基础上增加多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 25,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;减少后是原量0.8，需增加0.2÷0.8=25%。&quot;,
+      &quot;answer&quot;: 25,
+      &quot;reason&quot;: &quot;假设原数为100，减少20%后为100×0.8＝80；回到100需要增加20，以减少后的80为整体，所需增长率为20÷80＝0.25＝25%，所以填25。&quot;,
+      &quot;lesson_quote&quot;: &quot;恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;P10&quot;,
+      &quot;topic&quot;: &quot;比例与部分&quot;,
+      &quot;question&quot;: &quot;一杯糖水总重150克，其中糖占12%。加入50克水后，糖占总重多少百分比？答案填百分数前的数值。&quot;,
+      &quot;expected&quot;: 9,
+      &quot;unit&quot;: &quot;%&quot;,
+      &quot;tolerance&quot;: 0.0001,
+      &quot;solution&quot;: &quot;糖18克不变，总重200克，18÷200×100=9。&quot;,
+      &quot;answer&quot;: 9,
+      &quot;reason&quot;: &quot;原有糖150×0.12＝18克；加入50克水后，糖仍为18克，总重变为150＋50＝200克，糖的比例为18÷200＝0.09＝9%，所以填9。&quot;,
+      &quot;lesson_quote&quot;: &quot;加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。&quot;,
+      &quot;numeric_correct&quot;: true,
+      &quot;quote_found&quot;: true,
+      &quot;supported_correct&quot;: true
+    }
+  ],
+  &quot;requested_model&quot;: &quot;cli:codex:gpt-5.6-sol&quot;,
+  &quot;actual_model&quot;: null,
+  &quot;usage&quot;: {
+    &quot;input_tokens&quot;: 17497,
+    &quot;cached_input_tokens&quot;: 11264,
+    &quot;cache_write_input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 902,
+    &quot;reasoning_output_tokens&quot;: 53
+  },
+  &quot;seconds&quot;: 17.967617875000002,
+  &quot;cost_usd&quot;: null,
+  &quot;scope&quot;: &quot;受限模型依据讲义作答；不是人类学习效果，原句匹配不证明语义支持。&quot;
+}</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/student-response.txt">out/student-response.txt</a></p><pre>{&quot;answers&quot;:[{&quot;id&quot;:&quot;P1&quot;,&quot;answer&quot;:84,&quot;reason&quot;:&quot;240本是整体，35%化为0.35。方格本数量为240×0.35＝84本。&quot;,&quot;lesson_quote&quot;:&quot;求部分：部分＝整体×比例。&quot;},{&quot;id&quot;:&quot;P2&quot;,&quot;answer&quot;:90,&quot;reason&quot;:&quot;八折表示售价是原价的80%，即0.8。原价为72÷0.8＝90元。&quot;,&quot;lesson_quote&quot;:&quot;打几折表示现价是原价的十分之几，例如七折就是原价的70%，相当于降价30%。&quot;},{&quot;id&quot;:&quot;P3&quot;,&quot;answer&quot;:25,&quot;reason&quot;:&quot;增加人数为50－40＝10人，以原来的40人为整体，增长率为10÷40＝0.25＝25%，所以填25。&quot;,&quot;lesson_quote&quot;:&quot;增长率＝（新量－原量）÷原量，减少率＝（原量－新量）÷原量，算出的比值要写成百分数。&quot;},{&quot;id&quot;:&quot;P4&quot;,&quot;answer&quot;:20,&quot;reason&quot;:&quot;减少人数为125－100＝25人，以原来的125人为整体，减少率为25÷125＝0.2＝20%，所以填20。&quot;,&quot;lesson_quote&quot;:&quot;增长率和减少率都以变化前的原量为整体，分子分别是增加量和减少量。&quot;},{&quot;id&quot;:&quot;P5&quot;,&quot;answer&quot;:198,&quot;reason&quot;:&quot;先涨价10%后的价格为200×1.1＝220元；再以220元为整体降价10%，最后价格为220×0.9＝198元。&quot;,&quot;lesson_quote&quot;:&quot;连续变化时，后一步的百分比以这一步开始前的数量为整体；先算出前一步的新量，再用它计算下一步。&quot;},{&quot;id&quot;:&quot;P6&quot;,&quot;answer&quot;:12,&quot;reason&quot;:&quot;百分点是两个百分数之差，因此上升了42－30＝12个百分点。&quot;,&quot;lesson_quote&quot;:&quot;百分点表示两个百分数之间相差多少：用新百分数减去旧百分数，所得差的数值以“个百分点”为单位。&quot;},{&quot;id&quot;:&quot;P7&quot;,&quot;answer&quot;:24,&quot;reason&quot;:&quot;取出25%后剩下的比例为100%－25%＝75%，即0.75。原有重量为18÷0.75＝24千克。&quot;,&quot;lesson_quote&quot;:&quot;已知变化后的数量求原量，增长时用原量＝新量÷（1＋增长率），减少时用原量＝新量÷（1－减少率）。&quot;},{&quot;id&quot;:&quot;P8&quot;,&quot;answer&quot;:34,&quot;reason&quot;:&quot;甲班参加合唱的有30×0.4＝12人，乙班有20×0.25＝5人；合计17人，总人数为30＋20＝50人，参加比例为17÷50＝0.34＝34%，所以填34。&quot;,&quot;lesson_quote&quot;:&quot;合并多个群体时，先分别求出各群体的部分数量，再用部分数量之和除以整体数量之和，得到合并后的比例。&quot;},{&quot;id&quot;:&quot;P9&quot;,&quot;answer&quot;:25,&quot;reason&quot;:&quot;假设原数为100，减少20%后为100×0.8＝80；回到100需要增加20，以减少后的80为整体，所需增长率为20÷80＝0.25＝25%，所以填25。&quot;,&quot;lesson_quote&quot;:&quot;恢复原量时，所需增长率＝（原量－减少后的量）÷减少后的量，因为这次增长以减少后的量为整体。&quot;},{&quot;id&quot;:&quot;P10&quot;,&quot;answer&quot;:9,&quot;reason&quot;:&quot;原有糖150×0.12＝18克；加入50克水后，糖仍为18克，总重变为150＋50＝200克，糖的比例为18÷200＝0.09＝9%，所以填9。&quot;,&quot;lesson_quote&quot;:&quot;加入或移走某种东西后，要分别确定部分和整体是否改变，再用新的部分除以新的整体求百分比。&quot;}]}</pre></div></details>
+<h2>Champion vs. start</h2><pre>lesson.md | 60 +++++++++++++++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 53 insertions(+), 7 deletions(-)</pre>
+<p class="muted">Branch <code>rsi/20261024-003730-percent-lesson</code>. Generated by RSI-Anything.</p>
+</main></body></html>

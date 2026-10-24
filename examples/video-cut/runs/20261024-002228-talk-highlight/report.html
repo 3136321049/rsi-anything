@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSI run 20261024-002228-talk-highlight</title>
+<style>
+:root { --bg:#fbfaf7; --fg:#1d1d1b; --muted:#6b6a64; --line:#e4e1d8; --accent:#2f6fde; --keep:#1f9d55; --drop:#b7b3a6; }
+@media (prefers-color-scheme: dark) { :root { --bg:#161614; --fg:#ecebe6; --muted:#a3a198; --line:#2c2b27; --accent:#7aa7ff; --keep:#4cc38a; --drop:#5b5950; } }
+body { background:var(--bg); color:var(--fg); font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; margin:0; }
+main { max-width:960px; margin:0 auto; padding:32px 16px 64px; }
+h1 { font-size:22px; margin:0 0 4px; } .muted { color:var(--muted); }
+.stats { display:flex; gap:24px; flex-wrap:wrap; margin:20px 0; } .stat b { display:block; font-size:26px; }
+svg { width:100%; height:auto; border:1px solid var(--line); border-radius:8px; }
+.best { fill:none; stroke:var(--accent); stroke-width:2; } .kept { fill:var(--keep); } .dropped { fill:var(--drop); }
+.tick { fill:var(--muted); font-size:11px; }
+table { width:100%; border-collapse:collapse; margin-top:20px; font-size:14px; }
+td,th { border-bottom:1px solid var(--line); padding:6px 8px; text-align:left; vertical-align:top; }
+tr.s-keep td:nth-child(2) { color:var(--keep); font-weight:600; }
+pre { overflow-x:auto; background:color-mix(in srgb, var(--line) 40%, transparent); padding:12px; border-radius:8px; }
+details { border:1px solid var(--line); border-radius:8px; padding:12px; margin:12px 0; } summary { cursor:pointer; font-weight:600; }
+.artifact img,.artifact video { max-width:100%; max-height:560px; } .artifact pre { max-height:420px; white-space:pre-wrap; overflow:auto; } a { color:var(--accent); }
+</style></head><body><main>
+<h1>talk-highlight</h1>
+<div class="muted">从 judge/transcript.json 对应的真实口播中选出40到75秒的短片，只修改edit.json。按judge/keypoints.md给出的目标选句和安排顺序，保留原意，不拼接出相反含义。</div>
+<p class="muted">运行状态：finished。已保存 9 条模型调用记录；调用费用：工具未提供。</p>
+<p><a href="config/rsi.yaml">任务配置</a> · <a href="config/execution.json">模型与运行参数</a></p>
+<div class="stats">
+<div class="stat"><span class="muted">baseline</span><b>18.5</b></div>
+<div class="stat"><span class="muted">best</span><b>75.5</b></div>
+<div class="stat"><span class="muted">rounds / kept</span><b>4 / 1</b></div>
+<div class="stat"><span class="muted">agent</span><b style="font-size:16px">codex</b></div>
+</div>
+<svg viewBox="0 0 720 260" role="img" aria-label="score by round"><polyline points="48.0,210.3 212.0,38.2 376.0,38.2 540.0,38.2 704.0,38.2" class="best"/><circle cx="48.0" cy="210.3" r="5" class="kept"><title>r0 BASELINE 18.5</title></circle><circle cx="212.0" cy="38.2" r="5" class="kept"><title>r1 KEEP 75.5</title></circle><circle cx="376.0" cy="60.8" r="3.5" class="dropped"><title>r2 REVERT 68</title></circle><circle cx="540.0" cy="33.7" r="3.5" class="dropped"><title>r3 REVERT 77</title></circle><circle cx="704.0" cy="39.7" r="3.5" class="dropped"><title>r4 REVERT 75</title></circle><text x="40" y="210.3" class="tick" text-anchor="end">18.5</text><text x="40" y="122.0" class="tick" text-anchor="end">47.8</text><text x="40" y="33.7" class="tick" text-anchor="end">77</text><text x="48.0" y="250" class="tick" text-anchor="middle">r0</text><text x="212.0" y="250" class="tick" text-anchor="middle">r1</text><text x="376.0" y="250" class="tick" text-anchor="middle">r2</text><text x="540.0" y="250" class="tick" text-anchor="middle">r3</text><text x="704.0" y="250" class="tick" text-anchor="middle">r4</text></svg>
+<p class="muted">Line: best score so far. Green: kept. Grey: judged and thrown away.
+
+Stopped: no improvement in 3 rounds.</p>
+<table><thead><tr><th>round</th><th>status</th><th>score</th><th>best</th><th>change</th><th>why</th></tr></thead>
+<tbody><tr class='s-baseline'><td>0</td><td>◆ BASELINE</td><td>18.5</td><td>18.5</td><td>baseline</td><td></td></tr><tr class='s-keep'><td>1</td><td>▲ KEEP</td><td>75.5</td><td>75.5</td><td>仅修改 `edit.json`，按原序选取第 22–31 段，共 56.002 秒；以捍卫自由的决心开场，以团结与分裂的反差完整收尾，预计能提高开场吸引力、连贯性和结尾得分。</td><td>score 18.5 -&gt; 75.5; head-to-head 2/2</td></tr><tr class='s-revert'><td>2</td><td>· REVERT</td><td>68</td><td>75.5</td><td>仅修改 `edit.json`，选取第 8–13、27–31 段，共 64.624 秒；以消除贫困与毁灭人类的具体反差开场，完整保留权利信念及盟友合作段落，预计提升开场吸引力和信息价值。</td><td>score 68 is not better than 75.5 (required margin: 0 or 0%)</td></tr><tr class='s-revert'><td>3</td><td>· REVERT</td><td>77</td><td>75.5</td><td>仅修改 `edit.json`，连续选取第 32–38 段，共 43.628 秒；以殖民结束却可能迎来暴政的具体冲突开场，完整表达尊重新独立国家自主立场的主张，以警句收尾，预计提升开场吸引力、信息价值和节奏。JSON 与时长检查通过。</td><td>higher score but lost head-to-head (0/2 votes)</td></tr><tr class='s-revert'><td>4</td><td>· REVERT</td><td>75</td><td>75.5</td><td>仅修改 `edit.json`，选取第 32–34、27–31 段，共 47.592 秒；以殖民结束却可能迎来暴政的冲突开场，接盟友合作并以团结与分裂的反差收尾，预计提升吸引力和信息价值。JSON 与时长检查通过。</td><td>score 75 is not better than 75.5 (required margin: 0 or 0%)</td></tr></tbody></table>
+<h2>产物版本</h2><details><summary>初始产物</summary><div class='artifact'><p><a href="artifacts/baseline/files/edit.json">edit.json</a></p><pre>{
+ &quot;segments&quot;: [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+ ]
+}
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/cut.mp4">out/cut.mp4</a></p><video controls preload="metadata" src="artifacts/baseline/files/out/cut.mp4"></video></div><div class='artifact'><p><a href="artifacts/baseline/files/out/cut.srt">out/cut.srt</a></p><span class="muted">770 bytes</span></div><div class='artifact'><p><a href="artifacts/baseline/files/out/cut.txt">out/cut.txt</a></p><pre>Vice President Johnson, Mr. Speaker, Mr. Chief Justice, President Eisenhower,
+Vice President Nixon, President Truman, reverend clergy,
+fellow citizens! We observe today not a victory of party, but a
+celebration of freedom—symbolizing an end, as well as a
+beginning—signifying renewal, as well as change. For I have sworn
+before you and Almighty God the same solemn oath our forebears
+prescribed nearly a century and three quarters ago.
+The world is very different now. For man holds in his mortal hands</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/gates.json">out/gates.json</a></p><pre>{&quot;valid_edit&quot;: true, &quot;duration_40_75s&quot;: true, &quot;segments_4_14&quot;: true, &quot;rendered&quot;: true}</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/media.json">out/media.json</a></p><pre>{
+    &quot;programs&quot;: [
+
+    ],
+    &quot;streams&quot;: [
+        {
+            &quot;codec_type&quot;: &quot;video&quot;,
+            &quot;width&quot;: 360,
+            &quot;height&quot;: 640
+        },
+        {
+            &quot;codec_type&quot;: &quot;audio&quot;
+        }
+    ],
+    &quot;format&quot;: {
+        &quot;duration&quot;: &quot;56.824000&quot;
+    }
+}
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/notes.txt">out/notes.txt</a></p><pre>cut: 8 sentences, 56.8s (allowed 40-75s); order [1, 2, 3, 4, 5, 6, 7, 8]</pre></div></details><details><summary>第 1 轮 · KEEP</summary><div class='artifact'><p><a href="rounds/r001/artifacts/files/edit.json">edit.json</a></p><pre>{
+ &quot;segments&quot;: [
+  22,
+  23,
+  24,
+  25,
+  26,
+  27,
+  28,
+  29,
+  30,
+  31
+ ]
+}
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/cut.mp4">out/cut.mp4</a></p><video controls preload="metadata" src="rounds/r001/artifacts/files/out/cut.mp4"></video></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/cut.srt">out/cut.srt</a></p><span class="muted">859 bytes</span></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/cut.txt">out/cut.txt</a></p><pre>Let every nation know, whether it wishes us well or ill, that we
+shall pay any price, bear any burden, meet any hardship, support any
+friend, oppose any foe, to assure the survival and the
+success of liberty.
+This much we pledge—and more.
+To those old allies whose cultural and spiritual origins we share, we
+pledge the loyalty of faithful friends. United, there is little we
+cannot do in a host of cooperative ventures. Divided, there is little
+we can do—for we dare not meet a powerful challenge at odds
+and split asunder.</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{&quot;valid_edit&quot;: true, &quot;duration_40_75s&quot;: true, &quot;segments_4_14&quot;: true, &quot;rendered&quot;: true}</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/media.json">out/media.json</a></p><pre>{
+    &quot;programs&quot;: [
+
+    ],
+    &quot;streams&quot;: [
+        {
+            &quot;codec_type&quot;: &quot;video&quot;,
+            &quot;width&quot;: 360,
+            &quot;height&quot;: 640
+        },
+        {
+            &quot;codec_type&quot;: &quot;audio&quot;
+        }
+    ],
+    &quot;format&quot;: {
+        &quot;duration&quot;: &quot;56.090000&quot;
+    }
+}
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>cut: 10 sentences, 56.0s (allowed 40-75s); order [22, 23, 24, 25, 26, 27, 28, 29, 30, 31]</pre></div></details><details><summary>第 2 轮 · REVERT</summary><div class='artifact'><p><a href="rounds/r002/artifacts/files/edit.json">edit.json</a></p><pre>{
+ &quot;segments&quot;: [
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  27,
+  28,
+  29,
+  30,
+  31
+ ]
+}
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/cut.mp4">out/cut.mp4</a></p><video controls preload="metadata" src="rounds/r002/artifacts/files/out/cut.mp4"></video></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/cut.srt">out/cut.srt</a></p><span class="muted">1,007 bytes</span></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/cut.txt">out/cut.txt</a></p><pre>The world is very different now. For man holds in his mortal hands
+the power to abolish all forms of human poverty and all forms of
+human life. And yet the same revolutionary beliefs for which our
+forebears fought are still at issue around the globe—the belief
+that the rights of man come not from the generosity of the state,
+but from the hand of God.
+To those old allies whose cultural and spiritual origins we share, we
+pledge the loyalty of faithful friends. United, there is little we
+cannot do in a host of cooperative ventures. Divided, there is little
+we can do—for we dare not meet a powerful challenge at odds
+and split asunder.</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{&quot;valid_edit&quot;: true, &quot;duration_40_75s&quot;: true, &quot;segments_4_14&quot;: true, &quot;rendered&quot;: true}</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/media.json">out/media.json</a></p><pre>{
+    &quot;programs&quot;: [
+
+    ],
+    &quot;streams&quot;: [
+        {
+            &quot;codec_type&quot;: &quot;video&quot;,
+            &quot;width&quot;: 360,
+            &quot;height&quot;: 640
+        },
+        {
+            &quot;codec_type&quot;: &quot;audio&quot;
+        }
+    ],
+    &quot;format&quot;: {
+        &quot;duration&quot;: &quot;64.699000&quot;
+    }
+}
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>cut: 11 sentences, 64.6s (allowed 40-75s); order [8, 9, 10, 11, 12, 13, 27, 28, 29, 30, 31]</pre></div></details><details><summary>第 3 轮 · REVERT</summary><div class='artifact'><p><a href="rounds/r003/artifacts/files/edit.json">edit.json</a></p><pre>{
+ &quot;segments&quot;: [
+  32,
+  33,
+  34,
+  35,
+  36,
+  37,
+  38
+ ]
+}
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/cut.mp4">out/cut.mp4</a></p><video controls preload="metadata" src="rounds/r003/artifacts/files/out/cut.mp4"></video></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/cut.srt">out/cut.srt</a></p><span class="muted">678 bytes</span></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/cut.txt">out/cut.txt</a></p><pre>To those new States whom we welcome to the ranks of the free, we
+pledge our word that one form of colonial control shall not have
+passed away merely to be replaced by a far more iron tyranny.
+We shall not always expect to find them supporting our view. But we
+shall always hope to find them strongly supporting their own
+freedom—and to remember that, in the past, those who foolishly
+sought power by riding the back of the tiger ended up inside.</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{&quot;valid_edit&quot;: true, &quot;duration_40_75s&quot;: true, &quot;segments_4_14&quot;: true, &quot;rendered&quot;: true}</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/media.json">out/media.json</a></p><pre>{
+    &quot;programs&quot;: [
+
+    ],
+    &quot;streams&quot;: [
+        {
+            &quot;codec_type&quot;: &quot;video&quot;,
+            &quot;width&quot;: 360,
+            &quot;height&quot;: 640
+        },
+        {
+            &quot;codec_type&quot;: &quot;audio&quot;
+        }
+    ],
+    &quot;format&quot;: {
+        &quot;duration&quot;: &quot;43.678000&quot;
+    }
+}
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>cut: 7 sentences, 43.6s (allowed 40-75s); order [32, 33, 34, 35, 36, 37, 38]</pre></div></details><details><summary>第 4 轮 · REVERT</summary><div class='artifact'><p><a href="rounds/r004/artifacts/files/edit.json">edit.json</a></p><pre>{
+ &quot;segments&quot;: [
+  32,
+  33,
+  34,
+  27,
+  28,
+  29,
+  30,
+  31
+ ]
+}
+</pre></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/cut.mp4">out/cut.mp4</a></p><video controls preload="metadata" src="rounds/r004/artifacts/files/out/cut.mp4"></video></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/cut.srt">out/cut.srt</a></p><span class="muted">743 bytes</span></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/cut.txt">out/cut.txt</a></p><pre>To those new States whom we welcome to the ranks of the free, we
+pledge our word that one form of colonial control shall not have
+passed away merely to be replaced by a far more iron tyranny.
+To those old allies whose cultural and spiritual origins we share, we
+pledge the loyalty of faithful friends. United, there is little we
+cannot do in a host of cooperative ventures. Divided, there is little
+we can do—for we dare not meet a powerful challenge at odds
+and split asunder.</pre></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{&quot;valid_edit&quot;: true, &quot;duration_40_75s&quot;: true, &quot;segments_4_14&quot;: true, &quot;rendered&quot;: true}</pre></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/media.json">out/media.json</a></p><pre>{
+    &quot;programs&quot;: [
+
+    ],
+    &quot;streams&quot;: [
+        {
+            &quot;codec_type&quot;: &quot;video&quot;,
+            &quot;width&quot;: 360,
+            &quot;height&quot;: 640
+        },
+        {
+            &quot;codec_type&quot;: &quot;audio&quot;
+        }
+    ],
+    &quot;format&quot;: {
+        &quot;duration&quot;: &quot;47.624000&quot;
+    }
+}
+</pre></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>cut: 8 sentences, 47.6s (allowed 40-75s); order [32, 33, 34, 27, 28, 29, 30, 31]</pre></div></details><details><summary>最终产物</summary><div class='artifact'><p><a href="artifacts/final/files/edit.json">edit.json</a></p><pre>{
+ &quot;segments&quot;: [
+  22,
+  23,
+  24,
+  25,
+  26,
+  27,
+  28,
+  29,
+  30,
+  31
+ ]
+}
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/cut.mp4">out/cut.mp4</a></p><video controls preload="metadata" src="artifacts/final/files/out/cut.mp4"></video></div><div class='artifact'><p><a href="artifacts/final/files/out/cut.srt">out/cut.srt</a></p><span class="muted">859 bytes</span></div><div class='artifact'><p><a href="artifacts/final/files/out/cut.txt">out/cut.txt</a></p><pre>Let every nation know, whether it wishes us well or ill, that we
+shall pay any price, bear any burden, meet any hardship, support any
+friend, oppose any foe, to assure the survival and the
+success of liberty.
+This much we pledge—and more.
+To those old allies whose cultural and spiritual origins we share, we
+pledge the loyalty of faithful friends. United, there is little we
+cannot do in a host of cooperative ventures. Divided, there is little
+we can do—for we dare not meet a powerful challenge at odds
+and split asunder.</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/gates.json">out/gates.json</a></p><pre>{&quot;valid_edit&quot;: true, &quot;duration_40_75s&quot;: true, &quot;segments_4_14&quot;: true, &quot;rendered&quot;: true}</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/media.json">out/media.json</a></p><pre>{
+    &quot;programs&quot;: [
+
+    ],
+    &quot;streams&quot;: [
+        {
+            &quot;codec_type&quot;: &quot;video&quot;,
+            &quot;width&quot;: 360,
+            &quot;height&quot;: 640
+        },
+        {
+            &quot;codec_type&quot;: &quot;audio&quot;
+        }
+    ],
+    &quot;format&quot;: {
+        &quot;duration&quot;: &quot;56.090000&quot;
+    }
+}
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/notes.txt">out/notes.txt</a></p><pre>cut: 10 sentences, 56.0s (allowed 40-75s); order [22, 23, 24, 25, 26, 27, 28, 29, 30, 31]</pre></div></details>
+<h2>Champion vs. start</h2><pre>edit.json | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)</pre>
+<p class="muted">Branch <code>rsi/20261024-002228-talk-highlight</code>. Generated by RSI-Anything.</p>
+</main></body></html>

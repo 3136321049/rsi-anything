@@ -1,0 +1,28 @@
+diff --git a/schedule.json b/schedule.json
+index e30d224..ad70f5d 100644
+--- a/schedule.json
++++ b/schedule.json
+@@ -1,10 +1,18 @@
+ {
+   "sessions": [
+-    {"task": "exercise", "day": 1, "start": "20:00", "end": "20:45"},
+-    {"task": "reading", "day": 2, "start": "19:30", "end": "20:15"},
++    {"task": "exercise", "day": 1, "start": "07:00", "end": "07:45"},
++    {"task": "reading", "day": 1, "start": "20:30", "end": "21:15"},
++    {"task": "study", "day": 2, "start": "20:00", "end": "21:30"},
++    {"task": "exercise", "day": 3, "start": "07:00", "end": "07:45"},
++    {"task": "admin", "day": 3, "start": "18:30", "end": "19:00"},
++    {"task": "reading", "day": 3, "start": "21:00", "end": "21:45"},
+     {"task": "study", "day": 4, "start": "20:00", "end": "21:30"},
+-    {"task": "groceries", "day": 5, "start": "20:00", "end": "21:00"},
+-    {"task": "family", "day": 6, "start": "10:00", "end": "12:00"},
+-    {"task": "rest", "day": 7, "start": "14:00", "end": "15:00"}
++    {"task": "exercise", "day": 5, "start": "07:00", "end": "07:45"},
++    {"task": "reading", "day": 5, "start": "20:30", "end": "21:15"},
++    {"task": "groceries", "day": 6, "start": "09:00", "end": "10:00"},
++    {"task": "rest", "day": 6, "start": "14:00", "end": "15:00"},
++    {"task": "rest", "day": 6, "start": "17:00", "end": "18:00"},
++    {"task": "family", "day": 7, "start": "10:00", "end": "12:00"},
++    {"task": "mealprep", "day": 7, "start": "15:00", "end": "16:30"}
+   ]
+ }

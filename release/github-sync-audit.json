@@ -1,0 +1,94 @@
+{
+  "date": "2026-10-24",
+  "repository": "3136321049/rsi-anything",
+  "branch": "rebuild",
+  "status": "reviewed",
+  "scope": "selected project files, exported examples, media, and two installation artifacts",
+  "reviewed_payload_excluding_this_report": {
+    "files": 1608,
+    "bytes": 44975295,
+    "manifest_sha256": "caae9f12f18daabbe233cc5dd185facc3a733d9305d018f272707043eb42eb4d",
+    "groups": {
+      ".cursor": 1,
+      ".gitignore": 1,
+      "AGENTS.md": 1,
+      "CLAUDE.md": 1,
+      "LICENSE": 1,
+      "README.md": 1,
+      "README.zh-CN.md": 1,
+      "dist": 2,
+      "docs": 17,
+      "examples": 1398,
+      "pyproject.toml": 1,
+      "release": 6,
+      "scripts": 4,
+      "src": 159,
+      "tests": 14
+    }
+  },
+  "checks": {
+    "candidate_files_read_in_full": true,
+    "secret_scanner": {
+      "tool": "Gitleaks",
+      "version": "8.30.1",
+      "default_rules": true,
+      "nested_archive_depth": 2,
+      "initial_findings": 7,
+      "verified_false_positives": 7,
+      "unresolved_findings": 0,
+      "reason": "cache_key fields: 4 SHA256 digests recomputed from saved public video request inputs; exceptions limited to the exact run files and digest values"
+    },
+    "work_context_scan": {
+      "unresolved_findings": 0,
+      "scope": "non-public work identifiers, internal addresses, machine identity paths, credentials; public research references reviewed separately"
+    },
+    "git_history": {
+      "scope": "all fetched local refs before synchronization",
+      "scanned_commits": 23,
+      "gitleaks_findings": 0,
+      "new_commit_identity": "3136321049 <3136321049@users.noreply.github.com>"
+    },
+    "media": {
+      "png_files_reviewed": 15,
+      "video_files": 12,
+      "unique_videos": 10,
+      "sample_frames_reviewed": 30,
+      "all_media_metadata_reviewed": true,
+      "sources": "public dataset plots, public-domain speech, anonymous public video-generation service, and project showcase edit",
+      "scope": "metadata, source records, images and sampled frames; not a claim of frame-by-frame manual review"
+    },
+    "installation_artifacts": {
+      "files": 2,
+      "wheel_source_files_match": 159,
+      "archive_integrity_passed": true,
+      "scope": "preserved first-release build snapshots; use current Git documents for collaboration"
+    },
+    "tests": {
+      "command": "python -m pytest -q --tb=short",
+      "passed": 115,
+      "failed": 0,
+      "skipped": 0,
+      "log_sha256": "af621abeb3c00e5b60484adac957c0fd07c41ba8b8f008df57b5b122af58a273"
+    }
+  },
+  "local_only_exclusions": [
+    ".rsi/",
+    ".agents/",
+    ".codex/",
+    ".claude/",
+    ".venv/",
+    ".venv311/",
+    "cache and bytecode",
+    "account credentials and environment files",
+    "raw conversation histories",
+    "dist/openrsi-demo-0.2.0.dev0.zip"
+  ],
+  "shared_entrypoints": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "docs/COLLABORATION.zh-CN.md",
+    "docs/HANDOFF.zh-CN.md",
+    "docs/DEVLOG.zh-CN.md",
+    "docs/GOAL-PROGRESS.zh-CN.md"
+  ]
+}

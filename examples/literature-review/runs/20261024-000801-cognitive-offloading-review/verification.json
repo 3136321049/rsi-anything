@@ -1,0 +1,270 @@
+{
+  "run_id": "20261024-000801-cognitive-offloading-review",
+  "checked_at": "2026-10-24",
+  "commands": [
+    "python -B judge/prepare.py"
+  ],
+  "model_calls_during_validation": 0,
+  "formal_scores_unchanged": true,
+  "base_commit": "131cfa3eb05efe57a8f8de8b4dfcdbb079a122d7",
+  "champion_commit": "36b8238e4cc64a0ec0149e402a32b65ba832d743",
+  "contract_digest": "b938335931e5",
+  "frozen_files": [
+    {
+      "path": "config/execution.json",
+      "sha256": "c5f6bdd9ad981e7520ba624e6e17f109e9cc094a56ac282d1722fb6fc7aa8edc"
+    },
+    {
+      "path": "config/frozen/judge/prepare.py",
+      "sha256": "c905928f3e37a2ebc8b96c200234ef9758978f15d1ab52af070ab6930cf4b9a5"
+    },
+    {
+      "path": "config/frozen/judge/rubric.yaml",
+      "sha256": "4a8ea2bf9f0ca3ac432169149cf9c4de9b78dd216bd9317d10c0a57e95ffe9e3"
+    },
+    {
+      "path": "config/frozen/judge/sources.json",
+      "sha256": "45367b442f5b53d56a5929405bcd6ade884d711d29af6c43f7cedb244bf28f5d"
+    },
+    {
+      "path": "config/frozen/rsi.yaml",
+      "sha256": "b938335931e590790a2daf6bca143f80e78efe8c35c0fcdc7ebe3fe26cc620ca"
+    },
+    {
+      "path": "config/rsi.yaml",
+      "sha256": "b938335931e590790a2daf6bca143f80e78efe8c35c0fcdc7ebe3fe26cc620ca"
+    }
+  ],
+  "checks": [
+    {
+      "snapshot": "artifacts/baseline",
+      "gates": {
+        "正文有实质内容": true,
+        "来源编号有效": true,
+        "覆盖给定三份资料": true,
+        "未引入资料外链接": true,
+        "证据映射有效": true,
+        "映射覆盖全部来源": true
+      },
+      "outputs_reproduced_exactly": [
+        {
+          "path": "out/evaluation.md",
+          "sha256": "cdd5d94de92837eea0fddbb0c7fa33b62ad39867db2ecf53236150273ccb15b1"
+        },
+        {
+          "path": "out/gates.json",
+          "sha256": "f98e821972b9f424f392a9cf05121b2eb4ed36230c85bde0081276559f6c5b7f"
+        },
+        {
+          "path": "out/notes.txt",
+          "sha256": "4dc031fd53dbc71087c5d59be841b595fa256ed0af4b9dc33bde1a7b10e7631a"
+        },
+        {
+          "path": "out/review.html",
+          "sha256": "d2ec4f19940b914991ade980f186dde47221903964414d7786781a533f6f9615"
+        },
+        {
+          "path": "out/review.md",
+          "sha256": "e64234b2f20ba63e2168ca7a673213ef16a2378c4752fe02c7a82e22263e1723"
+        },
+        {
+          "path": "out/source-map.json",
+          "sha256": "4eb185ba05df6bbedbaf5cf4324c7d42f36be2e1bdd0a49a146b8ccb1cad0246"
+        }
+      ]
+    },
+    {
+      "snapshot": "rounds/r001/artifacts",
+      "gates": {
+        "正文有实质内容": true,
+        "来源编号有效": true,
+        "覆盖给定三份资料": true,
+        "未引入资料外链接": true,
+        "证据映射有效": true,
+        "映射覆盖全部来源": true
+      },
+      "outputs_reproduced_exactly": [
+        {
+          "path": "out/evaluation.md",
+          "sha256": "16e55fdfe26754c7b0547d342b4bd6595af184e35ff8cf67ab444baf6ffb0c96"
+        },
+        {
+          "path": "out/gates.json",
+          "sha256": "f98e821972b9f424f392a9cf05121b2eb4ed36230c85bde0081276559f6c5b7f"
+        },
+        {
+          "path": "out/notes.txt",
+          "sha256": "4dc031fd53dbc71087c5d59be841b595fa256ed0af4b9dc33bde1a7b10e7631a"
+        },
+        {
+          "path": "out/review.html",
+          "sha256": "1444a80e90379fce4d3819ee9e050aeed4b9a6658c1614091d91598df4fbb662"
+        },
+        {
+          "path": "out/review.md",
+          "sha256": "478a522114996b686f849d5ed86edcd963f5ca5bf8888b68158303192729c852"
+        },
+        {
+          "path": "out/source-map.json",
+          "sha256": "a45fad0c86e7e48c8873bc09ecef299a56b39c529be0320739d71e5d22044328"
+        }
+      ]
+    },
+    {
+      "snapshot": "rounds/r002/artifacts",
+      "gates": {
+        "正文有实质内容": true,
+        "来源编号有效": true,
+        "覆盖给定三份资料": true,
+        "未引入资料外链接": true,
+        "证据映射有效": true,
+        "映射覆盖全部来源": true
+      },
+      "outputs_reproduced_exactly": [
+        {
+          "path": "out/evaluation.md",
+          "sha256": "3f10e2c81ff93ec6e96f3986bb0f110670e9495dfbd812d43a1e94acc3c96c59"
+        },
+        {
+          "path": "out/gates.json",
+          "sha256": "f98e821972b9f424f392a9cf05121b2eb4ed36230c85bde0081276559f6c5b7f"
+        },
+        {
+          "path": "out/notes.txt",
+          "sha256": "4dc031fd53dbc71087c5d59be841b595fa256ed0af4b9dc33bde1a7b10e7631a"
+        },
+        {
+          "path": "out/review.html",
+          "sha256": "bd4daff2980b4480fab6220cc42d704607dad09aeb1cbff57708be4347a28bb5"
+        },
+        {
+          "path": "out/review.md",
+          "sha256": "604a89b62ab96913b0f40bc67b69b79dbbe70d3c8e022da55e074c3d2eb60133"
+        },
+        {
+          "path": "out/source-map.json",
+          "sha256": "87c90560369f424d6cd5df20e87fc3c07de073c4ce04d2900b7b6139529c7cb2"
+        }
+      ]
+    },
+    {
+      "snapshot": "rounds/r003/artifacts",
+      "gates": {
+        "正文有实质内容": true,
+        "来源编号有效": true,
+        "覆盖给定三份资料": true,
+        "未引入资料外链接": true,
+        "证据映射有效": true,
+        "映射覆盖全部来源": true
+      },
+      "outputs_reproduced_exactly": [
+        {
+          "path": "out/evaluation.md",
+          "sha256": "aca3237213055a835256e8c1ae742432fd21cea0b668953cf319b76549879f38"
+        },
+        {
+          "path": "out/gates.json",
+          "sha256": "f98e821972b9f424f392a9cf05121b2eb4ed36230c85bde0081276559f6c5b7f"
+        },
+        {
+          "path": "out/notes.txt",
+          "sha256": "4dc031fd53dbc71087c5d59be841b595fa256ed0af4b9dc33bde1a7b10e7631a"
+        },
+        {
+          "path": "out/review.html",
+          "sha256": "171dfca769473bd4064a5fc59aadbc8449c4533fe51c453fa111179a4d12ecdd"
+        },
+        {
+          "path": "out/review.md",
+          "sha256": "c0d1949ffc0b93a1133067e3ad8e8342e4cab3a939912a0d55baf521c9b84301"
+        },
+        {
+          "path": "out/source-map.json",
+          "sha256": "b935ad6d3ca4eae76f57c674e00202b70c675ac78d99d4d99e2dcc8d2f88e6e9"
+        }
+      ]
+    },
+    {
+      "snapshot": "artifacts/final",
+      "gates": {
+        "正文有实质内容": true,
+        "来源编号有效": true,
+        "覆盖给定三份资料": true,
+        "未引入资料外链接": true,
+        "证据映射有效": true,
+        "映射覆盖全部来源": true
+      },
+      "outputs_reproduced_exactly": [
+        {
+          "path": "out/evaluation.md",
+          "sha256": "16e55fdfe26754c7b0547d342b4bd6595af184e35ff8cf67ab444baf6ffb0c96"
+        },
+        {
+          "path": "out/gates.json",
+          "sha256": "f98e821972b9f424f392a9cf05121b2eb4ed36230c85bde0081276559f6c5b7f"
+        },
+        {
+          "path": "out/notes.txt",
+          "sha256": "4dc031fd53dbc71087c5d59be841b595fa256ed0af4b9dc33bde1a7b10e7631a"
+        },
+        {
+          "path": "out/review.html",
+          "sha256": "1444a80e90379fce4d3819ee9e050aeed4b9a6658c1614091d91598df4fbb662"
+        },
+        {
+          "path": "out/review.md",
+          "sha256": "478a522114996b686f849d5ed86edcd963f5ca5bf8888b68158303192729c852"
+        },
+        {
+          "path": "out/source-map.json",
+          "sha256": "a45fad0c86e7e48c8873bc09ecef299a56b39c529be0320739d71e5d22044328"
+        }
+      ]
+    }
+  ],
+  "independent_checks": {
+    "final_claims": 5,
+    "all_claims_verbatim_in_article": true,
+    "all_source_ids_in_same_paragraph": true,
+    "covered_sources": [
+      "S1",
+      "S2",
+      "S3"
+    ]
+  },
+  "browser_check": {
+    "browser": "Chrome",
+    "loopback_http_only": true,
+    "readable_article": true,
+    "source_links_visible": 3,
+    "claim_mapping_items_visible": 5
+  },
+  "content_review_document": "../../README.md",
+  "official_sources": [
+    {
+      "id": "S1",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/21764755/",
+      "doi": "10.1126/science.1207745",
+      "checked_at": "2026-10-24",
+      "official_index_read": true,
+      "direct_full_page_read": false
+    },
+    {
+      "id": "S2",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/27542527/",
+      "doi": "10.1016/j.tics.2016.07.002",
+      "checked_at": "2026-10-24",
+      "official_index_read": true,
+      "direct_full_page_read": false
+    },
+    {
+      "id": "S3",
+      "url": "https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research?hub=387",
+      "doi": "10.54675/EWZM9535",
+      "checked_at": "2026-10-24",
+      "official_index_read": true,
+      "direct_full_page_read": false
+    }
+  ],
+  "all_file_checks_passed": true
+}

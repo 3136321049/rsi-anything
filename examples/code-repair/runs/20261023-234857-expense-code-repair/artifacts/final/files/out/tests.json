@@ -1,0 +1,23 @@
+{
+  "total": 15,
+  "passed": 15,
+  "failed": [],
+  "skipped": 0,
+  "passed_tests": [
+    "fixed_expense_tests.ExpenseTests.test_amount_exact_cents",
+    "fixed_expense_tests.ExpenseTests.test_amount_reject_extra_precision",
+    "fixed_expense_tests.ExpenseTests.test_amount_reject_non_finite",
+    "fixed_expense_tests.ExpenseTests.test_amount_signed",
+    "fixed_expense_tests.ExpenseTests.test_amount_whole",
+    "fixed_expense_tests.ExpenseTests.test_date_reject_invalid",
+    "fixed_expense_tests.ExpenseTests.test_does_not_mutate_input",
+    "fixed_expense_tests.ExpenseTests.test_month_empty",
+    "fixed_expense_tests.ExpenseTests.test_month_filter",
+    "fixed_expense_tests.ExpenseTests.test_month_refund",
+    "fixed_expense_tests.ExpenseTests.test_month_reject_invalid",
+    "fixed_expense_tests.ExpenseTests.test_split_even",
+    "fixed_expense_tests.ExpenseTests.test_split_reject_invalid",
+    "fixed_expense_tests.ExpenseTests.test_split_remainder",
+    "fixed_expense_tests.ExpenseTests.test_split_small_total"
+  ]
+}

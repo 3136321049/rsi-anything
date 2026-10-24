@@ -1,0 +1,2 @@
+{"requested_model": "cli:codex:gpt-6.1-sol", "actual_model": null, "usage": {"input_tokens": 16334, "cached_input_tokens": 12288, "cache_write_input_tokens": 0, "output_tokens": 251, "reasoning_output_tokens": 46}, "seconds": 18.244, "cost_usd": null}
+{"requested_model": "cli:codex:gpt-6.1-sol", "actual_model": null, "usage": {"input_tokens": 17098, "cached_input_tokens": 12288, "cache_write_input_tokens": 0, "output_tokens": 602, "reasoning_output_tokens": 56}, "seconds": 24.278, "cost_usd": null}

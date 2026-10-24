@@ -1,0 +1,13 @@
+{
+  "files": [
+    {
+      "path": "schedule.json",
+      "bytes": 982,
+      "sha256": "1fa5597da760ddb262731f1d16948af3f958981821edd3fbf56b17b97cdc2bd9"
+    }
+  ],
+  "missing_patterns": [
+    "out"
+  ],
+  "skipped": []
+}

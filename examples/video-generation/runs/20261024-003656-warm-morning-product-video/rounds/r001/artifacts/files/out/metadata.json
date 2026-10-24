@@ -1,0 +1,79 @@
+{
+  "status": "ready",
+  "endpoint": "https://lightricks-ltx-video-distilled.hf.space",
+  "api_name": "text_to_video",
+  "request": {
+    "data": [
+      "Thin, clearly visible wisps of steam rise gently from the open rim of a hot drink in a single pale ivory ceramic mug. The delicate translucent steam curls upward into the empty space above the mug, caught by soft morning sunlight from a window to the left and slightly behind it, visible against a darker softly blurred background. The steam remains light and airy, leaving the mug unobscured. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Three-quarter view at mug height, mug slightly right of center, generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in.",
+      "text, watermark, logo, branding, people, faces, hands, thick smoke, dense fog, opaque steam, smoke covering the mug, dark brown mug, cropped mug, duplicate mugs, extra handles, warped ceramic, cluttered background, camera shake",
+      null,
+      null,
+      512,
+      704,
+      "text-to-video",
+      2,
+      9,
+      42,
+      false,
+      1,
+      false
+    ]
+  },
+  "service": {
+    "gradio_version": "5.42.0",
+    "input_labels": [
+      "Prompt",
+      "Negative Prompt",
+      "image_n",
+      "video_n",
+      "Height",
+      "Width",
+      "task",
+      "Video Duration (seconds)",
+      "Frames to use from input video",
+      "Seed",
+      "Randomize Seed",
+      "Guidance Scale (CFG)",
+      "Improve Texture (multi-scale)"
+    ],
+    "declared_model": "LTX 0.9.8 13B distilled（上游公开说明）",
+    "checked_at": "2026-10-23T16:38:23.041925+00:00"
+  },
+  "started_at": "2026-10-23T16:38:23.042016+00:00",
+  "event_id": "808a1a4ca031435e8415b360a7959f42",
+  "submit_response": {
+    "event_id": "808a1a4ca031435e8415b360a7959f42"
+  },
+  "updated_at": "2026-10-23T16:38:32.326659+00:00",
+  "video_url": "https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=<tmp>",
+  "returned_seed": 42,
+  "complete_event": [
+    {
+      "video": {
+        "path": "<tmp>",
+        "url": "https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=<tmp>",
+        "size": null,
+        "orig_name": "output_93810.mp4",
+        "mime_type": null,
+        "is_stream": false,
+        "meta": {
+          "_type": "gradio.FileData"
+        }
+      },
+      "subtitles": null
+    },
+    42
+  ],
+  "video_sha256": "c6149c212016f294b22a8292fde5bcf15231f7e8cb6be232d1ff6b92bd721b5e",
+  "video_bytes": 64158,
+  "probe": {
+    "duration_seconds": 1.9,
+    "width": 704,
+    "height": 512,
+    "codec": "h264",
+    "has_audio": false
+  },
+  "finished_at": "2026-10-23T16:38:35.097758+00:00",
+  "cache_key": "52245a7ff820a9e88876033f4607805902c889a4a4809952f121ab595f8f607f",
+  "cache_reused": false
+}

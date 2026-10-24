@@ -1,0 +1,32 @@
+{
+  "round": 0,
+  "status": "BASELINE",
+  "hypothesis": "",
+  "score": 18.5,
+  "best": 18.5,
+  "gates": {
+    "valid_edit": true,
+    "duration_40_75s": true,
+    "segments_4_14": true,
+    "rendered": true,
+    "substance": true,
+    "not_repetitive": true,
+    "no_placeholder": true,
+    "no_evaluator_address": true,
+    "check:成片里没有\"后面再说\"\"第二点\"这类引用了被剪掉内容的句子，或者被引用的内容也在成片里。": true,
+    "check:成片没有因为剪辑而让某个方法的意思和原分享相反或被曲解。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "cut: 8 sentences, 56.8s (allowed 40-75s); order [1, 2, 3, 4, 5, 6, 7, 8]\nhook 1.0/10: 以礼宾称呼开场，随后仍在列举致意对象，没有让观众知道值得看什么，未达到5分的话题明确开场。\nending 1.0/10: 结尾停在未完成的句子中，既未交代人类掌握什么，也未收束主题，未达到5分的完整结尾。\n[cli:codex:gpt-6.1-sol] 整体替换为原稿中从“To those old allies”到“split asunder.”的完整合作段落，用团结与分裂的反差建立一个清楚主题，并按原音频核验40到75秒时长。",
+  "commit": "018e670fbb30",
+  "changed": [],
+  "ignored": [],
+  "agent_seconds": 0.0,
+  "judge_seconds": 36.388836,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "artifacts/baseline",
+  "holdout": null,
+  "note": "",
+  "time": "2026-10-23T16:23:04+00:00"
+}

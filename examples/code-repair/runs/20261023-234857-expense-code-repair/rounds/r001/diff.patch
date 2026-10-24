@@ -1,0 +1,24 @@
+diff --git a/expense.py b/expense.py
+index 2df5ace..4e16096 100644
+--- a/expense.py
++++ b/expense.py
+@@ -1,9 +1,18 @@
+ """记账工具：金额以分为单位，退款使用负数。"""
+ 
++import re
++
+ 
+ def amount_to_cents(text):
+     """解析十进制金额；允许前后空格和正负号，拒绝非有限数及超过两位小数。"""
+-    return int(float(text) * 100)
++    match = re.fullmatch(r"([+-]?)([0-9]*)(?:\.([0-9]{0,2}))?", text.strip())
++    if match is None:
++        raise ValueError("金额必须是最多两位小数的有限十进制数")
++    sign, whole, fraction = match.groups()
++    if not whole and not fraction:
++        raise ValueError("金额必须包含数字")
++    cents = int(whole or "0") * 100 + int((fraction or "").ljust(2, "0"))
++    return -cents if sign == "-" else cents
+ 
+ 
+ def split_bill(cents, people):

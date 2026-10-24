@@ -1,0 +1,41 @@
+{
+  "round": 1,
+  "status": "KEEP",
+  "hypothesis": "用可追踪的论据链解释服务增量如何抵消产品下降，以及一次性税费如何影响净利润，并明确资料不能支持的推论，预计可提高主旨和推理评分。",
+  "score": 74.0,
+  "best": 74.0,
+  "gates": {
+    "正文有实质内容": true,
+    "数字资料键存在": true,
+    "金额和比率使用资料插值": true,
+    "关键数字齐全": true,
+    "来源编号有效": true,
+    "限定经营分析用途": true,
+    "图表指标有效": true,
+    "min_chars": true,
+    "max_chars": true,
+    "substance": true,
+    "not_repetitive": true,
+    "no_placeholder": true,
+    "no_evaluator_address": true,
+    "check:所有公司事实、数字及因果归因均有给定资料支持；没有股价、目标价、买卖评级或收益承诺。": true,
+    "check:没有把季度口径当成全年，没有把营业利润当成净利润，也没有用非GAAP结果替代GAAP而不说明。": true,
+    "check:图表与正文结论一致，事实与分析推论有清楚区分。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "程序只核对资料键、单位及图表数据；论据和结论是否相称由模型评委判断。\nchart_use 3.0/10: 选图相关且正文给出阅读重点，但服务单项图不能直接呈现产品下降与总量增长的关系，两种利润分图也增加比较成本，页面未展示实际图形，无法核验纵轴说明。\nmain_point 8.0/10: 开头明确区分总量、结构和利润走势，但尚未用服务占比变化或增减金额突出最有解释力的证据。\n[cli:codex:gpt-6.1-sol] 将三张单项图整合为两张对比图：一张同时展示产品减少、服务增加及总营收净增，另一张并列展示两种利润的年度变化；正文分别指出收入贡献和利润方向分化。",
+  "commit": "ccc519aea330",
+  "changed": [
+    "charts.json",
+    "report.md"
+  ],
+  "ignored": [],
+  "agent_seconds": 76.1,
+  "judge_seconds": 34.1,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "rounds/r001/artifacts",
+  "holdout": null,
+  "note": "score 53.5 -> 74; head-to-head 2/2",
+  "time": "2026-10-23T16:03:32+00:00"
+}

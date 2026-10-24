@@ -1,0 +1,10 @@
+{
+  "started_at": "2026-10-23T16:52:17.676124+00:00",
+  "status": "service_error",
+  "generation_post_attempts": 1,
+  "submission_http_status": 200,
+  "event_id": "4413c88e602948a19b642ddeae2b756f",
+  "event_http_status": 200,
+  "event_text": "event: error\ndata: null\n\n",
+  "finished_at": "2026-10-23T16:52:19.117259+00:00"
+}

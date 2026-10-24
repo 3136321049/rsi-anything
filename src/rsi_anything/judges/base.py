@@ -57,17 +57,27 @@ class Judge:
         import time
 
         from .command import judge_env
+        from ..process import run as run_process
 
         started = time.perf_counter()
         command = self.spec.prepare.replace("{python}", shlex.quote(sys.executable))
         try:
-            run = subprocess.run(command, shell=True, cwd=workspace, env=judge_env(workspace / ".unused", round_no),
-                                 capture_output=True, text=True, timeout=self.spec.timeout)
+            run = run_process(command, shell=True, cwd=workspace,
+                              env=judge_env(workspace / ".unused", round_no), timeout=self.spec.timeout)
         except subprocess.TimeoutExpired:
             return Verdict(None, error=f"prepare step timed out after {self.spec.timeout}s")
         seconds = time.perf_counter() - started
         if run.returncode != 0:
             tail = (run.stdout[-800:] + "\n" + run.stderr[-800:]).strip()
+            error_file = workspace / "out" / "error.json"
+            if error_file.is_file():
+                try:
+                    detail = json.loads(error_file.read_text(encoding="utf-8"))
+                except (OSError, ValueError):
+                    detail = {}
+                if detail.get("quality_result") == "unknown":
+                    return Verdict(None, error=f"prepare unavailable: {detail.get('error') or tail}",
+                                   metrics={"stage": detail.get("stage"), "quality_result": "unknown"}, seconds=seconds)
             return Verdict(0.0, {"prepare": False}, f"prepare step failed: {tail}", seconds=seconds)
         gates, notes = {}, ""
         gates_file, notes_file = workspace / "out" / "gates.json", workspace / "out" / "notes.txt"

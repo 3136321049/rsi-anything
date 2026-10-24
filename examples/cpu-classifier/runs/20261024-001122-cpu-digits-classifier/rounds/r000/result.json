@@ -1,0 +1,24 @@
+{
+  "round": 0,
+  "status": "BASELINE",
+  "hypothesis": "",
+  "score": 46.889,
+  "best": 46.889,
+  "gates": {
+    "finite_predictions": true,
+    "time_budget": true,
+    "exit_code": true
+  },
+  "feedback": "验证集正确率 46.89%，错分 239/450；训练和预测 0.004 秒。召回率较低的数字：1=0.0%、2=0.0%、3=0.0%",
+  "commit": "5d10b25b274c",
+  "changed": [],
+  "ignored": [],
+  "agent_seconds": 0.0,
+  "judge_seconds": 0.8508407501503825,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "artifacts/baseline",
+  "holdout": null,
+  "note": "",
+  "time": "2026-10-23T16:11:23+00:00"
+}

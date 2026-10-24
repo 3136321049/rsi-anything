@@ -1,0 +1,36 @@
+{
+  "round": 3,
+  "status": "REVERT",
+  "hypothesis": "保留原有完整审阅，仅补齐 C6 结算争议处理的负责人、期限和协调程序，预计提高建议的可执行性与完整性。",
+  "score": 87.0,
+  "best": 91.5,
+  "gates": {
+    "结构有效": true,
+    "示例用途明确": true,
+    "定位引用和建议完整": true,
+    "min_chars": true,
+    "max_chars": true,
+    "substance": true,
+    "not_repetitive": true,
+    "no_placeholder": true,
+    "no_evaluator_address": true,
+    "check:没有杜撰法条、判例或司法辖区，没有断言合同必然无效、必然胜诉或某方已违法。": true,
+    "check:引用对应真实给定条款，建议新增的时间和数字明确属于待双方确认的方案，而不是原合同事实。": true,
+    "check:所提建议没有把乙方无法控制的第三方知识产权直接转让，也没有扩大客户资料任意使用范围。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "已准确定位 7/7 类预设问题；尚缺：无。\n\n程序检查定位与内容长度；建议是否真正解决争议由模型评委判断。\npresentation 7.0/10: 按问题、原句、争议、建议组织并明确讨论顺序，普通读者容易定位，但替换条款篇幅偏长，尤其终止协调程序挤在一个段落中，关键待确认项不易快速提取，未达8分的清楚简洁要求。\nrevision 8.0/10: 草案提供了具体范围、触发条件、期限及跨条款衔接，新增数字也统一标为待确认方案，但终止结算在协调失败后仍缺后续处理约定，阶段子项金额及新成果权利范围也尚待附件落实，未达到完整协调的最高档。\n[cli:codex:gpt-6.1-sol] 将C6改为简短的终止结算流程和待确认清单，明确协调未获双方接受时争议项目的后续处理途径，同时保留无争议款项与文件按期结清交接的要求。",
+  "commit": "",
+  "changed": [
+    "review.json"
+  ],
+  "ignored": [],
+  "agent_seconds": 69.0,
+  "judge_seconds": 38.9,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "rounds/r003/artifacts",
+  "holdout": null,
+  "note": "score 87 is not better than 91.5 (required margin: 0 or 0%)",
+  "time": "2026-10-23T16:36:52+00:00"
+}

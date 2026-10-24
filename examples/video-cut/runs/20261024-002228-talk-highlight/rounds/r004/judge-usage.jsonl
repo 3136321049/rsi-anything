@@ -1,0 +1,1 @@
+{"requested_model": "cli:codex:gpt-6.1-sol", "actual_model": null, "usage": {"input_tokens": 17812, "cached_input_tokens": 12288, "cache_write_input_tokens": 0, "output_tokens": 854, "reasoning_output_tokens": 136}, "seconds": 31.755, "cost_usd": null}

@@ -1,0 +1,26 @@
+{
+  "round": 1,
+  "status": "KEEP",
+  "hypothesis": "金额解析改为格式校验后用整数计算分，消除浮点误差并拒绝非法金额，因此提高固定测试通过率。",
+  "score": 60.0,
+  "best": 60.0,
+  "gates": {
+    "tests_executed": true,
+    "no_skips": true,
+    "exit_code": true
+  },
+  "feedback": "固定测试通过 9/15。\nfixed_expense_tests.ExpenseTests.test_date_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_month_refund: ?         ^\nfixed_expense_tests.ExpenseTests.test_month_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_split_reject_invalid: AssertionError: ValueError not raised\nfixed_expense_tests.ExpenseTests.test_split_remainder: + [3334, 3333, 3333]\nfixed_expense_tests.ExpenseTests.test_split_small_total: + [1, 1, 0, 0]",
+  "commit": "6900bf359aee",
+  "changed": [
+    "expense.py"
+  ],
+  "ignored": [],
+  "agent_seconds": 43.6,
+  "judge_seconds": 0.0,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "rounds/r001/artifacts",
+  "holdout": null,
+  "note": "score 40 -> 60",
+  "time": "2026-10-23T15:49:41+00:00"
+}

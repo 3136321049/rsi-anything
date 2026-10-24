@@ -1,0 +1,190 @@
+[
+  {
+    "round": 0,
+    "event_id": "7e83c0459d1b46179a8c5980f6148bf6",
+    "endpoint": "https://lightricks-ltx-video-distilled.hf.space",
+    "api_name": "text_to_video",
+    "request": {
+      "data": [
+        "A ceramic mug on a desk.",
+        "text, watermark",
+        null,
+        null,
+        512,
+        704,
+        "text-to-video",
+        2,
+        9,
+        42,
+        false,
+        1,
+        false
+      ]
+    },
+    "service": {
+      "gradio_version": "5.42.0",
+      "input_labels": [
+        "Prompt",
+        "Negative Prompt",
+        "image_n",
+        "video_n",
+        "Height",
+        "Width",
+        "task",
+        "Video Duration (seconds)",
+        "Frames to use from input video",
+        "Seed",
+        "Randomize Seed",
+        "Guidance Scale (CFG)",
+        "Improve Texture (multi-scale)"
+      ],
+      "declared_model": "LTX 0.9.8 13B distilled（上游公开说明）",
+      "checked_at": "2026-10-23T16:36:59.837217+00:00"
+    },
+    "video_url": "https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=/tmp/gradio/da6b6977f9bbf8cbd1b822e0ccdc72b7a491c89c4f2edb2d640693392dc0cfa6/output_93810.mp4",
+    "video_sha256": "f13b5c42dabc82014bdf7cf2bd4f7a24db438c538f87d4216a3313e845b43e92",
+    "returned_seed": 42,
+    "note": "远端公共视频URL来自原缓存；导出器曾把URL中的远端 /tmp 路径替换为占位符，本文件单独保留原来源，不修改旧导出。"
+  },
+  {
+    "round": 1,
+    "event_id": "808a1a4ca031435e8415b360a7959f42",
+    "endpoint": "https://lightricks-ltx-video-distilled.hf.space",
+    "api_name": "text_to_video",
+    "request": {
+      "data": [
+        "Thin, clearly visible wisps of steam rise gently from the open rim of a hot drink in a single pale ivory ceramic mug. The delicate translucent steam curls upward into the empty space above the mug, caught by soft morning sunlight from a window to the left and slightly behind it, visible against a darker softly blurred background. The steam remains light and airy, leaving the mug unobscured. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Three-quarter view at mug height, mug slightly right of center, generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in.",
+        "text, watermark, logo, branding, people, faces, hands, thick smoke, dense fog, opaque steam, smoke covering the mug, dark brown mug, cropped mug, duplicate mugs, extra handles, warped ceramic, cluttered background, camera shake",
+        null,
+        null,
+        512,
+        704,
+        "text-to-video",
+        2,
+        9,
+        42,
+        false,
+        1,
+        false
+      ]
+    },
+    "service": {
+      "gradio_version": "5.42.0",
+      "input_labels": [
+        "Prompt",
+        "Negative Prompt",
+        "image_n",
+        "video_n",
+        "Height",
+        "Width",
+        "task",
+        "Video Duration (seconds)",
+        "Frames to use from input video",
+        "Seed",
+        "Randomize Seed",
+        "Guidance Scale (CFG)",
+        "Improve Texture (multi-scale)"
+      ],
+      "declared_model": "LTX 0.9.8 13B distilled（上游公开说明）",
+      "checked_at": "2026-10-23T16:38:23.041925+00:00"
+    },
+    "video_url": "https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=/tmp/gradio/3fd159778b05774e7ca6d26875b460a9aaa4f589cb082b4729fb08748635636e/output_93810.mp4",
+    "video_sha256": "c6149c212016f294b22a8292fde5bcf15231f7e8cb6be232d1ff6b92bd721b5e",
+    "returned_seed": 42,
+    "note": "远端公共视频URL来自原缓存；导出器曾把URL中的远端 /tmp 路径替换为占位符，本文件单独保留原来源，不修改旧导出。"
+  },
+  {
+    "round": 2,
+    "event_id": "a19f74891a434e109e51155cae36539e",
+    "endpoint": "https://lightricks-ltx-video-distilled.hf.space",
+    "api_name": "text_to_video",
+    "request": {
+      "data": [
+        "A single pale ivory ceramic mug holding a hot drink. Just one or two faint, hair-thin, nearly transparent threads of steam are visible immediately above the open rim. These sparse traces rise only a few centimeters before fading completely into clear air; most of the space above the mug is empty. Soft morning sunlight from a window to the left and slightly behind the mug catches the subtle vapor against a darker softly blurred background. The rim and mug remain clearly visible through the faint steam. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Three-quarter view at mug height, mug slightly right of center, generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in.",
+        "text, watermark, logo, branding, people, faces, hands, thick smoke, dense fog, opaque steam, broad white steam ribbons, billowing clouds, tall steam plume, continuous steam column, smoke covering the mug, dark brown mug, cropped mug, duplicate mugs, extra handles, warped ceramic, cluttered background, camera shake",
+        null,
+        null,
+        512,
+        704,
+        "text-to-video",
+        2,
+        9,
+        42,
+        false,
+        1,
+        false
+      ]
+    },
+    "service": {
+      "gradio_version": "5.42.0",
+      "input_labels": [
+        "Prompt",
+        "Negative Prompt",
+        "image_n",
+        "video_n",
+        "Height",
+        "Width",
+        "task",
+        "Video Duration (seconds)",
+        "Frames to use from input video",
+        "Seed",
+        "Randomize Seed",
+        "Guidance Scale (CFG)",
+        "Improve Texture (multi-scale)"
+      ],
+      "declared_model": "LTX 0.9.8 13B distilled（上游公开说明）",
+      "checked_at": "2026-10-23T16:39:51.009300+00:00"
+    },
+    "video_url": null,
+    "video_sha256": null,
+    "returned_seed": null,
+    "note": "远端公共视频URL来自原缓存；导出器曾把URL中的远端 /tmp 路径替换为占位符，本文件单独保留原来源，不修改旧导出。"
+  },
+  {
+    "round": 3,
+    "event_id": "db63a03b836f4dadb0d3be44de51f069",
+    "endpoint": "https://lightricks-ltx-video-distilled.hf.space",
+    "api_name": "text_to_video",
+    "request": {
+      "data": [
+        "Thin, clearly visible wisps of steam rise gently from the open rim of a hot drink in a single pale ivory ceramic mug. The delicate translucent steam curls upward into the empty space above the mug, caught by soft morning sunlight from a window to the left and slightly behind it, visible against a darker softly blurred background. The steam remains light and airy, leaving the mug unobscured. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Medium product shot from a three-quarter view at mug height: the whole mug including its handle occupies about half the image height, slightly right of center. Visible tabletop surrounds the base and handle, with ample space between every part of the mug and the frame edges, and generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in, keeping the entire mug and handle comfortably inside the frame throughout.",
+        "text, watermark, logo, branding, people, faces, hands, thick smoke, dense fog, opaque steam, smoke covering the mug, dark brown mug, cropped mug, duplicate mugs, extra handles, warped ceramic, cluttered background, camera shake",
+        null,
+        null,
+        512,
+        704,
+        "text-to-video",
+        2,
+        9,
+        42,
+        false,
+        1,
+        false
+      ]
+    },
+    "service": {
+      "gradio_version": "5.42.0",
+      "input_labels": [
+        "Prompt",
+        "Negative Prompt",
+        "image_n",
+        "video_n",
+        "Height",
+        "Width",
+        "task",
+        "Video Duration (seconds)",
+        "Frames to use from input video",
+        "Seed",
+        "Randomize Seed",
+        "Guidance Scale (CFG)",
+        "Improve Texture (multi-scale)"
+      ],
+      "declared_model": "LTX 0.9.8 13B distilled（上游公开说明）",
+      "checked_at": "2026-10-23T16:40:36.653246+00:00"
+    },
+    "video_url": null,
+    "video_sha256": null,
+    "returned_seed": null,
+    "note": "远端公共视频URL来自原缓存；导出器曾把URL中的远端 /tmp 路径替换为占位符，本文件单独保留原来源，不修改旧导出。"
+  }
+]

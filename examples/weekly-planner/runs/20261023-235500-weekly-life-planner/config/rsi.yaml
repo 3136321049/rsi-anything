@@ -1,0 +1,30 @@
+name: weekly-life-planner
+goal: '修改 schedule.json，在 judge/requirements.json 的固定工作、通勤、晚饭之外安排这一周。
+
+  所有活动需无冲突、在清醒时段内、满足各任务时长与可用日期，且每天可安排活动不超过 240 分钟。
+
+  尽可能完成全部 14 次活动，优先满足权重更高的学习、家人时间与锻炼，同时符合偏好时间。
+
+  得分=70%加权任务覆盖+30%加权偏好覆盖。缺少任务会扣分，重复超出次数不合法。
+
+  task 为任务 ID；day 为 1..7（周一到周日）；start/end 使用 HH:MM。每轮根据评审报告改善安排。
+
+  '
+artifact:
+- schedule.json
+outputs:
+- out
+judge:
+  type: command
+  run: '{python} judge/evaluate.py'
+  files:
+  - judge
+  timeout: 30
+agent:
+  use: codex
+  timeout: 600
+  model: gpt-6.1-sol
+budget:
+  rounds: 3
+  minutes: 25.0
+  stagnation: 3

@@ -1,0 +1,56 @@
+{
+  "files": [
+    {
+      "path": "charts.json",
+      "bytes": 54,
+      "sha256": "bd0ce1e5b618ab0eda3df3832867ab456f592616cb37574a4604a1c3836d1b37"
+    },
+    {
+      "path": "out/chart-1.mmd",
+      "bytes": 148,
+      "sha256": "9ec70612edff04e52302ec44b8b083f73d4d44472d8c00aaf7f325e5aa39ee87"
+    },
+    {
+      "path": "out/chart-2.mmd",
+      "bytes": 146,
+      "sha256": "dcfcd36fb9a3c3d90a60c6809b30115c323f5789c8868d2bf27cd455f68be5a8"
+    },
+    {
+      "path": "out/evaluation.md",
+      "bytes": 4308,
+      "sha256": "fb64af8fa9d4184dcdba839bd671c9a9898d01f10e79457d6ca82e5ba739f117"
+    },
+    {
+      "path": "out/gates.json",
+      "bytes": 239,
+      "sha256": "fff70bc0d06e157d3837b19c0d9dd5d86064bdca9539489eebf46951160cc694"
+    },
+    {
+      "path": "out/metrics.json",
+      "bytes": 1385,
+      "sha256": "fcab6392eb11f78325075ba3761d28cc32765d841d30097299abb64b63f69b88"
+    },
+    {
+      "path": "out/notes.txt",
+      "bytes": 102,
+      "sha256": "21850f0ed89c3d5f0705be4e9ff7bd73252bcb910cc84102cd5b6a4dee562da6"
+    },
+    {
+      "path": "out/report.html",
+      "bytes": 5958,
+      "sha256": "ad78a439f77447afc6e2798cfa3e873493766f243b07e9353b792e436eead517"
+    },
+    {
+      "path": "out/report.md",
+      "bytes": 4772,
+      "sha256": "95133cb8387515580ec89159d0dc362a52f420314989a0af66a2d76297a1171b"
+    },
+    {
+      "path": "report.md",
+      "bytes": 4256,
+      "sha256": "200b69558ec8ca61bebed3befa624e5d9b246fa7eca5e267c16e7af077a99e6d"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": []
+}

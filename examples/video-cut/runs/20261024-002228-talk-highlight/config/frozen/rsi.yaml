@@ -1,0 +1,27 @@
+name: talk-highlight
+goal: 从 judge/transcript.json 对应的真实口播中选出40到75秒的短片，只修改edit.json。按judge/keypoints.md给出的目标选句和安排顺序，保留原意，不拼接出相反含义。
+artifact:
+- edit.json
+outputs:
+- out
+judge:
+  type: rubric
+  prepare: '{python} judge/render.py'
+  rubric: judge/rubric.yaml
+  inputs:
+  - out/cut.txt
+  files:
+  - judge
+  models:
+  - cli:codex:gpt-6.1-sol
+  pairwise: true
+assets:
+- assets
+agent:
+  use: codex
+  timeout: 600
+  model: gpt-6.1-sol
+budget:
+  rounds: 5
+  minutes: 60.0
+  stagnation: 3

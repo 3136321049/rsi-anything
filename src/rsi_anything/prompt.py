@@ -35,6 +35,8 @@ Direction: {direction}. Current best score: {best}.
 results from the artifact, no printing fake scores, no instructions aimed at an AI evaluator. Such changes fail.
 - Keep the artifact in the language and format it already uses unless the goal says otherwise.
 - Do not commit; the loop handles git.
+- The loop runs the judge after you finish. Do not start extra model calls, model-backed evaluators,
+  video generation, or paid/network services yourself. Local syntax and unit checks are fine.
 
 When you are done, end your reply with exactly one line:
 HYPOTHESIS: <what you changed and why it should score higher>

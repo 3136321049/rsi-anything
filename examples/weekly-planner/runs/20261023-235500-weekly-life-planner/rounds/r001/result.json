@@ -1,0 +1,31 @@
+{
+  "round": 1,
+  "status": "KEEP",
+  "hypothesis": "补齐缺失活动并统一安排到偏好时段，同时满足冲突、时长和每日上限约束，提高任务覆盖与偏好覆盖得分。",
+  "score": 100.0,
+  "best": 100.0,
+  "gates": {
+    "valid_schedule": true,
+    "no_conflicts": true,
+    "within_awake_hours": true,
+    "allowed_days": true,
+    "correct_duration": true,
+    "session_limits": true,
+    "daily_load": true,
+    "exit_code": true
+  },
+  "feedback": "任务覆盖 100.0%，偏好覆盖 100.0%。\n固定约束、任务次数和偏好全部满足。 ",
+  "commit": "99c799a4faff",
+  "changed": [
+    "schedule.json"
+  ],
+  "ignored": [],
+  "agent_seconds": 43.6,
+  "judge_seconds": 0.0,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "rounds/r001/artifacts",
+  "holdout": null,
+  "note": "score 38.08 -> 100",
+  "time": "2026-10-23T15:55:44+00:00"
+}

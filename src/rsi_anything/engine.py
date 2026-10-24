@@ -9,12 +9,14 @@ touched; they merge the branch when they like the result.
 from __future__ import annotations
 
 import json
+import os
 import time
-from dataclasses import dataclass, field
+from contextlib import contextmanager
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Callable, Optional
 
-from . import gitops, ledger, prompt as briefing, workspace
+from . import artifacts, gitops, ledger, prompt as briefing, workspace
 from .agents import Agent
 from .contract import Contract
 from .judges import Judge, Verdict, make_judge
@@ -22,6 +24,21 @@ from .ledger import Row, RunStore
 from .paths import matches, normalize
 
 Log = Callable[[str], None]
+
+
+@contextmanager
+def _usage_log(path: Optional[Path]):
+    before = os.environ.get("RSI_USAGE_LOG")
+    if path is not None:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        os.environ["RSI_USAGE_LOG"] = str(path)
+    try:
+        yield
+    finally:
+        if before is None:
+            os.environ.pop("RSI_USAGE_LOG", None)
+        else:
+            os.environ["RSI_USAGE_LOG"] = before
 
 
 class RunError(RuntimeError):
@@ -64,6 +81,7 @@ class Ratchet:
         self.artifact = _prefix(self.rel_root, contract.artifact)
         self.frozen_patterns = _prefix(self.rel_root, contract.frozen_files)
         self.assets = _prefix(self.rel_root, contract.assets)
+        self.saved_patterns = list(dict.fromkeys([*contract.artifact, *getattr(contract, "outputs", [])]))
         # Hold-out judge files are removed from the agent's worktree every round; only judges see them.
         hidden = (contract.holdout.files + ([contract.holdout.rubric] if contract.holdout.rubric else [])) if contract.holdout else []
         self.hidden = _prefix(self.rel_root, hidden)
@@ -81,9 +99,58 @@ class Ratchet:
     def _sub(self, root: Path) -> Path:
         return root / self.rel_root if self.rel_root else root
 
-    def _evaluate(self, judge: Judge, commit: str, frozen: dict, overlay=None, round_no: int = 0) -> tuple[Verdict, Path]:
+    def _evaluate(self, judge: Judge, commit: str, frozen: dict, overlay=None, round_no: int = 0,
+                  usage_log: Optional[Path] = None) -> tuple[Verdict, Path]:
         ws = workspace.build(self.repo, commit, frozen, overlay, self.assets)
-        return judge.evaluate(self._sub(ws), round_no), ws
+        try:
+            with _usage_log(usage_log):
+                return judge.evaluate(self._sub(ws), round_no), ws
+        except BaseException:
+            workspace.discard(ws)
+            raise
+
+    def _configuration(self, store: RunStore, frozen: dict):
+        config = store.dir / "config"
+        if (config / "execution.json").exists():
+            return
+        for rel, content in frozen.items():
+            target = config / "frozen" / rel
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(content)
+        (config / "rsi.yaml").write_bytes(frozen.get(_prefix(self.rel_root, ["rsi.yaml"])[0],
+                                                       (self.project / "rsi.yaml").read_bytes()))
+        execution = {"agent": {**asdict(self.contract.agent), "resolved_adapter": self.agent.name,
+                               "requested_model": getattr(self.agent, "model", None) or self.contract.agent.model,
+                               "actual_model": None,
+                               "reasoning_effort": os.environ.get("RSI_CODEX_REASONING_EFFORT")
+                                   if self.agent.name == "codex" else None},
+                     "judge": asdict(self.contract.judge), "jury": getattr(self.judge, "models", []),
+                     "holdout": asdict(self.contract.holdout) if self.contract.holdout else None,
+                     "budget": asdict(self.contract.budget), "artifact": self.contract.artifact,
+                     "outputs": getattr(self.contract, "outputs", []),
+                     "task_model": os.environ.get("RSI_TASK_MODEL")}
+        artifacts.write_json(config / "execution.json", execution)
+
+    def _saved_evaluation(self, store: RunStore, commit: str, frozen: dict, snapshot: str):
+        saved = store.dir / snapshot
+        verdict = artifacts.verdict(saved)
+        if verdict is not None and verdict.ok and (saved / "manifest.json").exists():
+            ws = workspace.build(self.repo, commit, frozen, assets=self.assets)
+            try:
+                artifacts.restore(saved, self._sub(ws))
+            except BaseException:
+                workspace.discard(ws)
+                raise
+            return verdict, ws
+        verdict, ws = self._evaluate(self.judge, commit, frozen, usage_log=saved / "judge-usage.jsonl")
+        artifacts.save(self._sub(ws), saved, self.saved_patterns, verdict)
+        return verdict, ws
+
+    def _checkpoint(self, store: RunStore, **changes):
+        meta = store.meta()
+        meta.update(changes)
+        meta["updated"] = ledger.now()
+        store.write_meta(meta)
 
     def _changes(self, worktree: Path) -> tuple[list[str], list[str]]:
         allowed, ignored = [], []
@@ -119,43 +186,59 @@ class Ratchet:
                 "jury": getattr(self.judge, "models", []), "started": ledger.now(),
             })
         frozen = workspace.snapshot_frozen(self.repo, base, self.frozen_patterns)
+        self._configuration(store, frozen)
+        store.recover_rounds()
+        rows = store.rows()
+        meta = store.meta()
+        active = meta.get("active_round")
+        if resume and active and not any(r["round"] == active for r in rows):
+            expected = next((r["commit"] for r in reversed(rows) if r.get("commit")), base)
+            if not champion.startswith(expected):
+                raise RunError("run branch moved before its round was recorded; inspect the branch and round files before resuming")
+            store.complete_round(Row(active, ledger.INTERRUPTED, best=rows[-1].get("best") if rows else None,
+                                     artifacts=f"rounds/r{active:03d}/artifacts",
+                                     note=f"interrupted during {meta.get('phase', 'round')}; retained files, continued from champion"))
+            rows = store.rows()
         worktree = store.worktree
         gitops.add_worktree(self.repo, worktree, branch, champion)
-        rows = store.rows()
-
         self.log(f"run {store.run_id}  branch {branch}  agent {self.agent.name}")
-        champion_verdict, champion_ws = self._evaluate(self.judge, champion, frozen)
-        if not champion_verdict.ok:
-            workspace.discard(champion_ws)
-            raise RunError(f"the judge cannot score the starting point: {champion_verdict.error}")
-        if not rows:
-            row = Row(0, ledger.BASELINE, score=champion_verdict.score, best=champion_verdict.score,
-                      gates=champion_verdict.gates, feedback=champion_verdict.feedback, commit=champion[:12],
-                      judge_seconds=champion_verdict.seconds)
-            if self.holdout:
-                row.holdout = self._holdout(champion, frozen, 0)
-            store.append(row)
-            rows = store.rows()
-            self.log(f"r0  BASELINE  score {champion_verdict.score:g}"
-                     + ("" if champion_verdict.passed else f"  failed gates: {', '.join(champion_verdict.failed_gates())}"))
-        best = champion_verdict.score
-        baseline = rows[0]["score"]
-        kept = sum(1 for r in rows if r["status"] == ledger.KEEP)
-        stagnant = 0
-        for row in reversed(rows):
-            if row["status"] in (ledger.KEEP, ledger.BASELINE):
-                break
-            stagnant += 1
         started = time.monotonic()
-        number = rows[-1]["round"]
+        elapsed_before = float(meta.get("elapsed_seconds", 0))
+        champion_ws = None
+        number = rows[-1]["round"] if rows else 0
+        champion_row = next((r for r in reversed(rows) if r["status"] in (ledger.KEEP, ledger.BASELINE)), {})
+        champion_snapshot = champion_row.get("artifacts") or (
+            f"rounds/r{champion_row['round']:03d}/artifacts" if champion_row.get("round") else "artifacts/baseline")
         stop = "round budget used"
-
+        self._checkpoint(store, status="running", phase="baseline" if not rows else "resume", active_round=None,
+                         finished=None, error=None, stop_reason=None)
         try:
+            champion_verdict, champion_ws = self._saved_evaluation(store, champion, frozen, champion_snapshot)
+            if not champion_verdict.ok:
+                raise RunError(f"the judge cannot score the starting point: {champion_verdict.error}")
+            if not rows:
+                row = Row(0, ledger.BASELINE, score=champion_verdict.score, best=champion_verdict.score,
+                          gates=champion_verdict.gates, feedback=champion_verdict.feedback, commit=champion[:12],
+                          judge_seconds=champion_verdict.seconds, artifacts=champion_snapshot,
+                          judge_cost_usd=champion_verdict.metrics.get("cost_usd"))
+                if self.holdout:
+                    row.holdout = self._holdout(champion, frozen, 0, store.dir / champion_snapshot / "holdout.json")
+                store.complete_round(row)
+                rows = store.rows()
+                self.log(f"r0  BASELINE  score {champion_verdict.score:g}"
+                         + ("" if champion_verdict.passed else f"  failed gates: {', '.join(champion_verdict.failed_gates())}"))
+            best, baseline = champion_verdict.score, rows[0]["score"]
+            kept = sum(1 for r in rows if r["status"] == ledger.KEEP)
+            stagnant = 0
+            for row in reversed(rows):
+                if row["status"] in (ledger.KEEP, ledger.BASELINE):
+                    break
+                stagnant += 1
             while True:
                 if number >= budget.rounds:
                     stop = f"reached {budget.rounds} rounds"
                     break
-                if (time.monotonic() - started) / 60 >= budget.minutes:
+                if (elapsed_before + time.monotonic() - started) / 60 >= budget.minutes:
                     stop = f"time budget of {budget.minutes:g} min used"
                     break
                 if stagnant >= budget.stagnation:
@@ -166,9 +249,10 @@ class Ratchet:
                     stop = f"target {budget.target:g} reached"
                     break
                 number += 1
+                self._checkpoint(store, active_round=number, phase="agent", champion=champion,
+                                 elapsed_seconds=elapsed_before + time.monotonic() - started)
                 row, win = self._round(number, store, worktree, champion, champion_verdict, champion_ws, frozen,
                                        best, store.rows())
-                store.append(row)
                 if win is not None:
                     workspace.discard(champion_ws)
                     champion, champion_verdict, champion_ws = win
@@ -177,20 +261,47 @@ class Ratchet:
                     stagnant = 0
                 else:
                     stagnant += 1
+                store.complete_round(row)
+                if row.status == ledger.KEEP:
+                    champion_snapshot = row.artifacts
+                self._checkpoint(store, active_round=None, phase="between_rounds", champion=champion,
+                                 elapsed_seconds=elapsed_before + time.monotonic() - started)
                 self._learn(row)
                 self.log(self._line(row))
+            final = store.dir / "artifacts" / "final"
+            previous_final = store.meta().get("final_snapshot_champion")
+            if previous_final != champion or not final.exists():
+                if previous_final and final.exists():
+                    # 已完成运行继续得到新版本时，保留上次最终验收和真实调用。
+                    history = store.dir / "artifacts" / "final-history" / previous_final[:12]
+                    history.parent.mkdir(parents=True, exist_ok=True)
+                    final.rename(history)
+                artifacts.copy_snapshot(store.dir / champion_snapshot, final, source_snapshot=champion_snapshot)
+                self._checkpoint(store, final_snapshot_champion=champion, final_source_artifacts=champion_snapshot)
+            self._checkpoint(store, phase="final_holdout", active_round=None)
+            holdout = {}
+            if self.holdout:
+                holdout = {"baseline": rows[0].get("holdout"),
+                           "final": self._holdout(champion, frozen, number, final / "holdout.json")}
+            self._checkpoint(store, finished=ledger.now(), status="finished", phase="finished", champion=champion,
+                             stop_reason=stop, holdout=holdout, final_artifacts="artifacts/final",
+                             elapsed_seconds=elapsed_before + time.monotonic() - started)
+            return Summary(store.run_id, branch, base, champion, baseline, best, number, kept, stop, holdout)
+        except BaseException as exc:
+            active = store.meta().get("active_round")
+            if active and worktree.exists() and not (store.round_dir(active) / "artifacts" / "manifest.json").exists():
+                artifacts.save(self._sub(worktree), store.round_dir(active) / "artifacts", self.saved_patterns)
+            if active and not any(row["round"] == active for row in store.rows()):
+                artifacts.mark_incomplete(store.round_dir(active) / "artifacts")
+            self._checkpoint(store, status="interrupted" if isinstance(exc, (KeyboardInterrupt, SystemExit)) else "failed",
+                             error=f"{type(exc).__name__}: {exc}", champion=champion,
+                             elapsed_seconds=elapsed_before + time.monotonic() - started)
+            raise
         finally:
-            workspace.discard(champion_ws)
+            if champion_ws is not None:
+                workspace.discard(champion_ws)
             gitops.reset_worktree(worktree, champion)
             gitops.git(self.repo, "worktree", "remove", "--force", str(worktree), check=False)
-
-        holdout = {}
-        if self.holdout:
-            holdout = {"baseline": rows[0].get("holdout"), "final": self._holdout(champion, frozen, number)}
-        meta = store.meta()
-        meta.update(finished=ledger.now(), champion=champion, stop_reason=stop, holdout=holdout)
-        store.write_meta(meta)
-        return Summary(store.run_id, branch, base, champion, baseline, best, number, kept, stop, holdout)
 
     def _round(self, number: int, store: RunStore, worktree: Path, champion: str, champion_verdict: Verdict,
                champion_ws: Path, frozen: dict, best: Optional[float], rows: list) -> tuple[Row, Optional[tuple]]:
@@ -204,25 +315,33 @@ class Ratchet:
         (round_dir / "prompt.md").write_text(text, encoding="utf-8")
         self.log(f"r{number}  {self.agent.name} is working...")
         control = gitops.control_files(self.repo)
-        result = self.agent.run(self._sub(worktree), text, round_dir, self.contract.agent.timeout)
-        tampered = gitops.restore_control_files(control, gitops.control_files(self.repo))
+        try:
+            with _usage_log(round_dir / "agent-usage.jsonl"):
+                result = self.agent.run(self._sub(worktree), text, round_dir, self.contract.agent.timeout)
+        finally:
+            tampered = gitops.restore_control_files(control, gitops.control_files(self.repo))
+        (round_dir / "agent-final.txt").write_text(result.text, encoding="utf-8")
+        snapshot = f"rounds/r{number:03d}/artifacts"
+        artifacts.save(self._sub(worktree), store.dir / snapshot, self.saved_patterns)
         if tampered:
             return Row(number, ledger.AGENT_FAIL, result.hypothesis, best=best, agent_seconds=result.seconds,
-                       cost_usd=result.cost_usd, note="agent changed git config or hooks (restored): "
+                       artifacts=snapshot, cost_usd=result.cost_usd, note="agent changed git config or hooks (restored): "
                        + ", ".join(tampered)), None
         if not result.ok:
             return Row(number, ledger.AGENT_FAIL, result.hypothesis, best=best, agent_seconds=result.seconds,
-                       cost_usd=result.cost_usd, note=result.error[:300]), None
+                       artifacts=snapshot, cost_usd=result.cost_usd, note=result.error[:300]), None
         allowed, ignored = self._changes(worktree)
         if not allowed:
             return Row(number, ledger.NO_CHANGE, result.hypothesis, best=best, ignored=ignored,
-                       agent_seconds=result.seconds, cost_usd=result.cost_usd,
+                       agent_seconds=result.seconds, cost_usd=result.cost_usd, artifacts=snapshot,
                        note="no edits inside the artifact paths" + (f"; ignored {len(ignored)} other edits" if ignored else "")), None
         (round_dir / "diff.patch").write_text(
             gitops.git(worktree, "diff", "--", *allowed) + "\n" + "\n".join(
                 f"(new file) {p}" for p in allowed if not gitops.show(worktree, champion, p)), encoding="utf-8")
         overlay = {p: ((worktree / p).read_bytes() if (worktree / p).is_file() else None) for p in allowed}
-        verdict, ws = self._evaluate(self.judge, champion, frozen, overlay, number)
+        self._checkpoint(store, phase="judge")
+        verdict, ws = self._evaluate(self.judge, champion, frozen, overlay, number, round_dir / "judge-usage.jsonl")
+        artifacts.save(self._sub(ws), store.dir / snapshot, self.saved_patterns, verdict)
         (round_dir / "verdict.json").write_text(
             json.dumps({"score": verdict.score, "gates": verdict.gates, "feedback": verdict.feedback,
                                       "metrics": verdict.metrics, "error": verdict.error}, indent=2,
@@ -230,23 +349,43 @@ class Ratchet:
         common = dict(hypothesis=result.hypothesis, changed=allowed, ignored=ignored,
                       agent_seconds=round(result.seconds, 1), judge_seconds=round(verdict.seconds, 1),
                       cost_usd=result.cost_usd, gates=verdict.gates, feedback=verdict.feedback[:1500])
+        common.update(artifacts=snapshot, judge_cost_usd=verdict.metrics.get("cost_usd"))
         if not verdict.ok:
             workspace.discard(ws)
             return Row(number, ledger.JUDGE_FAIL, best=best, note=verdict.error[:300], **common), None
-        keep, reason = self.judge.prefers(self._sub(ws), self._sub(champion_ws), verdict, champion_verdict)
+        try:
+            with _usage_log(round_dir / "judge-usage.jsonl"):
+                keep, reason = self.judge.prefers(self._sub(ws), self._sub(champion_ws), verdict, champion_verdict)
+        except BaseException:
+            workspace.discard(ws)
+            raise
         if not keep:
             workspace.discard(ws)
             return Row(number, ledger.REVERT, score=verdict.score, best=best, note=reason[:300], **common), None
         before = "none" if best is None else f"{best:g}"
         message = f"rsi r{number}: {result.hypothesis or 'improvement'} ({before} -> {verdict.score:g})"
+        self._checkpoint(store, phase="commit")
+        # 助手可能暂存了范围外文件；提交前重建暂存区，只纳入已评审的文件。
+        gitops.git(worktree, "reset")
         commit = gitops.commit_paths(worktree, allowed, message[:200])
         row = Row(number, ledger.KEEP, score=verdict.score, best=verdict.score, commit=commit[:12], note=reason[:300],
                   **common)
+        artifacts.write_json(round_dir / "result.json", asdict(row))
         return row, (commit, verdict, ws)
 
-    def _holdout(self, commit: str, frozen: dict, number: int) -> Optional[float]:
-        verdict, ws = self._evaluate(self.holdout, commit, frozen, round_no=number)
-        workspace.discard(ws)
+    def _holdout(self, commit: str, frozen: dict, number: int, receipt: Optional[Path] = None) -> Optional[float]:
+        if receipt is not None and receipt.exists():
+            verdict = Verdict(**json.loads(receipt.read_text(encoding="utf-8")))
+            return verdict.score if verdict.ok else None
+        verdict, ws = self._evaluate(self.holdout, commit, frozen, round_no=number,
+                                    usage_log=receipt.parent / "holdout-usage.jsonl" if receipt else None)
+        try:
+            if receipt is not None:
+                artifacts.save(self._sub(ws), receipt.parent / "holdout-artifacts", self.saved_patterns, verdict)
+        finally:
+            workspace.discard(ws)
+        if receipt is not None:
+            artifacts.write_json(receipt, asdict(verdict))
         return verdict.score if verdict.ok else None
 
     def _learn(self, row: Row):

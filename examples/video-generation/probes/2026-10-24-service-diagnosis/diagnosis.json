@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-24",
+  "generation_diagnostic_requests": 1,
+  "input_order_unchanged": true,
+  "short_prompt_matches_previously_successful_baseline": true,
+  "diagnostic_result": "service_error",
+  "event_id": "4413c88e602948a19b642ddeae2b756f",
+  "show_error": false,
+  "upstream_commit": "8a42e93469c66b62d794b83a4233f5fc8439e2b5",
+  "upstream_app_py_sha256": "e9c0315f33a4619e3ff2e2d15386ff6160f4dfb589485e9d87933d705dccc89b",
+  "confirmed": [
+    "初始和第1轮真实视频可完整解码且哈希符合来源",
+    "第2和第3轮只有error/null，无视频",
+    "当前接口输入顺序与历史成功请求一致",
+    "与成功基线相同的短描述再次收到error/null"
+  ],
+  "not_established": [
+    "不能从null确定额度限制",
+    "不能从null确定GPU资源不足或服务内部错误",
+    "未证明失败由输入长度触发",
+    "未证明接口变更导致失败"
+  ],
+  "next_step": "保留当前部分实测；服务恢复或有另行获准的免费兼容资源后另开实验，不自动重试或购买资源。"
+}

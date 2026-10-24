@@ -1,0 +1,28 @@
+{
+  "run_id": "20261024-002228-talk-highlight",
+  "contract": "talk-highlight",
+  "contract_digest": "ec6f46906162",
+  "goal": "从 judge/transcript.json 对应的真实口播中选出40到75秒的短片，只修改edit.json。按judge/keypoints.md给出的目标选句和安排顺序，保留原意，不拼接出相反含义。",
+  "base": "018e670fbb3083abd01fbee625de402bd9360e4d",
+  "branch": "rsi/20261024-002228-talk-highlight",
+  "project": ".",
+  "agent": "codex",
+  "judge": "rubric",
+  "jury": [
+    "cli:codex:gpt-6.1-sol"
+  ],
+  "started": "2026-10-23T16:22:28+00:00",
+  "status": "finished",
+  "phase": "finished",
+  "active_round": null,
+  "finished": "2026-10-23T16:29:40+00:00",
+  "error": null,
+  "stop_reason": "no improvement in 3 rounds",
+  "updated": "2026-10-23T16:29:40+00:00",
+  "champion": "954834dd8746a5f564c2b5d3968052e4d0ad093d",
+  "elapsed_seconds": 431.569605459,
+  "final_snapshot_champion": "954834dd8746a5f564c2b5d3968052e4d0ad093d",
+  "final_source_artifacts": "rounds/r001/artifacts",
+  "holdout": {},
+  "final_artifacts": "artifacts/final"
+}

@@ -1,0 +1,1444 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSI run 20261023-235500-weekly-life-planner</title>
+<style>
+:root { --bg:#fbfaf7; --fg:#1d1d1b; --muted:#6b6a64; --line:#e4e1d8; --accent:#2f6fde; --keep:#1f9d55; --drop:#b7b3a6; }
+@media (prefers-color-scheme: dark) { :root { --bg:#161614; --fg:#ecebe6; --muted:#a3a198; --line:#2c2b27; --accent:#7aa7ff; --keep:#4cc38a; --drop:#5b5950; } }
+body { background:var(--bg); color:var(--fg); font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; margin:0; }
+main { max-width:960px; margin:0 auto; padding:32px 16px 64px; }
+h1 { font-size:22px; margin:0 0 4px; } .muted { color:var(--muted); }
+.stats { display:flex; gap:24px; flex-wrap:wrap; margin:20px 0; } .stat b { display:block; font-size:26px; }
+svg { width:100%; height:auto; border:1px solid var(--line); border-radius:8px; }
+.best { fill:none; stroke:var(--accent); stroke-width:2; } .kept { fill:var(--keep); } .dropped { fill:var(--drop); }
+.tick { fill:var(--muted); font-size:11px; }
+table { width:100%; border-collapse:collapse; margin-top:20px; font-size:14px; }
+td,th { border-bottom:1px solid var(--line); padding:6px 8px; text-align:left; vertical-align:top; }
+tr.s-keep td:nth-child(2) { color:var(--keep); font-weight:600; }
+pre { overflow-x:auto; background:color-mix(in srgb, var(--line) 40%, transparent); padding:12px; border-radius:8px; }
+details { border:1px solid var(--line); border-radius:8px; padding:12px; margin:12px 0; } summary { cursor:pointer; font-weight:600; }
+.artifact img,.artifact video { max-width:100%; max-height:560px; } .artifact pre { max-height:420px; white-space:pre-wrap; overflow:auto; } a { color:var(--accent); }
+</style></head><body><main>
+<h1>weekly-life-planner</h1>
+<div class="muted">修改 schedule.json，在 judge/requirements.json 的固定工作、通勤、晚饭之外安排这一周。
+所有活动需无冲突、在清醒时段内、满足各任务时长与可用日期，且每天可安排活动不超过 240 分钟。
+尽可能完成全部 14 次活动，优先满足权重更高的学习、家人时间与锻炼，同时符合偏好时间。
+得分=70%加权任务覆盖+30%加权偏好覆盖。缺少任务会扣分，重复超出次数不合法。
+task 为任务 ID；day 为 1..7（周一到周日）；start/end 使用 HH:MM。每轮根据评审报告改善安排。</div>
+<p class="muted">运行状态：finished。调用费用：工具未提供。</p>
+<p><a href="config/rsi.yaml">任务配置</a> · <a href="config/execution.json">模型与运行参数</a></p>
+<div class="stats">
+<div class="stat"><span class="muted">baseline</span><b>38.08</b></div>
+<div class="stat"><span class="muted">best</span><b>100</b></div>
+<div class="stat"><span class="muted">rounds / kept</span><b>3 / 1</b></div>
+<div class="stat"><span class="muted">agent</span><b style="font-size:16px">codex</b></div>
+</div>
+<svg viewBox="0 0 720 260" role="img" aria-label="score by round"><polyline points="48.0,210.3 704.0,33.7 1360.0,33.7 2016.0,33.7" class="best"/><circle cx="48.0" cy="210.3" r="5" class="kept"><title>r0 BASELINE 38.08</title></circle><circle cx="704.0" cy="33.7" r="5" class="kept"><title>r1 KEEP 100</title></circle><text x="40" y="210.3" class="tick" text-anchor="end">38.1</text><text x="40" y="122.0" class="tick" text-anchor="end">69</text><text x="40" y="33.7" class="tick" text-anchor="end">100</text><text x="48.0" y="250" class="tick" text-anchor="middle">r0</text><text x="704.0" y="250" class="tick" text-anchor="middle">r1</text></svg>
+<p class="muted">Line: best score so far. Green: kept. Grey: judged and thrown away.
+
+Stopped: reached 3 rounds.</p>
+<table><thead><tr><th>round</th><th>status</th><th>score</th><th>best</th><th>change</th><th>why</th></tr></thead>
+<tbody><tr class='s-baseline'><td>0</td><td>◆ BASELINE</td><td>38.08</td><td>38.08</td><td>baseline</td><td></td></tr><tr class='s-keep'><td>1</td><td>▲ KEEP</td><td>100</td><td>100</td><td>补齐缺失活动并统一安排到偏好时段，同时满足冲突、时长和每日上限约束，提高任务覆盖与偏好覆盖得分。</td><td>score 38.08 -&gt; 100</td></tr><tr class='s-no_change'><td>2</td><td>○ NO_CHANGE</td><td>-</td><td>100</td><td>当前安排已达到评分上限，不存在能进一步提高得分的修改。</td><td>no edits inside the artifact paths</td></tr><tr class='s-no_change'><td>3</td><td>○ NO_CHANGE</td><td>-</td><td>100</td><td>当前安排已达评分上限，没有能进一步提高得分的修改，保留现有安排。</td><td>no edits inside the artifact paths</td></tr></tbody></table>
+<h2>产物版本</h2><details><summary>初始产物</summary><div class='artifact'><p><a href="artifacts/baseline/files/out/metrics.json">out/metrics.json</a></p><pre>{
+  &quot;score&quot;: 38.08,
+  &quot;gates&quot;: {
+    &quot;valid_schedule&quot;: true,
+    &quot;no_conflicts&quot;: true,
+    &quot;within_awake_hours&quot;: true,
+    &quot;allowed_days&quot;: true,
+    &quot;correct_duration&quot;: true,
+    &quot;session_limits&quot;: true,
+    &quot;daily_load&quot;: true
+  },
+  &quot;feedback&quot;: &quot;任务覆盖 46.2%，偏好覆盖 19.2%。\n锻炼还缺 2 次\n阅读还缺 2 次\n系统学习还缺 1 次\n准备下周餐食还缺 1 次\n整理账单还缺 1 次\n留出休息还缺 1 次\n锻炼有 1 次不在偏好时段\n阅读有 1 次不在偏好时段\n采购有 1 次不在偏好时段\n陪伴家人有 1 次不在偏好时段&quot;,
+  &quot;metrics&quot;: {
+    &quot;coverage&quot;: 0.4615,
+    &quot;preference_coverage&quot;: 0.1923,
+    &quot;tasks&quot;: [
+      {
+        &quot;task&quot;: &quot;exercise&quot;,
+        &quot;title&quot;: &quot;锻炼&quot;,
+        &quot;required&quot;: 3,
+        &quot;scheduled&quot;: 1,
+        &quot;preferred&quot;: 0,
+        &quot;weight&quot;: 2
+      },
+      {
+        &quot;task&quot;: &quot;reading&quot;,
+        &quot;title&quot;: &quot;阅读&quot;,
+        &quot;required&quot;: 3,
+        &quot;scheduled&quot;: 1,
+        &quot;preferred&quot;: 0,
+        &quot;weight&quot;: 1
+      },
+      {
+        &quot;task&quot;: &quot;study&quot;,
+        &quot;title&quot;: &quot;系统学习&quot;,
+        &quot;required&quot;: 2,
+        &quot;scheduled&quot;: 1,
+        &quot;preferred&quot;: 1,
+        &quot;weight&quot;: 3
+      },
+      {
+        &quot;task&quot;: &quot;groceries&quot;,
+        &quot;title&quot;: &quot;采购&quot;,
+        &quot;required&quot;: 1,
+        &quot;scheduled&quot;: 1,
+        &quot;preferred&quot;: 0,
+        &quot;weight&quot;: 1
+      },
+      {
+        &quot;task&quot;: &quot;mealprep&quot;,
+        &quot;title&quot;: &quot;准备下周餐食&quot;,
+        &quot;required&quot;: 1,
+        &quot;scheduled&quot;: 0,
+        &quot;preferred&quot;: 0,
+        &quot;weight&quot;: 2
+      },
+      {
+        &quot;task&quot;: &quot;family&quot;,
+        &quot;title&quot;: &quot;陪伴家人&quot;,
+        &quot;required&quot;: 1,
+        &quot;scheduled&quot;: 1,
+        &quot;preferred&quot;: 0,
+        &quot;weight&quot;: 3
+      },
+      {
+        &quot;task&quot;: &quot;admin&quot;,
+        &quot;title&quot;: &quot;整理账单&quot;,
+        &quot;required&quot;: 1,
+        &quot;scheduled&quot;: 0,
+        &quot;preferred&quot;: 0,
+        &quot;weight&quot;: 1
+      },
+      {
+        &quot;task&quot;: &quot;rest&quot;,
+        &quot;title&quot;: &quot;留出休息&quot;,
+        &quot;required&quot;: 2,
+        &quot;scheduled&quot;: 1,
+        &quot;preferred&quot;: 1,
+        &quot;weight&quot;: 2
+      }
+    ],
+    &quot;conflicts_and_errors&quot;: [],
+    &quot;daily_minutes&quot;: {
+      &quot;1&quot;: 45,
+      &quot;2&quot;: 45,
+      &quot;4&quot;: 90,
+      &quot;5&quot;: 60,
+      &quot;6&quot;: 120,
+      &quot;7&quot;: 60
+    }
+  }
+}
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/schedule.html">out/schedule.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&#x27;zh-CN&#x27;&gt;&lt;meta charset=&#x27;utf-8&#x27;&gt;&lt;meta name=&#x27;viewport&#x27; content=&#x27;width=device-width, initial-scale=1&#x27;&gt;&lt;title&gt;工作之外的一周&lt;/title&gt;&lt;style&gt;body{margin:0;background:#f5f6f8;color:#1d2939;font:16px/1.5 system-ui}main{max-width:1200px;margin:auto;padding:32px 20px}.week{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}section{background:white;border-radius:14px;padding:16px}h2{margin:0 0 14px;font-size:19px}ul{padding:0;list-style:none}li{padding:10px 12px;margin:8px 0;border-left:3px solid #96a0b0;background:#f5f6f8}.planned{border-color:#287758;background:#edf7f2}time,small{display:block;color:#586579;font-size:13px}pre{white-space:pre-wrap;background:white;padding:16px;border-radius:12px}&lt;/style&gt;&lt;main&gt;&lt;h1&gt;工作之外的一周&lt;/h1&gt;&lt;p&gt;得分 38.08 · 约束全部满足&lt;/p&gt;&lt;pre&gt;任务覆盖 46.2%，偏好覆盖 19.2%。
+锻炼还缺 2 次
+阅读还缺 2 次
+系统学习还缺 1 次
+准备下周餐食还缺 1 次
+整理账单还缺 1 次
+留出休息还缺 1 次
+锻炼有 1 次不在偏好时段
+阅读有 1 次不在偏好时段
+采购有 1 次不在偏好时段
+陪伴家人有 1 次不在偏好时段&lt;/pre&gt;&lt;div class=&#x27;week&#x27;&gt;&lt;section&gt;&lt;h2&gt;周一&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;08:30–09:00&lt;/time&gt;&lt;strong&gt;上班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;09:00–18:00&lt;/time&gt;&lt;strong&gt;工作&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;18:00–18:30&lt;/time&gt;&lt;strong&gt;下班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;20:00–20:45&lt;/time&gt;&lt;strong&gt;锻炼&lt;/strong&gt;&lt;small&gt;可调时间&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周二&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;08:30–09:00&lt;/time&gt;&lt;strong&gt;上班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;09:00–18:00&lt;/time&gt;&lt;strong&gt;工作&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;18:00–18:30&lt;/time&gt;&lt;strong&gt;下班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;19:30–20:15&lt;/time&gt;&lt;strong&gt;阅读&lt;/strong&gt;&lt;small&gt;可调时间&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周三&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;08:30–09:00&lt;/time&gt;&lt;strong&gt;上班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;09:00–18:00&lt;/time&gt;&lt;strong&gt;工作&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;18:00–18:30&lt;/time&gt;&lt;strong&gt;下班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;20:00–21:00&lt;/time&gt;&lt;strong&gt;朋友聚会&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周四&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;08:30–09:00&lt;/time&gt;&lt;strong&gt;上班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;09:00–18:00&lt;/time&gt;&lt;strong&gt;工作&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;18:00–18:30&lt;/time&gt;&lt;strong&gt;下班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;20:00–21:30&lt;/time&gt;&lt;strong&gt;系统学习&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周五&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;08:30–09:00&lt;/time&gt;&lt;strong&gt;上班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;09:00–18:00&lt;/time&gt;&lt;strong&gt;工作&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;18:00–18:30&lt;/time&gt;&lt;strong&gt;下班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;20:00–21:00&lt;/time&gt;&lt;strong&gt;采购&lt;/strong&gt;&lt;small&gt;可调时间&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周六&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;10:00–12:00&lt;/time&gt;&lt;strong&gt;陪伴家人&lt;/strong&gt;&lt;small&gt;可调时间&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周日&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;14:00–15:00&lt;/time&gt;&lt;strong&gt;留出休息&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;/div&gt;&lt;/main&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/schedule.json">out/schedule.json</a></p><pre>[
+  {
+    &quot;day&quot;: 1,
+    &quot;start&quot;: &quot;08:30&quot;,
+    &quot;end&quot;: &quot;09:00&quot;,
+    &quot;title&quot;: &quot;上班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 1,
+    &quot;start&quot;: &quot;09:00&quot;,
+    &quot;end&quot;: &quot;18:00&quot;,
+    &quot;title&quot;: &quot;工作&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 1,
+    &quot;start&quot;: &quot;18:00&quot;,
+    &quot;end&quot;: &quot;18:30&quot;,
+    &quot;title&quot;: &quot;下班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 1,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 1,
+    &quot;start&quot;: &quot;20:00&quot;,
+    &quot;end&quot;: &quot;20:45&quot;,
+    &quot;task&quot;: &quot;exercise&quot;,
+    &quot;title&quot;: &quot;锻炼&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: false
+  },
+  {
+    &quot;day&quot;: 2,
+    &quot;start&quot;: &quot;08:30&quot;,
+    &quot;end&quot;: &quot;09:00&quot;,
+    &quot;title&quot;: &quot;上班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 2,
+    &quot;start&quot;: &quot;09:00&quot;,
+    &quot;end&quot;: &quot;18:00&quot;,
+    &quot;title&quot;: &quot;工作&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 2,
+    &quot;start&quot;: &quot;18:00&quot;,
+    &quot;end&quot;: &quot;18:30&quot;,
+    &quot;title&quot;: &quot;下班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 2,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 2,
+    &quot;start&quot;: &quot;19:30&quot;,
+    &quot;end&quot;: &quot;20:15&quot;,
+    &quot;task&quot;: &quot;reading&quot;,
+    &quot;title&quot;: &quot;阅读&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: false
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;08:30&quot;,
+    &quot;end&quot;: &quot;09:00&quot;,
+    &quot;title&quot;: &quot;上班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;09:00&quot;,
+    &quot;end&quot;: &quot;18:00&quot;,
+    &quot;title&quot;: &quot;工作&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;18:00&quot;,
+    &quot;end&quot;: &quot;18:30&quot;,
+    &quot;title&quot;: &quot;下班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;20:00&quot;,
+    &quot;end&quot;: &quot;21:00&quot;,
+    &quot;title&quot;: &quot;朋友聚会&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 4,
+    &quot;start&quot;: &quot;08:30&quot;,
+    &quot;end&quot;: &quot;09:00&quot;,
+    &quot;title&quot;: &quot;上班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 4,
+    &quot;start&quot;: &quot;09:00&quot;,
+    &quot;end&quot;: &quot;18:00&quot;,
+    &quot;title&quot;: &quot;工作&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 4,
+    &quot;start&quot;: &quot;18:00&quot;,
+    &quot;end&quot;: &quot;18:30&quot;,
+    &quot;title&quot;: &quot;下班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 4,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 4,
+    &quot;start&quot;: &quot;20:00&quot;,
+    &quot;end&quot;: &quot;21:30&quot;,
+    &quot;task&quot;: &quot;study&quot;,
+    &quot;title&quot;: &quot;系统学习&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 5,
+    &quot;start&quot;: &quot;08:30&quot;,
+    &quot;end&quot;: &quot;09:00&quot;,
+    &quot;title&quot;: &quot;上班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 5,
+    &quot;start&quot;: &quot;09:00&quot;,
+    &quot;end&quot;: &quot;18:00&quot;,
+    &quot;title&quot;: &quot;工作&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 5,
+    &quot;start&quot;: &quot;18:00&quot;,
+    &quot;end&quot;: &quot;18:30&quot;,
+    &quot;title&quot;: &quot;下班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 5,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 5,
+    &quot;start&quot;: &quot;20:00&quot;,
+    &quot;end&quot;: &quot;21:00&quot;,
+    &quot;task&quot;: &quot;groceries&quot;,
+    &quot;title&quot;: &quot;采购&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: false
+  },
+  {
+    &quot;day&quot;: 6,
+    &quot;start&quot;: &quot;10:00&quot;,
+    &quot;end&quot;: &quot;12:00&quot;,
+    &quot;task&quot;: &quot;family&quot;,
+    &quot;title&quot;: &quot;陪伴家人&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: false
+  },
+  {
+    &quot;day&quot;: 6,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 7,
+    &quot;start&quot;: &quot;14:00&quot;,
+    &quot;end&quot;: &quot;15:00&quot;,
+    &quot;task&quot;: &quot;rest&quot;,
+    &quot;title&quot;: &quot;留出休息&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 7,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  }
+]
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/schedule.md">out/schedule.md</a></p><pre># 工作之外的一周
+
+任务覆盖 46.2%，偏好覆盖 19.2%。
+锻炼还缺 2 次
+阅读还缺 2 次
+系统学习还缺 1 次
+准备下周餐食还缺 1 次
+整理账单还缺 1 次
+留出休息还缺 1 次
+锻炼有 1 次不在偏好时段
+阅读有 1 次不在偏好时段
+采购有 1 次不在偏好时段
+陪伴家人有 1 次不在偏好时段
+
+## 周一
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 08:30–09:00 | 上班通勤 | 固定安排 |
+| 09:00–18:00 | 工作 | 固定安排 |
+| 18:00–18:30 | 下班通勤 | 固定安排 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+| 20:00–20:45 | 锻炼 | 可调时间 |
+
+## 周二
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 08:30–09:00 | 上班通勤 | 固定安排 |
+| 09:00–18:00 | 工作 | 固定安排 |
+| 18:00–18:30 | 下班通勤 | 固定安排 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+| 19:30–20:15 | 阅读 | 可调时间 |
+
+## 周三
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 08:30–09:00 | 上班通勤 | 固定安排 |
+| 09:00–18:00 | 工作 | 固定安排 |
+| 18:00–18:30 | 下班通勤 | 固定安排 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+| 20:00–21:00 | 朋友聚会 | 固定安排 |
+
+## 周四
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 08:30–09:00 | 上班通勤 | 固定安排 |
+| 09:00–18:00 | 工作 | 固定安排 |
+| 18:00–18:30 | 下班通勤 | 固定安排 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+| 20:00–21:30 | 系统学习 | 符合偏好 |
+
+## 周五
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 08:30–09:00 | 上班通勤 | 固定安排 |
+| 09:00–18:00 | 工作 | 固定安排 |
+| 18:00–18:30 | 下班通勤 | 固定安排 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+| 20:00–21:00 | 采购 | 可调时间 |
+
+## 周六
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 10:00–12:00 | 陪伴家人 | 可调时间 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+
+## 周日
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 14:00–15:00 | 留出休息 | 符合偏好 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/schedule.json">schedule.json</a></p><pre>{
+  &quot;sessions&quot;: [
+    {&quot;task&quot;: &quot;exercise&quot;, &quot;day&quot;: 1, &quot;start&quot;: &quot;20:00&quot;, &quot;end&quot;: &quot;20:45&quot;},
+    {&quot;task&quot;: &quot;reading&quot;, &quot;day&quot;: 2, &quot;start&quot;: &quot;19:30&quot;, &quot;end&quot;: &quot;20:15&quot;},
+    {&quot;task&quot;: &quot;study&quot;, &quot;day&quot;: 4, &quot;start&quot;: &quot;20:00&quot;, &quot;end&quot;: &quot;21:30&quot;},
+    {&quot;task&quot;: &quot;groceries&quot;, &quot;day&quot;: 5, &quot;start&quot;: &quot;20:00&quot;, &quot;end&quot;: &quot;21:00&quot;},
+    {&quot;task&quot;: &quot;family&quot;, &quot;day&quot;: 6, &quot;start&quot;: &quot;10:00&quot;, &quot;end&quot;: &quot;12:00&quot;},
+    {&quot;task&quot;: &quot;rest&quot;, &quot;day&quot;: 7, &quot;start&quot;: &quot;14:00&quot;, &quot;end&quot;: &quot;15:00&quot;}
+  ]
+}
+</pre></div></details><details><summary>第 1 轮 · KEEP</summary><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/metrics.json">out/metrics.json</a></p><pre>{
+  &quot;score&quot;: 100.0,
+  &quot;gates&quot;: {
+    &quot;valid_schedule&quot;: true,
+    &quot;no_conflicts&quot;: true,
+    &quot;within_awake_hours&quot;: true,
+    &quot;allowed_days&quot;: true,
+    &quot;correct_duration&quot;: true,
+    &quot;session_limits&quot;: true,
+    &quot;daily_load&quot;: true
+  },
+  &quot;feedback&quot;: &quot;任务覆盖 100.0%，偏好覆盖 100.0%。\n固定约束、任务次数和偏好全部满足。 &quot;,
+  &quot;metrics&quot;: {
+    &quot;coverage&quot;: 1.0,
+    &quot;preference_coverage&quot;: 1.0,
+    &quot;tasks&quot;: [
+      {
+        &quot;task&quot;: &quot;exercise&quot;,
+        &quot;title&quot;: &quot;锻炼&quot;,
+        &quot;required&quot;: 3,
+        &quot;scheduled&quot;: 3,
+        &quot;preferred&quot;: 3,
+        &quot;weight&quot;: 2
+      },
+      {
+        &quot;task&quot;: &quot;reading&quot;,
+        &quot;title&quot;: &quot;阅读&quot;,
+        &quot;required&quot;: 3,
+        &quot;scheduled&quot;: 3,
+        &quot;preferred&quot;: 3,
+        &quot;weight&quot;: 1
+      },
+      {
+        &quot;task&quot;: &quot;study&quot;,
+        &quot;title&quot;: &quot;系统学习&quot;,
+        &quot;required&quot;: 2,
+        &quot;scheduled&quot;: 2,
+        &quot;preferred&quot;: 2,
+        &quot;weight&quot;: 3
+      },
+      {
+        &quot;task&quot;: &quot;groceries&quot;,
+        &quot;title&quot;: &quot;采购&quot;,
+        &quot;required&quot;: 1,
+        &quot;scheduled&quot;: 1,
+        &quot;preferred&quot;: 1,
+        &quot;weight&quot;: 1
+      },
+      {
+        &quot;task&quot;: &quot;mealprep&quot;,
+        &quot;title&quot;: &quot;准备下周餐食&quot;,
+        &quot;required&quot;: 1,
+        &quot;scheduled&quot;: 1,
+        &quot;preferred&quot;: 1,
+        &quot;weight&quot;: 2
+      },
+      {
+        &quot;task&quot;: &quot;family&quot;,
+        &quot;title&quot;: &quot;陪伴家人&quot;,
+        &quot;required&quot;: 1,
+        &quot;scheduled&quot;: 1,
+        &quot;preferred&quot;: 1,
+        &quot;weight&quot;: 3
+      },
+      {
+        &quot;task&quot;: &quot;admin&quot;,
+        &quot;title&quot;: &quot;整理账单&quot;,
+        &quot;required&quot;: 1,
+        &quot;scheduled&quot;: 1,
+        &quot;preferred&quot;: 1,
+        &quot;weight&quot;: 1
+      },
+      {
+        &quot;task&quot;: &quot;rest&quot;,
+        &quot;title&quot;: &quot;留出休息&quot;,
+        &quot;required&quot;: 2,
+        &quot;scheduled&quot;: 2,
+        &quot;preferred&quot;: 2,
+        &quot;weight&quot;: 2
+      }
+    ],
+    &quot;conflicts_and_errors&quot;: [],
+    &quot;daily_minutes&quot;: {
+      &quot;1&quot;: 90,
+      &quot;2&quot;: 135,
+      &quot;3&quot;: 75,
+      &quot;4&quot;: 135,
+      &quot;5&quot;: 45,
+      &quot;6&quot;: 180,
+      &quot;7&quot;: 210
+    }
+  }
+}
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/schedule.html">out/schedule.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&#x27;zh-CN&#x27;&gt;&lt;meta charset=&#x27;utf-8&#x27;&gt;&lt;meta name=&#x27;viewport&#x27; content=&#x27;width=device-width, initial-scale=1&#x27;&gt;&lt;title&gt;工作之外的一周&lt;/title&gt;&lt;style&gt;body{margin:0;background:#f5f6f8;color:#1d2939;font:16px/1.5 system-ui}main{max-width:1200px;margin:auto;padding:32px 20px}.week{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}section{background:white;border-radius:14px;padding:16px}h2{margin:0 0 14px;font-size:19px}ul{padding:0;list-style:none}li{padding:10px 12px;margin:8px 0;border-left:3px solid #96a0b0;background:#f5f6f8}.planned{border-color:#287758;background:#edf7f2}time,small{display:block;color:#586579;font-size:13px}pre{white-space:pre-wrap;background:white;padding:16px;border-radius:12px}&lt;/style&gt;&lt;main&gt;&lt;h1&gt;工作之外的一周&lt;/h1&gt;&lt;p&gt;得分 100.0 · 约束全部满足&lt;/p&gt;&lt;pre&gt;任务覆盖 100.0%，偏好覆盖 100.0%。
+固定约束、任务次数和偏好全部满足。 &lt;/pre&gt;&lt;div class=&#x27;week&#x27;&gt;&lt;section&gt;&lt;h2&gt;周一&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;07:00–07:45&lt;/time&gt;&lt;strong&gt;锻炼&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;08:30–09:00&lt;/time&gt;&lt;strong&gt;上班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;09:00–18:00&lt;/time&gt;&lt;strong&gt;工作&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;18:00–18:30&lt;/time&gt;&lt;strong&gt;下班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;21:30–22:15&lt;/time&gt;&lt;strong&gt;阅读&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周二&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;08:30–09:00&lt;/time&gt;&lt;strong&gt;上班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;09:00–18:00&lt;/time&gt;&lt;strong&gt;工作&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;18:00–18:30&lt;/time&gt;&lt;strong&gt;下班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;20:00–21:30&lt;/time&gt;&lt;strong&gt;系统学习&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;21:30–22:15&lt;/time&gt;&lt;strong&gt;阅读&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周三&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;07:00–07:45&lt;/time&gt;&lt;strong&gt;锻炼&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;08:30–09:00&lt;/time&gt;&lt;strong&gt;上班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;09:00–18:00&lt;/time&gt;&lt;strong&gt;工作&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;18:00–18:30&lt;/time&gt;&lt;strong&gt;下班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;18:30–19:00&lt;/time&gt;&lt;strong&gt;整理账单&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;20:00–21:00&lt;/time&gt;&lt;strong&gt;朋友聚会&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周四&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;08:30–09:00&lt;/time&gt;&lt;strong&gt;上班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;09:00–18:00&lt;/time&gt;&lt;strong&gt;工作&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;18:00–18:30&lt;/time&gt;&lt;strong&gt;下班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;20:00–21:30&lt;/time&gt;&lt;strong&gt;系统学习&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;21:30–22:15&lt;/time&gt;&lt;strong&gt;阅读&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周五&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;07:00–07:45&lt;/time&gt;&lt;strong&gt;锻炼&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;08:30–09:00&lt;/time&gt;&lt;strong&gt;上班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;09:00–18:00&lt;/time&gt;&lt;strong&gt;工作&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;18:00–18:30&lt;/time&gt;&lt;strong&gt;下班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周六&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;09:00–10:00&lt;/time&gt;&lt;strong&gt;采购&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;14:00–15:00&lt;/time&gt;&lt;strong&gt;留出休息&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;16:00–17:00&lt;/time&gt;&lt;strong&gt;留出休息&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周日&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;10:00–12:00&lt;/time&gt;&lt;strong&gt;陪伴家人&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;15:00–16:30&lt;/time&gt;&lt;strong&gt;准备下周餐食&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;/div&gt;&lt;/main&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/schedule.json">out/schedule.json</a></p><pre>[
+  {
+    &quot;day&quot;: 1,
+    &quot;start&quot;: &quot;07:00&quot;,
+    &quot;end&quot;: &quot;07:45&quot;,
+    &quot;task&quot;: &quot;exercise&quot;,
+    &quot;title&quot;: &quot;锻炼&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 1,
+    &quot;start&quot;: &quot;08:30&quot;,
+    &quot;end&quot;: &quot;09:00&quot;,
+    &quot;title&quot;: &quot;上班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 1,
+    &quot;start&quot;: &quot;09:00&quot;,
+    &quot;end&quot;: &quot;18:00&quot;,
+    &quot;title&quot;: &quot;工作&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 1,
+    &quot;start&quot;: &quot;18:00&quot;,
+    &quot;end&quot;: &quot;18:30&quot;,
+    &quot;title&quot;: &quot;下班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 1,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 1,
+    &quot;start&quot;: &quot;21:30&quot;,
+    &quot;end&quot;: &quot;22:15&quot;,
+    &quot;task&quot;: &quot;reading&quot;,
+    &quot;title&quot;: &quot;阅读&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 2,
+    &quot;start&quot;: &quot;08:30&quot;,
+    &quot;end&quot;: &quot;09:00&quot;,
+    &quot;title&quot;: &quot;上班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 2,
+    &quot;start&quot;: &quot;09:00&quot;,
+    &quot;end&quot;: &quot;18:00&quot;,
+    &quot;title&quot;: &quot;工作&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 2,
+    &quot;start&quot;: &quot;18:00&quot;,
+    &quot;end&quot;: &quot;18:30&quot;,
+    &quot;title&quot;: &quot;下班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 2,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 2,
+    &quot;start&quot;: &quot;20:00&quot;,
+    &quot;end&quot;: &quot;21:30&quot;,
+    &quot;task&quot;: &quot;study&quot;,
+    &quot;title&quot;: &quot;系统学习&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 2,
+    &quot;start&quot;: &quot;21:30&quot;,
+    &quot;end&quot;: &quot;22:15&quot;,
+    &quot;task&quot;: &quot;reading&quot;,
+    &quot;title&quot;: &quot;阅读&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;07:00&quot;,
+    &quot;end&quot;: &quot;07:45&quot;,
+    &quot;task&quot;: &quot;exercise&quot;,
+    &quot;title&quot;: &quot;锻炼&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;08:30&quot;,
+    &quot;end&quot;: &quot;09:00&quot;,
+    &quot;title&quot;: &quot;上班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;09:00&quot;,
+    &quot;end&quot;: &quot;18:00&quot;,
+    &quot;title&quot;: &quot;工作&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;18:00&quot;,
+    &quot;end&quot;: &quot;18:30&quot;,
+    &quot;title&quot;: &quot;下班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;18:30&quot;,
+    &quot;end&quot;: &quot;19:00&quot;,
+    &quot;task&quot;: &quot;admin&quot;,
+    &quot;title&quot;: &quot;整理账单&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;20:00&quot;,
+    &quot;end&quot;: &quot;21:00&quot;,
+    &quot;title&quot;: &quot;朋友聚会&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 4,
+    &quot;start&quot;: &quot;08:30&quot;,
+    &quot;end&quot;: &quot;09:00&quot;,
+    &quot;title&quot;: &quot;上班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 4,
+    &quot;start&quot;: &quot;09:00&quot;,
+    &quot;end&quot;: &quot;18:00&quot;,
+    &quot;title&quot;: &quot;工作&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 4,
+    &quot;start&quot;: &quot;18:00&quot;,
+    &quot;end&quot;: &quot;18:30&quot;,
+    &quot;title&quot;: &quot;下班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 4,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 4,
+    &quot;start&quot;: &quot;20:00&quot;,
+    &quot;end&quot;: &quot;21:30&quot;,
+    &quot;task&quot;: &quot;study&quot;,
+    &quot;title&quot;: &quot;系统学习&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 4,
+    &quot;start&quot;: &quot;21:30&quot;,
+    &quot;end&quot;: &quot;22:15&quot;,
+    &quot;task&quot;: &quot;reading&quot;,
+    &quot;title&quot;: &quot;阅读&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 5,
+    &quot;start&quot;: &quot;07:00&quot;,
+    &quot;end&quot;: &quot;07:45&quot;,
+    &quot;task&quot;: &quot;exercise&quot;,
+    &quot;title&quot;: &quot;锻炼&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 5,
+    &quot;start&quot;: &quot;08:30&quot;,
+    &quot;end&quot;: &quot;09:00&quot;,
+    &quot;title&quot;: &quot;上班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 5,
+    &quot;start&quot;: &quot;09:00&quot;,
+    &quot;end&quot;: &quot;18:00&quot;,
+    &quot;title&quot;: &quot;工作&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 5,
+    &quot;start&quot;: &quot;18:00&quot;,
+    &quot;end&quot;: &quot;18:30&quot;,
+    &quot;title&quot;: &quot;下班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 5,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 6,
+    &quot;start&quot;: &quot;09:00&quot;,
+    &quot;end&quot;: &quot;10:00&quot;,
+    &quot;task&quot;: &quot;groceries&quot;,
+    &quot;title&quot;: &quot;采购&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 6,
+    &quot;start&quot;: &quot;14:00&quot;,
+    &quot;end&quot;: &quot;15:00&quot;,
+    &quot;task&quot;: &quot;rest&quot;,
+    &quot;title&quot;: &quot;留出休息&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 6,
+    &quot;start&quot;: &quot;16:00&quot;,
+    &quot;end&quot;: &quot;17:00&quot;,
+    &quot;task&quot;: &quot;rest&quot;,
+    &quot;title&quot;: &quot;留出休息&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 6,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 7,
+    &quot;start&quot;: &quot;10:00&quot;,
+    &quot;end&quot;: &quot;12:00&quot;,
+    &quot;task&quot;: &quot;family&quot;,
+    &quot;title&quot;: &quot;陪伴家人&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 7,
+    &quot;start&quot;: &quot;15:00&quot;,
+    &quot;end&quot;: &quot;16:30&quot;,
+    &quot;task&quot;: &quot;mealprep&quot;,
+    &quot;title&quot;: &quot;准备下周餐食&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 7,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  }
+]
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/schedule.md">out/schedule.md</a></p><pre># 工作之外的一周
+
+任务覆盖 100.0%，偏好覆盖 100.0%。
+固定约束、任务次数和偏好全部满足。 
+
+## 周一
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 07:00–07:45 | 锻炼 | 符合偏好 |
+| 08:30–09:00 | 上班通勤 | 固定安排 |
+| 09:00–18:00 | 工作 | 固定安排 |
+| 18:00–18:30 | 下班通勤 | 固定安排 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+| 21:30–22:15 | 阅读 | 符合偏好 |
+
+## 周二
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 08:30–09:00 | 上班通勤 | 固定安排 |
+| 09:00–18:00 | 工作 | 固定安排 |
+| 18:00–18:30 | 下班通勤 | 固定安排 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+| 20:00–21:30 | 系统学习 | 符合偏好 |
+| 21:30–22:15 | 阅读 | 符合偏好 |
+
+## 周三
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 07:00–07:45 | 锻炼 | 符合偏好 |
+| 08:30–09:00 | 上班通勤 | 固定安排 |
+| 09:00–18:00 | 工作 | 固定安排 |
+| 18:00–18:30 | 下班通勤 | 固定安排 |
+| 18:30–19:00 | 整理账单 | 符合偏好 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+| 20:00–21:00 | 朋友聚会 | 固定安排 |
+
+## 周四
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 08:30–09:00 | 上班通勤 | 固定安排 |
+| 09:00–18:00 | 工作 | 固定安排 |
+| 18:00–18:30 | 下班通勤 | 固定安排 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+| 20:00–21:30 | 系统学习 | 符合偏好 |
+| 21:30–22:15 | 阅读 | 符合偏好 |
+
+## 周五
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 07:00–07:45 | 锻炼 | 符合偏好 |
+| 08:30–09:00 | 上班通勤 | 固定安排 |
+| 09:00–18:00 | 工作 | 固定安排 |
+| 18:00–18:30 | 下班通勤 | 固定安排 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+
+## 周六
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 09:00–10:00 | 采购 | 符合偏好 |
+| 14:00–15:00 | 留出休息 | 符合偏好 |
+| 16:00–17:00 | 留出休息 | 符合偏好 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+
+## 周日
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 10:00–12:00 | 陪伴家人 | 符合偏好 |
+| 15:00–16:30 | 准备下周餐食 | 符合偏好 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/schedule.json">schedule.json</a></p><pre>{
+  &quot;sessions&quot;: [
+    {&quot;task&quot;: &quot;exercise&quot;, &quot;day&quot;: 1, &quot;start&quot;: &quot;07:00&quot;, &quot;end&quot;: &quot;07:45&quot;},
+    {&quot;task&quot;: &quot;reading&quot;, &quot;day&quot;: 1, &quot;start&quot;: &quot;21:30&quot;, &quot;end&quot;: &quot;22:15&quot;},
+    {&quot;task&quot;: &quot;study&quot;, &quot;day&quot;: 2, &quot;start&quot;: &quot;20:00&quot;, &quot;end&quot;: &quot;21:30&quot;},
+    {&quot;task&quot;: &quot;reading&quot;, &quot;day&quot;: 2, &quot;start&quot;: &quot;21:30&quot;, &quot;end&quot;: &quot;22:15&quot;},
+    {&quot;task&quot;: &quot;exercise&quot;, &quot;day&quot;: 3, &quot;start&quot;: &quot;07:00&quot;, &quot;end&quot;: &quot;07:45&quot;},
+    {&quot;task&quot;: &quot;admin&quot;, &quot;day&quot;: 3, &quot;start&quot;: &quot;18:30&quot;, &quot;end&quot;: &quot;19:00&quot;},
+    {&quot;task&quot;: &quot;study&quot;, &quot;day&quot;: 4, &quot;start&quot;: &quot;20:00&quot;, &quot;end&quot;: &quot;21:30&quot;},
+    {&quot;task&quot;: &quot;reading&quot;, &quot;day&quot;: 4, &quot;start&quot;: &quot;21:30&quot;, &quot;end&quot;: &quot;22:15&quot;},
+    {&quot;task&quot;: &quot;exercise&quot;, &quot;day&quot;: 5, &quot;start&quot;: &quot;07:00&quot;, &quot;end&quot;: &quot;07:45&quot;},
+    {&quot;task&quot;: &quot;groceries&quot;, &quot;day&quot;: 6, &quot;start&quot;: &quot;09:00&quot;, &quot;end&quot;: &quot;10:00&quot;},
+    {&quot;task&quot;: &quot;rest&quot;, &quot;day&quot;: 6, &quot;start&quot;: &quot;14:00&quot;, &quot;end&quot;: &quot;15:00&quot;},
+    {&quot;task&quot;: &quot;rest&quot;, &quot;day&quot;: 6, &quot;start&quot;: &quot;16:00&quot;, &quot;end&quot;: &quot;17:00&quot;},
+    {&quot;task&quot;: &quot;family&quot;, &quot;day&quot;: 7, &quot;start&quot;: &quot;10:00&quot;, &quot;end&quot;: &quot;12:00&quot;},
+    {&quot;task&quot;: &quot;mealprep&quot;, &quot;day&quot;: 7, &quot;start&quot;: &quot;15:00&quot;, &quot;end&quot;: &quot;16:30&quot;}
+  ]
+}
+</pre></div></details><details><summary>第 2 轮 · NO_CHANGE</summary><div class='artifact'><p><a href="rounds/r002/artifacts/files/schedule.json">schedule.json</a></p><pre>{
+  &quot;sessions&quot;: [
+    {&quot;task&quot;: &quot;exercise&quot;, &quot;day&quot;: 1, &quot;start&quot;: &quot;07:00&quot;, &quot;end&quot;: &quot;07:45&quot;},
+    {&quot;task&quot;: &quot;reading&quot;, &quot;day&quot;: 1, &quot;start&quot;: &quot;21:30&quot;, &quot;end&quot;: &quot;22:15&quot;},
+    {&quot;task&quot;: &quot;study&quot;, &quot;day&quot;: 2, &quot;start&quot;: &quot;20:00&quot;, &quot;end&quot;: &quot;21:30&quot;},
+    {&quot;task&quot;: &quot;reading&quot;, &quot;day&quot;: 2, &quot;start&quot;: &quot;21:30&quot;, &quot;end&quot;: &quot;22:15&quot;},
+    {&quot;task&quot;: &quot;exercise&quot;, &quot;day&quot;: 3, &quot;start&quot;: &quot;07:00&quot;, &quot;end&quot;: &quot;07:45&quot;},
+    {&quot;task&quot;: &quot;admin&quot;, &quot;day&quot;: 3, &quot;start&quot;: &quot;18:30&quot;, &quot;end&quot;: &quot;19:00&quot;},
+    {&quot;task&quot;: &quot;study&quot;, &quot;day&quot;: 4, &quot;start&quot;: &quot;20:00&quot;, &quot;end&quot;: &quot;21:30&quot;},
+    {&quot;task&quot;: &quot;reading&quot;, &quot;day&quot;: 4, &quot;start&quot;: &quot;21:30&quot;, &quot;end&quot;: &quot;22:15&quot;},
+    {&quot;task&quot;: &quot;exercise&quot;, &quot;day&quot;: 5, &quot;start&quot;: &quot;07:00&quot;, &quot;end&quot;: &quot;07:45&quot;},
+    {&quot;task&quot;: &quot;groceries&quot;, &quot;day&quot;: 6, &quot;start&quot;: &quot;09:00&quot;, &quot;end&quot;: &quot;10:00&quot;},
+    {&quot;task&quot;: &quot;rest&quot;, &quot;day&quot;: 6, &quot;start&quot;: &quot;14:00&quot;, &quot;end&quot;: &quot;15:00&quot;},
+    {&quot;task&quot;: &quot;rest&quot;, &quot;day&quot;: 6, &quot;start&quot;: &quot;16:00&quot;, &quot;end&quot;: &quot;17:00&quot;},
+    {&quot;task&quot;: &quot;family&quot;, &quot;day&quot;: 7, &quot;start&quot;: &quot;10:00&quot;, &quot;end&quot;: &quot;12:00&quot;},
+    {&quot;task&quot;: &quot;mealprep&quot;, &quot;day&quot;: 7, &quot;start&quot;: &quot;15:00&quot;, &quot;end&quot;: &quot;16:30&quot;}
+  ]
+}
+</pre></div><p class='muted'>没有生成：out</p></details><details><summary>第 3 轮 · NO_CHANGE</summary><div class='artifact'><p><a href="rounds/r003/artifacts/files/schedule.json">schedule.json</a></p><pre>{
+  &quot;sessions&quot;: [
+    {&quot;task&quot;: &quot;exercise&quot;, &quot;day&quot;: 1, &quot;start&quot;: &quot;07:00&quot;, &quot;end&quot;: &quot;07:45&quot;},
+    {&quot;task&quot;: &quot;reading&quot;, &quot;day&quot;: 1, &quot;start&quot;: &quot;21:30&quot;, &quot;end&quot;: &quot;22:15&quot;},
+    {&quot;task&quot;: &quot;study&quot;, &quot;day&quot;: 2, &quot;start&quot;: &quot;20:00&quot;, &quot;end&quot;: &quot;21:30&quot;},
+    {&quot;task&quot;: &quot;reading&quot;, &quot;day&quot;: 2, &quot;start&quot;: &quot;21:30&quot;, &quot;end&quot;: &quot;22:15&quot;},
+    {&quot;task&quot;: &quot;exercise&quot;, &quot;day&quot;: 3, &quot;start&quot;: &quot;07:00&quot;, &quot;end&quot;: &quot;07:45&quot;},
+    {&quot;task&quot;: &quot;admin&quot;, &quot;day&quot;: 3, &quot;start&quot;: &quot;18:30&quot;, &quot;end&quot;: &quot;19:00&quot;},
+    {&quot;task&quot;: &quot;study&quot;, &quot;day&quot;: 4, &quot;start&quot;: &quot;20:00&quot;, &quot;end&quot;: &quot;21:30&quot;},
+    {&quot;task&quot;: &quot;reading&quot;, &quot;day&quot;: 4, &quot;start&quot;: &quot;21:30&quot;, &quot;end&quot;: &quot;22:15&quot;},
+    {&quot;task&quot;: &quot;exercise&quot;, &quot;day&quot;: 5, &quot;start&quot;: &quot;07:00&quot;, &quot;end&quot;: &quot;07:45&quot;},
+    {&quot;task&quot;: &quot;groceries&quot;, &quot;day&quot;: 6, &quot;start&quot;: &quot;09:00&quot;, &quot;end&quot;: &quot;10:00&quot;},
+    {&quot;task&quot;: &quot;rest&quot;, &quot;day&quot;: 6, &quot;start&quot;: &quot;14:00&quot;, &quot;end&quot;: &quot;15:00&quot;},
+    {&quot;task&quot;: &quot;rest&quot;, &quot;day&quot;: 6, &quot;start&quot;: &quot;16:00&quot;, &quot;end&quot;: &quot;17:00&quot;},
+    {&quot;task&quot;: &quot;family&quot;, &quot;day&quot;: 7, &quot;start&quot;: &quot;10:00&quot;, &quot;end&quot;: &quot;12:00&quot;},
+    {&quot;task&quot;: &quot;mealprep&quot;, &quot;day&quot;: 7, &quot;start&quot;: &quot;15:00&quot;, &quot;end&quot;: &quot;16:30&quot;}
+  ]
+}
+</pre></div><p class='muted'>没有生成：out</p></details><details><summary>最终产物</summary><div class='artifact'><p><a href="artifacts/final/files/out/metrics.json">out/metrics.json</a></p><pre>{
+  &quot;score&quot;: 100.0,
+  &quot;gates&quot;: {
+    &quot;valid_schedule&quot;: true,
+    &quot;no_conflicts&quot;: true,
+    &quot;within_awake_hours&quot;: true,
+    &quot;allowed_days&quot;: true,
+    &quot;correct_duration&quot;: true,
+    &quot;session_limits&quot;: true,
+    &quot;daily_load&quot;: true
+  },
+  &quot;feedback&quot;: &quot;任务覆盖 100.0%，偏好覆盖 100.0%。\n固定约束、任务次数和偏好全部满足。 &quot;,
+  &quot;metrics&quot;: {
+    &quot;coverage&quot;: 1.0,
+    &quot;preference_coverage&quot;: 1.0,
+    &quot;tasks&quot;: [
+      {
+        &quot;task&quot;: &quot;exercise&quot;,
+        &quot;title&quot;: &quot;锻炼&quot;,
+        &quot;required&quot;: 3,
+        &quot;scheduled&quot;: 3,
+        &quot;preferred&quot;: 3,
+        &quot;weight&quot;: 2
+      },
+      {
+        &quot;task&quot;: &quot;reading&quot;,
+        &quot;title&quot;: &quot;阅读&quot;,
+        &quot;required&quot;: 3,
+        &quot;scheduled&quot;: 3,
+        &quot;preferred&quot;: 3,
+        &quot;weight&quot;: 1
+      },
+      {
+        &quot;task&quot;: &quot;study&quot;,
+        &quot;title&quot;: &quot;系统学习&quot;,
+        &quot;required&quot;: 2,
+        &quot;scheduled&quot;: 2,
+        &quot;preferred&quot;: 2,
+        &quot;weight&quot;: 3
+      },
+      {
+        &quot;task&quot;: &quot;groceries&quot;,
+        &quot;title&quot;: &quot;采购&quot;,
+        &quot;required&quot;: 1,
+        &quot;scheduled&quot;: 1,
+        &quot;preferred&quot;: 1,
+        &quot;weight&quot;: 1
+      },
+      {
+        &quot;task&quot;: &quot;mealprep&quot;,
+        &quot;title&quot;: &quot;准备下周餐食&quot;,
+        &quot;required&quot;: 1,
+        &quot;scheduled&quot;: 1,
+        &quot;preferred&quot;: 1,
+        &quot;weight&quot;: 2
+      },
+      {
+        &quot;task&quot;: &quot;family&quot;,
+        &quot;title&quot;: &quot;陪伴家人&quot;,
+        &quot;required&quot;: 1,
+        &quot;scheduled&quot;: 1,
+        &quot;preferred&quot;: 1,
+        &quot;weight&quot;: 3
+      },
+      {
+        &quot;task&quot;: &quot;admin&quot;,
+        &quot;title&quot;: &quot;整理账单&quot;,
+        &quot;required&quot;: 1,
+        &quot;scheduled&quot;: 1,
+        &quot;preferred&quot;: 1,
+        &quot;weight&quot;: 1
+      },
+      {
+        &quot;task&quot;: &quot;rest&quot;,
+        &quot;title&quot;: &quot;留出休息&quot;,
+        &quot;required&quot;: 2,
+        &quot;scheduled&quot;: 2,
+        &quot;preferred&quot;: 2,
+        &quot;weight&quot;: 2
+      }
+    ],
+    &quot;conflicts_and_errors&quot;: [],
+    &quot;daily_minutes&quot;: {
+      &quot;1&quot;: 90,
+      &quot;2&quot;: 135,
+      &quot;3&quot;: 75,
+      &quot;4&quot;: 135,
+      &quot;5&quot;: 45,
+      &quot;6&quot;: 180,
+      &quot;7&quot;: 210
+    }
+  }
+}
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/schedule.html">out/schedule.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&#x27;zh-CN&#x27;&gt;&lt;meta charset=&#x27;utf-8&#x27;&gt;&lt;meta name=&#x27;viewport&#x27; content=&#x27;width=device-width, initial-scale=1&#x27;&gt;&lt;title&gt;工作之外的一周&lt;/title&gt;&lt;style&gt;body{margin:0;background:#f5f6f8;color:#1d2939;font:16px/1.5 system-ui}main{max-width:1200px;margin:auto;padding:32px 20px}.week{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}section{background:white;border-radius:14px;padding:16px}h2{margin:0 0 14px;font-size:19px}ul{padding:0;list-style:none}li{padding:10px 12px;margin:8px 0;border-left:3px solid #96a0b0;background:#f5f6f8}.planned{border-color:#287758;background:#edf7f2}time,small{display:block;color:#586579;font-size:13px}pre{white-space:pre-wrap;background:white;padding:16px;border-radius:12px}&lt;/style&gt;&lt;main&gt;&lt;h1&gt;工作之外的一周&lt;/h1&gt;&lt;p&gt;得分 100.0 · 约束全部满足&lt;/p&gt;&lt;pre&gt;任务覆盖 100.0%，偏好覆盖 100.0%。
+固定约束、任务次数和偏好全部满足。 &lt;/pre&gt;&lt;div class=&#x27;week&#x27;&gt;&lt;section&gt;&lt;h2&gt;周一&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;07:00–07:45&lt;/time&gt;&lt;strong&gt;锻炼&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;08:30–09:00&lt;/time&gt;&lt;strong&gt;上班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;09:00–18:00&lt;/time&gt;&lt;strong&gt;工作&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;18:00–18:30&lt;/time&gt;&lt;strong&gt;下班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;21:30–22:15&lt;/time&gt;&lt;strong&gt;阅读&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周二&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;08:30–09:00&lt;/time&gt;&lt;strong&gt;上班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;09:00–18:00&lt;/time&gt;&lt;strong&gt;工作&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;18:00–18:30&lt;/time&gt;&lt;strong&gt;下班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;20:00–21:30&lt;/time&gt;&lt;strong&gt;系统学习&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;21:30–22:15&lt;/time&gt;&lt;strong&gt;阅读&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周三&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;07:00–07:45&lt;/time&gt;&lt;strong&gt;锻炼&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;08:30–09:00&lt;/time&gt;&lt;strong&gt;上班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;09:00–18:00&lt;/time&gt;&lt;strong&gt;工作&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;18:00–18:30&lt;/time&gt;&lt;strong&gt;下班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;18:30–19:00&lt;/time&gt;&lt;strong&gt;整理账单&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;20:00–21:00&lt;/time&gt;&lt;strong&gt;朋友聚会&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周四&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;08:30–09:00&lt;/time&gt;&lt;strong&gt;上班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;09:00–18:00&lt;/time&gt;&lt;strong&gt;工作&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;18:00–18:30&lt;/time&gt;&lt;strong&gt;下班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;20:00–21:30&lt;/time&gt;&lt;strong&gt;系统学习&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;21:30–22:15&lt;/time&gt;&lt;strong&gt;阅读&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周五&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;07:00–07:45&lt;/time&gt;&lt;strong&gt;锻炼&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;08:30–09:00&lt;/time&gt;&lt;strong&gt;上班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;09:00–18:00&lt;/time&gt;&lt;strong&gt;工作&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;18:00–18:30&lt;/time&gt;&lt;strong&gt;下班通勤&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周六&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;09:00–10:00&lt;/time&gt;&lt;strong&gt;采购&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;14:00–15:00&lt;/time&gt;&lt;strong&gt;留出休息&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;16:00–17:00&lt;/time&gt;&lt;strong&gt;留出休息&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;周日&lt;/h2&gt;&lt;ul&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;10:00–12:00&lt;/time&gt;&lt;strong&gt;陪伴家人&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;planned&#x27;&gt;&lt;time&gt;15:00–16:30&lt;/time&gt;&lt;strong&gt;准备下周餐食&lt;/strong&gt;&lt;small&gt;符合偏好&lt;/small&gt;&lt;/li&gt;&lt;li class=&#x27;fixed&#x27;&gt;&lt;time&gt;19:00–19:30&lt;/time&gt;&lt;strong&gt;晚饭&lt;/strong&gt;&lt;small&gt;固定安排&lt;/small&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;/div&gt;&lt;/main&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/schedule.json">out/schedule.json</a></p><pre>[
+  {
+    &quot;day&quot;: 1,
+    &quot;start&quot;: &quot;07:00&quot;,
+    &quot;end&quot;: &quot;07:45&quot;,
+    &quot;task&quot;: &quot;exercise&quot;,
+    &quot;title&quot;: &quot;锻炼&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 1,
+    &quot;start&quot;: &quot;08:30&quot;,
+    &quot;end&quot;: &quot;09:00&quot;,
+    &quot;title&quot;: &quot;上班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 1,
+    &quot;start&quot;: &quot;09:00&quot;,
+    &quot;end&quot;: &quot;18:00&quot;,
+    &quot;title&quot;: &quot;工作&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 1,
+    &quot;start&quot;: &quot;18:00&quot;,
+    &quot;end&quot;: &quot;18:30&quot;,
+    &quot;title&quot;: &quot;下班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 1,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 1,
+    &quot;start&quot;: &quot;21:30&quot;,
+    &quot;end&quot;: &quot;22:15&quot;,
+    &quot;task&quot;: &quot;reading&quot;,
+    &quot;title&quot;: &quot;阅读&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 2,
+    &quot;start&quot;: &quot;08:30&quot;,
+    &quot;end&quot;: &quot;09:00&quot;,
+    &quot;title&quot;: &quot;上班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 2,
+    &quot;start&quot;: &quot;09:00&quot;,
+    &quot;end&quot;: &quot;18:00&quot;,
+    &quot;title&quot;: &quot;工作&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 2,
+    &quot;start&quot;: &quot;18:00&quot;,
+    &quot;end&quot;: &quot;18:30&quot;,
+    &quot;title&quot;: &quot;下班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 2,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 2,
+    &quot;start&quot;: &quot;20:00&quot;,
+    &quot;end&quot;: &quot;21:30&quot;,
+    &quot;task&quot;: &quot;study&quot;,
+    &quot;title&quot;: &quot;系统学习&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 2,
+    &quot;start&quot;: &quot;21:30&quot;,
+    &quot;end&quot;: &quot;22:15&quot;,
+    &quot;task&quot;: &quot;reading&quot;,
+    &quot;title&quot;: &quot;阅读&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;07:00&quot;,
+    &quot;end&quot;: &quot;07:45&quot;,
+    &quot;task&quot;: &quot;exercise&quot;,
+    &quot;title&quot;: &quot;锻炼&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;08:30&quot;,
+    &quot;end&quot;: &quot;09:00&quot;,
+    &quot;title&quot;: &quot;上班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;09:00&quot;,
+    &quot;end&quot;: &quot;18:00&quot;,
+    &quot;title&quot;: &quot;工作&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;18:00&quot;,
+    &quot;end&quot;: &quot;18:30&quot;,
+    &quot;title&quot;: &quot;下班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;18:30&quot;,
+    &quot;end&quot;: &quot;19:00&quot;,
+    &quot;task&quot;: &quot;admin&quot;,
+    &quot;title&quot;: &quot;整理账单&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 3,
+    &quot;start&quot;: &quot;20:00&quot;,
+    &quot;end&quot;: &quot;21:00&quot;,
+    &quot;title&quot;: &quot;朋友聚会&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 4,
+    &quot;start&quot;: &quot;08:30&quot;,
+    &quot;end&quot;: &quot;09:00&quot;,
+    &quot;title&quot;: &quot;上班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 4,
+    &quot;start&quot;: &quot;09:00&quot;,
+    &quot;end&quot;: &quot;18:00&quot;,
+    &quot;title&quot;: &quot;工作&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 4,
+    &quot;start&quot;: &quot;18:00&quot;,
+    &quot;end&quot;: &quot;18:30&quot;,
+    &quot;title&quot;: &quot;下班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 4,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 4,
+    &quot;start&quot;: &quot;20:00&quot;,
+    &quot;end&quot;: &quot;21:30&quot;,
+    &quot;task&quot;: &quot;study&quot;,
+    &quot;title&quot;: &quot;系统学习&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 4,
+    &quot;start&quot;: &quot;21:30&quot;,
+    &quot;end&quot;: &quot;22:15&quot;,
+    &quot;task&quot;: &quot;reading&quot;,
+    &quot;title&quot;: &quot;阅读&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 5,
+    &quot;start&quot;: &quot;07:00&quot;,
+    &quot;end&quot;: &quot;07:45&quot;,
+    &quot;task&quot;: &quot;exercise&quot;,
+    &quot;title&quot;: &quot;锻炼&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 5,
+    &quot;start&quot;: &quot;08:30&quot;,
+    &quot;end&quot;: &quot;09:00&quot;,
+    &quot;title&quot;: &quot;上班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 5,
+    &quot;start&quot;: &quot;09:00&quot;,
+    &quot;end&quot;: &quot;18:00&quot;,
+    &quot;title&quot;: &quot;工作&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 5,
+    &quot;start&quot;: &quot;18:00&quot;,
+    &quot;end&quot;: &quot;18:30&quot;,
+    &quot;title&quot;: &quot;下班通勤&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 5,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 6,
+    &quot;start&quot;: &quot;09:00&quot;,
+    &quot;end&quot;: &quot;10:00&quot;,
+    &quot;task&quot;: &quot;groceries&quot;,
+    &quot;title&quot;: &quot;采购&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 6,
+    &quot;start&quot;: &quot;14:00&quot;,
+    &quot;end&quot;: &quot;15:00&quot;,
+    &quot;task&quot;: &quot;rest&quot;,
+    &quot;title&quot;: &quot;留出休息&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 6,
+    &quot;start&quot;: &quot;16:00&quot;,
+    &quot;end&quot;: &quot;17:00&quot;,
+    &quot;task&quot;: &quot;rest&quot;,
+    &quot;title&quot;: &quot;留出休息&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 6,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  },
+  {
+    &quot;day&quot;: 7,
+    &quot;start&quot;: &quot;10:00&quot;,
+    &quot;end&quot;: &quot;12:00&quot;,
+    &quot;task&quot;: &quot;family&quot;,
+    &quot;title&quot;: &quot;陪伴家人&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 7,
+    &quot;start&quot;: &quot;15:00&quot;,
+    &quot;end&quot;: &quot;16:30&quot;,
+    &quot;task&quot;: &quot;mealprep&quot;,
+    &quot;title&quot;: &quot;准备下周餐食&quot;,
+    &quot;fixed&quot;: false,
+    &quot;preferred&quot;: true
+  },
+  {
+    &quot;day&quot;: 7,
+    &quot;start&quot;: &quot;19:00&quot;,
+    &quot;end&quot;: &quot;19:30&quot;,
+    &quot;title&quot;: &quot;晚饭&quot;,
+    &quot;fixed&quot;: true
+  }
+]
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/schedule.md">out/schedule.md</a></p><pre># 工作之外的一周
+
+任务覆盖 100.0%，偏好覆盖 100.0%。
+固定约束、任务次数和偏好全部满足。 
+
+## 周一
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 07:00–07:45 | 锻炼 | 符合偏好 |
+| 08:30–09:00 | 上班通勤 | 固定安排 |
+| 09:00–18:00 | 工作 | 固定安排 |
+| 18:00–18:30 | 下班通勤 | 固定安排 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+| 21:30–22:15 | 阅读 | 符合偏好 |
+
+## 周二
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 08:30–09:00 | 上班通勤 | 固定安排 |
+| 09:00–18:00 | 工作 | 固定安排 |
+| 18:00–18:30 | 下班通勤 | 固定安排 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+| 20:00–21:30 | 系统学习 | 符合偏好 |
+| 21:30–22:15 | 阅读 | 符合偏好 |
+
+## 周三
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 07:00–07:45 | 锻炼 | 符合偏好 |
+| 08:30–09:00 | 上班通勤 | 固定安排 |
+| 09:00–18:00 | 工作 | 固定安排 |
+| 18:00–18:30 | 下班通勤 | 固定安排 |
+| 18:30–19:00 | 整理账单 | 符合偏好 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+| 20:00–21:00 | 朋友聚会 | 固定安排 |
+
+## 周四
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 08:30–09:00 | 上班通勤 | 固定安排 |
+| 09:00–18:00 | 工作 | 固定安排 |
+| 18:00–18:30 | 下班通勤 | 固定安排 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+| 20:00–21:30 | 系统学习 | 符合偏好 |
+| 21:30–22:15 | 阅读 | 符合偏好 |
+
+## 周五
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 07:00–07:45 | 锻炼 | 符合偏好 |
+| 08:30–09:00 | 上班通勤 | 固定安排 |
+| 09:00–18:00 | 工作 | 固定安排 |
+| 18:00–18:30 | 下班通勤 | 固定安排 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+
+## 周六
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 09:00–10:00 | 采购 | 符合偏好 |
+| 14:00–15:00 | 留出休息 | 符合偏好 |
+| 16:00–17:00 | 留出休息 | 符合偏好 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+
+## 周日
+
+| 时间 | 安排 | 说明 |
+|---|---|---|
+| 10:00–12:00 | 陪伴家人 | 符合偏好 |
+| 15:00–16:30 | 准备下周餐食 | 符合偏好 |
+| 19:00–19:30 | 晚饭 | 固定安排 |
+
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/schedule.json">schedule.json</a></p><pre>{
+  &quot;sessions&quot;: [
+    {&quot;task&quot;: &quot;exercise&quot;, &quot;day&quot;: 1, &quot;start&quot;: &quot;07:00&quot;, &quot;end&quot;: &quot;07:45&quot;},
+    {&quot;task&quot;: &quot;reading&quot;, &quot;day&quot;: 1, &quot;start&quot;: &quot;21:30&quot;, &quot;end&quot;: &quot;22:15&quot;},
+    {&quot;task&quot;: &quot;study&quot;, &quot;day&quot;: 2, &quot;start&quot;: &quot;20:00&quot;, &quot;end&quot;: &quot;21:30&quot;},
+    {&quot;task&quot;: &quot;reading&quot;, &quot;day&quot;: 2, &quot;start&quot;: &quot;21:30&quot;, &quot;end&quot;: &quot;22:15&quot;},
+    {&quot;task&quot;: &quot;exercise&quot;, &quot;day&quot;: 3, &quot;start&quot;: &quot;07:00&quot;, &quot;end&quot;: &quot;07:45&quot;},
+    {&quot;task&quot;: &quot;admin&quot;, &quot;day&quot;: 3, &quot;start&quot;: &quot;18:30&quot;, &quot;end&quot;: &quot;19:00&quot;},
+    {&quot;task&quot;: &quot;study&quot;, &quot;day&quot;: 4, &quot;start&quot;: &quot;20:00&quot;, &quot;end&quot;: &quot;21:30&quot;},
+    {&quot;task&quot;: &quot;reading&quot;, &quot;day&quot;: 4, &quot;start&quot;: &quot;21:30&quot;, &quot;end&quot;: &quot;22:15&quot;},
+    {&quot;task&quot;: &quot;exercise&quot;, &quot;day&quot;: 5, &quot;start&quot;: &quot;07:00&quot;, &quot;end&quot;: &quot;07:45&quot;},
+    {&quot;task&quot;: &quot;groceries&quot;, &quot;day&quot;: 6, &quot;start&quot;: &quot;09:00&quot;, &quot;end&quot;: &quot;10:00&quot;},
+    {&quot;task&quot;: &quot;rest&quot;, &quot;day&quot;: 6, &quot;start&quot;: &quot;14:00&quot;, &quot;end&quot;: &quot;15:00&quot;},
+    {&quot;task&quot;: &quot;rest&quot;, &quot;day&quot;: 6, &quot;start&quot;: &quot;16:00&quot;, &quot;end&quot;: &quot;17:00&quot;},
+    {&quot;task&quot;: &quot;family&quot;, &quot;day&quot;: 7, &quot;start&quot;: &quot;10:00&quot;, &quot;end&quot;: &quot;12:00&quot;},
+    {&quot;task&quot;: &quot;mealprep&quot;, &quot;day&quot;: 7, &quot;start&quot;: &quot;15:00&quot;, &quot;end&quot;: &quot;16:30&quot;}
+  ]
+}
+</pre></div></details>
+<h2>Champion vs. start</h2><pre>schedule.json | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)</pre>
+<p class="muted">Branch <code>rsi/20261023-235500-weekly-life-planner</code>. Generated by RSI-Anything.</p>
+</main></body></html>

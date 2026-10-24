@@ -1,0 +1,108 @@
+{
+  "run_id": "20261024-003730-percent-lesson",
+  "status": "verified",
+  "checked_at": "2026-10-24",
+  "model_calls_during_validation": 0,
+  "command": "python verify_saved_results.py",
+  "formal_scores_unchanged": true,
+  "base_commit": "684051ea34ea2d5c54c770aa9f67f67fb56e47b7",
+  "champion_commit": "7ff53c0be3cec958456943edcd61051d4a744646",
+  "contract_digest": "99acaa700aff",
+  "fixed_answers_independently_recomputed": true,
+  "checks": [
+    {
+      "snapshot": "artifacts/baseline",
+      "score": 20.0,
+      "numeric_accuracy": 20.0,
+      "correct": 2,
+      "total": 10,
+      "mistakes": 8,
+      "saved_grading_reproduced": true,
+      "test_question_copied_verbatim": false,
+      "lesson_sha256": "e0e2586dfbfd4def2f90bf1971433a094a2f8b476c423dbd72ba10b9b7b942cd",
+      "student_response_sha256": "75aa931f6ae29f9e4aa7fba071c165d04277073f52c97fb0c8a3a8eb15763ac6"
+    },
+    {
+      "snapshot": "rounds/r001/artifacts",
+      "score": 100.0,
+      "numeric_accuracy": 100.0,
+      "correct": 10,
+      "total": 10,
+      "mistakes": 0,
+      "saved_grading_reproduced": true,
+      "test_question_copied_verbatim": false,
+      "lesson_sha256": "d39a9208ea3ee2d40f44f8604bdd1ea852fe6a3336929ebf7518485ef4b0615f",
+      "student_response_sha256": "80a823c962700a48754c9ce3889dddaa3878860168c6c06356232e699de4e433"
+    },
+    {
+      "snapshot": "rounds/r002/artifacts",
+      "score": 100.0,
+      "numeric_accuracy": 100.0,
+      "correct": 10,
+      "total": 10,
+      "mistakes": 0,
+      "saved_grading_reproduced": true,
+      "test_question_copied_verbatim": false,
+      "lesson_sha256": "9c107552dcbf7656c162571f22a1ace590e57120ed481583e7953c8882748b67",
+      "student_response_sha256": "67a0d79c60d00f4e33a6a8defec5488ef74292c9aec22d4310909ab7990d2485"
+    },
+    {
+      "snapshot": "rounds/r003/artifacts",
+      "score": 100.0,
+      "numeric_accuracy": 100.0,
+      "correct": 10,
+      "total": 10,
+      "mistakes": 0,
+      "saved_grading_reproduced": true,
+      "test_question_copied_verbatim": false,
+      "lesson_sha256": "6886c7e522a3d8019d38a2dab8e98d332b53f86c2c65a01be46f2c1d3107736a",
+      "student_response_sha256": "e8969e5f6bba4bb3bb1a51fa75e7c20f2ce355b99c7d281450884f81abe4f1c3"
+    },
+    {
+      "snapshot": "artifacts/final",
+      "score": 100.0,
+      "numeric_accuracy": 100.0,
+      "correct": 10,
+      "total": 10,
+      "mistakes": 0,
+      "saved_grading_reproduced": true,
+      "test_question_copied_verbatim": false,
+      "lesson_sha256": "d39a9208ea3ee2d40f44f8604bdd1ea852fe6a3336929ebf7518485ef4b0615f",
+      "student_response_sha256": "80a823c962700a48754c9ce3889dddaa3878860168c6c06356232e699de4e433"
+    }
+  ],
+  "content_review_document": "../../README.md",
+  "frozen_files": [
+    {
+      "path": "config/execution.json",
+      "sha256": "fd297dd4af7dbbb3ae4e3633a4d7007313c64a6b9fdc5e0fe26c49e6c50123d1"
+    },
+    {
+      "path": "config/frozen/judge/brief.md",
+      "sha256": "28f5143ff320bfa63d6da28044cfdf7aa07658740a2547e957ff1eac3d82c3e2"
+    },
+    {
+      "path": "config/frozen/judge/evaluate.py",
+      "sha256": "c89aad51d084d72dd9f98bd7773f27a0c34c643156c8b5558d57ce040a00b8a2"
+    },
+    {
+      "path": "config/frozen/judge/exercises.json",
+      "sha256": "060a382334f8d7bb5754b24c6f90d928cc7134e2d0ce6192bfd24ac5b8c4326f"
+    },
+    {
+      "path": "config/frozen/rsi.yaml",
+      "sha256": "99acaa700aff71aef910a986f2000e6487f44439500b3710b7a6693f81b89cde"
+    },
+    {
+      "path": "config/rsi.yaml",
+      "sha256": "99acaa700aff71aef910a986f2000e6487f44439500b3710b7a6693f81b89cde"
+    }
+  ],
+  "browser_check": {
+    "browser": "Chrome",
+    "loopback_http_only": true,
+    "readable_lesson": true,
+    "exercise_answers_visible": 10
+  },
+  "all_replay_checks_passed": true
+}

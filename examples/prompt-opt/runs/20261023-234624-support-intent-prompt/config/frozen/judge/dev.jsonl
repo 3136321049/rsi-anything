@@ -1,0 +1,48 @@
+{"text": "我点的是宫保鸡丁，送来的是鱼香肉丝", "label": "wrong_item"}
+{"text": "饭到了但是少了一份米饭，退钱吧", "label": "wrong_item"}
+{"text": "Food arrived cold and soggy, I want my money back", "label": "refund"}
+{"text": "外卖撒了一半，汤全洒在袋子里了，怎么赔", "label": "refund"}
+{"text": "等了一个小时还没到，不要了，帮我取消", "label": "cancel_order"}
+{"text": "Where is my order? It's already 40 minutes late", "label": "late_delivery"}
+{"text": "骑手显示已送达，可我根本没收到", "label": "late_delivery"}
+{"text": "优惠券为什么用不了，结算的时候没减", "label": "payment"}
+{"text": "我被扣了两次钱，同一个订单", "label": "payment"}
+{"text": "能开发票吗？公司报销要用", "label": "payment"}
+{"text": "The rider was really rude to me at the door", "label": "other"}
+{"text": "Thanks, the rider was so fast tonight!", "label": "praise"}
+{"text": "Thanks for the quick refund last time, but today my burger is missing from the bag", "label": "wrong_item"}
+{"text": "我想注销账号，怎么操作", "label": "account"}
+{"text": "收不到登录验证码", "label": "account"}
+{"text": "Can you add more vegan options in my area?", "label": "other"}
+{"text": "I placed the order by mistake, please cancel it before the restaurant starts cooking", "label": "cancel_order"}
+{"text": "奶茶太甜了，完全没按少糖做，喝不了，要求退款", "label": "refund"}
+{"text": "My drink came but it's the wrong flavor, I ordered mango not peach", "label": "wrong_item"}
+{"text": "付款一直失败，换了两张卡都不行", "label": "payment"}
+{"text": "怎么换绑手机号", "label": "account"}
+{"text": "你们家的炸鸡太好吃了，每周都点！", "label": "praise"}
+{"text": "请问你们招骑手吗", "label": "other"}
+{"text": "The order is stuck on 'preparing' for 50 minutes, what's going on", "label": "late_delivery"}
+{"text": "送来的披萨都压扁了，盒子也破了，我要退钱", "label": "refund"}
+{"text": "Delivery is taking forever, just cancel it and give me my money back", "label": "cancel_order"}
+{"text": "小票上有三杯咖啡，实际只给了两杯", "label": "wrong_item"}
+{"text": "Why was I charged a delivery fee when the app said free delivery?", "label": "payment"}
+{"text": "Can't log in, it says my account is locked", "label": "account"}
+{"text": "吃完肚子疼，菜好像不新鲜，申请退款", "label": "refund"}
+{"text": "骑手大哥冒雨送过来，辛苦了，给个好评", "label": "praise"}
+{"text": "店铺几点关门？", "label": "other"}
+{"text": "还没送到，已经超时半小时了，到底在哪", "label": "late_delivery"}
+{"text": "I want to change the delivery address on my profile", "label": "account"}
+{"text": "麻烦取消一下刚才那单，地址填错了", "label": "cancel_order"}
+{"text": "红包抵扣没生效，多付了五块", "label": "payment"}
+{"text": "Got someone else's order entirely, not even my name on it", "label": "wrong_item"}
+{"text": "The noodles were way too salty to eat, refund please", "label": "refund"}
+{"text": "Love the new packaging, much less plastic. Great job", "label": "praise"}
+{"text": "建议你们加一个备注常用语的功能", "label": "other"}
+{"text": "能帮我把地址改成公司吗？订单刚下", "label": "cancel_order"}
+{"text": "Can you add a side of fries to the order I just placed?", "label": "cancel_order"}
+{"text": "麻烦备注一下不要香菜，刚才忘写了", "label": "cancel_order"}
+{"text": "配送费也太贵了吧，一份面条配送要八块", "label": "other"}
+{"text": "Your prices went up again, everything is so expensive now", "label": "other"}
+{"text": "骑手特别好，想给他加点小费，在哪里加", "label": "payment"}
+{"text": "The rider was amazing, how do I add a tip after delivery?", "label": "payment"}
+{"text": "怎么修改刚才的小费金额，手滑多给了", "label": "payment"}

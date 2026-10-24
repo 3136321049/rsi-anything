@@ -1,0 +1,260 @@
+{
+  "run_id": "20261024-002852-design-contract-review",
+  "checked_at": "2026-10-24",
+  "commands": [
+    "python -B judge/prepare.py"
+  ],
+  "model_calls_during_validation": 0,
+  "formal_scores_unchanged": true,
+  "base_commit": "579b4d3a38a81249d6495d9af8e03a387d5ebbe5",
+  "champion_commit": "97286c80bb6f118be86836abb903e50a3a09fafd",
+  "contract_digest": "c92712784f39",
+  "frozen_files": [
+    {
+      "path": "config/execution.json",
+      "sha256": "e509c1d484e94f32edde5a2da23c2d7645cec31cb49bf037d91b84e6bb49c6c5"
+    },
+    {
+      "path": "config/frozen/judge/contract.json",
+      "sha256": "b4ecbc5cfac37d7493b28d16739dc3be4e57b94a2076028166681fbe4a36ea6b"
+    },
+    {
+      "path": "config/frozen/judge/prepare.py",
+      "sha256": "957195fac216914e5908532c13dccab2941f12cdafa13e62bc3a8705ab11fda5"
+    },
+    {
+      "path": "config/frozen/judge/review-guide.json",
+      "sha256": "9e216cf199077f51901fe538c976cbeaf9a971dfc12b8905541f64fd36aabbd7"
+    },
+    {
+      "path": "config/frozen/judge/rubric.yaml",
+      "sha256": "945ca01b64b12d033b03e17f44b1e358e3bf5abfd8b572fa9146bbc092c9146a"
+    },
+    {
+      "path": "config/frozen/rsi.yaml",
+      "sha256": "c92712784f3922f09d73cc93cfa954c36d97a6ee260156ffbfc051fd8c0a068b"
+    },
+    {
+      "path": "config/rsi.yaml",
+      "sha256": "c92712784f3922f09d73cc93cfa954c36d97a6ee260156ffbfc051fd8c0a068b"
+    }
+  ],
+  "checks": [
+    {
+      "snapshot": "artifacts/baseline",
+      "gates": {
+        "结构有效": true,
+        "示例用途明确": true,
+        "定位引用和建议完整": true
+      },
+      "valid_issue_count": 2,
+      "missing": [
+        "I3",
+        "I4",
+        "I5",
+        "I6",
+        "I7"
+      ],
+      "outputs_reproduced_exactly": [
+        {
+          "path": "out/coverage.json",
+          "sha256": "e90dba2af4dd4df72ed0a3fd4cf3307dffcdbd12e6e6f19bcdb99b6ca3d96f37"
+        },
+        {
+          "path": "out/evaluation.md",
+          "sha256": "79638896d5669fdea22e057d5a18c5a3ecc0335e55179bf8686ba9ba3697f250"
+        },
+        {
+          "path": "out/gates.json",
+          "sha256": "0ec9b606579cb4a3aafe777561f0c4ee4dc3417aa53956222db0ab5e9068eca9"
+        },
+        {
+          "path": "out/notes.txt",
+          "sha256": "82bed4d9fa9bfe58673a640abcf7a252b990a48cd4d99d25b3ae48ba8808e25c"
+        },
+        {
+          "path": "out/review.html",
+          "sha256": "9778e8d9e33e77242ca1883d44ac404d1096443de79089c227d3bb12f97cb0ae"
+        },
+        {
+          "path": "out/review.md",
+          "sha256": "a263ccb102234da23b0535a878cfb003bc9203df9dc3fef3bd4e091de0475737"
+        }
+      ]
+    },
+    {
+      "snapshot": "rounds/r001/artifacts",
+      "gates": {
+        "结构有效": true,
+        "示例用途明确": true,
+        "定位引用和建议完整": true
+      },
+      "valid_issue_count": 7,
+      "missing": [],
+      "outputs_reproduced_exactly": [
+        {
+          "path": "out/coverage.json",
+          "sha256": "79e8b3e40251739e6935010ed00b2efd66cb9074bf27c5151b63ca28a07b5408"
+        },
+        {
+          "path": "out/evaluation.md",
+          "sha256": "b1c40b80a8b80b0a33b4ffd28a15ad8561fce23f2a8591614be312634b3f8ddd"
+        },
+        {
+          "path": "out/gates.json",
+          "sha256": "0ec9b606579cb4a3aafe777561f0c4ee4dc3417aa53956222db0ab5e9068eca9"
+        },
+        {
+          "path": "out/notes.txt",
+          "sha256": "a5fff24a02b96fedfc9f5af34f8fdf0c71cb709a44b080a9fb022888e15255df"
+        },
+        {
+          "path": "out/review.html",
+          "sha256": "668757c280c4703e3bf753c29a7f7ef18f9596d0583bc52cb7ffef0c377d259b"
+        },
+        {
+          "path": "out/review.md",
+          "sha256": "083e22c9e1004b3ed84361e2e39b8a9c9425065f864b13a6c9d6d934df6d27ac"
+        }
+      ]
+    },
+    {
+      "snapshot": "rounds/r002/artifacts",
+      "gates": {
+        "结构有效": true,
+        "示例用途明确": true,
+        "定位引用和建议完整": false
+      },
+      "valid_issue_count": 6,
+      "missing": [
+        "I6"
+      ],
+      "outputs_reproduced_exactly": [
+        {
+          "path": "out/coverage.json",
+          "sha256": "67db57bd4ef0ccadf6db965d1db058915f55eb897b66d51f7e966bd618701b9e"
+        },
+        {
+          "path": "out/evaluation.md",
+          "sha256": "61ec7d05078c6c59a4993cdc748854d1937ae62316a6a2089f664eb39515ed10"
+        },
+        {
+          "path": "out/gates.json",
+          "sha256": "6c6b3b990474db3f329443d4566b1c91a7229bc74767016eb08de7ae087c17cf"
+        },
+        {
+          "path": "out/notes.txt",
+          "sha256": "cf895774d721071a1c7feceaef8c55dbdbe65af57785c24ea76fd5ba8b93c0b7"
+        },
+        {
+          "path": "out/review.html",
+          "sha256": "e4f54fad1f00a85756efc1043b70d29bd3ddc204943398eb376aaa353898da7e"
+        },
+        {
+          "path": "out/review.md",
+          "sha256": "e9ebb97bd4305bda9447e49b2a57fe29a66784eecb16a8a016e626d216a8f24e"
+        }
+      ]
+    },
+    {
+      "snapshot": "rounds/r003/artifacts",
+      "gates": {
+        "结构有效": true,
+        "示例用途明确": true,
+        "定位引用和建议完整": true
+      },
+      "valid_issue_count": 7,
+      "missing": [],
+      "outputs_reproduced_exactly": [
+        {
+          "path": "out/coverage.json",
+          "sha256": "79e8b3e40251739e6935010ed00b2efd66cb9074bf27c5151b63ca28a07b5408"
+        },
+        {
+          "path": "out/evaluation.md",
+          "sha256": "42fefde62a5149805b022b69bf4924816fb8f35803107e042b54ff7443e4a2ee"
+        },
+        {
+          "path": "out/gates.json",
+          "sha256": "0ec9b606579cb4a3aafe777561f0c4ee4dc3417aa53956222db0ab5e9068eca9"
+        },
+        {
+          "path": "out/notes.txt",
+          "sha256": "a5fff24a02b96fedfc9f5af34f8fdf0c71cb709a44b080a9fb022888e15255df"
+        },
+        {
+          "path": "out/review.html",
+          "sha256": "48f47bfe32825bd2e6b37ed4b51227b2f8fb3ee0fd06b71b03a3e2a1c7b0c10c"
+        },
+        {
+          "path": "out/review.md",
+          "sha256": "252d03895b7e6efea82b53a34fd0346613c09abbf23e87571933c69fb4b85386"
+        }
+      ]
+    },
+    {
+      "snapshot": "artifacts/final",
+      "gates": {
+        "结构有效": true,
+        "示例用途明确": true,
+        "定位引用和建议完整": true
+      },
+      "valid_issue_count": 7,
+      "missing": [],
+      "outputs_reproduced_exactly": [
+        {
+          "path": "out/coverage.json",
+          "sha256": "79e8b3e40251739e6935010ed00b2efd66cb9074bf27c5151b63ca28a07b5408"
+        },
+        {
+          "path": "out/evaluation.md",
+          "sha256": "b1c40b80a8b80b0a33b4ffd28a15ad8561fce23f2a8591614be312634b3f8ddd"
+        },
+        {
+          "path": "out/gates.json",
+          "sha256": "0ec9b606579cb4a3aafe777561f0c4ee4dc3417aa53956222db0ab5e9068eca9"
+        },
+        {
+          "path": "out/notes.txt",
+          "sha256": "a5fff24a02b96fedfc9f5af34f8fdf0c71cb709a44b080a9fb022888e15255df"
+        },
+        {
+          "path": "out/review.html",
+          "sha256": "668757c280c4703e3bf753c29a7f7ef18f9596d0583bc52cb7ffef0c377d259b"
+        },
+        {
+          "path": "out/review.md",
+          "sha256": "083e22c9e1004b3ed84361e2e39b8a9c9425065f864b13a6c9d6d934df6d27ac"
+        }
+      ]
+    }
+  ],
+  "independent_final_checks": {
+    "issues": 7,
+    "all_locations_correct": true,
+    "all_quotes_in_original_contract": true,
+    "all_risk_and_suggestion_lengths_valid": true
+  },
+  "round_two_constraint_failure": {
+    "issue": "I6",
+    "suggestion_chars": 1205,
+    "max_chars": 1200,
+    "rejected_before_model_judge": true,
+    "formal_score": 0
+  },
+  "content_review_document": "../../README.md",
+  "official_reference_check": {
+    "url": "https://business.gov.au/people/contractors/prepare-a-contract",
+    "checked_at": "2026-10-24",
+    "page_read": true,
+    "usage": "contract_writing_elements_only_no_jurisdiction_application"
+  },
+  "all_reproduction_checks_passed": true,
+  "browser_check": {
+    "browser": "Chrome",
+    "loopback_http_only": true,
+    "readable_article": true,
+    "issue_sections_visible": 7
+  },
+  "status": "verified"
+}

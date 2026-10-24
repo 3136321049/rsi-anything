@@ -1,0 +1,30 @@
+{
+  "round": 1,
+  "status": "KEEP",
+  "hypothesis": "将写作主线改为围绕读者的具体决定组织开头、事实与行动提示，预计能提升读者针对性，减少模板感。",
+  "score": 69.5,
+  "best": 69.5,
+  "gates": {
+    "all_briefs_generated": true,
+    "guide_present": true,
+    "min_chars": true,
+    "max_chars": true,
+    "check:生成稿没有编造简报之外的价格、时间、名额、用户体验或效果承诺。": true,
+    "check:生成稿没有把某一份简报的事实或行动入口误用到另一份。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "development：固定写手 cli:codex:gpt-6.1-sol 已生成 3/3 份简报的文案。\nnatural_voice 5.0/10: 整体克制可读，但三篇反复采用先核对时间、再列费用、最后条件式引导的写法，且修车稿直接暴露“简报”这一写作背景，模板感和编辑腔使其达不到表达各有特点的8分。\nreader_fit 7.0/10: 咖啡稿抓住赶车与取餐的衔接，修车稿也回应冬季闲置后恢复通勤，但陶艺稿只复述想尝试且没经验的人群特征，尚未达到多篇都抓住不同具体顾虑的8分。\n[cli:codex:gpt-6.1-sol] 按各自读者最关键的顾虑组织全文：咖啡突出取餐与地铁行程衔接，修车突出检查范围和换件费用决定权，陶艺突出新手需要准备什么及作品何时领取，减少三篇共同重复的时间安排提醒。",
+  "commit": "8014f82dfd55",
+  "changed": [
+    "writing-guide.md"
+  ],
+  "ignored": [],
+  "agent_seconds": 50.7,
+  "judge_seconds": 81.5,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "rounds/r001/artifacts",
+  "holdout": null,
+  "note": "score 62 -> 69.5; head-to-head 2/2",
+  "time": "2026-10-23T16:23:06+00:00"
+}

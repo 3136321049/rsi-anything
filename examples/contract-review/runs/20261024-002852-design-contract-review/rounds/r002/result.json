@@ -1,0 +1,26 @@
+{
+  "round": 2,
+  "status": "REVERT",
+  "hypothesis": "将 C6 改为逐项确认清单并补齐结算争议后续流程，预计提高建议的可执行性和可读性。",
+  "score": 0.0,
+  "best": 91.5,
+  "gates": {
+    "结构有效": true,
+    "示例用途明确": true,
+    "定位引用和建议完整": false
+  },
+  "feedback": "已准确定位 6/7 类预设问题；尚缺：I6。\n未通过：定位引用和建议完整\n程序检查定位与内容长度；建议是否真正解决争议由模型评委判断。",
+  "commit": "",
+  "changed": [
+    "review.json"
+  ],
+  "ignored": [],
+  "agent_seconds": 120.7,
+  "judge_seconds": 0.0,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "rounds/r002/artifacts",
+  "holdout": null,
+  "note": "failed gates: 定位引用和建议完整",
+  "time": "2026-10-23T16:35:04+00:00"
+}

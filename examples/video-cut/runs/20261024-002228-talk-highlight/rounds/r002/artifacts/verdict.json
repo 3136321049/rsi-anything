@@ -1,0 +1,80 @@
+{
+  "score": 68.0,
+  "gates": {
+    "valid_edit": true,
+    "duration_40_75s": true,
+    "segments_4_14": true,
+    "rendered": true,
+    "substance": true,
+    "not_repetitive": true,
+    "no_placeholder": true,
+    "no_evaluator_address": true,
+    "check:成片里没有\"后面再说\"\"第二点\"这类引用了被剪掉内容的句子，或者被引用的内容也在成片里。": true,
+    "check:成片没有因为剪辑而让某个方法的意思和原分享相反或被曲解。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "cut: 11 sentences, 64.6s (allowed 40-75s); order [8, 9, 10, 11, 12, 13, 27, 28, 29, 30, 31]\ncoherence 6.0/10: 各句指代清楚，但从革命信念和权利来源直接转向盟友承诺，存在明显的主题跳跃，未达到基本流畅的程度。\nvalue 6.0/10: 观众能理解时代变化带来巨大力量、盟友应当团结，但两个方向分散了篇幅，尚未围绕一个中心把重要信息讲清楚。\n[cli:codex:gpt-6.1-sol] 把盟友合作的后三句替换为原稿中“We dare not forget today”及“Let the word go forth”开头的两句，让全片沿着时代变化、信念延续、新一代承担责任推进，并用原音核验时长在40到75秒内。",
+  "metrics": {
+    "criteria": {
+      "hook": 8.0,
+      "coherence": 6.0,
+      "value": 6.0,
+      "ending": 7.0,
+      "pacing": 7.0
+    },
+    "jury": [
+      "cli:codex:gpt-6.1-sol"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "hook": {
+            "score": 8,
+            "evidence": "For man holds in his mortal hands\nthe power to abolish all forms of human poverty and all forms of\nhuman life.",
+            "why": "第二句用消除贫困与毁灭人类的强烈反差抓住注意力，但第一句较泛，后文也没有充分展开这个悬念，尚不到更高档。"
+          },
+          "coherence": {
+            "score": 6,
+            "evidence": "To those old allies whose cultural and spiritual origins we share, we\npledge the loyalty of faithful friends.",
+            "why": "各句指代清楚，但从革命信念和权利来源直接转向盟友承诺，存在明显的主题跳跃，未达到基本流畅的程度。"
+          },
+          "value": {
+            "score": 6,
+            "evidence": "United, there is little we\ncannot do in a host of cooperative ventures.",
+            "why": "观众能理解时代变化带来巨大力量、盟友应当团结，但两个方向分散了篇幅，尚未围绕一个中心把重要信息讲清楚。"
+          },
+          "ending": {
+            "score": 7,
+            "evidence": "Divided, there is little\nwe can do—for we dare not meet a powerful challenge at odds\nand split asunder.",
+            "why": "以分裂的后果收束合作主题，句意完整且有力度，但没有回应开头提出的人类力量与时代变化，整段的收束感仍有限。"
+          },
+          "pacing": {
+            "score": 7,
+            "evidence": "And yet the same revolutionary beliefs for which our\nforebears fought are still at issue around the globe—the belief\nthat the rights of man come not from the generosity of the state,\nbut from the hand of God.",
+            "why": "没有寒暄，团结与分裂的对照也有效，但这句较长的信念论述未在后半段得到承接，占用了集中展开合作主题的时间。"
+          }
+        },
+        "checks": {
+          "成片里没有\"后面再说\"\"第二点\"这类引用了被剪掉内容的句子，或者被引用的内容也在成片里。": {
+            "pass": true,
+            "why": "没有悬空的预告、编号或依赖被删内容才能理解的指代。"
+          },
+          "成片没有因为剪辑而让某个方法的意思和原分享相反或被曲解。": {
+            "pass": true,
+            "why": "所选句子保留了原文对时代变化、革命信念和盟友合作的立场，主题跳跃没有造成原意反转或曲解。"
+          }
+        },
+        "manipulation": false,
+        "top_fix": "把盟友合作的后三句替换为原稿中“We dare not forget today”及“Let the word go forth”开头的两句，让全片沿着时代变化、信念延续、新一代承担责任推进，并用原音核验时长在40到75秒内。",
+        "_model": "cli:codex:gpt-6.1-sol",
+        "_cost": null
+      }
+    ],
+    "cost_usd": null
+  },
+  "seconds": 31.451600125,
+  "error": ""
+}

@@ -1,0 +1,21 @@
+{
+  "split": "holdout",
+  "synthetic_briefs": true,
+  "calls": [
+    {
+      "id": "reading",
+      "requested_model": "cli:codex:gpt-6.1-sol",
+      "actual_model": null,
+      "usage": {
+        "input_tokens": 16332,
+        "cached_input_tokens": 12288,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 181,
+        "reasoning_output_tokens": 0
+      },
+      "seconds": 15.48169875,
+      "file": "reading.md"
+    }
+  ],
+  "errors": []
+}

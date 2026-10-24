@@ -50,7 +50,8 @@ if os.environ.get("RSI_RENDER", "1") != "0" and raw.exists():
     parts, labels = [], []
     for n, i in enumerate(ids):
         start, end = timeline[i]["start"], timeline[i]["end"]
-        parts.append(f"[0:v]trim={start}:{end},setpts=PTS-STARTPTS,scale=360:640[v{n}];"
+        parts.append(f"[0:v]trim={start}:{end},setpts=PTS-STARTPTS,"
+                     f"scale=360:640:force_original_aspect_ratio=decrease,pad=360:640:(ow-iw)/2:(oh-ih)/2[v{n}];"
                      f"[0:a]atrim={start}:{end},asetpts=PTS-STARTPTS,afade=t=in:d=0.03,"
                      f"afade=t=out:st={max(0.0, end - start - 0.03):.3f}:d=0.03[a{n}];")
         labels.append(f"[v{n}][a{n}]")
@@ -61,5 +62,21 @@ if os.environ.get("RSI_RENDER", "1") != "0" and raw.exists():
     gates["rendered"] = render.returncode == 0
     if render.returncode != 0:
         notes += f"\nrender failed: {render.stderr[-300:]}"
+    else:
+        probe = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration:stream=codec_type,width,height",
+                                "-of", "json", str(out / "cut.mp4")], capture_output=True, text=True)
+        if probe.returncode == 0:
+            (out / "media.json").write_text(probe.stdout, encoding="utf-8")
+
+def timestamp(seconds):
+    millis = round(seconds * 1000)
+    return f"{millis // 3600000:02d}:{millis // 60000 % 60:02d}:{millis // 1000 % 60:02d},{millis % 1000:03d}"
+
+position, captions = 0.0, []
+for n, i in enumerate(ids, 1):
+    stop = position + timeline[i]["end"] - timeline[i]["start"]
+    captions.append(f"{n}\n{timestamp(position)} --> {timestamp(stop)}\n{timeline[i]['text']}\n")
+    position = stop
+(out / "cut.srt").write_text("\n".join(captions), encoding="utf-8")
 
 finish(gates, notes, text)

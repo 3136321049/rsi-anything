@@ -1,0 +1,1 @@
+cut: 8 sentences, 47.6s (allowed 40-75s); order [32, 33, 34, 27, 28, 29, 30, 31]

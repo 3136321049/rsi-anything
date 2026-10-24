@@ -1,0 +1,95 @@
+{
+  "score": 100.0,
+  "gates": {
+    "valid_schedule": true,
+    "no_conflicts": true,
+    "within_awake_hours": true,
+    "allowed_days": true,
+    "correct_duration": true,
+    "session_limits": true,
+    "daily_load": true,
+    "exit_code": true
+  },
+  "feedback": "任务覆盖 100.0%，偏好覆盖 100.0%。\n固定约束、任务次数和偏好全部满足。 ",
+  "metrics": {
+    "coverage": 1.0,
+    "preference_coverage": 1.0,
+    "tasks": [
+      {
+        "task": "exercise",
+        "title": "锻炼",
+        "required": 3,
+        "scheduled": 3,
+        "preferred": 3,
+        "weight": 2
+      },
+      {
+        "task": "reading",
+        "title": "阅读",
+        "required": 3,
+        "scheduled": 3,
+        "preferred": 3,
+        "weight": 1
+      },
+      {
+        "task": "study",
+        "title": "系统学习",
+        "required": 2,
+        "scheduled": 2,
+        "preferred": 2,
+        "weight": 3
+      },
+      {
+        "task": "groceries",
+        "title": "采购",
+        "required": 1,
+        "scheduled": 1,
+        "preferred": 1,
+        "weight": 1
+      },
+      {
+        "task": "mealprep",
+        "title": "准备下周餐食",
+        "required": 1,
+        "scheduled": 1,
+        "preferred": 1,
+        "weight": 2
+      },
+      {
+        "task": "family",
+        "title": "陪伴家人",
+        "required": 1,
+        "scheduled": 1,
+        "preferred": 1,
+        "weight": 3
+      },
+      {
+        "task": "admin",
+        "title": "整理账单",
+        "required": 1,
+        "scheduled": 1,
+        "preferred": 1,
+        "weight": 1
+      },
+      {
+        "task": "rest",
+        "title": "留出休息",
+        "required": 2,
+        "scheduled": 2,
+        "preferred": 2,
+        "weight": 2
+      }
+    ],
+    "conflicts_and_errors": [],
+    "daily_minutes": {
+      "1": 90,
+      "2": 135,
+      "3": 75,
+      "4": 135,
+      "5": 45,
+      "6": 180,
+      "7": 210
+    }
+  },
+  "error": ""
+}

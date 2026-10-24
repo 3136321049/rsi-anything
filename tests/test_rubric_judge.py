@@ -1,5 +1,24 @@
 from __future__ import annotations
 
+def test_separate_verbatim_evidence_quotes_are_checked_individually():
+    from rsi_anything.judges.rubric import _quote_found
+    artifact = "赶地铁先约时段。\n修车先报价，经同意再换。\n陶艺作品两周后领取。"
+    assert _quote_found('“赶地铁先约时段”“修车先报价，经同意再换”“陶艺作品两周后领取”', artifact)
+    assert _quote_found(["赶地铁先约时段", "陶艺作品两周后领取"], artifact)
+    assert not _quote_found('“赶地铁先约时段”“当天领取陶艺作品”', artifact)
+    assert not _quote_found([], artifact)
+
+
+def test_prepare_service_failure_does_not_become_quality_zero(tmp_path):
+    from rsi_anything.contract import JudgeSpec
+    from rsi_anything.judges.base import Judge
+    (tmp_path / "prep.py").write_text(
+        'import json, pathlib, sys\npathlib.Path("out").mkdir()\n'
+        'pathlib.Path("out/error.json").write_text(json.dumps({"quality_result":"unknown","stage":"generation","error":"quota unavailable"}))\nsys.exit(2)\n')
+    verdict = Judge(JudgeSpec(type="command", prepare="{python} prep.py")).evaluate(tmp_path, 0)
+    assert verdict.score is None and "quota unavailable" in verdict.error
+    assert verdict.metrics["quality_result"] == "unknown"
+
 import json
 import textwrap
 

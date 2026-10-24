@@ -1,0 +1,27 @@
+{
+  "round": 0,
+  "status": "BASELINE",
+  "hypothesis": "",
+  "score": 60.5,
+  "best": 60.5,
+  "gates": {
+    "真实服务结果已取得": true,
+    "视频可读取且尺寸时长符合": true,
+    "min_chars": true,
+    "check:静帧没有明显的人脸、品牌标志、水印或额外文字。": true,
+    "check:主体没有明显破碎、重复杯柄或严重几何形变。": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "真实生成事件 7e83c0459d1b46179a8c5980f6148bf6；1.90秒，704×512；相同请求缓存复用=False。评委仅看抽帧，声音与完整运动仍需播放检查。\nsteam 1.0/10: 八张静帧的杯口上方均未见可辨认的蒸汽，因此按不可见的锚点计1分，缺少升至下一档所需的可见证据。\nsubject 7.0/10: 八张静帧中的杯口、杯底和单个杯柄均完整可见，釉面反光可信、比例自然，但杯身明显偏暖棕米色，与浅米白要求有距离，未达到8分。\n[cli:codex:gpt-6.1-sol] 让杯口上方出现清晰可辨、轻薄自然且不遮挡杯体的蒸汽。",
+  "commit": "773f373b2ded",
+  "changed": [],
+  "ignored": [],
+  "agent_seconds": 0.0,
+  "judge_seconds": 43.431192291,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "artifacts/baseline",
+  "holdout": null,
+  "note": "",
+  "time": "2026-10-23T16:37:39+00:00"
+}

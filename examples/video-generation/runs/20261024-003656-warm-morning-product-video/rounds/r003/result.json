@@ -1,0 +1,24 @@
+{
+  "round": 3,
+  "status": "REVERT",
+  "hypothesis": "明确中景取景、杯子约占画面高度一半，并要求推进时杯底和杯柄四周保持留白，预计能减少裁切，提高主体完整度与构图评分。",
+  "score": 0.0,
+  "best": 61.0,
+  "gates": {
+    "prepare": false
+  },
+  "feedback": "prepare step failed: 视频服务返回错误：null",
+  "commit": "",
+  "changed": [
+    "generation.json"
+  ],
+  "ignored": [],
+  "agent_seconds": 36.8,
+  "judge_seconds": 8.7,
+  "cost_usd": null,
+  "judge_cost_usd": null,
+  "artifacts": "rounds/r003/artifacts",
+  "holdout": null,
+  "note": "failed gates: prepare",
+  "time": "2026-10-23T16:40:41+00:00"
+}

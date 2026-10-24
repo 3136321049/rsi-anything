@@ -1,0 +1,51 @@
+{
+  "total": 15,
+  "passed": 6,
+  "failed": [
+    {
+      "test": "fixed_expense_tests.ExpenseTests.test_amount_exact_cents",
+      "detail": "Traceback (most recent call last):\n  File \"judge/test_expense.py\", line 13, in test_amount_exact_cents\n    self.assertEqual(amount_to_cents(\"0.29\"), 29)\nAssertionError: 28 != 29\n"
+    },
+    {
+      "test": "fixed_expense_tests.ExpenseTests.test_amount_reject_extra_precision",
+      "detail": "Traceback (most recent call last):\n  File \"judge/test_expense.py\", line 20, in test_amount_reject_extra_precision\n    amount_to_cents(\"1.999\")\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "fixed_expense_tests.ExpenseTests.test_date_reject_invalid",
+      "detail": "Traceback (most recent call last):\n  File \"judge/test_expense.py\", line 60, in test_date_reject_invalid\n    monthly_totals([{\"date\": \"2026-02-30\", \"category\": \"交通\", \"amount\": \"3\"}], \"2026-02\")\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "fixed_expense_tests.ExpenseTests.test_month_refund",
+      "detail": "Traceback (most recent call last):\n  File \"judge/test_expense.py\", line 52, in test_month_refund\n    self.assertEqual(monthly_totals(rows, \"2026-10\"), {\"餐饮\": 1000})\nAssertionError: {'餐饮': 1500} != {'餐饮': 1000}\n- {'餐饮': 1500}\n?         ^\n\n+ {'餐饮': 1000}\n?         ^\n\n"
+    },
+    {
+      "test": "fixed_expense_tests.ExpenseTests.test_month_reject_invalid",
+      "detail": "Traceback (most recent call last):\n  File \"judge/test_expense.py\", line 56, in test_month_reject_invalid\n    monthly_totals([], \"2026-1\")\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "fixed_expense_tests.ExpenseTests.test_split_reject_invalid",
+      "detail": "Traceback (most recent call last):\n  File \"judge/test_expense.py\", line 39, in test_split_reject_invalid\n    split_bill(cents, people)\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "fixed_expense_tests.ExpenseTests.test_split_remainder",
+      "detail": "Traceback (most recent call last):\n  File \"judge/test_expense.py\", line 31, in test_split_remainder\n    self.assertEqual(split_bill(10000, 3), [3334, 3333, 3333])\nAssertionError: Lists differ: [3333, 3333, 3333] != [3334, 3333, 3333]\n\nFirst differing element 0:\n3333\n3334\n\n- [3333, 3333, 3333]\n+ [3334, 3333, 3333]\n"
+    },
+    {
+      "test": "fixed_expense_tests.ExpenseTests.test_split_small_total",
+      "detail": "Traceback (most recent call last):\n  File \"judge/test_expense.py\", line 34, in test_split_small_total\n    self.assertEqual(split_bill(2, 4), [1, 1, 0, 0])\nAssertionError: Lists differ: [0, 0, 0, 0] != [1, 1, 0, 0]\n\nFirst differing element 0:\n0\n1\n\n- [0, 0, 0, 0]\n+ [1, 1, 0, 0]\n"
+    },
+    {
+      "test": "fixed_expense_tests.ExpenseTests.test_amount_reject_non_finite",
+      "detail": "Traceback (most recent call last):\n  File \"judge/test_expense.py\", line 25, in test_amount_reject_non_finite\n    amount_to_cents(text)\n  File \"<tmp>/rsi-judge-ilpkllk5/expense.py\", line 6, in amount_to_cents\n    return int(float(text) * 100)\nOverflowError: cannot convert float infinity to integer\n"
+    }
+  ],
+  "skipped": 0,
+  "passed_tests": [
+    "fixed_expense_tests.ExpenseTests.test_amount_signed",
+    "fixed_expense_tests.ExpenseTests.test_amount_whole",
+    "fixed_expense_tests.ExpenseTests.test_does_not_mutate_input",
+    "fixed_expense_tests.ExpenseTests.test_month_empty",
+    "fixed_expense_tests.ExpenseTests.test_month_filter",
+    "fixed_expense_tests.ExpenseTests.test_split_even"
+  ]
+}

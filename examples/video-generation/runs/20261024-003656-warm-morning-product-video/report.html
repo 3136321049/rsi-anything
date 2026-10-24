@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSI run 20261024-003656-warm-morning-product-video</title>
+<style>
+:root { --bg:#fbfaf7; --fg:#1d1d1b; --muted:#6b6a64; --line:#e4e1d8; --accent:#2f6fde; --keep:#1f9d55; --drop:#b7b3a6; }
+@media (prefers-color-scheme: dark) { :root { --bg:#161614; --fg:#ecebe6; --muted:#a3a198; --line:#2c2b27; --accent:#7aa7ff; --keep:#4cc38a; --drop:#5b5950; } }
+body { background:var(--bg); color:var(--fg); font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; margin:0; }
+main { max-width:960px; margin:0 auto; padding:32px 16px 64px; }
+h1 { font-size:22px; margin:0 0 4px; } .muted { color:var(--muted); }
+.stats { display:flex; gap:24px; flex-wrap:wrap; margin:20px 0; } .stat b { display:block; font-size:26px; }
+svg { width:100%; height:auto; border:1px solid var(--line); border-radius:8px; }
+.best { fill:none; stroke:var(--accent); stroke-width:2; } .kept { fill:var(--keep); } .dropped { fill:var(--drop); }
+.tick { fill:var(--muted); font-size:11px; }
+table { width:100%; border-collapse:collapse; margin-top:20px; font-size:14px; }
+td,th { border-bottom:1px solid var(--line); padding:6px 8px; text-align:left; vertical-align:top; }
+tr.s-keep td:nth-child(2) { color:var(--keep); font-weight:600; }
+pre { overflow-x:auto; background:color-mix(in srgb, var(--line) 40%, transparent); padding:12px; border-radius:8px; }
+details { border:1px solid var(--line); border-radius:8px; padding:12px; margin:12px 0; } summary { cursor:pointer; font-weight:600; }
+.artifact img,.artifact video { max-width:100%; max-height:560px; } .artifact pre { max-height:420px; white-space:pre-wrap; overflow:auto; } a { color:var(--accent); }
+.artifact-source { border-left:3px solid var(--accent); padding:8px 12px; background:var(--line); }
+</style></head><body><main>
+<h1>warm-morning-product-video</h1>
+<div class="muted">根据 judge/brief.md 改进 generation.json 的 prompt、negative 和 seed，真实生成晨光陶瓷杯短视频。
+每轮通过 Lightricks 官方公开 Space 生成新片，观察成片中主体、环境、蒸汽和构图是否符合简报。
+只修改三个字段，不变更生成服务、尺寸或时长。评委只看抽取的静帧，不能据此证明完整运动或音频质量。</div>
+<p class="muted">运行状态：finished。已保存 2 条模型调用记录；调用费用：工具未提供。</p>
+<p><a href="config/rsi.yaml">任务配置</a> · <a href="config/execution.json">模型与运行参数</a></p>
+<div class="stats">
+<div class="stat"><span class="muted">baseline</span><b>60.5</b></div>
+<div class="stat"><span class="muted">best</span><b>61</b></div>
+<div class="stat"><span class="muted">rounds / kept</span><b>3 / 1</b></div>
+<div class="stat"><span class="muted">agent</span><b style="font-size:16px">codex</b></div>
+</div>
+<svg viewBox="0 0 720 260" role="img" aria-label="score by round"><polyline points="48.0,35.1 266.7,33.7 485.3,33.7 704.0,33.7" class="best"/><circle cx="48.0" cy="35.1" r="5" class="kept"><title>r0 BASELINE 60.5</title></circle><circle cx="266.7" cy="33.7" r="5" class="kept"><title>r1 KEEP 61</title></circle><circle cx="485.3" cy="210.3" r="3.5" class="dropped"><title>r2 REVERT 0</title></circle><circle cx="704.0" cy="210.3" r="3.5" class="dropped"><title>r3 REVERT 0</title></circle><text x="40" y="210.3" class="tick" text-anchor="end">0</text><text x="40" y="122.0" class="tick" text-anchor="end">30.5</text><text x="40" y="33.7" class="tick" text-anchor="end">61</text><text x="48.0" y="250" class="tick" text-anchor="middle">r0</text><text x="266.7" y="250" class="tick" text-anchor="middle">r1</text><text x="485.3" y="250" class="tick" text-anchor="middle">r2</text><text x="704.0" y="250" class="tick" text-anchor="middle">r3</text></svg>
+<p class="muted">Line: best score so far. Green: kept. Grey: judged and thrown away.
+
+Stopped: reached 3 rounds.</p>
+<table><thead><tr><th>round</th><th>status</th><th>score</th><th>best</th><th>change</th><th>why</th></tr></thead>
+<tbody><tr class='s-baseline'><td>0</td><td>◆ BASELINE</td><td>60.5</td><td>60.5</td><td>baseline</td><td></td></tr><tr class='s-keep'><td>1</td><td>▲ KEEP</td><td>61</td><td>61</td><td>用侧后方晨光和较暗背景衬托杯口上方的细薄蒸汽，并排除浓烟与遮挡，预计能提高蒸汽可见性及简报符合度。</td><td>score 60.5 -&gt; 61</td></tr><tr class='s-revert'><td>2</td><td>· REVERT</td><td>0</td><td>61</td><td>将蒸汽限定为杯口上方一两缕近乎透明、升起数厘米便消散的细丝，并排除宽白烟带与高耸烟柱，预计能改善蒸汽过浓的问题，提高自然细微程度的评分。</td><td>failed gates: prepare</td></tr><tr class='s-revert'><td>3</td><td>· REVERT</td><td>0</td><td>61</td><td>明确中景取景、杯子约占画面高度一半，并要求推进时杯底和杯柄四周保持留白，预计能减少裁切，提高主体完整度与构图评分。</td><td>failed gates: prepare</td></tr></tbody></table>
+<h2>产物版本</h2><details><summary>初始产物</summary><p class='artifact-source'>来源：独立评审目录。正式分数以账本记录和评审结论为准。</p><div class='artifact'><p><a href="artifacts/baseline/files/generation.json">generation.json</a></p><pre>{
+  &quot;prompt&quot;: &quot;A ceramic mug on a desk.&quot;,
+  &quot;negative&quot;: &quot;text, watermark&quot;,
+  &quot;seed&quot;: 42
+}
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/events.txt">out/events.txt</a></p><pre>event: complete
+data: [{&quot;video&quot;: {&quot;path&quot;: &quot;<tmp> &quot;url&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=<tmp> &quot;size&quot;: null, &quot;orig_name&quot;: &quot;output_93810.mp4&quot;, &quot;mime_type&quot;: null, &quot;is_stream&quot;: false, &quot;meta&quot;: {&quot;_type&quot;: &quot;gradio.FileData&quot;}}, &quot;subtitles&quot;: null}, 42]
+
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;真实服务结果已取得&quot;: true,
+  &quot;视频可读取且尺寸时长符合&quot;: true
+}
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/metadata.json">out/metadata.json</a></p><pre>{
+  &quot;status&quot;: &quot;ready&quot;,
+  &quot;endpoint&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space&quot;,
+  &quot;api_name&quot;: &quot;text_to_video&quot;,
+  &quot;request&quot;: {
+    &quot;data&quot;: [
+      &quot;A ceramic mug on a desk.&quot;,
+      &quot;text, watermark&quot;,
+      null,
+      null,
+      512,
+      704,
+      &quot;text-to-video&quot;,
+      2,
+      9,
+      42,
+      false,
+      1,
+      false
+    ]
+  },
+  &quot;service&quot;: {
+    &quot;gradio_version&quot;: &quot;5.42.0&quot;,
+    &quot;input_labels&quot;: [
+      &quot;Prompt&quot;,
+      &quot;Negative Prompt&quot;,
+      &quot;image_n&quot;,
+      &quot;video_n&quot;,
+      &quot;Height&quot;,
+      &quot;Width&quot;,
+      &quot;task&quot;,
+      &quot;Video Duration (seconds)&quot;,
+      &quot;Frames to use from input video&quot;,
+      &quot;Seed&quot;,
+      &quot;Randomize Seed&quot;,
+      &quot;Guidance Scale (CFG)&quot;,
+      &quot;Improve Texture (multi-scale)&quot;
+    ],
+    &quot;declared_model&quot;: &quot;LTX 0.9.8 13B distilled（上游公开说明）&quot;,
+    &quot;checked_at&quot;: &quot;2026-10-23T16:36:59.837217+00:00&quot;
+  },
+  &quot;started_at&quot;: &quot;2026-10-23T16:36:59.837287+00:00&quot;,
+  &quot;event_id&quot;: &quot;7e83c0459d1b46179a8c5980f6148bf6&quot;,
+  &quot;submit_response&quot;: {
+    &quot;event_id&quot;: &quot;7e83c0459d1b46179a8c5980f6148bf6&quot;
+  },
+  &quot;updated_at&quot;: &quot;2026-10-23T16:37:08.339857+00:00&quot;,
+  &quot;video_url&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=<tmp>
+  &quot;returned_seed&quot;: 42,
+  &quot;complete_event&quot;: [
+    {
+      &quot;video&quot;: {
+        &quot;path&quot;: &quot;<tmp>
+        &quot;url&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=<tmp>
+        &quot;size&quot;: null,
+        &quot;orig_name&quot;: &quot;output_93810.mp4&quot;,
+        &quot;mime_type&quot;: null,
+        &quot;is_stream&quot;: false,
+        &quot;meta&quot;: {
+          &quot;_type&quot;: &quot;gradio.FileData&quot;
+        }
+      },
+      &quot;subtitles&quot;: null
+    },
+    42
+  ],
+  &quot;video_sha256&quot;: &quot;f13b5c42dabc82014bdf7cf2bd4f7a24db438c538f87d4216a3313e845b43e92&quot;,
+  &quot;video_bytes&quot;: 53088,
+  &quot;probe&quot;: {
+    &quot;duration_seconds&quot;: 1.9,
+    &quot;width&quot;: 704,
+    &quot;height&quot;: 512,
+    &quot;codec&quot;: &quot;h264&quot;,
+    &quot;has_audio&quot;: false
+  },
+  &quot;finished_at&quot;: &quot;2026-10-23T16:37:12.310579+00:00&quot;,
+  &quot;cache_key&quot;: &quot;4e66aec6512c70bda5d9ce3ba2886eb860842dd7a300dc268f6b0ad392b6abb6&quot;,
+  &quot;cache_reused&quot;: false
+}
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/notes.txt">out/notes.txt</a></p><pre>真实生成事件 7e83c0459d1b46179a8c5980f6148bf6；1.90秒，704×512；相同请求缓存复用=False。评委仅看抽帧，声音与完整运动仍需播放检查。</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/preview.html">out/preview.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;title&gt;真实生成短视频&lt;/title&gt;&lt;style&gt;body{max-width:900px;margin:40px auto;padding:20px;font:17px/1.7 system-ui;background:#f8f4ee}video{width:100%;background:#222}pre{white-space:pre-wrap}&lt;/style&gt;&lt;h1&gt;晨光陶瓷杯&lt;/h1&gt;&lt;video controls preload=&quot;metadata&quot; src=&quot;video.mp4&quot;&gt;&lt;/video&gt;&lt;h2&gt;本次生成描述&lt;/h2&gt;&lt;pre&gt;A ceramic mug on a desk.&lt;/pre&gt;&lt;p&gt;实际事件：7e83c0459d1b46179a8c5980f6148bf6；评价只覆盖可见静帧，需播放检查完整运动。&lt;/p&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/request.json">out/request.json</a></p><pre>{
+  &quot;adapter_version&quot;: 1,
+  &quot;endpoint&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space&quot;,
+  &quot;api_name&quot;: &quot;text_to_video&quot;,
+  &quot;request&quot;: {
+    &quot;data&quot;: [
+      &quot;A ceramic mug on a desk.&quot;,
+      &quot;text, watermark&quot;,
+      null,
+      null,
+      512,
+      704,
+      &quot;text-to-video&quot;,
+      2,
+      9,
+      42,
+      false,
+      1,
+      false
+    ]
+  }
+}
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/video.mp4">out/video.mp4</a></p><video controls preload="metadata" src="artifacts/baseline/files/out/video.mp4"></video></div></details><details><summary>第 1 轮 · KEEP</summary><p class='artifact-source'>来源：独立评审目录。正式分数以账本记录和评审结论为准。</p><div class='artifact'><p><a href="rounds/r001/artifacts/files/generation.json">generation.json</a></p><pre>{
+  &quot;prompt&quot;: &quot;Thin, clearly visible wisps of steam rise gently from the open rim of a hot drink in a single pale ivory ceramic mug. The delicate translucent steam curls upward into the empty space above the mug, caught by soft morning sunlight from a window to the left and slightly behind it, visible against a darker softly blurred background. The steam remains light and airy, leaving the mug unobscured. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Three-quarter view at mug height, mug slightly right of center, generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in.&quot;,
+  &quot;negative&quot;: &quot;text, watermark, logo, branding, people, faces, hands, thick smoke, dense fog, opaque steam, smoke covering the mug, dark brown mug, cropped mug, duplicate mugs, extra handles, warped ceramic, cluttered background, camera shake&quot;,
+  &quot;seed&quot;: 42
+}
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/events.txt">out/events.txt</a></p><pre>event: complete
+data: [{&quot;video&quot;: {&quot;path&quot;: &quot;<tmp> &quot;url&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=<tmp> &quot;size&quot;: null, &quot;orig_name&quot;: &quot;output_93810.mp4&quot;, &quot;mime_type&quot;: null, &quot;is_stream&quot;: false, &quot;meta&quot;: {&quot;_type&quot;: &quot;gradio.FileData&quot;}}, &quot;subtitles&quot;: null}, 42]
+
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;真实服务结果已取得&quot;: true,
+  &quot;视频可读取且尺寸时长符合&quot;: true
+}
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/metadata.json">out/metadata.json</a></p><pre>{
+  &quot;status&quot;: &quot;ready&quot;,
+  &quot;endpoint&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space&quot;,
+  &quot;api_name&quot;: &quot;text_to_video&quot;,
+  &quot;request&quot;: {
+    &quot;data&quot;: [
+      &quot;Thin, clearly visible wisps of steam rise gently from the open rim of a hot drink in a single pale ivory ceramic mug. The delicate translucent steam curls upward into the empty space above the mug, caught by soft morning sunlight from a window to the left and slightly behind it, visible against a darker softly blurred background. The steam remains light and airy, leaving the mug unobscured. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Three-quarter view at mug height, mug slightly right of center, generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in.&quot;,
+      &quot;text, watermark, logo, branding, people, faces, hands, thick smoke, dense fog, opaque steam, smoke covering the mug, dark brown mug, cropped mug, duplicate mugs, extra handles, warped ceramic, cluttered background, camera shake&quot;,
+      null,
+      null,
+      512,
+      704,
+      &quot;text-to-video&quot;,
+      2,
+      9,
+      42,
+      false,
+      1,
+      false
+    ]
+  },
+  &quot;service&quot;: {
+    &quot;gradio_version&quot;: &quot;5.42.0&quot;,
+    &quot;input_labels&quot;: [
+      &quot;Prompt&quot;,
+      &quot;Negative Prompt&quot;,
+      &quot;image_n&quot;,
+      &quot;video_n&quot;,
+      &quot;Height&quot;,
+      &quot;Width&quot;,
+      &quot;task&quot;,
+      &quot;Video Duration (seconds)&quot;,
+      &quot;Frames to use from input video&quot;,
+      &quot;Seed&quot;,
+      &quot;Randomize Seed&quot;,
+      &quot;Guidance Scale (CFG)&quot;,
+      &quot;Improve Texture (multi-scale)&quot;
+    ],
+    &quot;declared_model&quot;: &quot;LTX 0.9.8 13B distilled（上游公开说明）&quot;,
+    &quot;checked_at&quot;: &quot;2026-10-23T16:38:23.041925+00:00&quot;
+  },
+  &quot;started_at&quot;: &quot;2026-10-23T16:38:23.042016+00:00&quot;,
+  &quot;event_id&quot;: &quot;808a1a4ca031435e8415b360a7959f42&quot;,
+  &quot;submit_response&quot;: {
+    &quot;event_id&quot;: &quot;808a1a4ca031435e8415b360a7959f42&quot;
+  },
+  &quot;updated_at&quot;: &quot;2026-10-23T16:38:32.326659+00:00&quot;,
+  &quot;video_url&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=<tmp>
+  &quot;returned_seed&quot;: 42,
+  &quot;complete_event&quot;: [
+    {
+      &quot;video&quot;: {
+        &quot;path&quot;: &quot;<tmp>
+        &quot;url&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=<tmp>
+        &quot;size&quot;: null,
+        &quot;orig_name&quot;: &quot;output_93810.mp4&quot;,
+        &quot;mime_type&quot;: null,
+        &quot;is_stream&quot;: false,
+        &quot;meta&quot;: {
+          &quot;_type&quot;: &quot;gradio.FileData&quot;
+        }
+      },
+      &quot;subtitles&quot;: null
+    },
+    42
+  ],
+  &quot;video_sha256&quot;: &quot;c6149c212016f294b22a8292fde5bcf15231f7e8cb6be232d1ff6b92bd721b5e&quot;,
+  &quot;video_bytes&quot;: 64158,
+  &quot;probe&quot;: {
+    &quot;duration_seconds&quot;: 1.9,
+    &quot;width&quot;: 704,
+    &quot;height&quot;: 512,
+    &quot;codec&quot;: &quot;h264&quot;,
+    &quot;has_audio&quot;: false
+  },
+  &quot;finished_at&quot;: &quot;2026-10-23T16:38:35.097758+00:00&quot;,
+  &quot;cache_key&quot;: &quot;52245a7ff820a9e88876033f4607805902c889a4a4809952f121ab595f8f607f&quot;,
+  &quot;cache_reused&quot;: false
+}
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>真实生成事件 808a1a4ca031435e8415b360a7959f42；1.90秒，704×512；相同请求缓存复用=False。评委仅看抽帧，声音与完整运动仍需播放检查。</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/preview.html">out/preview.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;title&gt;真实生成短视频&lt;/title&gt;&lt;style&gt;body{max-width:900px;margin:40px auto;padding:20px;font:17px/1.7 system-ui;background:#f8f4ee}video{width:100%;background:#222}pre{white-space:pre-wrap}&lt;/style&gt;&lt;h1&gt;晨光陶瓷杯&lt;/h1&gt;&lt;video controls preload=&quot;metadata&quot; src=&quot;video.mp4&quot;&gt;&lt;/video&gt;&lt;h2&gt;本次生成描述&lt;/h2&gt;&lt;pre&gt;Thin, clearly visible wisps of steam rise gently from the open rim of a hot drink in a single pale ivory ceramic mug. The delicate translucent steam curls upward into the empty space above the mug, caught by soft morning sunlight from a window to the left and slightly behind it, visible against a darker softly blurred background. The steam remains light and airy, leaving the mug unobscured. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Three-quarter view at mug height, mug slightly right of center, generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in.&lt;/pre&gt;&lt;p&gt;实际事件：808a1a4ca031435e8415b360a7959f42；评价只覆盖可见静帧，需播放检查完整运动。&lt;/p&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/request.json">out/request.json</a></p><pre>{
+  &quot;adapter_version&quot;: 1,
+  &quot;endpoint&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space&quot;,
+  &quot;api_name&quot;: &quot;text_to_video&quot;,
+  &quot;request&quot;: {
+    &quot;data&quot;: [
+      &quot;Thin, clearly visible wisps of steam rise gently from the open rim of a hot drink in a single pale ivory ceramic mug. The delicate translucent steam curls upward into the empty space above the mug, caught by soft morning sunlight from a window to the left and slightly behind it, visible against a darker softly blurred background. The steam remains light and airy, leaving the mug unobscured. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Three-quarter view at mug height, mug slightly right of center, generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in.&quot;,
+      &quot;text, watermark, logo, branding, people, faces, hands, thick smoke, dense fog, opaque steam, smoke covering the mug, dark brown mug, cropped mug, duplicate mugs, extra handles, warped ceramic, cluttered background, camera shake&quot;,
+      null,
+      null,
+      512,
+      704,
+      &quot;text-to-video&quot;,
+      2,
+      9,
+      42,
+      false,
+      1,
+      false
+    ]
+  }
+}
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/video.mp4">out/video.mp4</a></p><video controls preload="metadata" src="rounds/r001/artifacts/files/out/video.mp4"></video></div></details><details><summary>第 2 轮 · REVERT</summary><p class='artifact-source'>来源：独立评审目录。正式分数以账本记录和评审结论为准。</p><div class='artifact'><p><a href="rounds/r002/artifacts/files/generation.json">generation.json</a></p><pre>{
+  &quot;prompt&quot;: &quot;A single pale ivory ceramic mug holding a hot drink. Just one or two faint, hair-thin, nearly transparent threads of steam are visible immediately above the open rim. These sparse traces rise only a few centimeters before fading completely into clear air; most of the space above the mug is empty. Soft morning sunlight from a window to the left and slightly behind the mug catches the subtle vapor against a darker softly blurred background. The rim and mug remain clearly visible through the faint steam. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Three-quarter view at mug height, mug slightly right of center, generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in.&quot;,
+  &quot;negative&quot;: &quot;text, watermark, logo, branding, people, faces, hands, thick smoke, dense fog, opaque steam, broad white steam ribbons, billowing clouds, tall steam plume, continuous steam column, smoke covering the mug, dark brown mug, cropped mug, duplicate mugs, extra handles, warped ceramic, cluttered background, camera shake&quot;,
+  &quot;seed&quot;: 42
+}
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/error.json">out/error.json</a></p><pre>{
+  &quot;stage&quot;: &quot;video_generation&quot;,
+  &quot;error&quot;: &quot;视频服务返回错误：null&quot;,
+  &quot;time&quot;: &quot;2026-10-23T16:39:55.792643+00:00&quot;,
+  &quot;quality_result&quot;: &quot;unknown&quot;,
+  &quot;request_state&quot;: {
+    &quot;status&quot;: &quot;submitted&quot;,
+    &quot;endpoint&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space&quot;,
+    &quot;api_name&quot;: &quot;text_to_video&quot;,
+    &quot;request&quot;: {
+      &quot;data&quot;: [
+        &quot;A single pale ivory ceramic mug holding a hot drink. Just one or two faint, hair-thin, nearly transparent threads of steam are visible immediately above the open rim. These sparse traces rise only a few centimeters before fading completely into clear air; most of the space above the mug is empty. Soft morning sunlight from a window to the left and slightly behind the mug catches the subtle vapor against a darker softly blurred background. The rim and mug remain clearly visible through the faint steam. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Three-quarter view at mug height, mug slightly right of center, generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in.&quot;,
+        &quot;text, watermark, logo, branding, people, faces, hands, thick smoke, dense fog, opaque steam, broad white steam ribbons, billowing clouds, tall steam plume, continuous steam column, smoke covering the mug, dark brown mug, cropped mug, duplicate mugs, extra handles, warped ceramic, cluttered background, camera shake&quot;,
+        null,
+        null,
+        512,
+        704,
+        &quot;text-to-video&quot;,
+        2,
+        9,
+        42,
+        false,
+        1,
+        false
+      ]
+    },
+    &quot;service&quot;: {
+      &quot;gradio_version&quot;: &quot;5.42.0&quot;,
+      &quot;input_labels&quot;: [
+        &quot;Prompt&quot;,
+        &quot;Negative Prompt&quot;,
+        &quot;image_n&quot;,
+        &quot;video_n&quot;,
+        &quot;Height&quot;,
+        &quot;Width&quot;,
+        &quot;task&quot;,
+        &quot;Video Duration (seconds)&quot;,
+        &quot;Frames to use from input video&quot;,
+        &quot;Seed&quot;,
+        &quot;Randomize Seed&quot;,
+        &quot;Guidance Scale (CFG)&quot;,
+        &quot;Improve Texture (multi-scale)&quot;
+      ],
+      &quot;declared_model&quot;: &quot;LTX 0.9.8 13B distilled（上游公开说明）&quot;,
+      &quot;checked_at&quot;: &quot;2026-10-23T16:39:51.009300+00:00&quot;
+    },
+    &quot;started_at&quot;: &quot;2026-10-23T16:39:51.009365+00:00&quot;,
+    &quot;event_id&quot;: &quot;a19f74891a434e109e51155cae36539e&quot;,
+    &quot;submit_response&quot;: {
+      &quot;event_id&quot;: &quot;a19f74891a434e109e51155cae36539e&quot;
+    },
+    &quot;updated_at&quot;: &quot;2026-10-23T16:39:53.995582+00:00&quot;
+  }
+}
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;真实服务结果已取得&quot;: false
+}
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>视频服务或环境未完成，作品质量未知：视频服务返回错误：null</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/request.json">out/request.json</a></p><pre>{
+  &quot;adapter_version&quot;: 1,
+  &quot;endpoint&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space&quot;,
+  &quot;api_name&quot;: &quot;text_to_video&quot;,
+  &quot;request&quot;: {
+    &quot;data&quot;: [
+      &quot;A single pale ivory ceramic mug holding a hot drink. Just one or two faint, hair-thin, nearly transparent threads of steam are visible immediately above the open rim. These sparse traces rise only a few centimeters before fading completely into clear air; most of the space above the mug is empty. Soft morning sunlight from a window to the left and slightly behind the mug catches the subtle vapor against a darker softly blurred background. The rim and mug remain clearly visible through the faint steam. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Three-quarter view at mug height, mug slightly right of center, generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in.&quot;,
+      &quot;text, watermark, logo, branding, people, faces, hands, thick smoke, dense fog, opaque steam, broad white steam ribbons, billowing clouds, tall steam plume, continuous steam column, smoke covering the mug, dark brown mug, cropped mug, duplicate mugs, extra handles, warped ceramic, cluttered background, camera shake&quot;,
+      null,
+      null,
+      512,
+      704,
+      &quot;text-to-video&quot;,
+      2,
+      9,
+      42,
+      false,
+      1,
+      false
+    ]
+  }
+}
+</pre></div></details><details><summary>第 3 轮 · REVERT</summary><p class='artifact-source'>来源：独立评审目录。正式分数以账本记录和评审结论为准。</p><div class='artifact'><p><a href="rounds/r003/artifacts/files/generation.json">generation.json</a></p><pre>{
+  &quot;prompt&quot;: &quot;Thin, clearly visible wisps of steam rise gently from the open rim of a hot drink in a single pale ivory ceramic mug. The delicate translucent steam curls upward into the empty space above the mug, caught by soft morning sunlight from a window to the left and slightly behind it, visible against a darker softly blurred background. The steam remains light and airy, leaving the mug unobscured. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Medium product shot from a three-quarter view at mug height: the whole mug including its handle occupies about half the image height, slightly right of center. Visible tabletop surrounds the base and handle, with ample space between every part of the mug and the frame edges, and generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in, keeping the entire mug and handle comfortably inside the frame throughout.&quot;,
+  &quot;negative&quot;: &quot;text, watermark, logo, branding, people, faces, hands, thick smoke, dense fog, opaque steam, smoke covering the mug, dark brown mug, cropped mug, duplicate mugs, extra handles, warped ceramic, cluttered background, camera shake&quot;,
+  &quot;seed&quot;: 42
+}
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/error.json">out/error.json</a></p><pre>{
+  &quot;stage&quot;: &quot;video_generation&quot;,
+  &quot;error&quot;: &quot;视频服务返回错误：null&quot;,
+  &quot;time&quot;: &quot;2026-10-23T16:40:41.374539+00:00&quot;,
+  &quot;quality_result&quot;: &quot;unknown&quot;,
+  &quot;request_state&quot;: {
+    &quot;status&quot;: &quot;submitted&quot;,
+    &quot;endpoint&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space&quot;,
+    &quot;api_name&quot;: &quot;text_to_video&quot;,
+    &quot;request&quot;: {
+      &quot;data&quot;: [
+        &quot;Thin, clearly visible wisps of steam rise gently from the open rim of a hot drink in a single pale ivory ceramic mug. The delicate translucent steam curls upward into the empty space above the mug, caught by soft morning sunlight from a window to the left and slightly behind it, visible against a darker softly blurred background. The steam remains light and airy, leaving the mug unobscured. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Medium product shot from a three-quarter view at mug height: the whole mug including its handle occupies about half the image height, slightly right of center. Visible tabletop surrounds the base and handle, with ample space between every part of the mug and the frame edges, and generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in, keeping the entire mug and handle comfortably inside the frame throughout.&quot;,
+        &quot;text, watermark, logo, branding, people, faces, hands, thick smoke, dense fog, opaque steam, smoke covering the mug, dark brown mug, cropped mug, duplicate mugs, extra handles, warped ceramic, cluttered background, camera shake&quot;,
+        null,
+        null,
+        512,
+        704,
+        &quot;text-to-video&quot;,
+        2,
+        9,
+        42,
+        false,
+        1,
+        false
+      ]
+    },
+    &quot;service&quot;: {
+      &quot;gradio_version&quot;: &quot;5.42.0&quot;,
+      &quot;input_labels&quot;: [
+        &quot;Prompt&quot;,
+        &quot;Negative Prompt&quot;,
+        &quot;image_n&quot;,
+        &quot;video_n&quot;,
+        &quot;Height&quot;,
+        &quot;Width&quot;,
+        &quot;task&quot;,
+        &quot;Video Duration (seconds)&quot;,
+        &quot;Frames to use from input video&quot;,
+        &quot;Seed&quot;,
+        &quot;Randomize Seed&quot;,
+        &quot;Guidance Scale (CFG)&quot;,
+        &quot;Improve Texture (multi-scale)&quot;
+      ],
+      &quot;declared_model&quot;: &quot;LTX 0.9.8 13B distilled（上游公开说明）&quot;,
+      &quot;checked_at&quot;: &quot;2026-10-23T16:40:36.653246+00:00&quot;
+    },
+    &quot;started_at&quot;: &quot;2026-10-23T16:40:36.653334+00:00&quot;,
+    &quot;event_id&quot;: &quot;db63a03b836f4dadb0d3be44de51f069&quot;,
+    &quot;submit_response&quot;: {
+      &quot;event_id&quot;: &quot;db63a03b836f4dadb0d3be44de51f069&quot;
+    },
+    &quot;updated_at&quot;: &quot;2026-10-23T16:40:39.467946+00:00&quot;
+  }
+}
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;真实服务结果已取得&quot;: false
+}
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>视频服务或环境未完成，作品质量未知：视频服务返回错误：null</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/request.json">out/request.json</a></p><pre>{
+  &quot;adapter_version&quot;: 1,
+  &quot;endpoint&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space&quot;,
+  &quot;api_name&quot;: &quot;text_to_video&quot;,
+  &quot;request&quot;: {
+    &quot;data&quot;: [
+      &quot;Thin, clearly visible wisps of steam rise gently from the open rim of a hot drink in a single pale ivory ceramic mug. The delicate translucent steam curls upward into the empty space above the mug, caught by soft morning sunlight from a window to the left and slightly behind it, visible against a darker softly blurred background. The steam remains light and airy, leaving the mug unobscured. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Medium product shot from a three-quarter view at mug height: the whole mug including its handle occupies about half the image height, slightly right of center. Visible tabletop surrounds the base and handle, with ample space between every part of the mug and the frame edges, and generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in, keeping the entire mug and handle comfortably inside the frame throughout.&quot;,
+      &quot;text, watermark, logo, branding, people, faces, hands, thick smoke, dense fog, opaque steam, smoke covering the mug, dark brown mug, cropped mug, duplicate mugs, extra handles, warped ceramic, cluttered background, camera shake&quot;,
+      null,
+      null,
+      512,
+      704,
+      &quot;text-to-video&quot;,
+      2,
+      9,
+      42,
+      false,
+      1,
+      false
+    ]
+  }
+}
+</pre></div></details><details><summary>最终产物</summary><p class='artifact-source'>来源：已保存的评审版本 rounds/r001/artifacts。复制最终作品不会新增评分；正式分数以账本和评审结论为准。</p><div class='artifact'><p><a href="artifacts/final/files/generation.json">generation.json</a></p><pre>{
+  &quot;prompt&quot;: &quot;Thin, clearly visible wisps of steam rise gently from the open rim of a hot drink in a single pale ivory ceramic mug. The delicate translucent steam curls upward into the empty space above the mug, caught by soft morning sunlight from a window to the left and slightly behind it, visible against a darker softly blurred background. The steam remains light and airy, leaving the mug unobscured. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Three-quarter view at mug height, mug slightly right of center, generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in.&quot;,
+  &quot;negative&quot;: &quot;text, watermark, logo, branding, people, faces, hands, thick smoke, dense fog, opaque steam, smoke covering the mug, dark brown mug, cropped mug, duplicate mugs, extra handles, warped ceramic, cluttered background, camera shake&quot;,
+  &quot;seed&quot;: 42
+}
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/events.txt">out/events.txt</a></p><pre>event: complete
+data: [{&quot;video&quot;: {&quot;path&quot;: &quot;<tmp> &quot;url&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=<tmp> &quot;size&quot;: null, &quot;orig_name&quot;: &quot;output_93810.mp4&quot;, &quot;mime_type&quot;: null, &quot;is_stream&quot;: false, &quot;meta&quot;: {&quot;_type&quot;: &quot;gradio.FileData&quot;}}, &quot;subtitles&quot;: null}, 42]
+
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;真实服务结果已取得&quot;: true,
+  &quot;视频可读取且尺寸时长符合&quot;: true
+}
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/metadata.json">out/metadata.json</a></p><pre>{
+  &quot;status&quot;: &quot;ready&quot;,
+  &quot;endpoint&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space&quot;,
+  &quot;api_name&quot;: &quot;text_to_video&quot;,
+  &quot;request&quot;: {
+    &quot;data&quot;: [
+      &quot;Thin, clearly visible wisps of steam rise gently from the open rim of a hot drink in a single pale ivory ceramic mug. The delicate translucent steam curls upward into the empty space above the mug, caught by soft morning sunlight from a window to the left and slightly behind it, visible against a darker softly blurred background. The steam remains light and airy, leaving the mug unobscured. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Three-quarter view at mug height, mug slightly right of center, generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in.&quot;,
+      &quot;text, watermark, logo, branding, people, faces, hands, thick smoke, dense fog, opaque steam, smoke covering the mug, dark brown mug, cropped mug, duplicate mugs, extra handles, warped ceramic, cluttered background, camera shake&quot;,
+      null,
+      null,
+      512,
+      704,
+      &quot;text-to-video&quot;,
+      2,
+      9,
+      42,
+      false,
+      1,
+      false
+    ]
+  },
+  &quot;service&quot;: {
+    &quot;gradio_version&quot;: &quot;5.42.0&quot;,
+    &quot;input_labels&quot;: [
+      &quot;Prompt&quot;,
+      &quot;Negative Prompt&quot;,
+      &quot;image_n&quot;,
+      &quot;video_n&quot;,
+      &quot;Height&quot;,
+      &quot;Width&quot;,
+      &quot;task&quot;,
+      &quot;Video Duration (seconds)&quot;,
+      &quot;Frames to use from input video&quot;,
+      &quot;Seed&quot;,
+      &quot;Randomize Seed&quot;,
+      &quot;Guidance Scale (CFG)&quot;,
+      &quot;Improve Texture (multi-scale)&quot;
+    ],
+    &quot;declared_model&quot;: &quot;LTX 0.9.8 13B distilled（上游公开说明）&quot;,
+    &quot;checked_at&quot;: &quot;2026-10-23T16:38:23.041925+00:00&quot;
+  },
+  &quot;started_at&quot;: &quot;2026-10-23T16:38:23.042016+00:00&quot;,
+  &quot;event_id&quot;: &quot;808a1a4ca031435e8415b360a7959f42&quot;,
+  &quot;submit_response&quot;: {
+    &quot;event_id&quot;: &quot;808a1a4ca031435e8415b360a7959f42&quot;
+  },
+  &quot;updated_at&quot;: &quot;2026-10-23T16:38:32.326659+00:00&quot;,
+  &quot;video_url&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=<tmp>
+  &quot;returned_seed&quot;: 42,
+  &quot;complete_event&quot;: [
+    {
+      &quot;video&quot;: {
+        &quot;path&quot;: &quot;<tmp>
+        &quot;url&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space/gradio_api/file=<tmp>
+        &quot;size&quot;: null,
+        &quot;orig_name&quot;: &quot;output_93810.mp4&quot;,
+        &quot;mime_type&quot;: null,
+        &quot;is_stream&quot;: false,
+        &quot;meta&quot;: {
+          &quot;_type&quot;: &quot;gradio.FileData&quot;
+        }
+      },
+      &quot;subtitles&quot;: null
+    },
+    42
+  ],
+  &quot;video_sha256&quot;: &quot;c6149c212016f294b22a8292fde5bcf15231f7e8cb6be232d1ff6b92bd721b5e&quot;,
+  &quot;video_bytes&quot;: 64158,
+  &quot;probe&quot;: {
+    &quot;duration_seconds&quot;: 1.9,
+    &quot;width&quot;: 704,
+    &quot;height&quot;: 512,
+    &quot;codec&quot;: &quot;h264&quot;,
+    &quot;has_audio&quot;: false
+  },
+  &quot;finished_at&quot;: &quot;2026-10-23T16:38:35.097758+00:00&quot;,
+  &quot;cache_key&quot;: &quot;52245a7ff820a9e88876033f4607805902c889a4a4809952f121ab595f8f607f&quot;,
+  &quot;cache_reused&quot;: false
+}
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/notes.txt">out/notes.txt</a></p><pre>真实生成事件 808a1a4ca031435e8415b360a7959f42；1.90秒，704×512；相同请求缓存复用=False。评委仅看抽帧，声音与完整运动仍需播放检查。</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/preview.html">out/preview.html</a></p><pre>&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;title&gt;真实生成短视频&lt;/title&gt;&lt;style&gt;body{max-width:900px;margin:40px auto;padding:20px;font:17px/1.7 system-ui;background:#f8f4ee}video{width:100%;background:#222}pre{white-space:pre-wrap}&lt;/style&gt;&lt;h1&gt;晨光陶瓷杯&lt;/h1&gt;&lt;video controls preload=&quot;metadata&quot; src=&quot;video.mp4&quot;&gt;&lt;/video&gt;&lt;h2&gt;本次生成描述&lt;/h2&gt;&lt;pre&gt;Thin, clearly visible wisps of steam rise gently from the open rim of a hot drink in a single pale ivory ceramic mug. The delicate translucent steam curls upward into the empty space above the mug, caught by soft morning sunlight from a window to the left and slightly behind it, visible against a darker softly blurred background. The steam remains light and airy, leaving the mug unobscured. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Three-quarter view at mug height, mug slightly right of center, generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in.&lt;/pre&gt;&lt;p&gt;实际事件：808a1a4ca031435e8415b360a7959f42；评价只覆盖可见静帧，需播放检查完整运动。&lt;/p&gt;&lt;/html&gt;</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/request.json">out/request.json</a></p><pre>{
+  &quot;adapter_version&quot;: 1,
+  &quot;endpoint&quot;: &quot;https://lightricks-ltx-video-distilled.hf.space&quot;,
+  &quot;api_name&quot;: &quot;text_to_video&quot;,
+  &quot;request&quot;: {
+    &quot;data&quot;: [
+      &quot;Thin, clearly visible wisps of steam rise gently from the open rim of a hot drink in a single pale ivory ceramic mug. The delicate translucent steam curls upward into the empty space above the mug, caught by soft morning sunlight from a window to the left and slightly behind it, visible against a darker softly blurred background. The steam remains light and airy, leaving the mug unobscured. Quiet, warm product photography: the unbranded off-white glazed mug rests on a natural wooden table, its entire rim, body, base and single handle clearly visible. Three-quarter view at mug height, mug slightly right of center, generous headroom for the steam. Simple uncluttered background, shallow depth of field, realistic ceramic reflections and soft shadows, gentle warm light with the mug retaining its pale ivory color. A steady camera with a very slow subtle push-in.&quot;,
+      &quot;text, watermark, logo, branding, people, faces, hands, thick smoke, dense fog, opaque steam, smoke covering the mug, dark brown mug, cropped mug, duplicate mugs, extra handles, warped ceramic, cluttered background, camera shake&quot;,
+      null,
+      null,
+      512,
+      704,
+      &quot;text-to-video&quot;,
+      2,
+      9,
+      42,
+      false,
+      1,
+      false
+    ]
+  }
+}
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/video.mp4">out/video.mp4</a></p><video controls preload="metadata" src="artifacts/final/files/out/video.mp4"></video></div></details>
+<h2>Champion vs. start</h2><pre>generation.json | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)</pre>
+<p class="muted">Branch <code>rsi/20261024-003656-warm-morning-product-video</code>. Generated by RSI-Anything.</p>
+</main></body></html>

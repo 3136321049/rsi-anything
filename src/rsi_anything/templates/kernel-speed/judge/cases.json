@@ -1,0 +1,20 @@
+{
+  "seed": 20261024,
+  "correctness": [
+    {"rows": 1, "columns": 1, "dtype": "float32", "pattern": "random"},
+    {"rows": 7, "columns": 37, "dtype": "float32", "pattern": "random"},
+    {"rows": 23, "columns": 257, "dtype": "float32", "pattern": "zeros"},
+    {"rows": 128, "columns": 513, "dtype": "float32", "pattern": "extreme"},
+    {"rows": 256, "columns": 1024, "dtype": "float32", "pattern": "random"},
+    {"rows": 1024, "columns": 2048, "dtype": "float16", "pattern": "random"},
+    {"rows": 512, "columns": 4096, "dtype": "float16", "pattern": "extreme"}
+  ],
+  "benchmark": [
+    {"rows": 4096, "columns": 1024, "dtype": "float32", "pattern": "random"},
+    {"rows": 2048, "columns": 2048, "dtype": "float32", "pattern": "random"},
+    {"rows": 1024, "columns": 4096, "dtype": "float16", "pattern": "random"}
+  ],
+  "tolerance": {"float32": {"atol": 0.00001, "rtol": 0.0001}, "float16": {"atol": 0.002, "rtol": 0.005}},
+  "timing": {"warmup": 10, "samples": 15, "calls_per_sample": 20},
+  "module": {"batch": 512, "features": 128, "choices": 1024, "outputs": 64, "atol": 0.0002, "rtol": 0.001}
+}

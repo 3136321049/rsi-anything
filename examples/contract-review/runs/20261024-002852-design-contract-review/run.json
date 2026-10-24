@@ -1,0 +1,28 @@
+{
+  "run_id": "20261024-002852-design-contract-review",
+  "contract": "design-contract-review",
+  "contract_digest": "c92712784f39",
+  "goal": "审阅 judge/contract.json 中完全虚构的设计服务合同，修改 review.json。\n依据 judge/review-guide.json 的七类检查项定位条款、引用原句、解释潜在争议并提出可执行的文字建议。\n不判断真实合同效力，不引入法条、判例或司法辖区；明确这是示例演练，不构成法律意见。\nissue_id 使用给定检查项编号，clause_id 使用合同条款编号；建议可以是供双方讨论的条款草案。",
+  "base": "579b4d3a38a81249d6495d9af8e03a387d5ebbe5",
+  "branch": "rsi/20261024-002852-design-contract-review",
+  "project": ".",
+  "agent": "codex",
+  "judge": "rubric",
+  "jury": [
+    "cli:codex:gpt-6.1-sol"
+  ],
+  "started": "2026-10-23T16:28:52+00:00",
+  "status": "finished",
+  "phase": "finished",
+  "active_round": null,
+  "finished": "2026-10-23T16:36:52+00:00",
+  "error": null,
+  "stop_reason": "reached 3 rounds",
+  "updated": "2026-10-23T16:36:52+00:00",
+  "champion": "97286c80bb6f118be86836abb903e50a3a09fafd",
+  "elapsed_seconds": 480.225184042,
+  "final_snapshot_champion": "97286c80bb6f118be86836abb903e50a3a09fafd",
+  "final_source_artifacts": "rounds/r001/artifacts",
+  "holdout": {},
+  "final_artifacts": "artifacts/final"
+}

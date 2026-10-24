@@ -1,0 +1,31 @@
+{
+  "files": [
+    {
+      "path": "out/metrics.json",
+      "bytes": 1938,
+      "sha256": "da51fe0bc3052dc1f9e548463ed638972160b77b5735d19c321785c9fa8a79b9"
+    },
+    {
+      "path": "out/schedule.html",
+      "bytes": 5092,
+      "sha256": "e7626a725d4810ecf5024f797c774ea30746c1377d45941f7fb7b655506682f3"
+    },
+    {
+      "path": "out/schedule.json",
+      "bytes": 4690,
+      "sha256": "139c51041387f961d1a3bb03adf90e6a1a0852fc1efe0f9cf9bccea9f66593c2"
+    },
+    {
+      "path": "out/schedule.md",
+      "bytes": 2177,
+      "sha256": "3e5d66f590fb8c20bb2f6155f5108c158dae7d28c88bad5da13ecc69045f8841"
+    },
+    {
+      "path": "schedule.json",
+      "bytes": 982,
+      "sha256": "1acb0e5c49517ff65520abd20ed5e507c0c78cc8190c6190dde9b738310808cc"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": []
+}

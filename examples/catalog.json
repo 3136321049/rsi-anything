@@ -1,0 +1,399 @@
+{
+  "title": "Open RSI 实验与作品",
+  "description": "查看 AI 改了什么、评审保留了什么，以及最后留下的作品。",
+  "domains": [
+    {
+      "id": "D01",
+      "title": "让搜索更快",
+      "category": "工程",
+      "description": "保持搜索结果不变，逐轮优化算法。",
+      "metric": "加速倍数",
+      "unit": "×",
+      "pending": "developing",
+      "cases": [
+        {
+          "template": "code-speed",
+          "title": "模糊搜索",
+          "primary": [
+            "search.py"
+          ],
+          "inputs": [
+            "judge/check.py",
+            "judge/reference.py"
+          ]
+        }
+      ],
+      "note": "历史产物由原始补丁重建，原运行分数保持不变。"
+    },
+    {
+      "id": "D02",
+      "title": "修好记账项目",
+      "category": "工程",
+      "description": "从金额精度、分账余数到月度汇总，逐类修复业务问题。",
+      "metric": "测试通过率",
+      "unit": "%",
+      "pending": "developing",
+      "cases": [
+        {
+          "template": "code-repair",
+          "title": "Python 记账",
+          "primary": [
+            "expense.py",
+            "out/report.md"
+          ],
+          "inputs": [
+            "judge/sample.json",
+            "judge/test_expense.py"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "D03",
+      "title": "优化客服提示词",
+      "category": "模型",
+      "description": "在外卖客服八分类任务上修改提示词，并检查留出集。",
+      "metric": "开发集正确率",
+      "unit": "%",
+      "pending": "developing",
+      "require_holdout": true,
+      "cases": [
+        {
+          "template": "prompt-opt",
+          "title": "客服八分类",
+          "primary": [
+            "prompt.md",
+            "out/development.md"
+          ],
+          "inputs": [
+            "judge/dev.jsonl",
+            "holdout/test.jsonl"
+          ]
+        }
+      ],
+      "note": "完整运行也可能没有提升；保留被拒绝的尝试和留出结果。"
+    },
+    {
+      "id": "D04",
+      "title": "训练数字分类器",
+      "category": "模型",
+      "description": "调整 CPU 分类器与预处理，直接查看错分图片如何变化。",
+      "metric": "验证集正确率",
+      "unit": "%",
+      "pending": "developing",
+      "cases": [
+        {
+          "template": "cpu-classifier",
+          "title": "手写数字",
+          "primary": [
+            "out/mistakes.png",
+            "out/confusion.png",
+            "training.json",
+            "out/report.md"
+          ],
+          "inputs": [
+            "judge/data.json"
+          ]
+        }
+      ],
+      "note": "固定验证集被反复用于调参。无修改轮次的内部试验输出不属于正式评审，比较默认使用初始和最终产物。"
+    },
+    {
+      "id": "D05",
+      "title": "打磨文案与写作方法",
+      "category": "创作",
+      "description": "既看一篇笔记的变化，也看写作手册在多份简报上的使用。",
+      "metric": "评审得分",
+      "unit": "分",
+      "pending": "developing",
+      "cases": [
+        {
+          "template": "copywriting",
+          "title": "单篇文案",
+          "primary": [
+            "post.md"
+          ],
+          "inputs": [
+            "judge/brief.md"
+          ]
+        },
+        {
+          "template": "writing-guide",
+          "title": "可复用写作手册",
+          "primary": [
+            "writing-guide.md",
+            "out/posts.html",
+            "out/posts.md"
+          ],
+          "inputs": [
+            "judge/briefs.json",
+            "judge/briefs"
+          ],
+          "invalid_runs": {
+            "20261024-000057-reusable-writing-guide": "这次运行存在评分解析问题，30 分不作为有效质量结果；保留原记录供排查。"
+          }
+        }
+      ],
+      "note": "单篇文案和可复用手册分别验收；任一必需子案例未完成，领域不计已验收。"
+    },
+    {
+      "id": "D06",
+      "title": "把口播剪成短片",
+      "category": "创作",
+      "description": "选句、重排、渲染，播放初剪、中间片段与最终成片。",
+      "metric": "内容评审得分",
+      "unit": "分",
+      "pending": "developing",
+      "require_video": true,
+      "cases": [
+        {
+          "template": "video-cut",
+          "title": "口播高光",
+          "primary": [
+            "out/cut.mp4",
+            "out/cut.txt",
+            "edit.json"
+          ],
+          "inputs": [
+            "judge/talk.txt",
+            "judge/transcript.json",
+            "judge/keypoints.md"
+          ]
+        }
+      ],
+      "note": "首版评价选句、顺序、时长与句数；不把文字评分等同于完整视听质量。",
+      "extra_inputs": [
+        "video-cut/inputs/public-speech/input.mp4",
+        "video-cut/inputs/public-speech/sentences.json",
+        "video-cut/inputs/public-speech/source.json"
+      ]
+    },
+    {
+      "id": "D07",
+      "title": "按简报生成视频",
+      "category": "创作",
+      "description": "修改生成提示词和参数，查看真实生成的短片。",
+      "metric": "评审得分",
+      "unit": "分",
+      "pending": "developing",
+      "require_video": true,
+      "cases": [
+        {
+          "template": "video-generation",
+          "title": "短视频生成",
+          "primary": [
+            "out/video.mp4",
+            "generation.json",
+            "out/preview.html"
+          ],
+          "inputs": [
+            "judge/brief.md"
+          ]
+        }
+      ],
+      "note": "已取得初始和第1轮真实视频；后两轮服务未返回作品，质量未知。原始0分仅是旧失败编码，不画成质量下降。按资源例外保留部分实测，不计完整多轮验收。",
+      "resource_exception": true,
+      "resource_exception_label": "部分实测（服务受限）"
+    },
+    {
+      "id": "D08",
+      "title": "写清经营变化",
+      "category": "研究",
+      "description": "对照固定公开财报资料，改善数字、论证与报告结构。",
+      "metric": "评审得分",
+      "unit": "分",
+      "pending": "developing",
+      "cases": [
+        {
+          "template": "business-report",
+          "title": "经营分析",
+          "primary": [
+            "out/report.html",
+            "report.md",
+            "charts.json"
+          ],
+          "inputs": [
+            "judge/facts.json",
+            "judge/sources.json",
+            "judge/brief.md"
+          ]
+        }
+      ],
+      "note": "固定历史资料分析，不构成投资建议。"
+    },
+    {
+      "id": "D09",
+      "title": "比较策略与风险",
+      "category": "研究",
+      "description": "在固定历史上调整均线策略，同时看收益、成本和回撤。",
+      "metric": "收益与回撤折中得分",
+      "unit": "分",
+      "pending": "developing",
+      "cases": [
+        {
+          "template": "quant-backtest",
+          "title": "历史策略回测",
+          "primary": [
+            "out/equity-drawdown.png",
+            "strategy.json",
+            "out/report.md"
+          ],
+          "inputs": [
+            "judge/source.json",
+            "judge/settings.json",
+            "judge/prices.csv"
+          ]
+        }
+      ],
+      "note": "收益提高可能伴随回撤扩大；不代表未来收益。行情及派生图表遵循 CC BY-NC-SA 4.0，代码许可另列。"
+    },
+    {
+      "id": "D10",
+      "title": "组织研究综述",
+      "category": "研究",
+      "description": "把给定研究资料整理成有证据、有边界的论述。",
+      "metric": "评审得分",
+      "unit": "分",
+      "pending": "developing",
+      "cases": [
+        {
+          "template": "literature-review",
+          "title": "资料综述",
+          "primary": [
+            "out/review.html",
+            "review.md",
+            "evidence.json"
+          ],
+          "inputs": [
+            "judge/sources.json",
+            "judge/brief.md"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "D11",
+      "title": "梳理合同问题",
+      "category": "生活",
+      "description": "对照示例合同，补齐问题清单与修改建议。",
+      "metric": "评审得分",
+      "unit": "分",
+      "pending": "developing",
+      "cases": [
+        {
+          "template": "contract-review",
+          "title": "示例合同",
+          "primary": [
+            "out/review.html",
+            "review.md",
+            "issues.json"
+          ],
+          "inputs": [
+            "judge/contract.md",
+            "judge/issues.json"
+          ]
+        }
+      ],
+      "note": "仅用于示例演示，不替代法律专业意见。"
+    },
+    {
+      "id": "D12",
+      "title": "让科普更易读",
+      "category": "生活",
+      "description": "在给定权威资料内，改进公众说明的组织与表达。",
+      "metric": "评审得分",
+      "unit": "分",
+      "pending": "developing",
+      "cases": [
+        {
+          "template": "medical-explainer",
+          "title": "公众科普",
+          "primary": [
+            "out/explainer.html",
+            "explainer.md"
+          ],
+          "inputs": [
+            "judge/sources.json",
+            "judge/facts.json",
+            "judge/brief.md"
+          ]
+        }
+      ],
+      "note": "仅用于资料一致性和科普写作展示，不提供个人诊疗建议。"
+    },
+    {
+      "id": "D13",
+      "title": "改进讲义和讲解",
+      "category": "生活",
+      "description": "围绕固定练习改善概念说明、例题与解释。",
+      "metric": "评审得分",
+      "unit": "分",
+      "pending": "developing",
+      "cases": [
+        {
+          "template": "lesson-builder",
+          "title": "讲义与练习",
+          "primary": [
+            "out/lesson.html",
+            "lesson.md",
+            "answers.json"
+          ],
+          "inputs": [
+            "judge/exercises.json",
+            "judge/brief.md"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "D14",
+      "title": "安排工作之外的一周",
+      "category": "生活",
+      "description": "检查时间冲突、任务覆盖和偏好，查看七日日程。",
+      "metric": "日程得分",
+      "unit": "分",
+      "pending": "developing",
+      "cases": [
+        {
+          "template": "weekly-planner",
+          "title": "一周规划",
+          "primary": [
+            "out/schedule.html",
+            "out/schedule.md",
+            "schedule.json"
+          ],
+          "inputs": [
+            "judge/requirements.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "D15",
+      "title": "优化 GPU 算子",
+      "category": "工程",
+      "description": "数值检查后比较 Softmax，再单独测小型推理模块。",
+      "metric": "单算子加速倍数",
+      "unit": "×",
+      "pending": "waiting",
+      "require_gpu": true,
+      "probe": "kernel-speed/probes/2026-10-24-local",
+      "cases": [
+        {
+          "template": "kernel-speed",
+          "title": "GPU Softmax",
+          "primary": [
+            "candidate.py",
+            "out/report.md"
+          ],
+          "inputs": [
+            "judge/cases.json"
+          ]
+        }
+      ],
+      "note": "当前没有兼容 GPU，按授权保留资源例外。模板与环境探测可查看，GPU 和模块性能数字留空，不计入实测通过数。",
+      "resource_exception": true,
+      "resource_exception_label": "待GPU实测（资源例外）"
+    }
+  ]
+}

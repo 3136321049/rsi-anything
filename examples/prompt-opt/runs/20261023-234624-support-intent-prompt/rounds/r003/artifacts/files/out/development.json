@@ -1,0 +1,298 @@
+{
+  "split": "development",
+  "model": "cli:codex:gpt-5.6-sol",
+  "accuracy": 89.6,
+  "correct": 43,
+  "total": 48,
+  "errors": 0,
+  "predictions": [
+    {
+      "text": "我点的是宫保鸡丁，送来的是鱼香肉丝",
+      "expected": "wrong_item",
+      "predicted": "wrong_item",
+      "correct": true
+    },
+    {
+      "text": "饭到了但是少了一份米饭，退钱吧",
+      "expected": "wrong_item",
+      "predicted": "refund",
+      "correct": false
+    },
+    {
+      "text": "Food arrived cold and soggy, I want my money back",
+      "expected": "refund",
+      "predicted": "refund",
+      "correct": true
+    },
+    {
+      "text": "外卖撒了一半，汤全洒在袋子里了，怎么赔",
+      "expected": "refund",
+      "predicted": "refund",
+      "correct": true
+    },
+    {
+      "text": "等了一个小时还没到，不要了，帮我取消",
+      "expected": "cancel_order",
+      "predicted": "cancel_order",
+      "correct": true
+    },
+    {
+      "text": "Where is my order? It's already 40 minutes late",
+      "expected": "late_delivery",
+      "predicted": "late_delivery",
+      "correct": true
+    },
+    {
+      "text": "骑手显示已送达，可我根本没收到",
+      "expected": "late_delivery",
+      "predicted": "late_delivery",
+      "correct": true
+    },
+    {
+      "text": "优惠券为什么用不了，结算的时候没减",
+      "expected": "payment",
+      "predicted": "payment",
+      "correct": true
+    },
+    {
+      "text": "我被扣了两次钱，同一个订单",
+      "expected": "payment",
+      "predicted": "payment",
+      "correct": true
+    },
+    {
+      "text": "能开发票吗？公司报销要用",
+      "expected": "payment",
+      "predicted": "payment",
+      "correct": true
+    },
+    {
+      "text": "The rider was really rude to me at the door",
+      "expected": "other",
+      "predicted": "other",
+      "correct": true
+    },
+    {
+      "text": "Thanks, the rider was so fast tonight!",
+      "expected": "praise",
+      "predicted": "praise",
+      "correct": true
+    },
+    {
+      "text": "Thanks for the quick refund last time, but today my burger is missing from the bag",
+      "expected": "wrong_item",
+      "predicted": "other",
+      "correct": false
+    },
+    {
+      "text": "我想注销账号，怎么操作",
+      "expected": "account",
+      "predicted": "account",
+      "correct": true
+    },
+    {
+      "text": "收不到登录验证码",
+      "expected": "account",
+      "predicted": "account",
+      "correct": true
+    },
+    {
+      "text": "Can you add more vegan options in my area?",
+      "expected": "other",
+      "predicted": "other",
+      "correct": true
+    },
+    {
+      "text": "I placed the order by mistake, please cancel it before the restaurant starts cooking",
+      "expected": "cancel_order",
+      "predicted": "cancel_order",
+      "correct": true
+    },
+    {
+      "text": "奶茶太甜了，完全没按少糖做，喝不了，要求退款",
+      "expected": "refund",
+      "predicted": "refund",
+      "correct": true
+    },
+    {
+      "text": "My drink came but it's the wrong flavor, I ordered mango not peach",
+      "expected": "wrong_item",
+      "predicted": "wrong_item",
+      "correct": true
+    },
+    {
+      "text": "付款一直失败，换了两张卡都不行",
+      "expected": "payment",
+      "predicted": "payment",
+      "correct": true
+    },
+    {
+      "text": "怎么换绑手机号",
+      "expected": "account",
+      "predicted": "account",
+      "correct": true
+    },
+    {
+      "text": "你们家的炸鸡太好吃了，每周都点！",
+      "expected": "praise",
+      "predicted": "praise",
+      "correct": true
+    },
+    {
+      "text": "请问你们招骑手吗",
+      "expected": "other",
+      "predicted": "other",
+      "correct": true
+    },
+    {
+      "text": "The order is stuck on 'preparing' for 50 minutes, what's going on",
+      "expected": "late_delivery",
+      "predicted": "late_delivery",
+      "correct": true
+    },
+    {
+      "text": "送来的披萨都压扁了，盒子也破了，我要退钱",
+      "expected": "refund",
+      "predicted": "refund",
+      "correct": true
+    },
+    {
+      "text": "Delivery is taking forever, just cancel it and give me my money back",
+      "expected": "cancel_order",
+      "predicted": "cancel_order",
+      "correct": true
+    },
+    {
+      "text": "小票上有三杯咖啡，实际只给了两杯",
+      "expected": "wrong_item",
+      "predicted": "wrong_item",
+      "correct": true
+    },
+    {
+      "text": "Why was I charged a delivery fee when the app said free delivery?",
+      "expected": "payment",
+      "predicted": "payment",
+      "correct": true
+    },
+    {
+      "text": "Can't log in, it says my account is locked",
+      "expected": "account",
+      "predicted": "account",
+      "correct": true
+    },
+    {
+      "text": "吃完肚子疼，菜好像不新鲜，申请退款",
+      "expected": "refund",
+      "predicted": "refund",
+      "correct": true
+    },
+    {
+      "text": "骑手大哥冒雨送过来，辛苦了，给个好评",
+      "expected": "praise",
+      "predicted": "praise",
+      "correct": true
+    },
+    {
+      "text": "店铺几点关门？",
+      "expected": "other",
+      "predicted": "other",
+      "correct": true
+    },
+    {
+      "text": "还没送到，已经超时半小时了，到底在哪",
+      "expected": "late_delivery",
+      "predicted": "late_delivery",
+      "correct": true
+    },
+    {
+      "text": "I want to change the delivery address on my profile",
+      "expected": "account",
+      "predicted": "account",
+      "correct": true
+    },
+    {
+      "text": "麻烦取消一下刚才那单，地址填错了",
+      "expected": "cancel_order",
+      "predicted": "cancel_order",
+      "correct": true
+    },
+    {
+      "text": "红包抵扣没生效，多付了五块",
+      "expected": "payment",
+      "predicted": "payment",
+      "correct": true
+    },
+    {
+      "text": "Got someone else's order entirely, not even my name on it",
+      "expected": "wrong_item",
+      "predicted": "wrong_item",
+      "correct": true
+    },
+    {
+      "text": "The noodles were way too salty to eat, refund please",
+      "expected": "refund",
+      "predicted": "refund",
+      "correct": true
+    },
+    {
+      "text": "Love the new packaging, much less plastic. Great job",
+      "expected": "praise",
+      "predicted": "praise",
+      "correct": true
+    },
+    {
+      "text": "建议你们加一个备注常用语的功能",
+      "expected": "other",
+      "predicted": "other",
+      "correct": true
+    },
+    {
+      "text": "能帮我把地址改成公司吗？订单刚下",
+      "expected": "cancel_order",
+      "predicted": "other",
+      "correct": false
+    },
+    {
+      "text": "Can you add a side of fries to the order I just placed?",
+      "expected": "cancel_order",
+      "predicted": "other",
+      "correct": false
+    },
+    {
+      "text": "麻烦备注一下不要香菜，刚才忘写了",
+      "expected": "cancel_order",
+      "predicted": "other",
+      "correct": false
+    },
+    {
+      "text": "配送费也太贵了吧，一份面条配送要八块",
+      "expected": "other",
+      "predicted": "other",
+      "correct": true
+    },
+    {
+      "text": "Your prices went up again, everything is so expensive now",
+      "expected": "other",
+      "predicted": "other",
+      "correct": true
+    },
+    {
+      "text": "骑手特别好，想给他加点小费，在哪里加",
+      "expected": "payment",
+      "predicted": "payment",
+      "correct": true
+    },
+    {
+      "text": "The rider was amazing, how do I add a tip after delivery?",
+      "expected": "payment",
+      "predicted": "payment",
+      "correct": true
+    },
+    {
+      "text": "怎么修改刚才的小费金额，手滑多给了",
+      "expected": "payment",
+      "predicted": "payment",
+      "correct": true
+    }
+  ]
+}
