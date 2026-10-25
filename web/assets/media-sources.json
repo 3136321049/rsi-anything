@@ -1,0 +1,22 @@
+{
+  "generated": "2026-10-25",
+  "method": "从已有真实视频提取帧，不生成新内容",
+  "images": [
+    {
+      "file": "video-poster.jpg",
+      "source": "examples/video-cut/runs/20261024-002228-talk-highlight/artifacts/final/files/out/cut.mp4",
+      "seconds": 3,
+      "width": 360,
+      "height": 640,
+      "sha256": "2cfc3219d56ce1875e1197f5f21de29e7142f61b1515acca981605b09165fc8d"
+    },
+    {
+      "file": "demo-poster.jpg",
+      "source": "examples/showcase-media/openrsi-demo.mp4",
+      "seconds": 2,
+      "width": 1280,
+      "height": 720,
+      "sha256": "9c8665dd8f7c1a54a9d04b9bb16758024b97ada8dedaa929c2e6586d3ab21aa9"
+    }
+  ]
+}

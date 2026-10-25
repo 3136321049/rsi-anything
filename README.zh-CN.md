@@ -77,6 +77,19 @@ rsi export --to ../open-rsi-result
 
 这套流程优化任务产物与可复用手册，没有训练助手权重，也没有证明通用能力会自行提升。评分代码仍在本机执行，工作目录分开不等于强安全沙箱。只运行自己理解并愿意执行的模板。
 
+## 查看品牌首页与三个实验室
+
+正式展示入口：[DARWIN — An evolution lab by RiseAI.](https://www.riseai.top/darwin/) 用真实反馈，持续改进作品。
+
+新版网站提供代码优化、模型实验、视频创作三个入口，各自展示真实修改、参数、图像或成片。支持轮次比较、字幕跳转、预测筛选、结果下载和使用说明，浏览不调用模型。
+
+```bash
+python scripts/build_site.py
+python -m http.server 8765 --bind 127.0.0.1 --directory build/site
+```
+
+浏览器打开 `http://127.0.0.1:8765/`。构建目录包含运行所需的媒体、记录和下载包；完整案例集合仍可从导航进入。详见 [网站说明](web/README.md)与[网站验收](release/site-validation.json)。网页运行新实验的服务尚未接入，开始使用页面提供真实命令行步骤。
+
 ## 本地查看案例集合
 
 从源码根目录生成并打开本地展示：

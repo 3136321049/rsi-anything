@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-25",
+  "brand": "DARWIN",
+  "tagline": "An evolution lab by RiseAI.",
+  "description": "用真实反馈，持续改进作品。",
+  "url": "https://www.riseai.top/darwin/",
+  "status": "deployed",
+  "hosting": "RiseAI 现有 HTTPS 站点的独立路径",
+  "checks": {
+    "tls_certificate_verified": true,
+    "website_tests_passed": 5,
+    "http_200": [
+      "/",
+      "labs/code/",
+      "labs/experiments/",
+      "labs/video/",
+      "start/",
+      "assets/site.css",
+      "assets/app.js",
+      "data/code-speed.json",
+      "examples/index.html",
+      "downloads/code-speed.zip",
+      "downloads/video-cut.zip"
+    ],
+    "video_range_status": 206,
+    "main_site_status": 200,
+    "modelpick_status": 200
+  },
+  "models_called": 0,
+  "new_run_web_api": false,
+  "browser_verification": "本次尚未重新做浏览器交互检查；上线前已有页面验收记录"
+}

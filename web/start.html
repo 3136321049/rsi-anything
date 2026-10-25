@@ -1,0 +1,14 @@
+<section class="lab-intro section-wrap"><a class="back-link" href="__BASE__">← 回到 DARWIN</a><div class="eyebrow">YOUR FIRST EXPERIMENT</div><h1>让下一次尝试，<br>从这里开始。</h1><p>浏览案例无需账号。运行自己的任务，需要个人编程助手和一个本地 Python 环境。</p></section>
+<section class="section-wrap setup-layout"><nav class="setup-nav" aria-label="使用步骤"><a href="#install">01 安装项目</a><a href="#first-run">02 开始一次实验</a><a href="#results">03 查看与保存</a><a href="#sources">资料与来源</a></nav><div class="setup-main">
+<article id="install"><div class="eyebrow">01 / INSTALL</div><h2>准备项目与个人助手</h2><p>建议 Python 3.11，安装 Git，并在运行这台电脑上登录个人 Codex 或其他受支持的编程助手。</p><div class="command-block"><div><span>获取源码 · macOS / Linux / WSL</span><button data-copy-target="install-code">复制</button></div><pre id="install-code">git clone --branch rebuild https://github.com/3136321049/rsi-anything.git
+cd rsi-anything
+python3.11 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e '.[dev]'
+rsi agents</pre></div><p class="subtle">Windows 可使用 Ubuntu 子系统。原生 PowerShell 的环境激活命令为 <code>.venv\Scripts\Activate.ps1</code>。不同领域的附加依赖见模板说明。</p></article>
+<article id="first-run"><div class="eyebrow">02 / RUN</div><h2>选一个具体的小任务</h2><p>模板已经准备好初稿、输入和检查方式。先走通一次，再替换成自己的材料。</p><label for="template-choice">选择任务</label><select id="template-choice"><option value="code-repair">代码修复 · 最容易开始</option><option value="code-speed">模糊搜索提速</option><option value="cpu-classifier">CPU 模型实验</option><option value="video-cut">视频剪辑</option></select><div id="template-help"></div><div class="command-block"><div><span>在独立的任务目录中运行</span><button data-copy-target="run-code">复制</button></div><pre id="run-code"></pre></div><p class="subtle">把 <code>YOUR_MODEL</code> 替换成个人账号可用的型号。代码修复的初始检查只跑本地测试；含模型评审的模板会真实调用模型。轮数与时长控制尝试范围，未知费用不会被当作零。</p></article>
+<article id="results"><div class="eyebrow">03 / KEEP & SHARE</div><h2>把结果带走</h2><p>作品和完整记录保存在任务目录中。生成报告查看过程，再导出可分享的结果文件。</p><div class="command-block"><div><span>在任务目录中执行</span><button data-copy-target="result-code">复制</button></div><pre id="result-code">rsi status
+rsi report
+rsi export --to ../my-rsi-result</pre></div><p>中断后可以按原配置恢复。改变目标、输入或评价方式时，开始一份新的运行记录。</p><a class="inline-link" href="__BASE__examples/index.html">先看看 15 个领域的已有成果 ↗</a></article>
+<article id="sources"><div class="eyebrow">READ THE RECORDS</div><h2>资料与使用说明</h2><div class="resource-links"><button data-doc="docs/INSTALL.zh-CN.md">安装与账号配置 <span>↗</span></button><button data-doc="docs/EXTENDING.zh-CN.md">替换材料与扩展任务 <span>↗</span></button><button data-doc="docs/OPEN-SOURCE.zh-CN.md">开源组件与素材来源 <span>↗</span></button><button data-doc="docs/PLAN.zh-CN.md">运行方式与当前边界 <span>↗</span></button></div><p class="subtle">当前有 13 个领域的完整多轮记录。视频生成保留部分实测，GPU 算子待设备实测。代码按 MIT 提供，各项素材与数据保留自己的使用条件。</p></article>
+</div></section>

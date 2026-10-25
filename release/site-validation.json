@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-25",
+  "source_base": "2f6df82",
+  "kind": "静态作品网站",
+  "pages": [
+    "/",
+    "/labs/code/",
+    "/labs/experiments/",
+    "/labs/video/",
+    "/start/"
+  ],
+  "models_called": 0,
+  "tests": {
+    "passed": 119,
+    "skipped": 1,
+    "seconds": 16.24,
+    "skip_reason": "分类器可选训练依赖未安装"
+  },
+  "browser": {
+    "desktop": true,
+    "narrow_frame_width": 390,
+    "checks": [
+      "首页与三个领域入口",
+      "代码轮次、案例切换与逐行差异",
+      "混淆矩阵与预测筛选",
+      "无修改轮次保持空分数并展示上一保留作品",
+      "视频正式候选切换、实际播放与字幕时间跳转",
+      "文档预览、关闭与复制成功反馈",
+      "按轮次生成可恢复的链接"
+    ],
+    "limits": [
+      "窄屏为桌面浏览器内 390px 视口检查，未使用实体手机",
+      "没有网页启动新实验的功能",
+      "没有公开域名部署"
+    ]
+  },
+  "data_checks": {
+    "code_scores": [
+      1,
+      4.45,
+      17.83,
+      27.45
+    ],
+    "model_best_round": 1,
+    "model_final_errors": 3,
+    "video_best_round": 1,
+    "video_round3": {
+      "score": 77,
+      "status": "REVERT"
+    }
+  },
+  "source_media_manifest": "web/assets/media-sources.json"
+}
