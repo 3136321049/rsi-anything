@@ -1,0 +1,4 @@
+Inter (https://rsms.me/inter/) and JetBrains Mono (https://www.jetbrains.com/lp/mono/)
+are licensed under the SIL Open Font License, Version 1.1.
+https://openfontlicense.org/open-font-license-official-text/
+Latin subsets as served by Google Fonts (Inter v20, JetBrains Mono v24), downloaded 2026-10-27.

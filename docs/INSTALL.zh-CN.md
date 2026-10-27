@@ -1,8 +1,24 @@
 # 安装、个人账号与运行
 
-本文对应当前源码和本地构建的 `0.2.0.dev0`，建议 Python 3.11。代码声明支持 Python 3.9+；视频、训练、GPU 和各助手 CLI 另有依赖。不要从包名推断它已经在 PyPI 发布，也不要假设 Git 远端已包含这次本地修改。
+[English](INSTALL.md)
+
+本文对应 `0.2.0.dev0`，建议 Python 3.11。代码声明支持 Python 3.9+；视频、训练、GPU 和各助手 CLI 另有依赖。软件包没有发布到 PyPI，请从网站下载安装包，或在源码目录安装。
 
 当前有 13 个领域的完整多轮与独立验证，包含写作手册、合同演练和讲义。D07 保留已生成视频及服务受限的部分实测，D15 保留无 GPU 探测；两项资源例外不算完整实测。先看[35 秒真实产物短片](../examples/showcase-media/openrsi-demo.mp4)或[案例状态](DEMO-PLAN.zh-CN.md)，再选择要运行的模板。
+
+## 从网站安装
+
+在新的虚拟环境中安装网站上的 wheel：
+
+```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
+python -m pip install https://www.riseai.top/darwin/dist/rsi_anything-0.2.0.dev0-py3-none-any.whl
+rsi --version
+rsi init
+```
+
+Windows 的激活入口为 `.venv\Scripts\Activate.ps1`。安装依赖、运行 `rsi` 和执行评分必须使用同一个 Python。
 
 ## 安装当前源码
 
@@ -17,7 +33,7 @@ rsi --version
 rsi init
 ```
 
-已有可用隔离环境可以直接复用；本轮开发使用过 `.venv311`，它是本机环境，不随仓库交付。Windows 的激活入口为 `.venv\Scripts\Activate.ps1`。安装依赖、运行 `rsi` 和执行评分必须使用同一个 Python。
+已有可用隔离环境可以直接复用；虚拟环境是本机环境，不随仓库交付。
 
 ## 使用本地 wheel
 

@@ -1,5 +1,7 @@
 # D07：真实视频生成
 
+[English](README.en.md)
+
 助手只改 `generation.json` 的生成描述、反向描述和种子。准备步骤调用 Lightricks 官方公开 Space，真正生成短片；评委查看均匀抽取的静帧，反馈后再尝试改进。
 
 默认服务是 [LTX Video Fast](https://huggingface.co/spaces/Lightricks/ltx-video-distilled)，上游说明为 LTX 0.9.8 13B distilled。2026-10-24 的真实实验已取得初始片段与第一轮生成片段；后两轮服务返回错误，没有新视频，标为质量未知。当前按资源例外保留部分实测，公开服务可能限额、排队或暂停，本包不自动切换付费服务。

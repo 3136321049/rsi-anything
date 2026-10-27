@@ -1,37 +1,46 @@
 {
-  "date": "2026-10-25",
-  "source_base": "2f6df82",
-  "kind": "静态作品网站",
+  "date": "2026-10-27",
+  "source_base": "8abdc83",
+  "kind": "静态作品网站（中英双语）",
   "pages": [
     "/",
     "/labs/code/",
     "/labs/experiments/",
     "/labs/video/",
-    "/start/"
+    "/cases/",
+    "/start/",
+    "/zh/",
+    "/zh/labs/code/",
+    "/zh/labs/experiments/",
+    "/zh/labs/video/",
+    "/zh/cases/",
+    "/zh/start/"
   ],
   "models_called": 0,
   "tests": {
-    "passed": 119,
+    "passed": 127,
     "skipped": 1,
-    "seconds": 16.24,
+    "seconds": 20.57,
     "skip_reason": "分类器可选训练依赖未安装"
   },
   "browser": {
     "desktop": true,
     "narrow_frame_width": 390,
+    "engine": "无头 Chromium",
     "checks": [
-      "首页与三个领域入口",
+      "两种语言 12 个页面无横向溢出、无脚本错误",
+      "首页回放切换三个运行，拒绝分支与当前最好版本分开显示",
+      "语言切换保留当前页面与轮次参数",
       "代码轮次、案例切换与逐行差异",
-      "混淆矩阵与预测筛选",
-      "无修改轮次保持空分数并展示上一保留作品",
-      "视频正式候选切换、实际播放与字幕时间跳转",
-      "文档预览、关闭与复制成功反馈",
-      "按轮次生成可恢复的链接"
+      "混淆矩阵方格筛选与预测表",
+      "全部实验筛选、资源例外空状态、版本并排与文字差异",
+      "文档预览、复制命令与旧集合页地址跳转",
+      "英文页的安装、扩展、来源、模板与案例说明打开英文版，文档内语言链接可在中英文之间切换；中文页仍打开中文版"
     ],
     "limits": [
-      "窄屏为桌面浏览器内 390px 视口检查，未使用实体手机",
-      "没有网页启动新实验的功能",
-      "没有公开域名部署"
+      "无头 Chromium 不支持 H.264，视频实际播放需在正式浏览器复核",
+      "窄屏为 390px 视口检查，未使用实体手机",
+      "尚未部署到正式入口"
     ]
   },
   "data_checks": {
@@ -49,5 +58,18 @@
       "status": "REVERT"
     }
   },
-  "source_media_manifest": "web/assets/media-sources.json"
+  "source_media_manifest": "web/assets/media-sources.json",
+  "english_docs": {
+    "docs": 4,
+    "template_guides": 16,
+    "case_notes": 16,
+    "probe_notes": 2,
+    "third_party": 1,
+    "kept_verbatim": "程序逐字匹配的中文与任务数据"
+  },
+  "downloads": {
+    "wheel": "dist/rsi_anything-0.2.0.dev0-py3-none-any.whl",
+    "source_package_on_site": false,
+    "note": "源码包含内部开发文档，不上网站；wheel 为首发构建快照，未重新打包"
+  }
 }

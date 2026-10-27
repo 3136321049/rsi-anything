@@ -1,5 +1,7 @@
 # D01：模糊搜索提速
 
+[English](README.en.md)
+
 2026-10-21 的真实三轮运行将固定负载下的速度从基线提高到 **4.45、17.83、27.45 倍**，三轮均保留。分别改进距离计算、候选剪枝和可复用的名字统计，输出仍须通过参考实现的正确性检查。
 
 [运行报告](runs/2026-10-21-codex-3-rounds/report.html) · [原始账本](runs/2026-10-21-codex-3-rounds/ledger.jsonl) · [逐版正确性复核](runs/2026-10-21-codex-3-rounds/artifact-verification.json) · [模板与替换输入](../../src/rsi_anything/templates/code-speed/README.md)

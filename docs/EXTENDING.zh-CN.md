@@ -1,5 +1,7 @@
 # 扩展一个自己的任务
 
+[English](EXTENDING.md)
+
 先选择相近模板，保留现有循环，只替换这个领域的输入、可改产物和评价。命令评分可从 `code-repair` 或 `cpu-classifier` 开始；文字评分可从 `business-report` 或 `literature-review` 开始；需要模型实际执行方法时参考 `writing-guide`、`lesson-builder`。
 
 当前 13 个领域已有完整多轮和独立验证。写作手册、合同演练、讲义都可以直接参考真实作品与记录；D07 是服务受限的部分实测，D15 等待 GPU，不能用这两项的模板或探测替代成功案例。完整入口见[领域清单](DEMO-PLAN.zh-CN.md)。

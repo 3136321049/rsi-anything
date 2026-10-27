@@ -1,0 +1,15 @@
+{
+ "GPU Softmax": "GPU Softmax",
+ "Improve prompt.md, the instructions a language model follows to label a customer message of a food-delivery\napp with exactly one intent. Score = accuracy (%) on the labeled examples in judge/dev.jsonl (48 messages, mixed Chinese and English).\nThe prompt must work for any new message, so write general rules, not answers for specific examples.": "改进 prompt.md。语言模型按这份指令，为外卖 App 的一条顾客消息标注恰好一个意图。\n得分 = judge/dev.jsonl 中已标注示例（48 条消息，中英文混合）上的正确率（%）。\n提示词必须能处理任何新消息，所以要写通用规则，而不是针对具体示例的答案。",
+ "John F. Kennedy Inauguration Speech": "肯尼迪就职演说（1961）",
+ "Make `search()` in search.py as fast as possible while returning exactly the same results as before\nfor every input. Score = how many times faster it is than the original implementation.": "在任何输入下都返回与原来完全相同结果的前提下，让 search.py 中的 `search()` 尽可能快。\n得分 = 相对原始实现的加速倍数。",
+ "correct on all 19 checks; 1.0x faster than the original (175.6 ms vs 176.1 ms for 15 queries over 1202 names)": "19 项检查全部正确；相对原始实现加速 1.0x（1202 个名称、15 次查询：175.6 ms 对比 176.1 ms）",
+ "correct on all 19 checks; 17.8x faster than the original (13.6 ms vs 241.9 ms for 15 queries over 1202 names)": "19 项检查全部正确；相对原始实现加速 17.8x（1202 个名称、15 次查询：13.6 ms 对比 241.9 ms）",
+ "correct on all 19 checks; 27.4x faster than the original (9.0 ms vs 246.2 ms for 15 queries over 1202 names)": "19 项检查全部正确；相对原始实现加速 27.4x（1202 个名称、15 次查询：9.0 ms 对比 246.2 ms）",
+ "correct on all 19 checks; 4.4x faster than the original (51.8 ms vs 230.4 ms for 15 queries over 1202 names)": "19 项检查全部正确；相对原始实现加速 4.4x（1202 个名称、15 次查询：51.8 ms 对比 230.4 ms）",
+ "no improvement in 3 rounds": "连续 3 轮没有提升",
+ "no improvement in 4 rounds": "连续 4 轮没有提升",
+ "reached 3 rounds": "达到 3 轮上限",
+ "reached 5 rounds": "达到 5 轮上限",
+ "target 100 reached": "已达到目标 100"
+}

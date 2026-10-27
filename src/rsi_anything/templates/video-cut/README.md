@@ -1,5 +1,7 @@
 # 口播剪辑
 
+[English](README.en.md)
+
 AI 每轮只修改 `edit.json` 的句子编号和顺序，FFmpeg 将对应画面和声音剪成40–75秒短片。评分检查时长、片段数和内容组织；不是完整视听质量评价。所有保留和拒绝的成片会随轮次导出，另有文字与字幕。
 
 默认 `rsi init video-cut video-demo` 使用本机语音合成与字卡生成开发素材，需要 FFmpeg 和 macOS `say` 或 Linux `espeak-ng`。

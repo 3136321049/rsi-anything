@@ -1,53 +1,50 @@
-# Open RSI / RSI-Anything
+# DARWIN · Open RSI
 
-**给 AI 一个目标，让它反复修改作品、接受反馈，并留下真正有用的版本。**
+**给 AI 一个目标，只留下真正变好的版本。**
 
-Open RSI 是一个本地运行的多领域 Demo 工具：编程助手改代码、文章、配置或提示词，程序和模型评委检查结果，再决定保留还是拒绝。你可以看到初稿、每轮改动、最后保留的作品及完整记录。
+[网站](https://www.riseai.top/darwin/zh/) · [English](README.md) · [全部实验](https://www.riseai.top/darwin/zh/cases/) · [开始使用](https://www.riseai.top/darwin/zh/start/)
 
-当前版本为 `0.2.0.dev0`，提供 **15 个领域、16 个模板**；文案领域有单篇与写作手册两个模板。这是可运行的首发开发版，安装以当前源码或本地 wheel 为准，不表示已在 PyPI 发布。需要一个可用的个人编程助手或模型账号。
+DARWIN 是 RiseAI 的进化实验室，底层是 Open RSI 工具包（`rsi-anything`）。编程助手一轮轮修改真实作品：代码、提示词、模型配置、文章、视频剪辑。每次尝试都由固定的评判方式检查，可能是测试、指标或模型评委。更好的版本成为 Git 提交，被拒绝和失败的尝试也一起保存。你可以看到初稿、每一次尝试、最终作品，以及每个决定的理由。
 
-**目前 13 个领域已有完整多轮记录、初始与最终作品和独立验证。** D07 视频生成取得了初始及第 1 轮成片，后续服务失败，保留部分实测；D15 因缺少兼容个人 GPU，性能结果留空。两项资源例外都明确展示，不计入完整实测数量。
-
-[观看 35 秒真实产物短片](examples/showcase-media/openrsi-demo.mp4) · [短片来源与媒体验证](examples/showcase-media/demo-video.json) · [本地案例集合](examples/index.html)
-
-**换电脑继续开发：检出 `rebuild` 分支，先读[跨电脑协作](docs/COLLABORATION.zh-CN.md)和[接手说明](docs/HANDOFF.zh-CN.md)。** Codex 与 Claude Code 共用仓库的 [AGENTS.md](AGENTS.md)，最近成果、当前目标和下一步通过 Git 中的文档交接，账号与运行环境在各电脑独立准备。
-
-[English](README.md) · [安装与账号配置](docs/INSTALL.zh-CN.md) · [领域与实验状态](docs/DEMO-PLAN.zh-CN.md) · [扩展模板](docs/EXTENDING.zh-CN.md) · [开源组件与资料来源](docs/OPEN-SOURCE.zh-CN.md)
+当前开发版本为 `0.2.0.dev0`：**15 个领域、16 个模板，其中 13 个领域已有完整多轮记录**和独立验证。另外两个领域属于资源例外，不计入完整数量：视频生成因公开生成服务停止响应只完成部分实测；GPU 算子因缺少个人 GPU，目前只有模板和环境探测。
 
 ## 先看几个真实案例
 
 | 案例 | 这次具体发生了什么 | 记录 |
 |---|---|---|
-| Python 记账修复 | 三轮从 6/15 项测试通过，依次修到 9/15、12/15、15/15 | [源码、逐轮测试和成品](examples/code-repair/README.md) |
-| CPU 数字分类 | 固定验证集正确率从 46.889% 到 99.333%；后两轮没有正式新改动 | [混淆矩阵与错例](examples/cpu-classifier/README.md) |
-| 经营分析报告 | 初稿 53.5 分，最终保留 74 分稿；更高分候选也可能在新旧比较中被拒绝 | [报告、数据图表与理由](examples/business-report/README.md) |
-| 客服提示词 | 完整三轮均未提升，保留原提示词；开发集 89.6%，留出集 82.8% | [提示词、错例与拒绝记录](examples/prompt-opt/README.md) |
-| 写作手册 | 五轮保留 62→69.5→74.5 分手册；用于一份新简报时，评分 69→77.5 | [手册、三份开发稿与新简报结果](examples/writing-guide/README.md) |
-| 示例合同 | 三轮最终保留 91.5 分讨论稿，有效定位 7/7 类问题；失败和较弱候选照常保留 | [虚构合同、建议与独立复核](examples/contract-review/README.md) |
-| 百分比讲义 | 三轮让受提示词限制的学生模型从 2/10 到 10/10 题答对且有原句依据 | [讲义、作答与结果边界](examples/lesson-builder/README.md) |
+| 模糊搜索提速 | 连续三轮保留：1× → 4.45× → 17.83× → 27.45×，每次计时前都先核对结果 | [代码实验室](https://www.riseai.top/darwin/zh/labs/code/) |
+| Python 记账修复 | 固定测试从 6/15 依次修到 9/15、12/15、15/15 | [源码与测试](examples/code-repair/README.md) |
+| CPU 数字分类 | 验证集正确率从 46.889% 到 99.333%；后两轮没有正式新改动 | [模型实验室](https://www.riseai.top/darwin/zh/labs/experiments/) |
+| 演讲剪成短片 | 从 18.5 分提升并保留 75.5 分版本；之后一版 77 分，但新旧两次直接比较都没赢，被拒绝 | [视频实验室](https://www.riseai.top/darwin/zh/labs/video/) |
+| 客服提示词 | 三个候选都没有提升，保留原提示词（开发集 89.6%，留出集 82.8%） | [提示词与错例](examples/prompt-opt/README.md) |
+| 示例合同 | 保留 91.5 分讨论稿，定位 7/7 类问题；较弱候选照常保留 | [合同稿与复核](examples/contract-review/README.md) |
 
-这些结果属于对应任务与评价条件，不是跨任务能力保证。训练验证集被反复用于调参；模型评分不是专家认证。所有正式失败、停滞和拒绝都保留，不把分数补成连续上升。
+这些结果属于对应任务与评价条件，不是跨任务的能力保证。固定验证集被反复用于调参，不能当作独立的泛化证据；模型评分也不是专家认证。停滞、拒绝和失败都完整保留。
 
-## 从一个小项目开始
+## 快速开始
 
-在拿到的源码目录中执行，建议使用 Python 3.11：
+需要 Python 3.11（声明支持 3.9+）、Git，以及一个已登录的编程助手。从网站下载安装包，装进新的虚拟环境：
 
 ```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
-python -m pip install -e '.[dev]'
+python -m pip install https://www.riseai.top/darwin/dist/rsi_anything-0.2.0.dev0-py3-none-any.whl
 rsi agents
-rsi init code-repair ../open-rsi-demo
-cd ../open-rsi-demo
+rsi init code-repair my-first-run
+cd my-first-run
 rsi check
-rsi run --agent codex --model gpt-6.1-sol --rounds 3
+rsi run --agent codex --model YOUR_MODEL --rounds 3
 rsi report
-rsi export --to ../open-rsi-result
+rsi export --to ../my-first-result
 ```
 
-示例需要个人 Codex CLI 已登录并支持指定型号；可替换为自己的助手和型号。`rsi check` 会真实执行模板评分，含模型或视频生成的模板会产生实际调用。首次 Git 提交失败、CLI 版本、可选依赖和 API 配置见[安装说明](docs/INSTALL.zh-CN.md)。
+已有源码时改用 `python -m pip install -e '.[dev]'`。软件包没有发布到 PyPI。
+
+`rsi check` 会真实执行评分；含模型评委或视频生成的模板会产生实际调用。代码修复只跑本地测试，适合作为第一个任务。`rsi init` 会为任务创建 Git 仓库；首次提交失败时，请先配置 Git 身份。CLI 版本、可选依赖和 API 配置见[安装说明](docs/INSTALL.zh-CN.md)。
 
 ## 有哪些模板
+
+运行 `rsi init` 可以列出全部模板。每个模板都带有输入、初始作品、评价程序、输出位置，以及替换输入的说明。
 
 | 领域 | 模板 | 每轮改什么 |
 |---|---|---|
@@ -61,54 +58,45 @@ rsi export --to ../open-rsi-result
 | D08 经营分析 | `business-report` | 报告与图表选择 |
 | D09 量化研究 | `quant-backtest` | 固定历史上的策略参数 |
 | D10 资料综述 | `literature-review` | 论证与来源映射 |
-| D11 示例合同 | `contract-review` | 问题定位与修改建议 |
-| D12 医学科普 | `medical-explainer` | 权威资料的公众表达 |
-| D13 学习教育 | `lesson-builder` | 讲义与例题解释 |
+| D11 示例合同 | `contract-review` | 虚构合同的问题定位与修改建议 |
+| D12 医学科普 | `medical-explainer` | 基于给定 WHO 资料的公众表达 |
+| D13 学习教育 | `lesson-builder` | 讲义与例题解释，由学生模型检验 |
 | D14 生活规划 | `weekly-planner` | 一周日程 |
 | D15 GPU 算子 | `kernel-speed` | Softmax 实现与启动参数 |
 
-每个模板都有自己的输入、使用说明与评价方法，运行 `rsi init` 可列出入口。D01–D06、D08–D14 已完成多轮与独立验证，D05 的单篇和手册结果均已保存。**模板存在不等于完成实跑。** [D07](examples/video-generation/README.md) 保留部分实测与服务错误，[D15](examples/kernel-speed/probes/2026-10-24-local/README.md) 保留无 GPU 探测及空的性能结果；两项按资源例外处理，不阻挡其他成果交付。逐项证据见[领域说明](docs/DEMO-PLAN.zh-CN.md)与[执行表](docs/GOAL-PROGRESS.zh-CN.md)。
+**模板存在不等于完成实跑。** D01–D06、D08–D14 已完成多轮与独立验证；D07 和 D15 是上面说明的资源例外。空的 GPU 结果和失败的生成请求不会被模拟，也不计作完成。
 
 ## 多轮如何运行
 
-`rsi.yaml` 定义目标、可改文件、固定评分资料、助手与预算。每轮从当前最好提交开始，只把允许范围内的改动送进新的评审副本。先过必要检查，再比较分数；文字任务可增加交换顺序的新旧比较。通过的候选成为运行分支上的真实 Git 提交，其他候选保留记录后丢弃。
+`rsi.yaml` 定义目标、可改文件、冻结的评分资料、助手与预算。每轮从当前最好的提交出发，只有允许范围内的改动才会成为候选，并在带原始评分资料的全新副本里接受评价。
 
-初始、逐轮和最终作品保存于 `.rsi/runs/<运行号>/`。`outputs` 指定需要保存的视频、图表或报告，`rsi export` 会一起导出。`rsi run --resume <运行号>` 可以恢复同一配置的中断运行。详见[当前架构](docs/PLAN.zh-CN.md)。
+先过必要检查，再比较是否达到提升幅度；文字任务还可以把新旧版本正反顺序各比一次。通过的候选成为 `rsi/<运行号>` 分支上的真实提交，被拒绝和失败的尝试保留记录。`rsi run --resume <运行号>` 可以恢复同一配置的中断运行；改了配置就开始新实验。
 
-这套流程优化任务产物与可复用手册，没有训练助手权重，也没有证明通用能力会自行提升。评分代码仍在本机执行，工作目录分开不等于强安全沙箱。只运行自己理解并愿意执行的模板。
+这套流程改进的是任务作品和可复用手册，不会训练助手的模型权重，也没有证明通用能力会自我提升。评分代码在本机执行，分开的工作目录不是强安全沙箱，只运行自己理解的模板。
 
-## 查看品牌首页与三个实验室
+## 模型与资源
 
-正式展示入口：[DARWIN — An evolution lab by RiseAI.](https://www.riseai.top/darwin/) 用真实反馈，持续改进作品。
+- 执行助手：`rsi run --agent codex --model <型号>`。项目也为 Claude Code、Cursor、Gemini、Qwen Code、Kimi、OpenCode、Copilot、CodeBuddy 和 Qoder 准备了适配；这里的完整运行使用 Codex，并非每个适配都做过端到端测试。
+- 评委：`--jury cli:codex:<型号>`，或受支持的 API 写法，例如 `deepseek:deepseek-chat`。
+- 任务模型：提示词优化和讲义练习用 `RSI_TASK_MODEL`；写作手册的写手模型用 `RSI_WRITER_MODEL`。
 
-新版网站提供代码优化、模型实验、视频创作三个入口，各自展示真实修改、参数、图像或成片。支持轮次比较、字幕跳转、预测筛选、结果下载和使用说明，浏览不调用模型。
+请求的型号、服务端返回的型号、用量和费用分别记录，缺失的值保持未知。CPU 训练和回测使用各自模板的 `requirements.txt`；视频任务需要 FFmpeg 和 ffprobe；GPU 算子需要模板说明中的硬件，CPU 或 MPS 的测量不能代替 GPU 结果。
+
+## 网站
+
+DARWIN 网站用中英文回放已保存的运行，浏览时不调用任何模型。在源码目录本地生成：
 
 ```bash
 python scripts/build_site.py
 python -m http.server 8765 --bind 127.0.0.1 --directory build/site
 ```
 
-浏览器打开 `http://127.0.0.1:8765/`。构建目录包含运行所需的媒体、记录和下载包；完整案例集合仍可从导航进入。详见 [网站说明](web/README.md)与[网站验收](release/site-validation.json)。网页运行新实验的服务尚未接入，开始使用页面提供真实命令行步骤。
+打开 `http://127.0.0.1:8765/`（中文版在 `/zh/`）。结构与翻译流程见[网站说明](web/README.md)。`python scripts/build_showcase.py` 仍会生成旧版单文件浏览页 `examples/index.html`，供本地查看。
 
-## 本地查看案例集合
+## 来源与边界
 
-从源码根目录生成并打开本地展示：
+主循环由本项目实现，基于 Git、Python 和 PyYAML；各领域按需使用 scikit-learn、Matplotlib、FFmpeg、PyTorch/Triton 和公开视频生成服务。GEPA、OpenEvolve、RD-Agent、FunClip、video-use 是研究参考，没有作为引擎接入。
 
-```bash
-python scripts/build_showcase.py
-python -m http.server 8765 --bind 127.0.0.1
-```
+项目代码采用 MIT 许可；第三方软件、模型、数据、视频和文献保留各自的条件，尤其默认回测行情及其派生产物仅限非商业使用。合同和医学示例是虚构练习或给定的公开资料，不是法律或医疗建议；回测描述的是历史模拟，不代表未来收益。详见[开源组件与资料来源](docs/OPEN-SOURCE.zh-CN.md)。
 
-浏览器打开 `http://127.0.0.1:8765/examples/index.html`，可选领域、运行、左右版本和文件，查看文字差异、图表与视频。展示页从 `examples/catalog.json` 和原始实验目录生成，不修改账本。分享时应保留整个导出目录；HTML 页面不会把所有视频变成单文件。
-
-[35 秒无声演示短片](examples/showcase-media/openrsi-demo.mp4) 由已经保存的代码修复记录、手册评分、口播剪辑和分类错例组成，不是新的优化实验。[媒体验证记录](examples/showcase-media/demo-video.json) 保存来源、哈希、时长、尺寸与解码结果。
-
-## 组件与资源
-
-主循环由本项目实现，实际使用 Git、Python、PyYAML；领域包按需调用 scikit-learn、Matplotlib、FFmpeg、Triton/PyTorch 或公开视频生成接口。GEPA、OpenEvolve、RD-Agent、FunClip、video-use 等在研究资料中出现，不代表当前已经接入。
-
-项目代码采用 MIT 许可；第三方代码、模型、行情、视频和文献各有自己的条件。尤其默认量化行情及派生产物带有非商业等条件，不能因为代码是 MIT 就忽略资料要求。[详细来源与边界](docs/OPEN-SOURCE.zh-CN.md)。
-
-公开视频生成接口在已成功两次后，对后续候选和一次短描述诊断返回 `error/null`。具体远端原因未知，不认定为额度不足，也不把没有生成的作品记作质量 0 分；原账本与派生核验分别保留。
-
-继续开发请读[接手说明](docs/HANDOFF.zh-CN.md)；当前首发范围见[任务书](docs/GOAL-FIRST-RELEASE.zh-CN.md)。
+参与开发请先读 [AGENTS.md](AGENTS.md)、[当前架构](docs/PLAN.zh-CN.md) 和[扩展模板](docs/EXTENDING.zh-CN.md)；换电脑继续开发见[跨电脑协作](docs/COLLABORATION.zh-CN.md)和[接手说明](docs/HANDOFF.zh-CN.md)。

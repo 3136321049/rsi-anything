@@ -1,5 +1,7 @@
 # D15：GPU Softmax 与小型推理模块
 
+[English](README.en.md)
+
 本包让 AI 修改 `candidate.py`，优化一个二维行 Softmax GPU 算子。初始候选由一个 Triton program 处理一行：读取、减去最大值、取指数、求和、归一化并写回。没有预先编写后续优化版本。可探索并行划分、启动参数和内存访问，效果需由实际设备测量决定。
 
 **当前状态：模板与无 GPU 分支已实现；没有 GPU 实测或真实模型优化记录。** Mac 的 MPS 和 CPU 不用于此项计时。缺设备时状态为 `environment_unavailable`，分数为空；不要将模板测试通过当作算子提速结果。

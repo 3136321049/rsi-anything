@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-25",
+  "generated": "2026-10-27",
   "method": "从已有真实视频提取帧，不生成新内容",
   "images": [
     {
@@ -17,6 +17,16 @@
       "width": 1280,
       "height": 720,
       "sha256": "9c8665dd8f7c1a54a9d04b9bb16758024b97ada8dedaa929c2e6586d3ab21aa9"
+    },
+    {
+      "file": "video-card.jpg",
+      "source": "examples/video-cut/runs/20261024-002228-talk-highlight/artifacts/final/files/out/cut.mp4",
+      "seconds": 20,
+      "crop": "360:270:0:184（去掉竖屏上下黑边）",
+      "scale": "720x540 lanczos",
+      "width": 720,
+      "height": 540,
+      "sha256": "3c71379b5df4e3ffb7262fa282db6704605395ba825e7b9e840be15216480eac"
     }
   ]
 }

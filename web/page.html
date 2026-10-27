@@ -1,30 +1,55 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="{{html_lang}}">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f5f4ee"><meta name="description" content="用真实反馈，持续改进作品。DARWIN — An evolution lab by RiseAI.">
-<link rel="canonical" href="https://www.riseai.top/darwin/__ROUTE__">
-<meta property="og:site_name" content="DARWIN">
-<meta property="og:url" content="https://www.riseai.top/darwin/__ROUTE__">
-<meta property="og:title" content="__TITLE__"><meta property="og:description" content="用真实反馈，持续改进作品。">
+<meta name="theme-color" content="#fafaf7">
 <title>__TITLE__</title>
+<meta name="description" content="{{meta.description}}">
+<link rel="canonical" href="__CANONICAL__">
+<link rel="alternate" hreflang="en" href="__URL_EN__">
+<link rel="alternate" hreflang="zh-CN" href="__URL_ZH__">
+<link rel="alternate" hreflang="x-default" href="__URL_EN__">
+<meta property="og:site_name" content="DARWIN">
+<meta property="og:type" content="website">
+<meta property="og:url" content="__CANONICAL__">
+<meta property="og:title" content="__TITLE__">
+<meta property="og:description" content="{{meta.description}}">
+<meta property="og:image" content="__SITE_URL__assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="__BASE__assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="__BASE__assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="__BASE__assets/site.css">
 <script type="module" src="__BASE__assets/app.js"></script>
 </head>
-<body data-page="__PAGE__" data-base="__BASE__">
-<a class="skip" href="#main">跳到主要内容</a>
+<body data-page="__PAGE__" data-lang="{{lang}}" data-base="__BASE__" data-home="__HOME__">
+<a class="skip" href="#main">{{skip}}</a>
 <header class="site-header">
-<a class="brand" href="__BASE__" aria-label="DARWIN 首页"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>DARWIN<span class="brand-slash">/</span></a>
-<button class="menu-toggle" aria-label="打开导航" aria-controls="main-nav" aria-expanded="false">菜单 <span>＋</span></button>
-<nav id="main-nav" aria-label="主要导航"><a href="__BASE__#labs">探索领域</a><a href="__BASE__#method">如何运作</a><a href="__BASE__examples/index.html">全部案例 <span class="tiny">15</span></a><a class="nav-start" href="__BASE__start/">开始使用 <span>↗</span></a></nav>
+<div class="header-inner">
+<a class="brand" href="__HOME__" aria-label="{{brand.home}}"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 20v-7.5M11 12.5 6.4 7.6M11 12.5l5.3-6.1" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><circle cx="11" cy="20.2" r="2" fill="currentColor"/><circle cx="5.4" cy="6.5" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.4" cy="5.1" r="2.9" fill="var(--accent-mark)" stroke="currentColor" stroke-width="1.6"/></svg><span class="brand-name">DARWIN</span><span class="brand-by">by RiseAI</span></a>
+<nav id="main-nav" aria-label="{{nav.label}}">
+<a href="__HOME__#labs" data-nav="labs">{{nav.labs}}</a>
+<a href="__HOME__#how" data-nav="how">{{nav.how}}</a>
+<a href="__HOME__cases/" data-nav="cases">{{nav.cases}}</a>
+<a class="nav-lang" href="__ALT__" hreflang="{{alt_lang}}" lang="{{alt_lang}}" data-lang-switch="{{alt_lang}}"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M1.8 8h12.4M8 1.7c1.8 1.9 2.6 4 2.6 6.3S9.8 12.4 8 14.3C6.2 12.4 5.4 10.3 5.4 8S6.2 3.6 8 1.7Z" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>{{nav.alt}}</a>
+<a class="nav-start" href="__HOME__start/" data-nav="start">{{nav.start}}<span aria-hidden="true">→</span></a>
+</nav>
+<button class="menu-toggle" aria-label="{{nav.open}}" aria-controls="main-nav" aria-expanded="false"><span></span><span></span></button>
+</div>
 </header>
 <main id="main">__CONTENT__</main>
 <footer class="site-footer">
-<div class="footer-top"><a class="brand" href="__BASE__"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>DARWIN</a><p>An evolution lab by RiseAI.</p><a href="https://github.com/3136321049/rsi-anything/tree/rebuild" target="_blank" rel="noopener">查看项目源码 ↗</a></div>
-<div class="footer-bottom"><span>RiseAI · 由 Open RSI 驱动</span><div><a href="__BASE__start/#sources">资料与使用说明</a><a href="__BASE__LICENSE">MIT 代码许可</a><a href="__BASE__#labs">回到实验室 ↑</a></div><span class="mono">BUILT TO KEEP LEARNING.</span></div>
+<div class="footer-inner">
+<div class="footer-brand"><a class="brand" href="__HOME__"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 20v-7.5M11 12.5 6.4 7.6M11 12.5l5.3-6.1" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><circle cx="11" cy="20.2" r="2" fill="currentColor"/><circle cx="5.4" cy="6.5" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.4" cy="5.1" r="2.9" fill="var(--accent-mark)" stroke="currentColor" stroke-width="1.6"/></svg><span class="brand-name">DARWIN</span></a><p>An evolution lab by RiseAI.<br>{{footer.tagline}}</p></div>
+<div class="footer-cols">
+<div><h2>{{footer.explore}}</h2><a href="__HOME__labs/code/">{{lab.code.name}}</a><a href="__HOME__labs/experiments/">{{lab.models.name}}</a><a href="__HOME__labs/video/">{{lab.video.name}}</a><a href="__HOME__cases/">{{nav.cases}}</a></div>
+<div><h2>{{footer.use}}</h2><a href="__HOME__start/">{{nav.start}}</a><a href="__BASE__dist/__WHEEL__" download>{{footer.download}}</a><a href="__BASE__LICENSE">{{footer.license}}</a></div>
+<div><h2>RiseAI</h2><a href="https://www.riseai.top/" rel="noopener">riseai.top ↗</a><a href="__ALT__" hreflang="{{alt_lang}}" lang="{{alt_lang}}" data-lang-switch="{{alt_lang}}">{{nav.alt_long}}</a></div>
+</div>
+</div>
+<div class="footer-base"><span>{{footer.note}}</span><span class="mono">© 2026 RiseAI</span></div>
 </footer>
-<dialog id="media-dialog" aria-labelledby="dialog-title"><div class="dialog-head"><h2 id="dialog-title">作品预览</h2><button class="close-dialog" aria-label="关闭预览">×</button></div><div id="dialog-content"></div></dialog>
+<dialog id="media-dialog" aria-labelledby="dialog-title"><div class="dialog-head"><h2 id="dialog-title"></h2><button class="close-dialog" aria-label="{{dialog.close}}">×</button></div><div id="dialog-content"></div></dialog>
 <div id="toast" role="status" aria-live="polite"></div>
-<noscript><p class="noscript">打开 JavaScript 后可切换实验轮次。也可以直接<a href="__BASE__examples/index.html">查看完整案例与原始作品</a>。</p></noscript>
+<noscript><p class="noscript">{{noscript}} <a href="__HOME__cases/">{{nav.cases}}</a></p></noscript>
+<script id="i18n" type="application/json">__JS_STRINGS__</script>
 </body></html>

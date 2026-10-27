@@ -1,5 +1,7 @@
 # D05：单篇文案迭代
 
+[English](README.en.md)
+
 为虚构自习室写一篇小红书笔记。2026-10-21 的真实五轮运行从 **16.5 分提高到最终保留的 96 分**。第 2 轮虽然得到 98 分，但新旧稿比较没有获胜，因此拒绝；后两轮同样没有保留。
 
 [运行报告](runs/2026-10-21-codex-5-rounds/report.html) · [初稿](runs/2026-10-21-codex-5-rounds/first-draft.md) · [最终稿](runs/2026-10-21-codex-5-rounds/final-post.md) · [逐版核验](runs/2026-10-21-codex-5-rounds/verification.json) · [模板与替换输入](../../src/rsi_anything/templates/copywriting/README.md)

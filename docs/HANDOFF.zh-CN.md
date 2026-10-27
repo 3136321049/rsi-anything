@@ -38,7 +38,7 @@ rsi agents
 
 正式网站品牌为 DARWIN，入口为 [https://www.riseai.top/darwin/](https://www.riseai.top/darwin/)。主站 HTTPS 下的独立路径已部署，当前可浏览、比较和下载真实实验；部署核查见 `release/darwin-deployment.json`。
 
-品牌首页和三个领域页面已实现，见 [网站说明](../web/README.md)与 [产品方案](PRODUCT.zh-CN.md)。运行 `python scripts/build_site.py` 生成 `build/site/`，可独立提供首页、代码优化、模型实验、视频创作及使用说明。页面支持真实轮次比较、媒体播放、筛选、分享链接与下载。完整回归 119 项通过、1 项因缺可选训练依赖跳过；桌面及 390px 窄屏检查见 `release/site-validation.json`。下一步优先更换个人获准主案例素材并做试用；网页启动新实验的服务仍待推进。
+品牌首页、三个领域页面、全部实验和使用说明已实现，并提供中英文两版（英文为默认，中文在 `/zh/`），见 [网站说明](../web/README.md)与 [产品方案](PRODUCT.zh-CN.md)。运行 `python scripts/build_site.py` 生成 `build/site/`。页面支持真实轮次比较、媒体播放、筛选、分享链接与下载。公开说明文档（安装、扩展、来源、架构，模板、案例与探测说明）均有英文版，英文页自动打开英文版。2026-10-27 改版后完整回归 127 项通过、1 项因缺可选训练依赖跳过；检查记录见 `release/site-validation.json`。改版位于 `claude/darwin-redesign`，尚未部署。下一步优先更换个人获准主案例素材并做试用；网页启动新实验的服务仍待推进。
 
 D01–D06、D08–D14 已有完整结果，保留现有记录、独立验证与展示入口，不为得到更漂亮曲线覆盖实验。D05 手册在三份开发简报上保留 74.5 分版本，用于新读书会简报时从 69 到 77.5；D11 最终覆盖 7/7 类问题；D13 最终十题有依据且答对，结果边界见各案例说明。
 
