@@ -1,0 +1,72 @@
+{
+  "score": 75.0,
+  "gates": {
+    "valid_svg": true,
+    "has_viewbox": true,
+    "vector_only": true,
+    "no_text": true,
+    "under_60kb": true,
+    "has_shapes": true,
+    "check:The image contains no text, letters or labels.": true,
+    "check:The image shows one pelican and one bicycle.": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "drawing.svg: 29 shapes, 2801 bytes\npelican 7.0/10: The bird is clearly a pelican because of its long beak, big pouch, white body and grey wing, but the legs are thin orange sticks and the feet are tiny yellow wedges that barely read as webbed, and the body is a plain lumpy blob, so it is not the charming, fully drawn pelican an 8+ needs.\ncraft 7.0/10: It is a tidy, pleasant flat illustration, but a large empty band at the top unbalances the composition, the stick legs and blob body look awkward next to the cleaner bike, and the pelican looks a little small on the frame, so it is not yet poster-quality.\n[cli:claude] Redraw the legs as thicker limbs with knees that bend the same way, ending in clearly webbed feet planted on the pedals. That would lift both the pelican and riding scores and remove the drawing's weakest-looking part.",
+  "metrics": {
+    "criteria": {
+      "pelican": 7.0,
+      "bicycle": 8.0,
+      "riding": 8.0,
+      "craft": 7.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "pelican": {
+            "score": 7,
+            "evidence": "[visual; the artifact has no text to quote] a long yellow beak with a large rounded throat pouch on a white bird with an S-curved neck",
+            "why": "The bird is clearly a pelican because of its long beak, big pouch, white body and grey wing, but the legs are thin orange sticks and the feet are tiny yellow wedges that barely read as webbed, and the body is a plain lumpy blob, so it is not the charming, fully drawn pelican an 8+ needs."
+          },
+          "bicycle": {
+            "score": 8,
+            "evidence": "[visual; the artifact has no text to quote] two eight-spoke wheels with hubs, a diamond frame, a chainring with opposed cranks and pedals, and a chain running to the rear hub",
+            "why": "The bike has everything the 10 anchor lists (frame, hubs, spokes, chain, crank, pedals). It stays short of 9 because the handlebar is a small stub, the seat post is almost missing, there is no rear sprocket for the chain, and the fork is a single straight line."
+          },
+          "riding": {
+            "score": 8,
+            "evidence": "[visual; the artifact has no text to quote] the bird sits on the saddle with one foot on each pedal at opposite crank positions, its wing tip reaches the handlebar, and speed lines trail behind",
+            "why": "Each part of the 10 anchor is there: seated, feet on pedals, wing on the bars, motion shown. It stays short of 9 because the knees bend in opposite directions, the body perches stiffly on top of the bike with no forward lean, and the wing only touches the bar stub instead of gripping it."
+          },
+          "craft": {
+            "score": 7,
+            "evidence": "[visual; the artifact has no text to quote] even dark outlines, a limited teal, mustard and grey palette, motion lines and a soft ground shadow",
+            "why": "It is a tidy, pleasant flat illustration, but a large empty band at the top unbalances the composition, the stick legs and blob body look awkward next to the cleaner bike, and the pelican looks a little small on the frame, so it is not yet poster-quality."
+          }
+        },
+        "checks": {
+          "The image contains no text, letters or labels.": {
+            "pass": true,
+            "why": "The image contains only shapes, lines and a shadow. There are no letters or labels."
+          },
+          "The image shows one pelican and one bicycle.": {
+            "pass": true,
+            "why": "There is exactly one pelican and one bicycle."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Redraw the legs as thicker limbs with knees that bend the same way, ending in clearly webbed feet planted on the pedals. That would lift both the pelican and riding scores and remove the drawing's weakest-looking part.",
+        "_model": "cli:claude",
+        "_cost": 0.2734204
+      }
+    ],
+    "cost_usd": 0.2734
+  },
+  "seconds": 55.37712079216726,
+  "error": ""
+}

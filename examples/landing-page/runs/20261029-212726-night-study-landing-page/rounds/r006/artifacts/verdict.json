@@ -1,0 +1,78 @@
+{
+  "score": 72.5,
+  "gates": {
+    "self_contained": true,
+    "facts_present": true,
+    "no_placeholder": true,
+    "has_title_and_viewport": true,
+    "images_have_alt": true,
+    "under_100kb": true,
+    "check:Every price, time, number and perk on the page appears in th": true,
+    "check:The page has no placeholder text, broken layout or overlappi": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "index.html: 11715 bytes\nlayout 7.0/10: The page flows cleanly from hero and price card to three labeled benefit columns to a closing call-to-action card, with consistent dividers and spacing; it misses 8 because the location and safety row (\"Close to the metro\" / \"Stay focused into the night\") is small plain text with no section heading \nvisual_craft 7.0/10: Deep green, cream and gold with a serif headline and gold italic accent make a coherent, calm late-night style that fits the space and is used consistently; it falls short of a professional product page because the fonts look like system defaults (Georgia/Helvetica), the logo is a text \"☾\" character\n[cli:claude] Fix the mobile sticky bottom bar so its \"¥129 / first month · Claim a trial spot\" content actually shows, or drop the bar. Right now it is an empty cream band over the content, which costs points on mobile and nearly fails the layout check.",
+  "metrics": {
+    "criteria": {
+      "first_impression": 8.0,
+      "layout": 7.0,
+      "visual_craft": 7.0,
+      "mobile": 7.0,
+      "persuasion": 7.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "first_impression": {
+            "score": 8,
+            "evidence": "Work or classes all day? A quiet place to prepare for graduate-school, civil-service or certification exams awaits you at night.",
+            "why": "On the 1280px screen, the area visible without scrolling already holds everything a visitor needs: \"Busy by day.\" names their situation, the subline names their exams, and the 18:00–02:00 hours, the ¥129 trial, the first-50 limit and the copy-keyword step all sit in a well-designed hero; it stops short of 9 because \"Make room for your future\" is generic, there is no image or atmosphere of the room itself, and the main button is a utility action (\"Copy keyword\") rather than a compelling call to join."
+          },
+          "layout": {
+            "score": 7,
+            "evidence": "Settle in. Get into your work.",
+            "why": "The page flows cleanly from hero and price card to three labeled benefit columns to a closing call-to-action card, with consistent dividers and spacing; it misses 8 because the location and safety row (\"Close to the metro\" / \"Stay focused into the night\") is small plain text with no section heading and reads like an afterthought, and the benefit columns are all-text blocks with nothing to break up the scanning."
+          },
+          "visual_craft": {
+            "score": 7,
+            "evidence": "Busy by day.",
+            "why": "Deep green, cream and gold with a serif headline and gold italic accent make a coherent, calm late-night style that fits the space and is used consistently; it falls short of a professional product page because the fonts look like system defaults (Georgia/Helvetica), the logo is a text \"☾\" character, the grey body text on dark green is small and low-contrast, and there is no imagery at all."
+          },
+          "mobile": {
+            "score": 7,
+            "evidence": "¥129/ first monthClaim a trial spot",
+            "why": "The phone layout is a clean single column: the headline fits, body text is comfortably sized, and the price card and the large \"Copy keyword\" button appear within roughly the first screen. However, a full-width cream band at the bottom of the 390px screenshot shows no text. It sits over the content after the \"Calls have their own space\" section, so it appears to be the sticky \"Claim a trial spot\" bar rendering blank, which is a visible defect."
+          },
+          "persuasion": {
+            "score": 7,
+            "evidence": "Stay focused into the night",
+            "why": "Several details are framed around the visitor's evening (\"Calls have their own space\", \"A little comfort after 22:00\"), the price is honest (¥129 trial, then ¥199), and the two-step join with a copy button is very clear. It misses 8 because the late-night safety facts sit under a focus heading instead of answering the real worry about being out at 2 a.m., the metro distance is never linked to getting home late, and the first-50 limit is only a small pill and fine print."
+          }
+        },
+        "checks": {
+          "Every price, time, number and perk on the page appears in the brief; nothing is invented (no testimonials, ratings or member counts).": {
+            "pass": true,
+            "why": "Every figure traces back to the brief: ¥129, ¥199, first 50, 18:00–02:00, 42 booths, 4 phone booths, 22:00 milk, key card after 01:30, staff until 02:00 and the 6-minute walk. There are no testimonials, ratings, member counts or extra perks; \"Bring your books and plug in\" is copywriting, not a claimed fact."
+          },
+          "The page has no placeholder text, broken layout or overlapping elements.": {
+            "pass": true,
+            "why": "The desktop page is clean, with no placeholders or collisions. This is a narrow pass: on mobile, the sticky bottom bar shows as an empty cream band covering page content, even though its text (\"¥129/ first monthClaim a trial spot ↑\") exists in the visible text. That may be a screenshot-timing artifact, but if the bar really renders empty in use, this check should fail."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Fix the mobile sticky bottom bar so its \"¥129 / first month · Claim a trial spot\" content actually shows, or drop the bar. Right now it is an empty cream band over the content, which costs points on mobile and nearly fails the layout check.",
+        "_model": "cli:claude",
+        "_cost": 0.41922600000000004
+      }
+    ],
+    "cost_usd": 0.4192
+  },
+  "seconds": 96.3582870408427,
+  "error": ""
+}

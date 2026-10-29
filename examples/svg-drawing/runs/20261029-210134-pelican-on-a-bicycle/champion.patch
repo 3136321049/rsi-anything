@@ -1,0 +1,59 @@
+diff --git a/drawing.svg b/drawing.svg
+index 52d9072..4e2e968 100644
+--- a/drawing.svg
++++ b/drawing.svg
+@@ -1,15 +1,42 @@
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+   <rect width="800" height="600" fill="#ffffff"/>
+-  <!-- bicycle -->
+-  <circle cx="250" cy="430" r="90" fill="none" stroke="#333" stroke-width="6"/>
+-  <circle cx="560" cy="430" r="90" fill="none" stroke="#333" stroke-width="6"/>
+-  <line x1="250" y1="430" x2="400" y2="430" stroke="#333" stroke-width="6"/>
+-  <line x1="400" y1="430" x2="560" y2="430" stroke="#333" stroke-width="6"/>
+-  <line x1="400" y1="430" x2="380" y2="320" stroke="#333" stroke-width="6"/>
+-  <line x1="560" y1="430" x2="540" y2="300" stroke="#333" stroke-width="6"/>
+-  <!-- pelican -->
+-  <ellipse cx="400" cy="250" rx="80" ry="50" fill="#dddddd" stroke="#333" stroke-width="3"/>
+-  <circle cx="500" cy="190" r="30" fill="#dddddd" stroke="#333" stroke-width="3"/>
+-  <polygon points="525,185 640,200 525,200" fill="#f2b632" stroke="#333" stroke-width="2"/>
+-  <circle cx="508" cy="182" r="4" fill="#333"/>
++  <g stroke="#333" stroke-linecap="round" stroke-linejoin="round">
++    <g fill="none" stroke-width="6">
++      <circle cx="250" cy="430" r="90"/>
++      <circle cx="560" cy="430" r="90"/>
++      <g stroke="#b7c4ca" stroke-width="2">
++        <path d="M250 346V514M166 430H334M191 371L309 489M191 489L309 371"/>
++        <path d="M560 346V514M476 430H644M501 371L619 489M501 489L619 371"/>
++      </g>
++      <path d="M250 430L382 332L400 418ZM382 332L544 322L400 418M382 332L380 320M560 430L540 300" stroke="#467d86" stroke-width="7"/>
++      <path d="M540 300L535 278H562"/>
++    </g>
++    <path d="M250 420L398 396A22 22 0 1 1 402 440L250 440A10 10 0 0 1 250 420Z" fill="none" stroke="#697578" stroke-width="3"/>
++    <circle cx="400" cy="418" r="19" fill="#ffffff" stroke="#697578" stroke-width="3"/>
++    <g fill="#697578" stroke="#333" stroke-width="2">
++      <circle cx="250" cy="430" r="6"/>
++      <circle cx="560" cy="430" r="6"/>
++    </g>
++    <path d="M357 311Q378 305 409 312L410 322H357Z" fill="#333" stroke-width="3"/>
++    <g fill="none" stroke="#ba7b28" stroke-width="10">
++      <path d="M378 285L350 339L383 391"/>
++      <path d="M418 283L449 335L425 445"/>
++    </g>
++    <g fill="none" stroke-width="5">
++      <circle cx="400" cy="418" r="14"/>
++      <path d="M383 391L400 418L425 445M368 398H403M411 452H446"/>
++    </g>
++    <g fill="#efb247" stroke-width="2.5">
++      <path d="M380 382L399 395L392 398L380 394L370 398L365 393Z"/>
++      <path d="M425 435L443 448L438 452L426 448L415 452L410 447Z"/>
++    </g>
++    <path d="M339 265L306 246L324 283L349 289Z" fill="#b7c4ca" stroke-width="3"/>
++    <path d="M333 250C331 214 370 203 416 218C445 229 456 236 462 218C469 199 464 165 484 157C509 147 531 165 530 187C529 207 509 216 500 220C487 229 494 258 470 280C448 303 408 313 377 306C346 300 330 281 333 250Z" fill="#edf1ef" stroke-width="3"/>
++    <path d="M524 190L646 200C617 220 591 246 563 240C540 235 531 216 524 202Z" fill="#e6b953" stroke-width="3"/>
++    <path d="M524 183L650 198L647 204L525 201Z" fill="#f5c45b" stroke-width="3"/>
++    <path d="M360 243C380 228 406 239 432 254L490 279L542 276L546 285C515 301 481 299 455 289L386 274C368 270 357 257 360 243Z" fill="#c1cdd1" stroke-width="3"/>
++    <path d="M377 251Q412 261 446 276M376 260L414 273" fill="none" stroke="#899ba3" stroke-width="2.5"/>
++    <circle cx="508" cy="177" r="4" fill="#333" stroke="none"/>
++    <circle cx="509" cy="176" r="1.2" fill="#fff" stroke="none"/>
++  </g>
+ </svg>

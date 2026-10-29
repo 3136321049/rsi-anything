@@ -1,0 +1,71 @@
+{
+  "score": 78.0,
+  "gates": {
+    "valid_svg": true,
+    "has_viewbox": true,
+    "vector_only": true,
+    "no_text": true,
+    "under_60kb": true,
+    "has_shapes": true,
+    "check:The image contains no text, letters or labels.": true,
+    "check:The image shows one pelican and one bicycle.": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "drawing.svg: 34 shapes, 3848 bytes\ncraft 7.0/10: It is tidy and pleasant with clean, consistent shapes, but it falls short of poster quality: the body and wing shapes are clumsy, the legs simply overlap the frame with no depth cues, and there is no ground, shadow or dynamism.\npelican 8.0/10: It is clearly a pelican with a beak, pouch, wing, legs and webbed feet, but it misses a 9-10 because the body is a lumpy, duck-like blob, the head is small, the upper bill is only a thin strip, the pouch looks like a separate bowl, and the legs are plain sticks.\n[cli:claude] Make the pose dynamic: tilt the pelican forward over the bars, wrap the wingtip around the handlebar grip, and add speed lines or a ground shadow so it reads as riding, not posing.",
+  "metrics": {
+    "criteria": {
+      "pelican": 8.0,
+      "bicycle": 8.0,
+      "riding": 8.0,
+      "craft": 7.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "pelican": {
+            "score": 8,
+            "evidence": "[No text in the artifact; this describes the image] A white bird with an S-curved neck, a long flat yellow upper bill over a large orange-shaded throat pouch, a grey wing, a grey tail, orange legs and orange webbed feet",
+            "why": "It is clearly a pelican with a beak, pouch, wing, legs and webbed feet, but it misses a 9-10 because the body is a lumpy, duck-like blob, the head is small, the upper bill is only a thin strip, the pouch looks like a separate bowl, and the legs are plain sticks."
+          },
+          "bicycle": {
+            "score": 8,
+            "evidence": "[No text in the artifact; this describes the image] Two wheels with 8 spokes each and grey hubs, a teal diamond frame (top tube, down tube, seat tube, seat stays, chainstays), a fork, a black saddle, a handlebar, a chainring with crank arms, two pedals, and a dashed chain looping to the rear hub",
+            "why": "The bicycle is complete and mechanically believable, with a proper frame, spokes, hubs, chain, crank and pedals, but it misses a 10 because the stem and handlebar are one bare stroke, mostly hidden by the wing, and there is no rear cog."
+          },
+          "riding": {
+            "score": 8,
+            "evidence": "[No text in the artifact; this describes the image] The pelican's body rests on the saddle, each webbed foot sits on a pedal at opposite crank positions, and the wing reaches forward to the handlebar end",
+            "why": "It is seated, has its feet on the pedals and has a wing at the bars, but the upright, static pose (no forward lean, no motion lines) and the wing lying along the bar instead of gripping it keep it from a 10."
+          },
+          "craft": {
+            "score": 7,
+            "evidence": "[No text in the artifact; this describes the image] Even dark outlines, a muted teal, grey, yellow and orange palette, and a centered composition with plenty of white space",
+            "why": "It is tidy and pleasant with clean, consistent shapes, but it falls short of poster quality: the body and wing shapes are clumsy, the legs simply overlap the frame with no depth cues, and there is no ground, shadow or dynamism."
+          }
+        },
+        "checks": {
+          "The image contains no text, letters or labels.": {
+            "pass": true,
+            "why": "The image has no text, letters or labels anywhere."
+          },
+          "The image shows one pelican and one bicycle.": {
+            "pass": true,
+            "why": "There is exactly one pelican and one bicycle."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Make the pose dynamic: tilt the pelican forward over the bars, wrap the wingtip around the handlebar grip, and add speed lines or a ground shadow so it reads as riding, not posing.",
+        "_model": "cli:claude",
+        "_cost": 0.23702620000000002
+      }
+    ],
+    "cost_usd": 0.237
+  },
+  "error": ""
+}

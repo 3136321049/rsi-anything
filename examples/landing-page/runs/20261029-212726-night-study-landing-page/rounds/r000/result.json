@@ -1,0 +1,30 @@
+{
+  "round": 0,
+  "status": "BASELINE",
+  "hypothesis": "",
+  "score": 25.0,
+  "best": 25.0,
+  "gates": {
+    "self_contained": true,
+    "facts_present": true,
+    "no_placeholder": true,
+    "has_title_and_viewport": true,
+    "images_have_alt": true,
+    "under_100kb": true,
+    "check:Every price, time, number and perk on the page appears in th": true,
+    "check:The page has no placeholder text, broken layout or overlappi": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "index.html: 960 bytes\nvisual_craft 1.0/10: Everything is browser defaults (black system font on white, default bullets and margins), with no colour, type scale, spacing system or any mood suited to a calm late-night study room.\nfirst_impression 2.0/10: Above the fold there is only a black browser-default H1 and a generic availability line; the page never says it is for people who work by day and prepare for exams at night, and nothing draws the eye or works as a call to action, so it falls short of the 4 anchor where the offer is stated.\n[cli:claude] Replace the default H1 opening with a designed above-the-fold hero for night-time exam takers. It should say who the page is for (e.g., working by day and preparing for graduate-school, civil-service or certification exams at night, 18:00–02:00), show '¥129 first month, first 50 sign-ups only' prominently, and end in a clear call-to-action block telling visitors to reply 'NIGHT' to the official account, all in a calm, coherent night-themed style.",
+  "commit": "689c349f491f",
+  "changed": [],
+  "ignored": [],
+  "agent_seconds": 0.0,
+  "judge_seconds": 38.63297658297233,
+  "cost_usd": null,
+  "judge_cost_usd": 0.2729,
+  "artifacts": "artifacts/baseline",
+  "holdout": null,
+  "note": "",
+  "time": "2026-10-29T13:28:05+00:00"
+}

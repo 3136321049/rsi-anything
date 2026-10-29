@@ -1,0 +1,71 @@
+{
+  "score": 75.0,
+  "gates": {
+    "valid_svg": true,
+    "has_viewbox": true,
+    "vector_only": true,
+    "no_text": true,
+    "under_60kb": true,
+    "has_shapes": true,
+    "check:The image contains no text, letters or labels.": true,
+    "check:The image shows one pelican and one bicycle.": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "drawing.svg: 28 shapes, 3356 bytes\npelican 7.0/10: The long beak and big pouch make it clearly a pelican, but the body is a plain goose-like blob, the legs are thin sticks and the single wing is a stretched, tube-like shape, so not every part is well drawn as level 10 requires.\ncraft 7.0/10: Shapes are tidy and the palette is pleasant, but the blobby body, rubbery wing, stick legs, thin chain lines and lack of a ground or shadow keep it from poster quality.\n[cli:claude] Redraw the pelican's anatomy: a heavier pelican body with a longer neck, a properly folded wing whose tip grips clearly visible handlebars, and jointed legs. Add a slight forward lean so it looks like it is pedaling.",
+  "metrics": {
+    "criteria": {
+      "pelican": 7.0,
+      "bicycle": 8.0,
+      "riding": 8.0,
+      "craft": 7.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "pelican": {
+            "score": 7,
+            "evidence": "(The artifact has no text to quote. Visual evidence: a white bird with an S-curved neck, a long yellow upper beak with a large orange-yellow throat pouch below it, a grey tail, orange legs and orange webbed feet.)",
+            "why": "The long beak and big pouch make it clearly a pelican, but the body is a plain goose-like blob, the legs are thin sticks and the single wing is a stretched, tube-like shape, so not every part is well drawn as level 10 requires."
+          },
+          "bicycle": {
+            "score": 8,
+            "evidence": "(The artifact has no text to quote. Visual evidence: two wheels with eight spokes and grey hubs, a teal frame with top tube, down tube, seat tube, seat stays, chain stays and fork, a black saddle, a chainring with crank arms and two pedals, and grey chain lines running to the rear hub.)",
+            "why": "Nearly every part is present and plausibly placed, but there is no rear cog (the chain ends at the hub) and the wingtip almost hides the handlebars, so it falls short of fully convincing."
+          },
+          "riding": {
+            "score": 8,
+            "evidence": "(The artifact has no text to quote. Visual evidence: the body rests on the saddle, one webbed foot sits on the upper pedal and the other on the lower pedal, and the wingtip curls over the handlebar end.)",
+            "why": "The pelican is seated with feet on the pedals and a wing on the bars, but its upright, stiff posture, with no forward lean and no motion cues, keeps it from a 10."
+          },
+          "craft": {
+            "score": 7,
+            "evidence": "(The artifact has no text to quote. Visual evidence: flat vector shapes with consistent dark outlines, a muted teal, grey and orange palette, and a centered composition on a white background.)",
+            "why": "Shapes are tidy and the palette is pleasant, but the blobby body, rubbery wing, stick legs, thin chain lines and lack of a ground or shadow keep it from poster quality."
+          }
+        },
+        "checks": {
+          "The image contains no text, letters or labels.": {
+            "pass": true,
+            "why": "The image has no text, letters or labels anywhere."
+          },
+          "The image shows one pelican and one bicycle.": {
+            "pass": true,
+            "why": "There is exactly one pelican and exactly one bicycle."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Redraw the pelican's anatomy: a heavier pelican body with a longer neck, a properly folded wing whose tip grips clearly visible handlebars, and jointed legs. Add a slight forward lean so it looks like it is pedaling.",
+        "_model": "cli:claude",
+        "_cost": 0.2336882
+      }
+    ],
+    "cost_usd": 0.2337
+  },
+  "error": ""
+}

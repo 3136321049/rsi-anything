@@ -1,0 +1,77 @@
+{
+  "score": 70.0,
+  "gates": {
+    "self_contained": true,
+    "facts_present": true,
+    "no_placeholder": true,
+    "has_title_and_viewport": true,
+    "images_have_alt": true,
+    "under_100kb": true,
+    "check:Every price, time, number and perk on the page appears in th": true,
+    "check:The page has no placeholder text, broken layout or overlappi": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "index.html: 7046 bytes\nfirst_impression 7.0/10: The first screen meets the 7 anchor: a large serif headline with a gold italic accent, a supporting line that names the exams, the 18:00–02:00 hours, and a cream price card with ¥129 and a prominent NIGHT keyword block. It falls short of 8–10 because the headline 'Make room for your future' is a gen\nlayout 7.0/10: The order is clear: a two-column hero (pitch on the left, offer card on the right), then a three-column benefits row with gold labels, then a two-column logistics row, separated by rules with steady spacing. It isn't higher because the location and safety row is set as small as a footnote, and the p\n[cli:claude] Replace the tiny footer link with a full closing call-to-action section that repeats the ¥129 first-month offer, says plainly that only 50 trial spots exist, and gives explicit steps (1. open the official account 'Night Voyage Study Room', 2. send NIGHT) with a working copy-keyword button. That gives the page a strong, honest final push to act instead of ending on a footnote.",
+  "metrics": {
+    "criteria": {
+      "first_impression": 7.0,
+      "layout": 7.0,
+      "visual_craft": 7.0,
+      "mobile": 7.0,
+      "persuasion": 7.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "first_impression": {
+            "score": 7,
+            "evidence": "Work or classes all day? A quiet place to prepare for graduate-school, civil-service or certification exams awaits you at night.",
+            "why": "The first screen meets the 7 anchor: a large serif headline with a gold italic accent, a supporting line that names the exams, the 18:00–02:00 hours, and a cream price card with ¥129 and a prominent NIGHT keyword block. It falls short of 8–10 because the headline 'Make room for your future' is a generic slogan that mentions neither exams nor night study, and nothing visual suggests the actual space."
+          },
+          "layout": {
+            "score": 7,
+            "evidence": "Settle in. Get into your work.",
+            "why": "The order is clear: a two-column hero (pitch on the left, offer card on the right), then a three-column benefits row with gold labels, then a two-column logistics row, separated by rules with steady spacing. It isn't higher because the location and safety row is set as small as a footnote, and the page ends with only a tiny footer link ('Claim the ¥129 trial ↑'), so the eye never returns to the offer."
+          },
+          "visual_craft": {
+            "score": 7,
+            "evidence": "Busy by day.",
+            "why": "The style is coherent and fits a calm late-night room: deep green-black background, cream card, restrained gold accents, a serif display face with clean sans body text, and consistent spaced-capital labels. It is not yet professional-product level: below the hero it is all small grey text on dark with no imagery or icons, so the lower half looks sparse and lacks contrast."
+          },
+          "mobile": {
+            "score": 7,
+            "evidence": "Claim your trial spot",
+            "why": "At 390px the page is a clean single column: the headline wraps well, body text is comfortable to read, the price card runs full width, the NIGHT block is a large tap-sized target, and benefits stack with dividers. It doesn't feel phone-first because the CTA's ↗ arrow implies an action the page can't take (there is no visible copy or open-account behavior), and the screenshot is cut off mid-section, so the footer can't be checked."
+          },
+          "persuasion": {
+            "score": 7,
+            "evidence": "Trial price for the first 50 sign-ups",
+            "why": "Every brief fact is present, and several are framed around the visitor's evening ('Calls have their own space', 'A little comfort after 22:00', 'Bring your books and plug in'). The ¥129 → ¥199 trial and the reply-NIGHT step are clear and honest. It isn't higher because the first-50 limit sits in a small chip, and the safety and location facts are restated almost word for word from the spec under 'Stay focused into the night' without addressing late-night worries such as getting in after 01:30 or getting home from the metro."
+          }
+        },
+        "checks": {
+          "Every price, time, number and perk on the page appears in the brief; nothing is invented (no testimonials, ratings or member counts).": {
+            "pass": true,
+            "why": "Every figure matches the brief: ¥129, ¥199, the first 50 sign-ups, 18:00–02:00, 42 booths with lamp, two sockets and USB-C, 4 phone booths, milk after 22:00, key card after 01:30, staff until 02:00, the 6-minute walk, and replying NIGHT. There are no testimonials, ratings or member counts, and 'Bring your books and plug in' is copy, not a factual claim."
+          },
+          "The page has no placeholder text, broken layout or overlapping elements.": {
+            "pass": true,
+            "why": "There is no placeholder text and nothing overlaps in either view. The empty dark band below the desktop footer is the background filling the viewport, and the mobile screenshot simply stops mid-sentence at the capture edge; neither is a layout fault."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Replace the tiny footer link with a full closing call-to-action section that repeats the ¥129 first-month offer, says plainly that only 50 trial spots exist, and gives explicit steps (1. open the official account 'Night Voyage Study Room', 2. send NIGHT) with a working copy-keyword button. That gives the page a strong, honest final push to act instead of ending on a footnote.",
+        "_model": "cli:claude",
+        "_cost": 0.3334582
+      }
+    ],
+    "cost_usd": 0.3335
+  },
+  "error": ""
+}

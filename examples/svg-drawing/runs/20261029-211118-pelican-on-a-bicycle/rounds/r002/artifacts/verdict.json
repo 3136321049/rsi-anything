@@ -1,0 +1,72 @@
+{
+  "score": 78.0,
+  "gates": {
+    "valid_svg": true,
+    "has_viewbox": true,
+    "vector_only": true,
+    "no_text": true,
+    "under_60kb": true,
+    "has_shapes": true,
+    "check:The image contains no text, letters or labels.": true,
+    "check:The image shows one pelican and one bicycle.": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "drawing.svg: 28 shapes, 3156 bytes\ncraft 7.0/10: The shapes are tidy and the palette pleasant, matching the 7 anchor, but the wing is stretched into a stiff plank to reach the handlebar, the tail is a flat triangle, the stick legs look thin, and the empty background and plain body keep it from looking like a poster.\npelican 8.0/10: The long bill and big pouch make it clearly a pelican, and it has a wing, legs and webbed feet, but the body is a plain goose-like blob, the pouch is a flat geometric wedge and the legs are thin sticks, so it falls short of the 'charming, all well drawn' level for a 10.\n[cli:claude] Make the pelican look like it is moving: lean the body forward, reshape the stiff plank-like wing into a bent wing whose tip curls around a visible handlebar, and add a few speed lines behind the bike. This would raise both riding and craft.",
+  "metrics": {
+    "criteria": {
+      "pelican": 8.0,
+      "bicycle": 8.0,
+      "riding": 8.0,
+      "craft": 7.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "pelican": {
+            "score": 8,
+            "evidence": "(No text in the artifact to quote. Visual evidence:) a white bird with an S-curved neck, a long yellow bill over a large orange throat pouch, a grey wing with feather lines, a pointed tail, orange legs and webbed orange feet with toe lines",
+            "why": "The long bill and big pouch make it clearly a pelican, and it has a wing, legs and webbed feet, but the body is a plain goose-like blob, the pouch is a flat geometric wedge and the legs are thin sticks, so it falls short of the 'charming, all well drawn' level for a 10."
+          },
+          "bicycle": {
+            "score": 8,
+            "evidence": "(Visual:) two spoked wheels with grey hubs, a teal diamond frame (top tube, down tube, seat tube, seat stays, chainstays), a fork, a black saddle, a stem and handlebar, a chainring with a crank, two pedals, and a grey chain running to the rear hub",
+            "why": "Every part the 10 anchor lists is present and placed plausibly, but the handlebar is a short stub mostly hidden by the wing, the fork is a single line, and the chain and crank are very simplified, so it is a good diagram rather than a fully convincing bike."
+          },
+          "riding": {
+            "score": 8,
+            "evidence": "(Visual:) the body rests on the saddle, one webbed foot sits on the upper pedal and the other on the lower pedal at opposite crank positions, and the wing tip reaches forward to touch the handlebar",
+            "why": "It is seated, has both feet on the pedals and a wing on the bars, but the posture is upright and static, with no forward lean, gripping wing or motion cues, so it does not reach the 'pose that suggests motion' level for a 10."
+          },
+          "craft": {
+            "score": 7,
+            "evidence": "(Visual:) consistent dark outlines, a flat palette of teal frame, yellow and orange beak and feet, and grey wing on white, with the subject centered and well spaced",
+            "why": "The shapes are tidy and the palette pleasant, matching the 7 anchor, but the wing is stretched into a stiff plank to reach the handlebar, the tail is a flat triangle, the stick legs look thin, and the empty background and plain body keep it from looking like a poster."
+          }
+        },
+        "checks": {
+          "The image contains no text, letters or labels.": {
+            "pass": true,
+            "why": "The image has no text, letters or labels anywhere."
+          },
+          "The image shows one pelican and one bicycle.": {
+            "pass": true,
+            "why": "Exactly one pelican rides exactly one bicycle."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Make the pelican look like it is moving: lean the body forward, reshape the stiff plank-like wing into a bent wing whose tip curls around a visible handlebar, and add a few speed lines behind the bike. This would raise both riding and craft.",
+        "_model": "cli:claude",
+        "_cost": 0.241549
+      }
+    ],
+    "cost_usd": 0.2415
+  },
+  "seconds": 40.64789545815438,
+  "error": ""
+}

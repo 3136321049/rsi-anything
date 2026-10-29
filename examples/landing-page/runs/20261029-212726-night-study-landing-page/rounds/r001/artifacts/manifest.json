@@ -1,0 +1,38 @@
+{
+  "files": [
+    {
+      "path": "index.html",
+      "bytes": 7046,
+      "sha256": "1de2d277e65ba8eb654e775187d880b77bc87bdf2c0c49ed281c7fc7e0e137a5"
+    },
+    {
+      "path": "out/desktop.png",
+      "bytes": 160212,
+      "sha256": "22aefac155570b387cf456d4f87554f763cc007456541eff13d800dcf2a9870b"
+    },
+    {
+      "path": "out/gates.json",
+      "bytes": 163,
+      "sha256": "be1d48b6ac7d696695f9d756e8947d9ba7c71e7fcea275fa38417cd367d727fd"
+    },
+    {
+      "path": "out/mobile.png",
+      "bytes": 164232,
+      "sha256": "1e319c7ecc7ec8525d8752800e6566d087f71f3d024c435459bebfe317777dcc"
+    },
+    {
+      "path": "out/notes.txt",
+      "bytes": 23,
+      "sha256": "d43b2be5c3648731349865874b6e9699be2fb913cb407b1dd54ef9a076d0d5ea"
+    },
+    {
+      "path": "out/page.txt",
+      "bytes": 1232,
+      "sha256": "f8497ff86ae6b8bd45b64a2b80b5784ec18a0a67cbf00d26379bede7b5772be6"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": [],
+  "source": "judge_workspace",
+  "evaluation_status": "evaluated"
+}

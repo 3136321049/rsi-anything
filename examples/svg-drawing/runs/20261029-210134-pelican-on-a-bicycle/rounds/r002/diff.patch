@@ -1,0 +1,25 @@
+diff --git a/drawing.svg b/drawing.svg
+index cb6f644..4e2e968 100644
+--- a/drawing.svg
++++ b/drawing.svg
+@@ -4,9 +4,19 @@
+     <g fill="none" stroke-width="6">
+       <circle cx="250" cy="430" r="90"/>
+       <circle cx="560" cy="430" r="90"/>
+-      <path d="M250 430H560M400 430L380 320M560 430L540 300"/>
++      <g stroke="#b7c4ca" stroke-width="2">
++        <path d="M250 346V514M166 430H334M191 371L309 489M191 489L309 371"/>
++        <path d="M560 346V514M476 430H644M501 371L619 489M501 489L619 371"/>
++      </g>
++      <path d="M250 430L382 332L400 418ZM382 332L544 322L400 418M382 332L380 320M560 430L540 300" stroke="#467d86" stroke-width="7"/>
+       <path d="M540 300L535 278H562"/>
+     </g>
++    <path d="M250 420L398 396A22 22 0 1 1 402 440L250 440A10 10 0 0 1 250 420Z" fill="none" stroke="#697578" stroke-width="3"/>
++    <circle cx="400" cy="418" r="19" fill="#ffffff" stroke="#697578" stroke-width="3"/>
++    <g fill="#697578" stroke="#333" stroke-width="2">
++      <circle cx="250" cy="430" r="6"/>
++      <circle cx="560" cy="430" r="6"/>
++    </g>
+     <path d="M357 311Q378 305 409 312L410 322H357Z" fill="#333" stroke-width="3"/>
+     <g fill="none" stroke="#ba7b28" stroke-width="10">
+       <path d="M378 285L350 339L383 391"/>

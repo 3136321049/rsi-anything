@@ -13,6 +13,8 @@ events (`events.py`). `_Arena` gives the strategy one round's moves.
 """
 from __future__ import annotations
 
+import hashlib
+import importlib.metadata
 import json
 import os
 import time
@@ -52,6 +54,16 @@ def _usage_log(path: Optional[Path]):
 
 class RunError(RuntimeError):
     pass
+
+
+def _toolkit() -> dict:
+    """Which rsi-anything ran this, and which rendering helpers judges imported (they are not frozen)."""
+    try:
+        version = importlib.metadata.version("rsi-anything")
+    except importlib.metadata.PackageNotFoundError:
+        version = None
+    sdk = Path(__file__).with_name("sdk.py")
+    return {"version": version, "sdk_sha256": hashlib.sha256(sdk.read_bytes()).hexdigest() if sdk.exists() else None}
 
 
 @dataclass
@@ -143,7 +155,7 @@ class Ratchet:
                      "holdout": asdict(self.contract.holdout) if self.contract.holdout else None,
                      "budget": asdict(self.contract.budget), "artifact": self.contract.artifact,
                      "outputs": getattr(self.contract, "outputs", []),
-                     "task_model": os.environ.get("RSI_TASK_MODEL")}
+                     "task_model": os.environ.get("RSI_TASK_MODEL"), "rsi_anything": _toolkit()}
         artifacts.write_json(config / "execution.json", execution)
 
     def _saved_evaluation(self, store: RunStore, commit: str, frozen: dict, snapshot: str):
@@ -191,7 +203,7 @@ class Ratchet:
             base, branch = meta["base"], meta["branch"]
             champion = gitops.head(self.repo, branch)
         else:
-            store = RunStore(self.repo, ledger.new_run_id(self.contract.name))
+            store = RunStore(self.repo, ledger.new_run_id(self.contract.name, self.repo))
             base, branch = gitops.head(self.repo), f"rsi/{store.run_id}"
             champion = base
             store.write_meta({

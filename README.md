@@ -42,6 +42,8 @@ From a source checkout, use `python -m pip install -e '.[dev]'` instead. The pac
 
 `rsi check` runs the real evaluator; templates with model judges or video generation make real calls. Code repair only runs local tests, which makes it a good first task. `rsi init` creates a Git repository for the task; configure a Git identity if the first commit fails. CLI versions, optional dependencies and API setup are covered in the [install guide](docs/INSTALL.md).
 
+Watch a run as it evolves with `rsi run --live` (or `rsi watch` from another terminal): a local page shows the score chart and every version next to the best at the time. `rsi share --to run.html` saves the same view as one self-contained file with images embedded and local paths removed.
+
 ## Templates
 
 Run `rsi init` to list templates. Each one ships with inputs, a starting artifact, an evaluator, output paths, and notes on replacing the inputs. English guides sit next to the Chinese ones as `src/rsi_anything/templates/<name>/README.en.md`.
@@ -63,8 +65,9 @@ Run `rsi init` to list templates. Each one ships with inputs, a starting artifac
 | D13 Learning materials | `lesson-builder` | Lesson and worked examples, checked through a student model |
 | D14 Planning | `weekly-planner` | A weekly schedule |
 | D15 GPU kernels | `kernel-speed` | Softmax implementation and launch parameters |
+| Visual (new) | `svg-drawing`, `landing-page` | An SVG drawing, or a one-page website, judged from screenshots by an image-capable jury |
 
-A template isn't a finished experiment. D01–D06 and D08–D14 have verified multi-round runs; D07 and D15 are the resource exceptions described above. Empty GPU results and failed generation requests are never simulated or counted as complete.
+The two visual templates are new in the source tree and not yet in the downloadable package; see the [pelican](examples/svg-drawing/README.en.md) and [landing page](examples/landing-page/README.en.md) runs. A template isn't a finished experiment. D01–D06 and D08–D14 have verified multi-round runs; D07 and D15 are the resource exceptions described above. Empty GPU results and failed generation requests are never simulated or counted as complete.
 
 ## How a run works
 

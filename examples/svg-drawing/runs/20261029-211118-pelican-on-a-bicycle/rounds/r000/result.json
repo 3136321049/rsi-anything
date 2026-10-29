@@ -1,0 +1,30 @@
+{
+  "round": 0,
+  "status": "BASELINE",
+  "hypothesis": "",
+  "score": 75.0,
+  "best": 75.0,
+  "gates": {
+    "valid_svg": true,
+    "has_viewbox": true,
+    "vector_only": true,
+    "no_text": true,
+    "under_60kb": true,
+    "has_shapes": true,
+    "check:The image contains no text, letters or labels.": true,
+    "check:The image shows one pelican and one bicycle.": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "drawing.svg: 26 shapes, 2562 bytes\npelican 7.0/10: The long bill and big pouch make it clearly a pelican, but the legs are thin brown sticks of a different style from the body, and the feet are tiny yellow wedges that don't read as webbed, so it falls short of an 8.\ncraft 7.0/10: Shapes are tidy and the palette is pleasant, but it isn't poster-grade: the stick legs clash with the outlined body, the handlebar barely shows, there is no ground line or setting, and a large empty band at the top makes the composition feel bottom-heavy.\n[cli:claude] Redraw the legs and feet as thicker, outlined, jointed legs ending in clearly webbed orange feet planted on the pedals, and add a visible handlebar with the wingtip wrapped around it. That would lift the pelican, riding and craft scores together.",
+  "commit": "c5b7a5006a79",
+  "changed": [],
+  "ignored": [],
+  "agent_seconds": 0.0,
+  "judge_seconds": 38.716839416651055,
+  "cost_usd": null,
+  "judge_cost_usd": 0.2432,
+  "artifacts": "artifacts/baseline",
+  "holdout": null,
+  "note": "",
+  "time": "2026-10-29T13:11:57+00:00"
+}

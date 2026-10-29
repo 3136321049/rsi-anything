@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSI run 20261029-211118-pelican-on-a-bicycle</title>
+<style>
+:root { --bg:#fbfaf7; --fg:#1d1d1b; --muted:#6b6a64; --line:#e4e1d8; --accent:#2f6fde; --keep:#1f9d55; --drop:#b7b3a6; }
+@media (prefers-color-scheme: dark) { :root { --bg:#161614; --fg:#ecebe6; --muted:#a3a198; --line:#2c2b27; --accent:#7aa7ff; --keep:#4cc38a; --drop:#5b5950; } }
+body { background:var(--bg); color:var(--fg); font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; margin:0; }
+main { max-width:960px; margin:0 auto; padding:32px 16px 64px; }
+h1 { font-size:22px; margin:0 0 4px; } .muted { color:var(--muted); }
+.stats { display:flex; gap:24px; flex-wrap:wrap; margin:20px 0; } .stat b { display:block; font-size:26px; }
+svg { width:100%; height:auto; border:1px solid var(--line); border-radius:8px; }
+.best { fill:none; stroke:var(--accent); stroke-width:2; } .kept { fill:var(--keep); } .dropped { fill:var(--drop); }
+.tick { fill:var(--muted); font-size:11px; }
+table { width:100%; border-collapse:collapse; margin-top:20px; font-size:14px; }
+td,th { border-bottom:1px solid var(--line); padding:6px 8px; text-align:left; vertical-align:top; }
+tr.s-keep td:nth-child(2) { color:var(--keep); font-weight:600; }
+pre { overflow-x:auto; background:color-mix(in srgb, var(--line) 40%, transparent); padding:12px; border-radius:8px; }
+details { border:1px solid var(--line); border-radius:8px; padding:12px; margin:12px 0; } summary { cursor:pointer; font-weight:600; }
+.artifact img,.artifact video { max-width:100%; max-height:560px; } .artifact pre { max-height:420px; white-space:pre-wrap; overflow:auto; } a { color:var(--accent); }
+.artifact-source { border-left:3px solid var(--accent); padding:8px 12px; background:var(--line); }
+</style></head><body><main>
+<h1>pelican-on-a-bicycle</h1>
+<div class="muted">Improve drawing.svg so it unmistakably shows a pelican riding a bicycle.
+The pelican needs its long beak with a throat pouch, a body, wings, legs and feet; the bicycle needs two
+wheels, a frame, a seat, handlebars, pedals and a chain. The bird must actually ride it: seated on the
+saddle, feet on the pedals, wings on the handlebars. After that, work on proportions, composition and
+craft. Vector shapes only, no text or labels, keep the viewBox. One focused visual change per round.</div>
+<p class="muted">运行状态：finished。已保存 17 条模型调用记录；已记录费用 $3.9100（仅含工具返回的费用，不是总账单）。</p>
+<p><a href="config/rsi.yaml">任务配置</a> · <a href="config/execution.json">模型与运行参数</a></p>
+<div class="stats">
+<div class="stat"><span class="muted">baseline</span><b>75</b></div>
+<div class="stat"><span class="muted">best</span><b>78</b></div>
+<div class="stat"><span class="muted">rounds / kept</span><b>6 / 4</b></div>
+<div class="stat"><span class="muted">agent</span><b style="font-size:16px">codex</b></div>
+</div>
+<svg viewBox="0 0 720 260" role="img" aria-label="score by round"><polyline points="48.0,210.3 157.3,210.3 266.7,33.7 376.0,33.7 485.3,33.7 594.7,33.7 704.0,33.7" class="best"/><circle cx="48.0" cy="210.3" r="5" class="kept"><title>r0 BASELINE 75</title></circle><circle cx="157.3" cy="210.3" r="5" class="kept"><title>r1 KEEP 75</title></circle><circle cx="266.7" cy="33.7" r="5" class="kept"><title>r2 KEEP 78</title></circle><circle cx="376.0" cy="210.3" r="3.5" class="dropped"><title>r3 REVERT 75</title></circle><circle cx="485.3" cy="33.7" r="5" class="kept"><title>r4 KEEP 78</title></circle><circle cx="594.7" cy="33.7" r="3.5" class="dropped"><title>r5 REVERT 78</title></circle><circle cx="704.0" cy="33.7" r="5" class="kept"><title>r6 KEEP 78</title></circle><text x="40" y="210.3" class="tick" text-anchor="end">75</text><text x="40" y="122.0" class="tick" text-anchor="end">76.5</text><text x="40" y="33.7" class="tick" text-anchor="end">78</text><text x="48.0" y="250" class="tick" text-anchor="middle">r0</text><text x="157.3" y="250" class="tick" text-anchor="middle">r1</text><text x="266.7" y="250" class="tick" text-anchor="middle">r2</text><text x="376.0" y="250" class="tick" text-anchor="middle">r3</text><text x="485.3" y="250" class="tick" text-anchor="middle">r4</text><text x="594.7" y="250" class="tick" text-anchor="middle">r5</text><text x="704.0" y="250" class="tick" text-anchor="middle">r6</text></svg>
+<p class="muted">Line: best score so far. Green: kept. Grey: judged and thrown away.
+
+Stopped: reached 6 rounds.</p>
+<table><thead><tr><th>round</th><th>status</th><th>score</th><th>best</th><th>change</th><th>why</th></tr></thead>
+<tbody><tr class='s-baseline'><td>0</td><td>◆ BASELINE</td><td>75</td><td>75</td><td>baseline</td><td></td></tr><tr class='s-keep'><td>1</td><td>▲ KEEP</td><td>75</td><td>75</td><td>将鹈鹕和自行车整体放大 20% 并居中，平衡上下留白、增强主体表现，预计提高构图与完成度评分；SVG 语法检查通过，viewBox 保持不变。</td><td>tied at 75; won head-to-head 2/2</td></tr><tr class='s-keep'><td>2</td><td>▲ KEEP</td><td>78</td><td>78</td><td>将双脚改为更大的三趾蹼脚，补出蹼膜、趾线和沿踏板弯曲的前趾，预计增强鹈鹕辨识度和踩踏可信度；SVG 语法检查通过，viewBox 保持不变。</td><td>score 75 -&gt; 78; head-to-head 2/2</td></tr><tr class='s-revert'><td>3</td><td>· REVERT</td><td>75</td><td>78</td><td>将翅膀改为有明显关节弯曲和羽毛走向的轮廓，翼尖弯扣现有握把，预计提升骑乘可信度和绘制质量；SVG 语法检查通过，viewBox 保持不变。</td><td>score 75 is not better than 78 (required margin: 0 or 0%)</td></tr><tr class='s-keep'><td>4</td><td>▲ KEEP</td><td>78</td><td>78</td><td>将喉囊改为自然下垂的圆润轮廓，加入暖色阴影和嘴根褶皱，预计提升鹈鹕特征的表现和绘制质感；SVG 语法检查通过，viewBox 保持不变。</td><td>tied at 78; won head-to-head 2/2</td></tr><tr class='s-revert'><td>5</td><td>· REVERT</td><td>78</td><td>78</td><td>将身体轮廓调整为饱满流畅的背腹曲线，柔化颈根衔接，预计提升鹈鹕形态和画面精致度；仅修改 `drawing.svg`，语法检查通过，viewBox 保持不变。</td><td>tied at 78 and lost head-to-head (0/2 votes)</td></tr><tr class='s-keep'><td>6</td><td>▲ KEEP</td><td>78</td><td>78</td><td>细化链节、后轮小齿盘和前齿盘镂空，让传动结构更清楚，预计提高自行车完整度与绘制质量评分；仅修改 `drawing.svg`，SVG 语法检查通过，`viewBox` 保持不变。</td><td>tied at 78; won head-to-head 2/2</td></tr></tbody></table>
+<h2>产物版本</h2><details><summary>初始产物</summary><p class='artifact-source'>来源：独立评审目录。正式分数以账本记录和评审结论为准。</p><div class='artifact'><p><a href="artifacts/baseline/files/drawing.svg">drawing.svg</a></p><img loading="lazy" alt="drawing.svg" src="artifacts/baseline/files/drawing.svg"></div><div class='artifact'><p><a href="artifacts/baseline/files/out/drawing.png">out/drawing.png</a></p><img loading="lazy" alt="out/drawing.png" src="artifacts/baseline/files/out/drawing.png"></div><div class='artifact'><p><a href="artifacts/baseline/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;valid_svg&quot;: true,
+  &quot;has_viewbox&quot;: true,
+  &quot;vector_only&quot;: true,
+  &quot;no_text&quot;: true,
+  &quot;under_60kb&quot;: true,
+  &quot;has_shapes&quot;: true
+}</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/notes.txt">out/notes.txt</a></p><pre>drawing.svg: 26 shapes, 2562 bytes
+</pre></div><div class='artifact'><p><a href="artifacts/baseline/files/out/render.html">out/render.html</a></p><pre>&lt;!doctype html&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;style&gt;html,body{margin:0;background:#fff}svg{display:block;width:1024px;height:768px}&lt;/style&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 800 600&quot;&gt;
+  &lt;rect width=&quot;800&quot; height=&quot;600&quot; fill=&quot;#ffffff&quot;/&gt;
+  &lt;g stroke=&quot;#333&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
+    &lt;g fill=&quot;none&quot; stroke-width=&quot;6&quot;&gt;
+      &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;90&quot;/&gt;
+      &lt;circle cx=&quot;560&quot; cy=&quot;430&quot; r=&quot;90&quot;/&gt;
+      &lt;g stroke=&quot;#b7c4ca&quot; stroke-width=&quot;2&quot;&gt;
+        &lt;path d=&quot;M250 346V514M166 430H334M191 371L309 489M191 489L309 371&quot;/&gt;
+        &lt;path d=&quot;M560 346V514M476 430H644M501 371L619 489M501 489L619 371&quot;/&gt;
+      &lt;/g&gt;
+      &lt;path d=&quot;M250 430L382 332L400 418ZM382 332L544 322L400 418M382 332L380 320M560 430L540 300&quot; stroke=&quot;#467d86&quot; stroke-width=&quot;7&quot;/&gt;
+      &lt;path d=&quot;M540 300L535 278H562&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M250 420L398 396A22 22 0 1 1 402 440L250 440A10 10 0 0 1 250 420Z&quot; fill=&quot;none&quot; stroke=&quot;#697578&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;19&quot; fill=&quot;#ffffff&quot; stroke=&quot;#697578&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;g fill=&quot;#697578&quot; stroke=&quot;#333&quot; stroke-width=&quot;2&quot;&gt;
+      &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;6&quot;/&gt;
+      &lt;circle cx=&quot;560&quot; cy=&quot;430&quot; r=&quot;6&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M357 311Q378 305 409 312L410 322H357Z&quot; fill=&quot;#333&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;g fill=&quot;none&quot; stroke=&quot;#ba7b28&quot; stroke-width=&quot;10&quot;&gt;
+      &lt;path d=&quot;M378 285L350 339L383 391&quot;/&gt;
+      &lt;path d=&quot;M418 283L449 335L425 445&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;none&quot; stroke-width=&quot;5&quot;&gt;
+      &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;14&quot;/&gt;
+      &lt;path d=&quot;M383 391L400 418L425 445M368 398H403M411 452H446&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;#efb247&quot; stroke-width=&quot;2.5&quot;&gt;
+      &lt;path d=&quot;M380 382L399 395L392 398L380 394L370 398L365 393Z&quot;/&gt;
+      &lt;path d=&quot;M425 435L443 448L438 452L426 448L415 452L410 447Z&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M339 265L306 246L324 283L349 289Z&quot; fill=&quot;#b7c4ca&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M333 250C331 214 370 203 416 218C445 229 456 236 462 218C469 199 464 165 484 157C509 147 531 165 530 187C529 207 509 216 500 220C487 229 494 258 470 280C448 303 408 313 377 306C346 300 330 281 333 250Z&quot; fill=&quot;#edf1ef&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M524 190L646 200C617 220 591 246 563 240C540 235 531 216 524 202Z&quot; fill=&quot;#e6b953&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M524 183L650 198L647 204L525 201Z&quot; fill=&quot;#f5c45b&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M360 243C380 228 406 239 432 254L490 279L542 276L546 285C515 301 481 299 455 289L386 274C368 270 357 257 360 243Z&quot; fill=&quot;#c1cdd1&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M377 251Q412 261 446 276M376 260L414 273&quot; fill=&quot;none&quot; stroke=&quot;#899ba3&quot; stroke-width=&quot;2.5&quot;/&gt;
+    &lt;circle cx=&quot;508&quot; cy=&quot;177&quot; r=&quot;4&quot; fill=&quot;#333&quot; stroke=&quot;none&quot;/&gt;
+    &lt;circle cx=&quot;509&quot; cy=&quot;176&quot; r=&quot;1.2&quot; fill=&quot;#fff&quot; stroke=&quot;none&quot;/&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</pre></div></details><details><summary>第 1 轮 · KEEP</summary><p class='artifact-source'>来源：独立评审目录。正式分数以账本记录和评审结论为准。</p><div class='artifact'><p><a href="rounds/r001/artifacts/files/drawing.svg">drawing.svg</a></p><img loading="lazy" alt="drawing.svg" src="rounds/r001/artifacts/files/drawing.svg"></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/drawing.png">out/drawing.png</a></p><img loading="lazy" alt="out/drawing.png" src="rounds/r001/artifacts/files/out/drawing.png"></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;valid_svg&quot;: true,
+  &quot;has_viewbox&quot;: true,
+  &quot;vector_only&quot;: true,
+  &quot;no_text&quot;: true,
+  &quot;under_60kb&quot;: true,
+  &quot;has_shapes&quot;: true
+}</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>drawing.svg: 26 shapes, 2605 bytes
+</pre></div><div class='artifact'><p><a href="rounds/r001/artifacts/files/out/render.html">out/render.html</a></p><pre>&lt;!doctype html&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;style&gt;html,body{margin:0;background:#fff}svg{display:block;width:1024px;height:768px}&lt;/style&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 800 600&quot;&gt;
+  &lt;rect width=&quot;800&quot; height=&quot;600&quot; fill=&quot;#ffffff&quot;/&gt;
+  &lt;g transform=&quot;translate(-86 -104) scale(1.2)&quot; stroke=&quot;#333&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
+    &lt;g fill=&quot;none&quot; stroke-width=&quot;6&quot;&gt;
+      &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;90&quot;/&gt;
+      &lt;circle cx=&quot;560&quot; cy=&quot;430&quot; r=&quot;90&quot;/&gt;
+      &lt;g stroke=&quot;#b7c4ca&quot; stroke-width=&quot;2&quot;&gt;
+        &lt;path d=&quot;M250 346V514M166 430H334M191 371L309 489M191 489L309 371&quot;/&gt;
+        &lt;path d=&quot;M560 346V514M476 430H644M501 371L619 489M501 489L619 371&quot;/&gt;
+      &lt;/g&gt;
+      &lt;path d=&quot;M250 430L382 332L400 418ZM382 332L544 322L400 418M382 332L380 320M560 430L540 300&quot; stroke=&quot;#467d86&quot; stroke-width=&quot;7&quot;/&gt;
+      &lt;path d=&quot;M540 300L535 278H562&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M250 420L398 396A22 22 0 1 1 402 440L250 440A10 10 0 0 1 250 420Z&quot; fill=&quot;none&quot; stroke=&quot;#697578&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;19&quot; fill=&quot;#ffffff&quot; stroke=&quot;#697578&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;g fill=&quot;#697578&quot; stroke=&quot;#333&quot; stroke-width=&quot;2&quot;&gt;
+      &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;6&quot;/&gt;
+      &lt;circle cx=&quot;560&quot; cy=&quot;430&quot; r=&quot;6&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M357 311Q378 305 409 312L410 322H357Z&quot; fill=&quot;#333&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;g fill=&quot;none&quot; stroke=&quot;#ba7b28&quot; stroke-width=&quot;10&quot;&gt;
+      &lt;path d=&quot;M378 285L350 339L383 391&quot;/&gt;
+      &lt;path d=&quot;M418 283L449 335L425 445&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;none&quot; stroke-width=&quot;5&quot;&gt;
+      &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;14&quot;/&gt;
+      &lt;path d=&quot;M383 391L400 418L425 445M368 398H403M411 452H446&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;#efb247&quot; stroke-width=&quot;2.5&quot;&gt;
+      &lt;path d=&quot;M380 382L399 395L392 398L380 394L370 398L365 393Z&quot;/&gt;
+      &lt;path d=&quot;M425 435L443 448L438 452L426 448L415 452L410 447Z&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M339 265L306 246L324 283L349 289Z&quot; fill=&quot;#b7c4ca&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M333 250C331 214 370 203 416 218C445 229 456 236 462 218C469 199 464 165 484 157C509 147 531 165 530 187C529 207 509 216 500 220C487 229 494 258 470 280C448 303 408 313 377 306C346 300 330 281 333 250Z&quot; fill=&quot;#edf1ef&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M524 190L646 200C617 220 591 246 563 240C540 235 531 216 524 202Z&quot; fill=&quot;#e6b953&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M524 183L650 198L647 204L525 201Z&quot; fill=&quot;#f5c45b&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M360 243C380 228 406 239 432 254L490 279L542 276L546 285C515 301 481 299 455 289L386 274C368 270 357 257 360 243Z&quot; fill=&quot;#c1cdd1&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M377 251Q412 261 446 276M376 260L414 273&quot; fill=&quot;none&quot; stroke=&quot;#899ba3&quot; stroke-width=&quot;2.5&quot;/&gt;
+    &lt;circle cx=&quot;508&quot; cy=&quot;177&quot; r=&quot;4&quot; fill=&quot;#333&quot; stroke=&quot;none&quot;/&gt;
+    &lt;circle cx=&quot;509&quot; cy=&quot;176&quot; r=&quot;1.2&quot; fill=&quot;#fff&quot; stroke=&quot;none&quot;/&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</pre></div></details><details><summary>第 2 轮 · KEEP</summary><p class='artifact-source'>来源：独立评审目录。正式分数以账本记录和评审结论为准。</p><div class='artifact'><p><a href="rounds/r002/artifacts/files/drawing.svg">drawing.svg</a></p><img loading="lazy" alt="drawing.svg" src="rounds/r002/artifacts/files/drawing.svg"></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/drawing.png">out/drawing.png</a></p><img loading="lazy" alt="out/drawing.png" src="rounds/r002/artifacts/files/out/drawing.png"></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;valid_svg&quot;: true,
+  &quot;has_viewbox&quot;: true,
+  &quot;vector_only&quot;: true,
+  &quot;no_text&quot;: true,
+  &quot;under_60kb&quot;: true,
+  &quot;has_shapes&quot;: true
+}</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>drawing.svg: 28 shapes, 3156 bytes
+</pre></div><div class='artifact'><p><a href="rounds/r002/artifacts/files/out/render.html">out/render.html</a></p><pre>&lt;!doctype html&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;style&gt;html,body{margin:0;background:#fff}svg{display:block;width:1024px;height:768px}&lt;/style&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 800 600&quot;&gt;
+  &lt;rect width=&quot;800&quot; height=&quot;600&quot; fill=&quot;#ffffff&quot;/&gt;
+  &lt;g transform=&quot;translate(-86 -104) scale(1.2)&quot; stroke=&quot;#333&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
+    &lt;g fill=&quot;none&quot; stroke-width=&quot;6&quot;&gt;
+      &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;90&quot;/&gt;
+      &lt;circle cx=&quot;560&quot; cy=&quot;430&quot; r=&quot;90&quot;/&gt;
+      &lt;g stroke=&quot;#b7c4ca&quot; stroke-width=&quot;2&quot;&gt;
+        &lt;path d=&quot;M250 346V514M166 430H334M191 371L309 489M191 489L309 371&quot;/&gt;
+        &lt;path d=&quot;M560 346V514M476 430H644M501 371L619 489M501 489L619 371&quot;/&gt;
+      &lt;/g&gt;
+      &lt;path d=&quot;M250 430L382 332L400 418ZM382 332L544 322L400 418M382 332L380 320M560 430L540 300&quot; stroke=&quot;#467d86&quot; stroke-width=&quot;7&quot;/&gt;
+      &lt;path d=&quot;M540 300L535 278H562&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M250 420L398 396A22 22 0 1 1 402 440L250 440A10 10 0 0 1 250 420Z&quot; fill=&quot;none&quot; stroke=&quot;#697578&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;19&quot; fill=&quot;#ffffff&quot; stroke=&quot;#697578&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;g fill=&quot;#697578&quot; stroke=&quot;#333&quot; stroke-width=&quot;2&quot;&gt;
+      &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;6&quot;/&gt;
+      &lt;circle cx=&quot;560&quot; cy=&quot;430&quot; r=&quot;6&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M357 311Q378 305 409 312L410 322H357Z&quot; fill=&quot;#333&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;g fill=&quot;none&quot; stroke=&quot;#ba7b28&quot; stroke-width=&quot;10&quot;&gt;
+      &lt;path d=&quot;M378 285L350 339L383 391&quot;/&gt;
+      &lt;path d=&quot;M418 283L449 335L425 445&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;none&quot; stroke-width=&quot;5&quot;&gt;
+      &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;14&quot;/&gt;
+      &lt;path d=&quot;M383 391L400 418L425 445M368 398H403M411 452H446&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;#efb247&quot; stroke-width=&quot;2.5&quot;&gt;
+      &lt;path d=&quot;M378 379Q384 379 388 385L407 379Q412 378 413 382Q414 386 405 389Q405 392 410 392L416 391Q421 392 418 397Q415 401 405 398Q402 399 406 403Q409 408 404 409Q399 410 394 402L380 396Q368 399 366 393Q365 389 375 386Z&quot;/&gt;
+      &lt;path d=&quot;M423 433Q429 433 433 439L452 433Q457 432 458 436Q459 440 450 443Q450 446 455 446L461 445Q466 446 463 451Q460 455 450 452Q447 453 451 457Q454 462 449 463Q444 464 439 456L425 450Q413 453 411 447Q410 443 420 440Z&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;none&quot; stroke=&quot;#b57829&quot; stroke-width=&quot;1.7&quot;&gt;
+      &lt;path d=&quot;M380 388Q392 386 405 382M382 390L410 395M381 392Q393 395 402 405&quot;/&gt;
+      &lt;path d=&quot;M425 442Q437 440 450 436M427 444L455 449M426 446Q438 449 447 459&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M339 265L306 246L324 283L349 289Z&quot; fill=&quot;#b7c4ca&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M333 250C331 214 370 203 416 218C445 229 456 236 462 218C469 199 464 165 484 157C509 147 531 165 530 187C529 207 509 216 500 220C487 229 494 258 470 280C448 303 408 313 377 306C346 300 330 281 333 250Z&quot; fill=&quot;#edf1ef&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M524 190L646 200C617 220 591 246 563 240C540 235 531 216 524 202Z&quot; fill=&quot;#e6b953&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M524 183L650 198L647 204L525 201Z&quot; fill=&quot;#f5c45b&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M360 243C380 228 406 239 432 254L490 279L542 276L546 285C515 301 481 299 455 289L386 274C368 270 357 257 360 243Z&quot; fill=&quot;#c1cdd1&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M377 251Q412 261 446 276M376 260L414 273&quot; fill=&quot;none&quot; stroke=&quot;#899ba3&quot; stroke-width=&quot;2.5&quot;/&gt;
+    &lt;circle cx=&quot;508&quot; cy=&quot;177&quot; r=&quot;4&quot; fill=&quot;#333&quot; stroke=&quot;none&quot;/&gt;
+    &lt;circle cx=&quot;509&quot; cy=&quot;176&quot; r=&quot;1.2&quot; fill=&quot;#fff&quot; stroke=&quot;none&quot;/&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</pre></div></details><details><summary>第 3 轮 · REVERT</summary><p class='artifact-source'>来源：独立评审目录。正式分数以账本记录和评审结论为准。</p><div class='artifact'><p><a href="rounds/r003/artifacts/files/drawing.svg">drawing.svg</a></p><img loading="lazy" alt="drawing.svg" src="rounds/r003/artifacts/files/drawing.svg"></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/drawing.png">out/drawing.png</a></p><img loading="lazy" alt="out/drawing.png" src="rounds/r003/artifacts/files/out/drawing.png"></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;valid_svg&quot;: true,
+  &quot;has_viewbox&quot;: true,
+  &quot;vector_only&quot;: true,
+  &quot;no_text&quot;: true,
+  &quot;under_60kb&quot;: true,
+  &quot;has_shapes&quot;: true
+}</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>drawing.svg: 28 shapes, 3356 bytes
+</pre></div><div class='artifact'><p><a href="rounds/r003/artifacts/files/out/render.html">out/render.html</a></p><pre>&lt;!doctype html&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;style&gt;html,body{margin:0;background:#fff}svg{display:block;width:1024px;height:768px}&lt;/style&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 800 600&quot;&gt;
+  &lt;rect width=&quot;800&quot; height=&quot;600&quot; fill=&quot;#ffffff&quot;/&gt;
+  &lt;g transform=&quot;translate(-86 -104) scale(1.2)&quot; stroke=&quot;#333&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
+    &lt;g fill=&quot;none&quot; stroke-width=&quot;6&quot;&gt;
+      &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;90&quot;/&gt;
+      &lt;circle cx=&quot;560&quot; cy=&quot;430&quot; r=&quot;90&quot;/&gt;
+      &lt;g stroke=&quot;#b7c4ca&quot; stroke-width=&quot;2&quot;&gt;
+        &lt;path d=&quot;M250 346V514M166 430H334M191 371L309 489M191 489L309 371&quot;/&gt;
+        &lt;path d=&quot;M560 346V514M476 430H644M501 371L619 489M501 489L619 371&quot;/&gt;
+      &lt;/g&gt;
+      &lt;path d=&quot;M250 430L382 332L400 418ZM382 332L544 322L400 418M382 332L380 320M560 430L540 300&quot; stroke=&quot;#467d86&quot; stroke-width=&quot;7&quot;/&gt;
+      &lt;path d=&quot;M540 300L535 278H562&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M250 420L398 396A22 22 0 1 1 402 440L250 440A10 10 0 0 1 250 420Z&quot; fill=&quot;none&quot; stroke=&quot;#697578&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;19&quot; fill=&quot;#ffffff&quot; stroke=&quot;#697578&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;g fill=&quot;#697578&quot; stroke=&quot;#333&quot; stroke-width=&quot;2&quot;&gt;
+      &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;6&quot;/&gt;
+      &lt;circle cx=&quot;560&quot; cy=&quot;430&quot; r=&quot;6&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M357 311Q378 305 409 312L410 322H357Z&quot; fill=&quot;#333&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;g fill=&quot;none&quot; stroke=&quot;#ba7b28&quot; stroke-width=&quot;10&quot;&gt;
+      &lt;path d=&quot;M378 285L350 339L383 391&quot;/&gt;
+      &lt;path d=&quot;M418 283L449 335L425 445&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;none&quot; stroke-width=&quot;5&quot;&gt;
+      &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;14&quot;/&gt;
+      &lt;path d=&quot;M383 391L400 418L425 445M368 398H403M411 452H446&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;#efb247&quot; stroke-width=&quot;2.5&quot;&gt;
+      &lt;path d=&quot;M378 379Q384 379 388 385L407 379Q412 378 413 382Q414 386 405 389Q405 392 410 392L416 391Q421 392 418 397Q415 401 405 398Q402 399 406 403Q409 408 404 409Q399 410 394 402L380 396Q368 399 366 393Q365 389 375 386Z&quot;/&gt;
+      &lt;path d=&quot;M423 433Q429 433 433 439L452 433Q457 432 458 436Q459 440 450 443Q450 446 455 446L461 445Q466 446 463 451Q460 455 450 452Q447 453 451 457Q454 462 449 463Q444 464 439 456L425 450Q413 453 411 447Q410 443 420 440Z&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;none&quot; stroke=&quot;#b57829&quot; stroke-width=&quot;1.7&quot;&gt;
+      &lt;path d=&quot;M380 388Q392 386 405 382M382 390L410 395M381 392Q393 395 402 405&quot;/&gt;
+      &lt;path d=&quot;M425 442Q437 440 450 436M427 444L455 449M426 446Q438 449 447 459&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M339 265L306 246L324 283L349 289Z&quot; fill=&quot;#b7c4ca&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M333 250C331 214 370 203 416 218C445 229 456 236 462 218C469 199 464 165 484 157C509 147 531 165 530 187C529 207 509 216 500 220C487 229 494 258 470 280C448 303 408 313 377 306C346 300 330 281 333 250Z&quot; fill=&quot;#edf1ef&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M524 190L646 200C617 220 591 246 563 240C540 235 531 216 524 202Z&quot; fill=&quot;#e6b953&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M524 183L650 198L647 204L525 201Z&quot; fill=&quot;#f5c45b&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M359 241C376 225 402 234 421 252C433 264 440 278 452 282C464 286 488 273 510 269C526 266 543 267 555 271C564 274 567 281 562 286C558 290 551 289 549 285L548 280C529 277 512 283 495 292C478 302 462 311 446 306C426 301 417 286 399 281C379 276 357 262 359 241Z&quot; fill=&quot;#c1cdd1&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M375 244C398 244 416 274 435 287Q444 294 454 295M371 253Q393 260 411 278M466 295Q501 277 531 275&quot; fill=&quot;none&quot; stroke=&quot;#899ba3&quot; stroke-width=&quot;2.5&quot;/&gt;
+    &lt;circle cx=&quot;508&quot; cy=&quot;177&quot; r=&quot;4&quot; fill=&quot;#333&quot; stroke=&quot;none&quot;/&gt;
+    &lt;circle cx=&quot;509&quot; cy=&quot;176&quot; r=&quot;1.2&quot; fill=&quot;#fff&quot; stroke=&quot;none&quot;/&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</pre></div></details><details><summary>第 4 轮 · KEEP</summary><p class='artifact-source'>来源：独立评审目录。正式分数以账本记录和评审结论为准。</p><div class='artifact'><p><a href="rounds/r004/artifacts/files/drawing.svg">drawing.svg</a></p><img loading="lazy" alt="drawing.svg" src="rounds/r004/artifacts/files/drawing.svg"></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/drawing.png">out/drawing.png</a></p><img loading="lazy" alt="out/drawing.png" src="rounds/r004/artifacts/files/out/drawing.png"></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;valid_svg&quot;: true,
+  &quot;has_viewbox&quot;: true,
+  &quot;vector_only&quot;: true,
+  &quot;no_text&quot;: true,
+  &quot;under_60kb&quot;: true,
+  &quot;has_shapes&quot;: true
+}</pre></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>drawing.svg: 30 shapes, 3420 bytes
+</pre></div><div class='artifact'><p><a href="rounds/r004/artifacts/files/out/render.html">out/render.html</a></p><pre>&lt;!doctype html&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;style&gt;html,body{margin:0;background:#fff}svg{display:block;width:1024px;height:768px}&lt;/style&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 800 600&quot;&gt;
+  &lt;rect width=&quot;800&quot; height=&quot;600&quot; fill=&quot;#ffffff&quot;/&gt;
+  &lt;g transform=&quot;translate(-86 -104) scale(1.2)&quot; stroke=&quot;#333&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
+    &lt;g fill=&quot;none&quot; stroke-width=&quot;6&quot;&gt;
+      &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;90&quot;/&gt;
+      &lt;circle cx=&quot;560&quot; cy=&quot;430&quot; r=&quot;90&quot;/&gt;
+      &lt;g stroke=&quot;#b7c4ca&quot; stroke-width=&quot;2&quot;&gt;
+        &lt;path d=&quot;M250 346V514M166 430H334M191 371L309 489M191 489L309 371&quot;/&gt;
+        &lt;path d=&quot;M560 346V514M476 430H644M501 371L619 489M501 489L619 371&quot;/&gt;
+      &lt;/g&gt;
+      &lt;path d=&quot;M250 430L382 332L400 418ZM382 332L544 322L400 418M382 332L380 320M560 430L540 300&quot; stroke=&quot;#467d86&quot; stroke-width=&quot;7&quot;/&gt;
+      &lt;path d=&quot;M540 300L535 278H562&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M250 420L398 396A22 22 0 1 1 402 440L250 440A10 10 0 0 1 250 420Z&quot; fill=&quot;none&quot; stroke=&quot;#697578&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;19&quot; fill=&quot;#ffffff&quot; stroke=&quot;#697578&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;g fill=&quot;#697578&quot; stroke=&quot;#333&quot; stroke-width=&quot;2&quot;&gt;
+      &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;6&quot;/&gt;
+      &lt;circle cx=&quot;560&quot; cy=&quot;430&quot; r=&quot;6&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M357 311Q378 305 409 312L410 322H357Z&quot; fill=&quot;#333&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;g fill=&quot;none&quot; stroke=&quot;#ba7b28&quot; stroke-width=&quot;10&quot;&gt;
+      &lt;path d=&quot;M378 285L350 339L383 391&quot;/&gt;
+      &lt;path d=&quot;M418 283L449 335L425 445&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;none&quot; stroke-width=&quot;5&quot;&gt;
+      &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;14&quot;/&gt;
+      &lt;path d=&quot;M383 391L400 418L425 445M368 398H403M411 452H446&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;#efb247&quot; stroke-width=&quot;2.5&quot;&gt;
+      &lt;path d=&quot;M378 379Q384 379 388 385L407 379Q412 378 413 382Q414 386 405 389Q405 392 410 392L416 391Q421 392 418 397Q415 401 405 398Q402 399 406 403Q409 408 404 409Q399 410 394 402L380 396Q368 399 366 393Q365 389 375 386Z&quot;/&gt;
+      &lt;path d=&quot;M423 433Q429 433 433 439L452 433Q457 432 458 436Q459 440 450 443Q450 446 455 446L461 445Q466 446 463 451Q460 455 450 452Q447 453 451 457Q454 462 449 463Q444 464 439 456L425 450Q413 453 411 447Q410 443 420 440Z&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;none&quot; stroke=&quot;#b57829&quot; stroke-width=&quot;1.7&quot;&gt;
+      &lt;path d=&quot;M380 388Q392 386 405 382M382 390L410 395M381 392Q393 395 402 405&quot;/&gt;
+      &lt;path d=&quot;M425 442Q437 440 450 436M427 444L455 449M426 446Q438 449 447 459&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M339 265L306 246L324 283L349 289Z&quot; fill=&quot;#b7c4ca&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M333 250C331 214 370 203 416 218C445 229 456 236 462 218C469 199 464 165 484 157C509 147 531 165 530 187C529 207 509 216 500 220C487 229 494 258 470 280C448 303 408 313 377 306C346 300 330 281 333 250Z&quot; fill=&quot;#edf1ef&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M524 193L646 200C627 207 612 230 594 241C578 251 560 253 547 243C533 232 530 214 524 202Z&quot; fill=&quot;#e6b953&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M533 207C539 225 545 238 558 242C571 247 586 241 598 232C577 239 559 234 550 223Z&quot; fill=&quot;#d99b3f&quot; stroke=&quot;none&quot;/&gt;
+    &lt;path d=&quot;M540 211Q545 228 557 234M549 211Q559 227 573 231&quot; fill=&quot;none&quot; stroke=&quot;#bd8635&quot; stroke-width=&quot;1.8&quot;/&gt;
+    &lt;path d=&quot;M524 183L650 198L647 204L525 201Z&quot; fill=&quot;#f5c45b&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M360 243C380 228 406 239 432 254L490 279L542 276L546 285C515 301 481 299 455 289L386 274C368 270 357 257 360 243Z&quot; fill=&quot;#c1cdd1&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M377 251Q412 261 446 276M376 260L414 273&quot; fill=&quot;none&quot; stroke=&quot;#899ba3&quot; stroke-width=&quot;2.5&quot;/&gt;
+    &lt;circle cx=&quot;508&quot; cy=&quot;177&quot; r=&quot;4&quot; fill=&quot;#333&quot; stroke=&quot;none&quot;/&gt;
+    &lt;circle cx=&quot;509&quot; cy=&quot;176&quot; r=&quot;1.2&quot; fill=&quot;#fff&quot; stroke=&quot;none&quot;/&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</pre></div></details><details><summary>第 5 轮 · REVERT</summary><p class='artifact-source'>来源：独立评审目录。正式分数以账本记录和评审结论为准。</p><div class='artifact'><p><a href="rounds/r005/artifacts/files/drawing.svg">drawing.svg</a></p><img loading="lazy" alt="drawing.svg" src="rounds/r005/artifacts/files/drawing.svg"></div><div class='artifact'><p><a href="rounds/r005/artifacts/files/out/drawing.png">out/drawing.png</a></p><img loading="lazy" alt="out/drawing.png" src="rounds/r005/artifacts/files/out/drawing.png"></div><div class='artifact'><p><a href="rounds/r005/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;valid_svg&quot;: true,
+  &quot;has_viewbox&quot;: true,
+  &quot;vector_only&quot;: true,
+  &quot;no_text&quot;: true,
+  &quot;under_60kb&quot;: true,
+  &quot;has_shapes&quot;: true
+}</pre></div><div class='artifact'><p><a href="rounds/r005/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>drawing.svg: 30 shapes, 3444 bytes
+</pre></div><div class='artifact'><p><a href="rounds/r005/artifacts/files/out/render.html">out/render.html</a></p><pre>&lt;!doctype html&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;style&gt;html,body{margin:0;background:#fff}svg{display:block;width:1024px;height:768px}&lt;/style&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 800 600&quot;&gt;
+  &lt;rect width=&quot;800&quot; height=&quot;600&quot; fill=&quot;#ffffff&quot;/&gt;
+  &lt;g transform=&quot;translate(-86 -104) scale(1.2)&quot; stroke=&quot;#333&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
+    &lt;g fill=&quot;none&quot; stroke-width=&quot;6&quot;&gt;
+      &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;90&quot;/&gt;
+      &lt;circle cx=&quot;560&quot; cy=&quot;430&quot; r=&quot;90&quot;/&gt;
+      &lt;g stroke=&quot;#b7c4ca&quot; stroke-width=&quot;2&quot;&gt;
+        &lt;path d=&quot;M250 346V514M166 430H334M191 371L309 489M191 489L309 371&quot;/&gt;
+        &lt;path d=&quot;M560 346V514M476 430H644M501 371L619 489M501 489L619 371&quot;/&gt;
+      &lt;/g&gt;
+      &lt;path d=&quot;M250 430L382 332L400 418ZM382 332L544 322L400 418M382 332L380 320M560 430L540 300&quot; stroke=&quot;#467d86&quot; stroke-width=&quot;7&quot;/&gt;
+      &lt;path d=&quot;M540 300L535 278H562&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M250 420L398 396A22 22 0 1 1 402 440L250 440A10 10 0 0 1 250 420Z&quot; fill=&quot;none&quot; stroke=&quot;#697578&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;19&quot; fill=&quot;#ffffff&quot; stroke=&quot;#697578&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;g fill=&quot;#697578&quot; stroke=&quot;#333&quot; stroke-width=&quot;2&quot;&gt;
+      &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;6&quot;/&gt;
+      &lt;circle cx=&quot;560&quot; cy=&quot;430&quot; r=&quot;6&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M357 311Q378 305 409 312L410 322H357Z&quot; fill=&quot;#333&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;g fill=&quot;none&quot; stroke=&quot;#ba7b28&quot; stroke-width=&quot;10&quot;&gt;
+      &lt;path d=&quot;M378 285L350 339L383 391&quot;/&gt;
+      &lt;path d=&quot;M418 283L449 335L425 445&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;none&quot; stroke-width=&quot;5&quot;&gt;
+      &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;14&quot;/&gt;
+      &lt;path d=&quot;M383 391L400 418L425 445M368 398H403M411 452H446&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;#efb247&quot; stroke-width=&quot;2.5&quot;&gt;
+      &lt;path d=&quot;M378 379Q384 379 388 385L407 379Q412 378 413 382Q414 386 405 389Q405 392 410 392L416 391Q421 392 418 397Q415 401 405 398Q402 399 406 403Q409 408 404 409Q399 410 394 402L380 396Q368 399 366 393Q365 389 375 386Z&quot;/&gt;
+      &lt;path d=&quot;M423 433Q429 433 433 439L452 433Q457 432 458 436Q459 440 450 443Q450 446 455 446L461 445Q466 446 463 451Q460 455 450 452Q447 453 451 457Q454 462 449 463Q444 464 439 456L425 450Q413 453 411 447Q410 443 420 440Z&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;none&quot; stroke=&quot;#b57829&quot; stroke-width=&quot;1.7&quot;&gt;
+      &lt;path d=&quot;M380 388Q392 386 405 382M382 390L410 395M381 392Q393 395 402 405&quot;/&gt;
+      &lt;path d=&quot;M425 442Q437 440 450 436M427 444L455 449M426 446Q438 449 447 459&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M339 265L306 246L324 283L349 289Z&quot; fill=&quot;#b7c4ca&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M329 251C327 228 346 213 375 212C406 210 428 226 447 226C465 226 458 187 472 167C483 150 506 150 520 164C536 179 532 199 516 211C509 216 501 218 497 228C490 245 488 263 471 280C448 302 408 315 377 307C346 300 328 279 329 251Z&quot; fill=&quot;#edf1ef&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M524 193L646 200C627 207 612 230 594 241C578 251 560 253 547 243C533 232 530 214 524 202Z&quot; fill=&quot;#e6b953&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M533 207C539 225 545 238 558 242C571 247 586 241 598 232C577 239 559 234 550 223Z&quot; fill=&quot;#d99b3f&quot; stroke=&quot;none&quot;/&gt;
+    &lt;path d=&quot;M540 211Q545 228 557 234M549 211Q559 227 573 231&quot; fill=&quot;none&quot; stroke=&quot;#bd8635&quot; stroke-width=&quot;1.8&quot;/&gt;
+    &lt;path d=&quot;M524 183L650 198L647 204L525 201Z&quot; fill=&quot;#f5c45b&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M360 243C380 228 406 239 432 254L490 279L542 276L546 285C515 301 481 299 455 289L386 274C368 270 357 257 360 243Z&quot; fill=&quot;#c1cdd1&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M377 251Q412 261 446 276M376 260L414 273&quot; fill=&quot;none&quot; stroke=&quot;#899ba3&quot; stroke-width=&quot;2.5&quot;/&gt;
+    &lt;circle cx=&quot;508&quot; cy=&quot;177&quot; r=&quot;4&quot; fill=&quot;#333&quot; stroke=&quot;none&quot;/&gt;
+    &lt;circle cx=&quot;509&quot; cy=&quot;176&quot; r=&quot;1.2&quot; fill=&quot;#fff&quot; stroke=&quot;none&quot;/&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</pre></div></details><details><summary>第 6 轮 · KEEP</summary><p class='artifact-source'>来源：独立评审目录。正式分数以账本记录和评审结论为准。</p><div class='artifact'><p><a href="rounds/r006/artifacts/files/drawing.svg">drawing.svg</a></p><img loading="lazy" alt="drawing.svg" src="rounds/r006/artifacts/files/drawing.svg"></div><div class='artifact'><p><a href="rounds/r006/artifacts/files/out/drawing.png">out/drawing.png</a></p><img loading="lazy" alt="out/drawing.png" src="rounds/r006/artifacts/files/out/drawing.png"></div><div class='artifact'><p><a href="rounds/r006/artifacts/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;valid_svg&quot;: true,
+  &quot;has_viewbox&quot;: true,
+  &quot;vector_only&quot;: true,
+  &quot;no_text&quot;: true,
+  &quot;under_60kb&quot;: true,
+  &quot;has_shapes&quot;: true
+}</pre></div><div class='artifact'><p><a href="rounds/r006/artifacts/files/out/notes.txt">out/notes.txt</a></p><pre>drawing.svg: 34 shapes, 3848 bytes
+</pre></div><div class='artifact'><p><a href="rounds/r006/artifacts/files/out/render.html">out/render.html</a></p><pre>&lt;!doctype html&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;style&gt;html,body{margin:0;background:#fff}svg{display:block;width:1024px;height:768px}&lt;/style&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 800 600&quot;&gt;
+  &lt;rect width=&quot;800&quot; height=&quot;600&quot; fill=&quot;#ffffff&quot;/&gt;
+  &lt;g transform=&quot;translate(-86 -104) scale(1.2)&quot; stroke=&quot;#333&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
+    &lt;g fill=&quot;none&quot; stroke-width=&quot;6&quot;&gt;
+      &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;90&quot;/&gt;
+      &lt;circle cx=&quot;560&quot; cy=&quot;430&quot; r=&quot;90&quot;/&gt;
+      &lt;g stroke=&quot;#b7c4ca&quot; stroke-width=&quot;2&quot;&gt;
+        &lt;path d=&quot;M250 346V514M166 430H334M191 371L309 489M191 489L309 371&quot;/&gt;
+        &lt;path d=&quot;M560 346V514M476 430H644M501 371L619 489M501 489L619 371&quot;/&gt;
+      &lt;/g&gt;
+      &lt;path d=&quot;M250 430L382 332L400 418ZM382 332L544 322L400 418M382 332L380 320M560 430L540 300&quot; stroke=&quot;#467d86&quot; stroke-width=&quot;7&quot;/&gt;
+      &lt;path d=&quot;M540 300L535 278H562&quot;/&gt;
+    &lt;/g&gt;
+    &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;10&quot; fill=&quot;#edf1ef&quot; stroke=&quot;#697578&quot; stroke-width=&quot;2&quot;/&gt;
+    &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;22&quot; fill=&quot;#edf1ef&quot; stroke=&quot;#697578&quot; stroke-width=&quot;2&quot;/&gt;
+    &lt;path d=&quot;M249 420L398 396A22 22 0 1 1 400 440H250A10 10 0 0 1 249 420Z&quot; fill=&quot;none&quot; stroke=&quot;#697578&quot; stroke-width=&quot;4&quot;/&gt;
+    &lt;path d=&quot;M249 420L398 396A22 22 0 1 1 400 440H250A10 10 0 0 1 249 420Z&quot; fill=&quot;none&quot; stroke=&quot;#dce3e3&quot; stroke-width=&quot;1.5&quot; stroke-dasharray=&quot;2 4&quot;/&gt;
+    &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;17&quot; fill=&quot;#ffffff&quot; stroke=&quot;#697578&quot; stroke-width=&quot;2&quot;/&gt;
+    &lt;path d=&quot;M400 403V410M413 422L406 420M391 429L396 423&quot; fill=&quot;none&quot; stroke=&quot;#697578&quot; stroke-width=&quot;5&quot;/&gt;
+    &lt;g fill=&quot;#697578&quot; stroke=&quot;#333&quot; stroke-width=&quot;2&quot;&gt;
+      &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;6&quot;/&gt;
+      &lt;circle cx=&quot;560&quot; cy=&quot;430&quot; r=&quot;6&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M357 311Q378 305 409 312L410 322H357Z&quot; fill=&quot;#333&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;g fill=&quot;none&quot; stroke=&quot;#ba7b28&quot; stroke-width=&quot;10&quot;&gt;
+      &lt;path d=&quot;M378 285L350 339L383 391&quot;/&gt;
+      &lt;path d=&quot;M418 283L449 335L425 445&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;none&quot; stroke-width=&quot;5&quot;&gt;
+      &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;14&quot;/&gt;
+      &lt;path d=&quot;M383 391L400 418L425 445M368 398H403M411 452H446&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;#efb247&quot; stroke-width=&quot;2.5&quot;&gt;
+      &lt;path d=&quot;M378 379Q384 379 388 385L407 379Q412 378 413 382Q414 386 405 389Q405 392 410 392L416 391Q421 392 418 397Q415 401 405 398Q402 399 406 403Q409 408 404 409Q399 410 394 402L380 396Q368 399 366 393Q365 389 375 386Z&quot;/&gt;
+      &lt;path d=&quot;M423 433Q429 433 433 439L452 433Q457 432 458 436Q459 440 450 443Q450 446 455 446L461 445Q466 446 463 451Q460 455 450 452Q447 453 451 457Q454 462 449 463Q444 464 439 456L425 450Q413 453 411 447Q410 443 420 440Z&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;none&quot; stroke=&quot;#b57829&quot; stroke-width=&quot;1.7&quot;&gt;
+      &lt;path d=&quot;M380 388Q392 386 405 382M382 390L410 395M381 392Q393 395 402 405&quot;/&gt;
+      &lt;path d=&quot;M425 442Q437 440 450 436M427 444L455 449M426 446Q438 449 447 459&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M339 265L306 246L324 283L349 289Z&quot; fill=&quot;#b7c4ca&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M333 250C331 214 370 203 416 218C445 229 456 236 462 218C469 199 464 165 484 157C509 147 531 165 530 187C529 207 509 216 500 220C487 229 494 258 470 280C448 303 408 313 377 306C346 300 330 281 333 250Z&quot; fill=&quot;#edf1ef&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M524 193L646 200C627 207 612 230 594 241C578 251 560 253 547 243C533 232 530 214 524 202Z&quot; fill=&quot;#e6b953&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M533 207C539 225 545 238 558 242C571 247 586 241 598 232C577 239 559 234 550 223Z&quot; fill=&quot;#d99b3f&quot; stroke=&quot;none&quot;/&gt;
+    &lt;path d=&quot;M540 211Q545 228 557 234M549 211Q559 227 573 231&quot; fill=&quot;none&quot; stroke=&quot;#bd8635&quot; stroke-width=&quot;1.8&quot;/&gt;
+    &lt;path d=&quot;M524 183L650 198L647 204L525 201Z&quot; fill=&quot;#f5c45b&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M360 243C380 228 406 239 432 254L490 279L542 276L546 285C515 301 481 299 455 289L386 274C368 270 357 257 360 243Z&quot; fill=&quot;#c1cdd1&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M377 251Q412 261 446 276M376 260L414 273&quot; fill=&quot;none&quot; stroke=&quot;#899ba3&quot; stroke-width=&quot;2.5&quot;/&gt;
+    &lt;circle cx=&quot;508&quot; cy=&quot;177&quot; r=&quot;4&quot; fill=&quot;#333&quot; stroke=&quot;none&quot;/&gt;
+    &lt;circle cx=&quot;509&quot; cy=&quot;176&quot; r=&quot;1.2&quot; fill=&quot;#fff&quot; stroke=&quot;none&quot;/&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</pre></div></details><details><summary>最终产物</summary><p class='artifact-source'>来源：已保存的评审版本 rounds/r006/artifacts。复制最终作品不会新增评分；正式分数以账本和评审结论为准。</p><div class='artifact'><p><a href="artifacts/final/files/drawing.svg">drawing.svg</a></p><img loading="lazy" alt="drawing.svg" src="artifacts/final/files/drawing.svg"></div><div class='artifact'><p><a href="artifacts/final/files/out/drawing.png">out/drawing.png</a></p><img loading="lazy" alt="out/drawing.png" src="artifacts/final/files/out/drawing.png"></div><div class='artifact'><p><a href="artifacts/final/files/out/gates.json">out/gates.json</a></p><pre>{
+  &quot;valid_svg&quot;: true,
+  &quot;has_viewbox&quot;: true,
+  &quot;vector_only&quot;: true,
+  &quot;no_text&quot;: true,
+  &quot;under_60kb&quot;: true,
+  &quot;has_shapes&quot;: true
+}</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/notes.txt">out/notes.txt</a></p><pre>drawing.svg: 34 shapes, 3848 bytes
+</pre></div><div class='artifact'><p><a href="artifacts/final/files/out/render.html">out/render.html</a></p><pre>&lt;!doctype html&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;style&gt;html,body{margin:0;background:#fff}svg{display:block;width:1024px;height:768px}&lt;/style&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 800 600&quot;&gt;
+  &lt;rect width=&quot;800&quot; height=&quot;600&quot; fill=&quot;#ffffff&quot;/&gt;
+  &lt;g transform=&quot;translate(-86 -104) scale(1.2)&quot; stroke=&quot;#333&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
+    &lt;g fill=&quot;none&quot; stroke-width=&quot;6&quot;&gt;
+      &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;90&quot;/&gt;
+      &lt;circle cx=&quot;560&quot; cy=&quot;430&quot; r=&quot;90&quot;/&gt;
+      &lt;g stroke=&quot;#b7c4ca&quot; stroke-width=&quot;2&quot;&gt;
+        &lt;path d=&quot;M250 346V514M166 430H334M191 371L309 489M191 489L309 371&quot;/&gt;
+        &lt;path d=&quot;M560 346V514M476 430H644M501 371L619 489M501 489L619 371&quot;/&gt;
+      &lt;/g&gt;
+      &lt;path d=&quot;M250 430L382 332L400 418ZM382 332L544 322L400 418M382 332L380 320M560 430L540 300&quot; stroke=&quot;#467d86&quot; stroke-width=&quot;7&quot;/&gt;
+      &lt;path d=&quot;M540 300L535 278H562&quot;/&gt;
+    &lt;/g&gt;
+    &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;10&quot; fill=&quot;#edf1ef&quot; stroke=&quot;#697578&quot; stroke-width=&quot;2&quot;/&gt;
+    &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;22&quot; fill=&quot;#edf1ef&quot; stroke=&quot;#697578&quot; stroke-width=&quot;2&quot;/&gt;
+    &lt;path d=&quot;M249 420L398 396A22 22 0 1 1 400 440H250A10 10 0 0 1 249 420Z&quot; fill=&quot;none&quot; stroke=&quot;#697578&quot; stroke-width=&quot;4&quot;/&gt;
+    &lt;path d=&quot;M249 420L398 396A22 22 0 1 1 400 440H250A10 10 0 0 1 249 420Z&quot; fill=&quot;none&quot; stroke=&quot;#dce3e3&quot; stroke-width=&quot;1.5&quot; stroke-dasharray=&quot;2 4&quot;/&gt;
+    &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;17&quot; fill=&quot;#ffffff&quot; stroke=&quot;#697578&quot; stroke-width=&quot;2&quot;/&gt;
+    &lt;path d=&quot;M400 403V410M413 422L406 420M391 429L396 423&quot; fill=&quot;none&quot; stroke=&quot;#697578&quot; stroke-width=&quot;5&quot;/&gt;
+    &lt;g fill=&quot;#697578&quot; stroke=&quot;#333&quot; stroke-width=&quot;2&quot;&gt;
+      &lt;circle cx=&quot;250&quot; cy=&quot;430&quot; r=&quot;6&quot;/&gt;
+      &lt;circle cx=&quot;560&quot; cy=&quot;430&quot; r=&quot;6&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M357 311Q378 305 409 312L410 322H357Z&quot; fill=&quot;#333&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;g fill=&quot;none&quot; stroke=&quot;#ba7b28&quot; stroke-width=&quot;10&quot;&gt;
+      &lt;path d=&quot;M378 285L350 339L383 391&quot;/&gt;
+      &lt;path d=&quot;M418 283L449 335L425 445&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;none&quot; stroke-width=&quot;5&quot;&gt;
+      &lt;circle cx=&quot;400&quot; cy=&quot;418&quot; r=&quot;14&quot;/&gt;
+      &lt;path d=&quot;M383 391L400 418L425 445M368 398H403M411 452H446&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;#efb247&quot; stroke-width=&quot;2.5&quot;&gt;
+      &lt;path d=&quot;M378 379Q384 379 388 385L407 379Q412 378 413 382Q414 386 405 389Q405 392 410 392L416 391Q421 392 418 397Q415 401 405 398Q402 399 406 403Q409 408 404 409Q399 410 394 402L380 396Q368 399 366 393Q365 389 375 386Z&quot;/&gt;
+      &lt;path d=&quot;M423 433Q429 433 433 439L452 433Q457 432 458 436Q459 440 450 443Q450 446 455 446L461 445Q466 446 463 451Q460 455 450 452Q447 453 451 457Q454 462 449 463Q444 464 439 456L425 450Q413 453 411 447Q410 443 420 440Z&quot;/&gt;
+    &lt;/g&gt;
+    &lt;g fill=&quot;none&quot; stroke=&quot;#b57829&quot; stroke-width=&quot;1.7&quot;&gt;
+      &lt;path d=&quot;M380 388Q392 386 405 382M382 390L410 395M381 392Q393 395 402 405&quot;/&gt;
+      &lt;path d=&quot;M425 442Q437 440 450 436M427 444L455 449M426 446Q438 449 447 459&quot;/&gt;
+    &lt;/g&gt;
+    &lt;path d=&quot;M339 265L306 246L324 283L349 289Z&quot; fill=&quot;#b7c4ca&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M333 250C331 214 370 203 416 218C445 229 456 236 462 218C469 199 464 165 484 157C509 147 531 165 530 187C529 207 509 216 500 220C487 229 494 258 470 280C448 303 408 313 377 306C346 300 330 281 333 250Z&quot; fill=&quot;#edf1ef&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M524 193L646 200C627 207 612 230 594 241C578 251 560 253 547 243C533 232 530 214 524 202Z&quot; fill=&quot;#e6b953&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M533 207C539 225 545 238 558 242C571 247 586 241 598 232C577 239 559 234 550 223Z&quot; fill=&quot;#d99b3f&quot; stroke=&quot;none&quot;/&gt;
+    &lt;path d=&quot;M540 211Q545 228 557 234M549 211Q559 227 573 231&quot; fill=&quot;none&quot; stroke=&quot;#bd8635&quot; stroke-width=&quot;1.8&quot;/&gt;
+    &lt;path d=&quot;M524 183L650 198L647 204L525 201Z&quot; fill=&quot;#f5c45b&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M360 243C380 228 406 239 432 254L490 279L542 276L546 285C515 301 481 299 455 289L386 274C368 270 357 257 360 243Z&quot; fill=&quot;#c1cdd1&quot; stroke-width=&quot;3&quot;/&gt;
+    &lt;path d=&quot;M377 251Q412 261 446 276M376 260L414 273&quot; fill=&quot;none&quot; stroke=&quot;#899ba3&quot; stroke-width=&quot;2.5&quot;/&gt;
+    &lt;circle cx=&quot;508&quot; cy=&quot;177&quot; r=&quot;4&quot; fill=&quot;#333&quot; stroke=&quot;none&quot;/&gt;
+    &lt;circle cx=&quot;509&quot; cy=&quot;176&quot; r=&quot;1.2&quot; fill=&quot;#fff&quot; stroke=&quot;none&quot;/&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</pre></div></details>
+<h2>Champion vs. start</h2><pre>drawing.svg | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)</pre>
+<p class="muted">Branch <code>rsi/20261029-211118-pelican-on-a-bicycle</code>. Generated by RSI-Anything.</p>
+</main></body></html>

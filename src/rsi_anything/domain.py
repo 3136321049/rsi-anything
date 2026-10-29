@@ -49,6 +49,7 @@ class Decision:
     """Whether a judged candidate replaces the champion, and why. Unpacks as `(keep, reason)`."""
     keep: bool
     reason: str
+    tie: bool = False  # neither score beats the other by the margin; a later rule may break the tie
 
     def __iter__(self):
         return iter((self.keep, self.reason))

@@ -1,0 +1,57 @@
+task: |
+  A one-page website for the Night Membership of "Night Voyage Study Room", a fictional late-night study space.
+  The visitor works or studies by day and can only prepare for an exam at night. In a few seconds the page
+  should make them feel "this is for me", show what they get for the price, and make the next step obvious.
+  You see the page as screenshots (desktop 1280px wide, phone 390px wide) plus its visible text.
+  Facts come only from the brief; anything else (testimonials, ratings, member counts, extra perks) is invented.
+
+context: [judge/brief.md]
+
+criteria:
+  - name: first_impression
+    weight: 25
+    question: Above the fold, does the page say who it is for and why it matters, clearly and attractively?
+    anchors:
+      1: "a plain heading and generic text"
+      4: "the offer is stated but nothing draws the eye"
+      7: "a clear headline and supporting line for night-time exam takers, with an obvious call to action"
+      10: "the first screen alone makes the target visitor want to sign up"
+  - name: layout
+    weight: 20
+    question: Is the information organized with a clear visual hierarchy and easy scanning?
+    anchors:
+      1: "an unstyled document"
+      4: "some grouping but cramped or monotonous"
+      7: "sections with clear headings, spacing and rhythm"
+      10: "every section has a purpose and the eye moves naturally from offer to details to action"
+  - name: visual_craft
+    weight: 20
+    question: How polished is the visual design (typography, color, spacing, consistency)?
+    anchors:
+      1: "browser defaults"
+      4: "basic styling with inconsistencies"
+      7: "a coherent, tasteful style that fits a calm late-night study room"
+      10: "looks like a professionally designed product page"
+  - name: mobile
+    weight: 15
+    question: On the 390px phone screenshot, is the page comfortable to read and use?
+    anchors:
+      1: "broken, overflowing or tiny text"
+      4: "readable but awkward"
+      7: "a clean single-column layout with tappable buttons"
+      10: "feels designed for the phone first"
+  - name: persuasion
+    weight: 20
+    question: Do the brief's concrete details answer the visitor's worries, and is the next step clear and honest?
+    anchors:
+      1: "facts are missing or the call to action is unclear"
+      4: "facts are listed like a spec sheet"
+      7: "details are framed around the visitor's evening, and the trial offer is clear"
+      10: "every detail answers a real concern, with an honest sense of urgency about the first 50 trial spots"
+
+checks:
+  - Every price, time, number and perk on the page appears in the brief; nothing is invented (no testimonials, ratings or member counts).
+  - The page has no placeholder text, broken layout or overlapping elements.
+
+gates:
+  degenerate: false   # visible text is judged together with the screenshots

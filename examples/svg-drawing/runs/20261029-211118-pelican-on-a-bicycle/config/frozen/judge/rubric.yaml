@@ -1,0 +1,44 @@
+task: |
+  An illustration of a pelican riding a bicycle, drawn as an SVG and shown here as a rendered image.
+  A viewer should recognize both the bird and the bike at a glance and believe the pelican is really riding.
+
+criteria:
+  - name: pelican
+    weight: 30
+    question: Is the bird unmistakably a pelican?
+    anchors:
+      1: "no recognizable bird"
+      4: "a generic bird"
+      7: "clearly a pelican, with a long beak and a throat pouch"
+      10: "a charming pelican whose beak, pouch, body, wings, legs and webbed feet are all well drawn"
+  - name: bicycle
+    weight: 25
+    question: Is the bicycle complete and mechanically plausible?
+    anchors:
+      1: "no recognizable bicycle"
+      4: "two wheels and a few lines"
+      7: "wheels, frame, seat, handlebars and pedals in plausible places"
+      10: "a convincing bicycle with a proper frame, hubs or spokes, chain, crank and pedals"
+  - name: riding
+    weight: 25
+    question: Is the pelican actually riding the bicycle?
+    anchors:
+      1: "bird and bike are unrelated"
+      4: "the bird floats near the bike"
+      7: "seated on the saddle with its feet near the pedals"
+      10: "seated, feet on the pedals and wings on the handlebars, in a pose that suggests motion"
+  - name: craft
+    weight: 20
+    question: How good is the drawing as an illustration (proportions, composition, color, clean shapes)?
+    anchors:
+      1: "broken or chaotic"
+      4: "crude but readable"
+      7: "tidy shapes and a pleasant palette"
+      10: "a polished illustration you would happily put on a poster"
+
+checks:
+  - The image contains no text, letters or labels.
+  - The image shows one pelican and one bicycle.
+
+gates:
+  degenerate: false   # the jury sees a picture, not prose

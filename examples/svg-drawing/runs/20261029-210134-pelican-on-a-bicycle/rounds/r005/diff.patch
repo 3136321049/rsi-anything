@@ -1,0 +1,15 @@
+diff --git a/drawing.svg b/drawing.svg
+index 4e2e968..1aa22bd 100644
+--- a/drawing.svg
++++ b/drawing.svg
+@@ -1,5 +1,10 @@
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+   <rect width="800" height="600" fill="#ffffff"/>
++  <ellipse cx="405" cy="523" rx="257" ry="13" fill="#e7eeec"/>
++  <g fill="none" stroke="#a9bdbc" stroke-width="4" stroke-linecap="round">
++    <path d="M222 246H289M189 266H272M224 286H297"/>
++    <path d="M119 389H151M101 408H141"/>
++  </g>
+   <g stroke="#333" stroke-linecap="round" stroke-linejoin="round">
+     <g fill="none" stroke-width="6">
+       <circle cx="250" cy="430" r="90"/>

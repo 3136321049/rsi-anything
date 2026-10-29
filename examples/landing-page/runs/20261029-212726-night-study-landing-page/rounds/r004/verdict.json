@@ -1,0 +1,77 @@
+{
+  "score": 72.0,
+  "gates": {
+    "self_contained": true,
+    "facts_present": true,
+    "no_placeholder": true,
+    "has_title_and_viewport": true,
+    "images_have_alt": true,
+    "under_100kb": true,
+    "check:Every price, time, number and perk on the page appears in th": true,
+    "check:The page has no placeholder text, broken layout or overlappi": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "index.html: 9870 bytes\nfirst_impression 7.0/10: The first screen names the audience, the hours, the ¥129 trial for the first 50 and a 'REPLY NIGHT' action, which meets the 7 anchor; it misses 8+ because the headline 'Study by night. Move forward.' is generic, nothing about the booths, quiet or 22:00 milk shows above the fold, and the 'REPLY NIGHT\nvisual_craft 7.0/10: The deep green, cream and gold palette, serif display headings with sans body text, and consistent cards and dividers suit a calm night study room; it is held back from 8 by small, low-contrast grey body text on dark green in the feature and logistics blocks, and by an all-text treatment with no ima\n[cli:claude] Add a short line of evening-specific reassurances to the hero, such as 'Private booth with lamp & USB-C · No calls in the study area · Free hot milk after 22:00 · 6 min to metro, staff until 02:00'. Also turn the 'REPLY NIGHT ↗' block into a clearly labelled action, such as 'Copy NIGHT & open official account', so the first screen answers the visitor's worries and the next step is unambiguous.",
+  "metrics": {
+    "criteria": {
+      "first_impression": 7.0,
+      "layout": 8.0,
+      "visual_craft": 7.0,
+      "mobile": 7.0,
+      "persuasion": 7.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "first_impression": {
+            "score": 7,
+            "evidence": "Work or classes by day? Prepare for graduate-school, civil-service or certification exams in a quiet space at night.",
+            "why": "The first screen names the audience, the hours, the ¥129 trial for the first 50 and a 'REPLY NIGHT' action, which meets the 7 anchor; it misses 8+ because the headline 'Study by night. Move forward.' is generic, nothing about the booths, quiet or 22:00 milk shows above the fold, and the 'REPLY NIGHT ↗' bar is styled like a button but is really a keyword to send, so what tapping it does is unclear."
+          },
+          "layout": {
+            "score": 8,
+            "evidence": "Settle in. Get into your work.",
+            "why": "The page flows from the hero offer card to a three-column benefit grid, a logistics row and a closing CTA with two numbered steps, so the eye moves from offer to details to action; it falls short of 10 because the location and safety row ('Close to the metro' / 'Stay focused into the night') has no eyebrow and small text, so it looks like an afterthought, and the left side of the desktop hero leaves a lot of empty space."
+          },
+          "visual_craft": {
+            "score": 7,
+            "evidence": "¥129 / first month",
+            "why": "The deep green, cream and gold palette, serif display headings with sans body text, and consistent cards and dividers suit a calm night study room; it is held back from 8 by small, low-contrast grey body text on dark green in the feature and logistics blocks, and by an all-text treatment with no imagery or icons that looks restrained rather than finished like a product page."
+          },
+          "mobile": {
+            "score": 7,
+            "evidence": "Claim your trial spot",
+            "why": "On the phone the page is a clean single column with comfortable text sizes, and the price card and full-width 'REPLY NIGHT' block fall within roughly the first screen; it is a straight collapse of the desktop layout with nothing phone-first (for example no sticky CTA), the block's tap action is unclear, and the screenshot ends at the perk section, so the closing CTA on mobile can't be checked."
+          },
+          "persuasion": {
+            "score": 7,
+            "evidence": "Trial offer limited to the first 50 sign-ups.",
+            "why": "Every fact in the brief is used and several are framed around the visitor ('Calls have their own space', 'A little comfort after 22:00', 'Bring your books and plug in'), the trial terms, the later ¥199 price and the two-step join are clear, and the urgency is honest; it misses 8+ because the safety and metro details, which are the main worry for someone leaving at 02:00, are listed like a spec sheet under the weak heading 'Stay focused into the night', and the hero never speaks to the after-work tiredness of a day worker."
+          }
+        },
+        "checks": {
+          "Every price, time, number and perk on the page appears in the brief; nothing is invented (no testimonials, ratings or member counts).": {
+            "pass": true,
+            "why": "¥129, ¥199, first 50, 18:00–02:00, 42 booths, lamp + 2 sockets + USB-C, 4 phone booths, milk/soy milk after 22:00, key card after 01:30, staff until 02:00, second floor, 6 minutes' walk and the keyword NIGHT all match the brief. There are no testimonials, ratings, member counts or extra perks, and 'Every day' is also in the brief."
+          },
+          "The page has no placeholder text, broken layout or overlapping elements.": {
+            "pass": true,
+            "why": "Both screenshots render cleanly with no lorem ipsum, overflow or overlap. Joined strings like 'REPLYNIGHT↗' appear only in the extracted text; on screen the label and keyword are spaced correctly."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Add a short line of evening-specific reassurances to the hero, such as 'Private booth with lamp & USB-C · No calls in the study area · Free hot milk after 22:00 · 6 min to metro, staff until 02:00'. Also turn the 'REPLY NIGHT ↗' block into a clearly labelled action, such as 'Copy NIGHT & open official account', so the first screen answers the visitor's worries and the next step is unambiguous.",
+        "_model": "cli:claude",
+        "_cost": 0.3193
+      }
+    ],
+    "cost_usd": 0.3193
+  },
+  "error": ""
+}

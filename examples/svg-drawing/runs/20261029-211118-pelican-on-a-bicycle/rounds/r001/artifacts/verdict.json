@@ -1,0 +1,72 @@
+{
+  "score": 75.0,
+  "gates": {
+    "valid_svg": true,
+    "has_viewbox": true,
+    "vector_only": true,
+    "no_text": true,
+    "under_60kb": true,
+    "has_shapes": true,
+    "check:The image contains no text, letters or labels.": true,
+    "check:The image shows one pelican and one bicycle.": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "drawing.svg: 26 shapes, 2605 bytes\npelican 7.0/10: The long bill and big throat pouch make it clearly a pelican, which meets the 7 anchor. It misses higher scores because the body is a plump, duck-like oval, the legs are plain sticks and the feet are tiny wedges that are not visibly webbed.\ncraft 7.0/10: The shapes are tidy and the palette is pleasant, which is the 7 anchor. It is not poster-quality: the legs are rigid sticks, the feet are crude triangles, the wing awkwardly covers the handlebar, the tail is a plain wedge, and there is no ground or setting.\n[cli:claude] Redraw the feet as large orange webbed pelican feet clamped onto the pedals, and add a visible handlebar with the wing tip curled around it. This makes the bird more clearly a pelican and the riding more convincing at the same time.",
+  "metrics": {
+    "criteria": {
+      "pelican": 7.0,
+      "bicycle": 8.0,
+      "riding": 8.0,
+      "craft": 7.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "pelican": {
+            "score": 7,
+            "evidence": "No text exists in the artifact to quote. Visual evidence: a white bird with an S-curved neck, an eye, a long yellow upper bill over a large, darker yellow throat pouch, a grey wing with feather strokes, a grey tail wedge, orange stick legs and small yellow wedge feet.",
+            "why": "The long bill and big throat pouch make it clearly a pelican, which meets the 7 anchor. It misses higher scores because the body is a plump, duck-like oval, the legs are plain sticks and the feet are tiny wedges that are not visibly webbed."
+          },
+          "bicycle": {
+            "score": 8,
+            "evidence": "No text exists in the artifact to quote. Visual evidence: two dark wheels with 8 light spokes and grey hubs, a teal diamond frame (top tube, down tube, seat tube, seat stay and chainstay), a fork to the front hub, a black saddle, a chainring with a crank arm and two black pedals, and grey chain lines running to the rear hub.",
+            "why": "It is a complete and mechanically plausible bike with the frame, spokes, hubs, chain, crank and pedals the top anchor asks for. It falls short of 10 because the handlebar is only a short black stub mostly hidden by the wing, there is no rear cog, and the chain is just two thin lines."
+          },
+          "riding": {
+            "score": 8,
+            "evidence": "No text exists in the artifact to quote. Visual evidence: the pelican's body rests directly on the black saddle, each orange leg bends at the joint and ends with a yellow foot on one of the two pedals at opposite crank positions, and the wing tip reaches forward to the handlebar.",
+            "why": "It is seated, with feet on the pedals and the wing on the handlebar, so it meets most of the 10 anchor. The pose is static, though: the body is upright and stiff, there are no motion cues, and the wing seems to rest over the bar rather than grip it."
+          },
+          "craft": {
+            "score": 7,
+            "evidence": "No text exists in the artifact to quote. Visual evidence: a flat-color illustration with uniform dark outlines and a restrained palette of teal frame, white and grey bird, yellow bill and orange legs, centered on a plain white background.",
+            "why": "The shapes are tidy and the palette is pleasant, which is the 7 anchor. It is not poster-quality: the legs are rigid sticks, the feet are crude triangles, the wing awkwardly covers the handlebar, the tail is a plain wedge, and there is no ground or setting."
+          }
+        },
+        "checks": {
+          "The image contains no text, letters or labels.": {
+            "pass": true,
+            "why": "The image has no letters, words or labels anywhere."
+          },
+          "The image shows one pelican and one bicycle.": {
+            "pass": true,
+            "why": "It shows exactly one pelican on exactly one bicycle."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Redraw the feet as large orange webbed pelican feet clamped onto the pedals, and add a visible handlebar with the wing tip curled around it. This makes the bird more clearly a pelican and the riding more convincing at the same time.",
+        "_model": "cli:claude",
+        "_cost": 0.24819799999999997
+      }
+    ],
+    "cost_usd": 0.2482
+  },
+  "seconds": 41.656243041856214,
+  "error": ""
+}

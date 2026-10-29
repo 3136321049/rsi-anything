@@ -1,0 +1,72 @@
+{
+  "score": 78.0,
+  "gates": {
+    "valid_svg": true,
+    "has_viewbox": true,
+    "vector_only": true,
+    "no_text": true,
+    "under_60kb": true,
+    "has_shapes": true,
+    "check:The image contains no text, letters or labels.": true,
+    "check:The image shows one pelican and one bicycle.": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "drawing.svg: 30 shapes, 3444 bytes\ncraft 7.0/10: The shapes are tidy and the palette is pleasant, which is the 7 anchor, but the legs are flat strokes, the body is blobby, the wing tip merges awkwardly with the handlebar, and there is no ground or setting, so it is not yet poster-quality.\npelican 8.0/10: It is clearly a pelican and the beak, pouch, wing, legs and webbed feet are all present and neatly drawn, but the body is a rounded, duck-like blob, the neck is short and the bill is stubbier than a real pelican's, so it falls short of the charming, fully realized 10.\n[cli:claude] Make the ride look like motion: lean the pelican forward, wrap the wing tips around the handlebar grips, and add a ground line or shadow with a few speed lines. This would lift both riding and craft.",
+  "metrics": {
+    "criteria": {
+      "pelican": 8.0,
+      "bicycle": 8.0,
+      "riding": 8.0,
+      "craft": 7.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "pelican": {
+            "score": 8,
+            "evidence": "[The artifact has no text to quote, so this is a visual observation.] White bird with an S-curved neck, a long yellow bill with a large shaded orange throat pouch, a grey wing with feather lines, tail feathers, orange legs and orange webbed feet.",
+            "why": "It is clearly a pelican and the beak, pouch, wing, legs and webbed feet are all present and neatly drawn, but the body is a rounded, duck-like blob, the neck is short and the bill is stubbier than a real pelican's, so it falls short of the charming, fully realized 10."
+          },
+          "bicycle": {
+            "score": 8,
+            "evidence": "[Visual observation.] Two wheels, each with 8 spokes and a grey hub; a teal diamond frame with top tube, down tube, seat tube, seat stays and chainstays; a fork, stem and flat handlebar; a black saddle; a chainring with crank arms and two pedals; and a grey chain running to the rear hub.",
+            "why": "Every part named in the 10 anchor is there and placed plausibly, but the rendering is schematic: the spokes are sparse, there is no rear cog or tire detail, and the saddle is a plain block, so it stops short of fully convincing."
+          },
+          "riding": {
+            "score": 8,
+            "evidence": "[Visual observation.] The body rests on the saddle, each webbed foot sits on a pedal at a different crank position, and the wing reaches forward to touch the handlebar.",
+            "why": "It shows a seated rider with feet on the pedals and a wing on the bars, but nothing suggests motion: no forward lean, no speed lines, no ground. The wing also lies along the bar rather than gripping it."
+          },
+          "craft": {
+            "score": 7,
+            "evidence": "[Visual observation.] Even dark outlines, a muted teal frame against warm orange and yellow bill and legs, soft grey shading on the wing, and the subject centered on a plain white background.",
+            "why": "The shapes are tidy and the palette is pleasant, which is the 7 anchor, but the legs are flat strokes, the body is blobby, the wing tip merges awkwardly with the handlebar, and there is no ground or setting, so it is not yet poster-quality."
+          }
+        },
+        "checks": {
+          "The image contains no text, letters or labels.": {
+            "pass": true,
+            "why": "The image contains no text, letters or labels."
+          },
+          "The image shows one pelican and one bicycle.": {
+            "pass": true,
+            "why": "There is exactly one pelican and one bicycle."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Make the ride look like motion: lean the pelican forward, wrap the wing tips around the handlebar grips, and add a ground line or shadow with a few speed lines. This would lift both riding and craft.",
+        "_model": "cli:claude",
+        "_cost": 0.2385774
+      }
+    ],
+    "cost_usd": 0.2386
+  },
+  "seconds": 37.18339241598733,
+  "error": ""
+}

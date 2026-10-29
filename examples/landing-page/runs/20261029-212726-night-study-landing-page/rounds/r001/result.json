@@ -1,0 +1,32 @@
+{
+  "round": 1,
+  "status": "KEEP",
+  "hypothesis": "用清晰的夜间主题首屏串联目标人群、试学价格和领取步骤，提升第一印象、视觉完成度与转化意愿。",
+  "score": 70.0,
+  "best": 70.0,
+  "gates": {
+    "self_contained": true,
+    "facts_present": true,
+    "no_placeholder": true,
+    "has_title_and_viewport": true,
+    "images_have_alt": true,
+    "under_100kb": true,
+    "check:Every price, time, number and perk on the page appears in th": true,
+    "check:The page has no placeholder text, broken layout or overlappi": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "index.html: 7046 bytes\nfirst_impression 7.0/10: The first screen meets the 7 anchor: a large serif headline with a gold italic accent, a supporting line that names the exams, the 18:00–02:00 hours, and a cream price card with ¥129 and a prominent NIGHT keyword block. It falls short of 8–10 because the headline 'Make room for your future' is a gen\nlayout 7.0/10: The order is clear: a two-column hero (pitch on the left, offer card on the right), then a three-column benefits row with gold labels, then a two-column logistics row, separated by rules with steady spacing. It isn't higher because the location and safety row is set as small as a footnote, and the p\n[cli:claude] Replace the tiny footer link with a full closing call-to-action section that repeats the ¥129 first-month offer, says plainly that only 50 trial spots exist, and gives explicit steps (1. open the official account 'Night Voyage Study Room', 2. send NIGHT) with a working copy-keyword button. That gives the page a strong, honest final push to act instead of ending on a footnote.",
+  "commit": "c242c3431acf",
+  "changed": [
+    "index.html"
+  ],
+  "ignored": [],
+  "agent_seconds": 71.5,
+  "judge_seconds": 66.8,
+  "cost_usd": null,
+  "judge_cost_usd": 0.3335,
+  "artifacts": "rounds/r001/artifacts",
+  "holdout": null,
+  "note": "score 25 -> 70; head-to-head 2/2",
+  "time": "2026-10-29T13:31:00+00:00"
+}

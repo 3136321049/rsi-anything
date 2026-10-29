@@ -60,15 +60,19 @@ trusted `context` file, and `models: [auto]` or explicit models such as
 - Report through `$RSI_RESULT`, never by printing a score.
 - Keep judge data out of the artifact paths. Put anything the agent must not see outside the repo.
 - For writing: put the facts in a frozen brief and add a check that nothing outside it is claimed.
+- For visual work (SVG, web pages): render with `rsi_anything.sdk.screenshot` in a `prepare` step and judge the
+  PNG with an image-capable jury; see the `svg-drawing` and `landing-page` templates.
 
 ## 4. Run it
 
 ```bash
 git add -A && git commit -m "rsi: contract and judge"
 rsi check                     # validates the contract and scores the current version
-rsi run                       # add --agent codex / --rounds 20 / --allow-commands as needed
+rsi run                       # add --agent codex / --rounds 20 / --allow-commands / --live as needed
+rsi watch                     # follow the latest run in the browser (score chart, every version side by side)
 rsi status                    # progress table
 rsi report                    # writes report.md and a shareable report.html
+rsi share --to run.html       # one self-contained page with images embedded and local paths removed
 ```
 
 Runs can take a long time; start `rsi run` in the background when your environment allows it.

@@ -1,6 +1,6 @@
 """Copy a run's evidence somewhere shareable, with local paths scrubbed.
 
-Exported: run.json, ledger.jsonl, report.md/html, the champion's full diff, and
+Exported: run.json, ledger.jsonl, events.jsonl, report.md/html, the champion's full diff, and
 per round the prompt the agent saw, its diff, the judge verdict and the agent's
 final message. Raw agent logs are opt-in because they can be long and noisy.
 """
@@ -68,7 +68,7 @@ def export_run(store: RunStore, repo: Path, dest: Path, with_logs: bool = False)
             if path.is_file():
                 put(path, target / path.relative_to(source))
 
-    for name in ("run.json", "ledger.jsonl", "report.md", "report.html"):
+    for name in ("run.json", "ledger.jsonl", "events.jsonl", "report.md", "report.html"):
         put(store.dir / name, dest / name)
     tree(store.dir / "config", dest / "config")
     tree(store.dir / "artifacts", dest / "artifacts")

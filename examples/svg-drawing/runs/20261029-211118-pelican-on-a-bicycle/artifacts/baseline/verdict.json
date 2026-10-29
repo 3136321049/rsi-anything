@@ -1,0 +1,72 @@
+{
+  "score": 75.0,
+  "gates": {
+    "valid_svg": true,
+    "has_viewbox": true,
+    "vector_only": true,
+    "no_text": true,
+    "under_60kb": true,
+    "has_shapes": true,
+    "check:The image contains no text, letters or labels.": true,
+    "check:The image shows one pelican and one bicycle.": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "drawing.svg: 26 shapes, 2562 bytes\npelican 7.0/10: The long bill and big pouch make it clearly a pelican, but the legs are thin brown sticks of a different style from the body, and the feet are tiny yellow wedges that don't read as webbed, so it falls short of an 8.\ncraft 7.0/10: Shapes are tidy and the palette is pleasant, but it isn't poster-grade: the stick legs clash with the outlined body, the handlebar barely shows, there is no ground line or setting, and a large empty band at the top makes the composition feel bottom-heavy.\n[cli:claude] Redraw the legs and feet as thicker, outlined, jointed legs ending in clearly webbed orange feet planted on the pedals, and add a visible handlebar with the wingtip wrapped around it. That would lift the pelican, riding and craft scores together.",
+  "metrics": {
+    "criteria": {
+      "pelican": 7.0,
+      "bicycle": 8.0,
+      "riding": 8.0,
+      "craft": 7.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "pelican": {
+            "score": 7,
+            "evidence": "No text in the artifact to quote. Visual evidence: a white bird with an S-curved neck, a long flat yellow upper bill, and a large hanging yellow throat pouch under it, plus a grey folded wing and a tail.",
+            "why": "The long bill and big pouch make it clearly a pelican, but the legs are thin brown sticks of a different style from the body, and the feet are tiny yellow wedges that don't read as webbed, so it falls short of an 8."
+          },
+          "bicycle": {
+            "score": 8,
+            "evidence": "No text in the artifact to quote. Visual evidence: two wheels with 8 spokes and grey hubs, a teal diamond frame with top tube, down tube, seat tube, seat stays and chainstays, a fork, a black saddle, a chainring with crank arms and two pedals, and grey chain lines running to the rear hub.",
+            "why": "It is a complete, mechanically plausible bike with a chain, crank and pedals; it misses a 9 because the handlebar is only a short black stub half-hidden by the wing and the fork/stem joint has an awkward kink."
+          },
+          "riding": {
+            "score": 8,
+            "evidence": "No text in the artifact to quote. Visual evidence: the body rests directly on the saddle, one leg goes to the raised pedal and the other to the lowered pedal, and the wingtip reaches forward to the handlebar stub.",
+            "why": "It is seated, has both feet on pedals at different points in the stroke, and the wing reaches the bar, but nothing grips the handlebar and there are no motion cues such as a forward lean or speed lines, so it stops short of a 10."
+          },
+          "craft": {
+            "score": 7,
+            "evidence": "No text in the artifact to quote. Visual evidence: flat vector shapes with a consistent dark outline and a limited palette of teal frame, white and grey bird, yellow bill and pouch, and orange legs on a plain white background.",
+            "why": "Shapes are tidy and the palette is pleasant, but it isn't poster-grade: the stick legs clash with the outlined body, the handlebar barely shows, there is no ground line or setting, and a large empty band at the top makes the composition feel bottom-heavy."
+          }
+        },
+        "checks": {
+          "The image contains no text, letters or labels.": {
+            "pass": true,
+            "why": "The image contains no text, letters or labels."
+          },
+          "The image shows one pelican and one bicycle.": {
+            "pass": true,
+            "why": "There is exactly one pelican and one bicycle."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Redraw the legs and feet as thicker, outlined, jointed legs ending in clearly webbed orange feet planted on the pedals, and add a visible handlebar with the wingtip wrapped around it. That would lift the pelican, riding and craft scores together.",
+        "_model": "cli:claude",
+        "_cost": 0.24320619999999998
+      }
+    ],
+    "cost_usd": 0.2432
+  },
+  "seconds": 38.716839416651055,
+  "error": ""
+}

@@ -1,0 +1,39 @@
+{
+  "files": [
+    {
+      "path": "index.html",
+      "bytes": 10585,
+      "sha256": "deb2adaca2944c5c0b23e9fa36b53b3c06f0bdc1f964012a6cf4c337ba8fda47"
+    },
+    {
+      "path": "out/desktop.png",
+      "bytes": 208139,
+      "sha256": "0517832ed7c04c5fa33bcb7025b3e7370d716d9d4b9458a59db7e3964ac17bca"
+    },
+    {
+      "path": "out/gates.json",
+      "bytes": 163,
+      "sha256": "be1d48b6ac7d696695f9d756e8947d9ba7c71e7fcea275fa38417cd367d727fd"
+    },
+    {
+      "path": "out/mobile.png",
+      "bytes": 164742,
+      "sha256": "e712e73e12556c63002068cd96204a98f4f03bde5c98cd0cb8822a11d074117c"
+    },
+    {
+      "path": "out/notes.txt",
+      "bytes": 24,
+      "sha256": "f9e44094f216cb279bc9a4ba3d820a46dc6d8f6d8de346a071b7007b3aa40ea5"
+    },
+    {
+      "path": "out/page.txt",
+      "bytes": 1613,
+      "sha256": "7adfdf84dd0af3d51ed5a4599ce2482b3b2ce292d37b73c85eed9c6540927d5a"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": [],
+  "source": "judge_workspace",
+  "evaluation_status": "evaluated",
+  "source_snapshot": "rounds/r005/artifacts"
+}

@@ -1,0 +1,71 @@
+{
+  "score": 75.0,
+  "gates": {
+    "valid_svg": true,
+    "has_viewbox": true,
+    "vector_only": true,
+    "no_text": true,
+    "under_60kb": true,
+    "has_shapes": true,
+    "check:The image contains no text, letters or labels.": true,
+    "check:The image shows one pelican and one bicycle.": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "drawing.svg: 27 shapes, 2745 bytes\npelican 7.0/10: The bill and throat pouch make it clearly a pelican, but it falls short of 8: the bill is short for a pelican (only about 1.5 head-lengths), the upper bill is a flat strip with no hooked tip, the feet are plain triangles with no webbing, and the plump body looks a bit like a duck.\ncraft 7.0/10: The shapes are tidy and the colours go well together, but it is not poster quality: the composition sits off-balance with empty space at the top and no ground or shadow, the thick wheel rims clash with the thin spokes, and the bill and feet are simplified.\n[cli:claude] Make the pelican more of a pelican: give it a much longer bill with a hooked tip and a deeper pouch, and draw real webbed feet, ideally with a slight forward lean that also adds a sense of motion.",
+  "metrics": {
+    "criteria": {
+      "pelican": 7.0,
+      "bicycle": 8.0,
+      "riding": 8.0,
+      "craft": 7.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "pelican": {
+            "score": 7,
+            "evidence": "(The artifact has no text between the markers, so there is nothing to quote. What the image shows:) a white bird with an S-curved neck, a dot eye, a yellow bill with a large rounded lower throat pouch, a grey wing, grey tail feathers, orange legs and small yellow wedge-shaped feet",
+            "why": "The bill and throat pouch make it clearly a pelican, but it falls short of 8: the bill is short for a pelican (only about 1.5 head-lengths), the upper bill is a flat strip with no hooked tip, the feet are plain triangles with no webbing, and the plump body looks a bit like a duck."
+          },
+          "bicycle": {
+            "score": 8,
+            "evidence": "(No text in the artifact. What the image shows:) two spoked wheels with grey hubs, a teal diamond frame (top tube, down tube, seat tube, seat stay, chainstay), a fork, a black saddle, a chainring at the bottom bracket, grey chain lines running to the rear hub, crank arms and two pedals",
+            "why": "Every key part is present and in a believable place, and the cranks sit opposite each other. It misses 9–10 because the handlebar is only a small black stub, the chain is two straight lines with no rear sprocket, and the seat tube meets the chainring vaguely instead of at a clear bottom bracket."
+          },
+          "riding": {
+            "score": 8,
+            "evidence": "(No text in the artifact. What the image shows:) the body rests on the saddle, both legs bend down to feet placed on opposite pedals (one high, one low), and the wing reaches forward and wraps around the handlebar grip",
+            "why": "It meets almost all of the 10 anchor (seated, feet on pedals, wing on the handlebar, legs at different points in the pedal stroke), but the upright, stiff posture with no forward lean or motion cues gives only a weak sense of movement."
+          },
+          "craft": {
+            "score": 7,
+            "evidence": "(No text in the artifact. What the image shows:) flat vector shapes with even dark outlines and a small palette of teal, off-white, grey, yellow and orange on a plain white background, with the subject sitting low and about a quarter of the canvas empty at the top",
+            "why": "The shapes are tidy and the colours go well together, but it is not poster quality: the composition sits off-balance with empty space at the top and no ground or shadow, the thick wheel rims clash with the thin spokes, and the bill and feet are simplified."
+          }
+        },
+        "checks": {
+          "The image contains no text, letters or labels.": {
+            "pass": true,
+            "why": "There are no letters, numbers or labels anywhere in the image."
+          },
+          "The image shows one pelican and one bicycle.": {
+            "pass": true,
+            "why": "There is exactly one bird and exactly one bicycle."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Make the pelican more of a pelican: give it a much longer bill with a hooked tip and a deeper pouch, and draw real webbed feet, ideally with a slight forward lean that also adds a sense of motion.",
+        "_model": "cli:claude",
+        "_cost": 0.2488016
+      }
+    ],
+    "cost_usd": 0.2488
+  },
+  "error": ""
+}

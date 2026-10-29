@@ -1,0 +1,71 @@
+{
+  "score": 78.0,
+  "gates": {
+    "valid_svg": true,
+    "has_viewbox": true,
+    "vector_only": true,
+    "no_text": true,
+    "under_60kb": true,
+    "has_shapes": true,
+    "check:The image contains no text, letters or labels.": true,
+    "check:The image shows one pelican and one bicycle.": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "drawing.svg: 30 shapes, 3420 bytes\ncraft 7.0/10: The shapes are tidy and the palette is pleasant. It is not poster-level: the stick legs cross the frame tubes confusingly, the chain lines are messy, the body silhouette is lumpy, and the drawing floats with no ground or depth.\npelican 8.0/10: It is clearly a pelican with every listed part drawn. It falls short of 10 because the body is a lumpy, goose-like blob, the legs are thin sticks, and the pouch is a plain half-bowl rather than a charming, well-observed shape.\n[cli:claude] Add a sense of motion and grounding: a ground line with a soft shadow under the wheels, a few speed lines behind the bike, and a slight forward tilt of the bird. This would raise both riding (pose suggests motion) and craft (finished composition).",
+  "metrics": {
+    "criteria": {
+      "pelican": 8.0,
+      "bicycle": 8.0,
+      "riding": 8.0,
+      "craft": 7.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "pelican": {
+            "score": 8,
+            "evidence": "[No text in the artifact. Visual evidence: a white bird with a long neck, a long flat yellow upper bill, and a large orange throat pouch with shading hanging below it. It has a grey wing with feather lines, grey tail feathers, orange stick legs and orange webbed feet with toe lines.]",
+            "why": "It is clearly a pelican with every listed part drawn. It falls short of 10 because the body is a lumpy, goose-like blob, the legs are thin sticks, and the pouch is a plain half-bowl rather than a charming, well-observed shape."
+          },
+          "bicycle": {
+            "score": 8,
+            "evidence": "[No text in the artifact. Visual evidence: two dark wheels with 8 thin spokes and grey hubs. A teal frame has a top tube, down tube, seat tube, seat stays, chainstays and fork. There is a black saddle and handlebar, a chainring with crank arms and two black pedals, and grey chain lines running from the chainring to the rear hub.]",
+            "why": "The bike is complete and plausible, including a chain, crank and pedals. It misses 10 because there is no rear cog, the head tube and fork are just plain lines with no rake, and the chain lines look loose and sketchy around the bottom bracket."
+          },
+          "riding": {
+            "score": 8,
+            "evidence": "[No text in the artifact. Visual evidence: the body rests directly on the black saddle. The legs bend at the knee and each webbed foot sits on a pedal, one at the top and one at the bottom of the stroke. The grey wing reaches forward so its tip rests on the handlebar, and the head leans forward.]",
+            "why": "This meets almost everything in the 10 anchor: seated, feet on pedals, wing on handlebar. The pose is still static, though, with no lean, motion lines or ground contact to suggest the bike is moving."
+          },
+          "craft": {
+            "score": 7,
+            "evidence": "[No text in the artifact. Visual evidence: a flat vector style with uniform dark outlines and a restrained palette of a teal frame, orange-yellow beak and feet, and white and grey bird. The composition is centered on a plain white background with no ground line or shadow.]",
+            "why": "The shapes are tidy and the palette is pleasant. It is not poster-level: the stick legs cross the frame tubes confusingly, the chain lines are messy, the body silhouette is lumpy, and the drawing floats with no ground or depth."
+          }
+        },
+        "checks": {
+          "The image contains no text, letters or labels.": {
+            "pass": true,
+            "why": "The rendered image has no text, letters or labels anywhere."
+          },
+          "The image shows one pelican and one bicycle.": {
+            "pass": true,
+            "why": "There is exactly one pelican and exactly one bicycle."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Add a sense of motion and grounding: a ground line with a soft shadow under the wheels, a few speed lines behind the bike, and a slight forward tilt of the bird. This would raise both riding (pose suggests motion) and craft (finished composition).",
+        "_model": "cli:claude",
+        "_cost": 0.24048139999999998
+      }
+    ],
+    "cost_usd": 0.2405
+  },
+  "error": ""
+}

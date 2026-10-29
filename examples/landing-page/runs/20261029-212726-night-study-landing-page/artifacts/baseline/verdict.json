@@ -1,0 +1,78 @@
+{
+  "score": 25.0,
+  "gates": {
+    "self_contained": true,
+    "facts_present": true,
+    "no_placeholder": true,
+    "has_title_and_viewport": true,
+    "images_have_alt": true,
+    "under_100kb": true,
+    "check:Every price, time, number and perk on the page appears in th": true,
+    "check:The page has no placeholder text, broken layout or overlappi": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "index.html: 960 bytes\nvisual_craft 1.0/10: Everything is browser defaults (black system font on white, default bullets and margins), with no colour, type scale, spacing system or any mood suited to a calm late-night study room.\nfirst_impression 2.0/10: Above the fold there is only a black browser-default H1 and a generic availability line; the page never says it is for people who work by day and prepare for exams at night, and nothing draws the eye or works as a call to action, so it falls short of the 4 anchor where the offer is stated.\n[cli:claude] Replace the default H1 opening with a designed above-the-fold hero for night-time exam takers. It should say who the page is for (e.g., working by day and preparing for graduate-school, civil-service or certification exams at night, 18:00–02:00), show '¥129 first month, first 50 sign-ups only' prominently, and end in a clear call-to-action block telling visitors to reply 'NIGHT' to the official account, all in a calm, coherent night-themed style.",
+  "metrics": {
+    "criteria": {
+      "first_impression": 2.0,
+      "layout": 2.0,
+      "visual_craft": 1.0,
+      "mobile": 4.0,
+      "persuasion": 4.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "first_impression": {
+            "score": 2,
+            "evidence": "Night Membership is now available.",
+            "why": "Above the fold there is only a black browser-default H1 and a generic availability line; the page never says it is for people who work by day and prepare for exams at night, and nothing draws the eye or works as a call to action, so it falls short of the 4 anchor where the offer is stated."
+          },
+          "layout": {
+            "score": 2,
+            "evidence": "Hours\nEvery day from 18:00 to 02:00.",
+            "why": "Default H2 headings give some logical grouping, but this is effectively an unstyled document: everything is left-aligned at the 8px browser margin, nothing has emphasis or rhythm, and on desktop about half the width and most of the height is empty."
+          },
+          "visual_craft": {
+            "score": 1,
+            "evidence": "Night Voyage Study Room",
+            "why": "Everything is browser defaults (black system font on white, default bullets and margins), with no colour, type scale, spacing system or any mood suited to a calm late-night study room."
+          },
+          "mobile": {
+            "score": 4,
+            "evidence": "Reply \"NIGHT\" to our official account \"Night Voyage Study Room\" to claim a trial spot.",
+            "why": "At 390px the text is readable in one column with no overflow, but it is still raw default flow with tight side margins, no visual grouping and no tappable or emphasized action, so it is readable but awkward."
+          },
+          "persuasion": {
+            "score": 4,
+            "evidence": "¥199 per month. First month ¥129 for the first 50 sign-ups.",
+            "why": "The brief's facts appear accurately but as a bare spec sheet: nothing is framed around the visitor's after-work evening (no audience mention, the quiet rule and safety details are not presented as reassurance), the ¥129 trial is not tied to the 'Join' step, and the 50-spot limit gets no urgency."
+          }
+        },
+        "checks": {
+          "Every price, time, number and perk on the page appears in the brief; nothing is invented (no testimonials, ratings or member counts).": {
+            "pass": true,
+            "why": "Every figure (¥199, ¥129, 50, 18:00–02:00, 42 booths, 4 phone booths, 22:00, 01:30, 6 minutes) matches the brief, and there are no testimonials, ratings or extra perks. The page leaves out 'one per person per night' for the milk, which is an omission, not an invention."
+          },
+          "The page has no placeholder text, broken layout or overlapping elements.": {
+            "pass": true,
+            "why": "There is no placeholder text and nothing overlaps on desktop or mobile. The page is unstyled but renders intact."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Replace the default H1 opening with a designed above-the-fold hero for night-time exam takers. It should say who the page is for (e.g., working by day and preparing for graduate-school, civil-service or certification exams at night, 18:00–02:00), show '¥129 first month, first 50 sign-ups only' prominently, and end in a clear call-to-action block telling visitors to reply 'NIGHT' to the official account, all in a calm, coherent night-themed style.",
+        "_model": "cli:claude",
+        "_cost": 0.27291299999999996
+      }
+    ],
+    "cost_usd": 0.2729
+  },
+  "seconds": 38.63297658297233,
+  "error": ""
+}

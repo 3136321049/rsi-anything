@@ -48,7 +48,8 @@ class GatesThenScore:
             return Decision(True, "passes gates the current best fails (" + ", ".join(champion.failed_gates()) + ")")
         if not self.margin.better(candidate.score, champion.score):
             return Decision(False, f"score {candidate.score:g} is not better than {champion.score:g} "
-                                   f"(required margin: {self.margin.min_delta:g} or {self.margin.min_gain:.0%})")
+                                   f"(required margin: {self.margin.min_delta:g} or {self.margin.min_gain:.0%})",
+                            tie=not self.margin.better(champion.score, candidate.score))
         return Decision(True, f"score {champion.score:g} -> {candidate.score:g}")
 
 
@@ -65,14 +66,26 @@ Compare = Callable[[Path, Path], Comparison]
 
 
 class HeadToHead:
-    """A higher score is not enough: the candidate must also win most head-to-head votes."""
+    """A higher score is not enough: the candidate must also win most head-to-head votes.
 
-    def __init__(self, inner: Selector, compare: Compare):
+    With `ties=True`, a candidate that only ties the champion's score gets the same comparison
+    and is kept if it wins it. Useful when the rubric is coarse and real refinements land on
+    the same total (a visual judge giving 7/8/8/7 to every version of a good drawing)."""
+
+    def __init__(self, inner: Selector, compare: Compare, ties: bool = False):
         self.inner = inner
         self.compare = compare
+        self.ties = ties
 
     def decide(self, candidate_ws: Path, champion_ws: Path, candidate: Verdict, champion: Verdict) -> Decision:
         decision = self.inner.decide(candidate_ws, champion_ws, candidate, champion)
+        if self.ties and decision.tie and candidate.passed and champion.passed:
+            result = self.compare(candidate_ws, champion_ws)
+            if result.skipped or result.error:
+                return Decision(False, f"{decision.reason}; tie not broken ({result.skipped or result.error})")
+            if result.wins * 2 > result.votes:
+                return Decision(True, f"tied at {candidate.score:g}; won head-to-head {result.wins}/{result.votes}")
+            return Decision(False, f"tied at {candidate.score:g} and lost head-to-head ({result.wins}/{result.votes} votes)")
         if not decision.keep or not champion.passed:
             return decision
         result = self.compare(candidate_ws, champion_ws)
@@ -96,7 +109,7 @@ class JudgeSelector:
         return Decision(keep, reason)
 
 
-def default(margin: Margin, compare: Optional[Compare] = None) -> Selector:
-    """Gates, then margin, then (when the judge can compare) head-to-head."""
+def default(margin: Margin, compare: Optional[Compare] = None, ties: bool = False) -> Selector:
+    """Gates, then margin, then (when the judge can compare) head-to-head, optionally also on ties."""
     base = GatesThenScore(margin)
-    return HeadToHead(base, compare) if compare is not None else base
+    return HeadToHead(base, compare, ties) if compare is not None else base

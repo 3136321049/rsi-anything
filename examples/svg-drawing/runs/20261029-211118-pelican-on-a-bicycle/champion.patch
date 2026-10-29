@@ -1,0 +1,49 @@
+diff --git a/drawing.svg b/drawing.svg
+index 4e2e968..47ce1f2 100644
+--- a/drawing.svg
++++ b/drawing.svg
+@@ -1,6 +1,6 @@
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+   <rect width="800" height="600" fill="#ffffff"/>
+-  <g stroke="#333" stroke-linecap="round" stroke-linejoin="round">
++  <g transform="translate(-86 -104) scale(1.2)" stroke="#333" stroke-linecap="round" stroke-linejoin="round">
+     <g fill="none" stroke-width="6">
+       <circle cx="250" cy="430" r="90"/>
+       <circle cx="560" cy="430" r="90"/>
+@@ -11,8 +11,12 @@
+       <path d="M250 430L382 332L400 418ZM382 332L544 322L400 418M382 332L380 320M560 430L540 300" stroke="#467d86" stroke-width="7"/>
+       <path d="M540 300L535 278H562"/>
+     </g>
+-    <path d="M250 420L398 396A22 22 0 1 1 402 440L250 440A10 10 0 0 1 250 420Z" fill="none" stroke="#697578" stroke-width="3"/>
+-    <circle cx="400" cy="418" r="19" fill="#ffffff" stroke="#697578" stroke-width="3"/>
++    <circle cx="250" cy="430" r="10" fill="#edf1ef" stroke="#697578" stroke-width="2"/>
++    <circle cx="400" cy="418" r="22" fill="#edf1ef" stroke="#697578" stroke-width="2"/>
++    <path d="M249 420L398 396A22 22 0 1 1 400 440H250A10 10 0 0 1 249 420Z" fill="none" stroke="#697578" stroke-width="4"/>
++    <path d="M249 420L398 396A22 22 0 1 1 400 440H250A10 10 0 0 1 249 420Z" fill="none" stroke="#dce3e3" stroke-width="1.5" stroke-dasharray="2 4"/>
++    <circle cx="400" cy="418" r="17" fill="#ffffff" stroke="#697578" stroke-width="2"/>
++    <path d="M400 403V410M413 422L406 420M391 429L396 423" fill="none" stroke="#697578" stroke-width="5"/>
+     <g fill="#697578" stroke="#333" stroke-width="2">
+       <circle cx="250" cy="430" r="6"/>
+       <circle cx="560" cy="430" r="6"/>
+@@ -27,12 +31,18 @@
+       <path d="M383 391L400 418L425 445M368 398H403M411 452H446"/>
+     </g>
+     <g fill="#efb247" stroke-width="2.5">
+-      <path d="M380 382L399 395L392 398L380 394L370 398L365 393Z"/>
+-      <path d="M425 435L443 448L438 452L426 448L415 452L410 447Z"/>
++      <path d="M378 379Q384 379 388 385L407 379Q412 378 413 382Q414 386 405 389Q405 392 410 392L416 391Q421 392 418 397Q415 401 405 398Q402 399 406 403Q409 408 404 409Q399 410 394 402L380 396Q368 399 366 393Q365 389 375 386Z"/>
++      <path d="M423 433Q429 433 433 439L452 433Q457 432 458 436Q459 440 450 443Q450 446 455 446L461 445Q466 446 463 451Q460 455 450 452Q447 453 451 457Q454 462 449 463Q444 464 439 456L425 450Q413 453 411 447Q410 443 420 440Z"/>
++    </g>
++    <g fill="none" stroke="#b57829" stroke-width="1.7">
++      <path d="M380 388Q392 386 405 382M382 390L410 395M381 392Q393 395 402 405"/>
++      <path d="M425 442Q437 440 450 436M427 444L455 449M426 446Q438 449 447 459"/>
+     </g>
+     <path d="M339 265L306 246L324 283L349 289Z" fill="#b7c4ca" stroke-width="3"/>
+     <path d="M333 250C331 214 370 203 416 218C445 229 456 236 462 218C469 199 464 165 484 157C509 147 531 165 530 187C529 207 509 216 500 220C487 229 494 258 470 280C448 303 408 313 377 306C346 300 330 281 333 250Z" fill="#edf1ef" stroke-width="3"/>
+-    <path d="M524 190L646 200C617 220 591 246 563 240C540 235 531 216 524 202Z" fill="#e6b953" stroke-width="3"/>
++    <path d="M524 193L646 200C627 207 612 230 594 241C578 251 560 253 547 243C533 232 530 214 524 202Z" fill="#e6b953" stroke-width="3"/>
++    <path d="M533 207C539 225 545 238 558 242C571 247 586 241 598 232C577 239 559 234 550 223Z" fill="#d99b3f" stroke="none"/>
++    <path d="M540 211Q545 228 557 234M549 211Q559 227 573 231" fill="none" stroke="#bd8635" stroke-width="1.8"/>
+     <path d="M524 183L650 198L647 204L525 201Z" fill="#f5c45b" stroke-width="3"/>
+     <path d="M360 243C380 228 406 239 432 254L490 279L542 276L546 285C515 301 481 299 455 289L386 274C368 270 357 257 360 243Z" fill="#c1cdd1" stroke-width="3"/>
+     <path d="M377 251Q412 261 446 276M376 260L414 273" fill="none" stroke="#899ba3" stroke-width="2.5"/>

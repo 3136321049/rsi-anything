@@ -1,0 +1,33 @@
+{
+  "files": [
+    {
+      "path": "drawing.svg",
+      "bytes": 3156,
+      "sha256": "0a2280a512cafc5c8ffddbdd1b6de9e4bf72d5bfee946373b4a8000e6b87b193"
+    },
+    {
+      "path": "out/drawing.png",
+      "bytes": 81586,
+      "sha256": "cfb4e88e32ba0c21a49f63daa17ff88b809bf284e7b40561abd13f5b2ac35e7f"
+    },
+    {
+      "path": "out/gates.json",
+      "bytes": 132,
+      "sha256": "270874752eaa1efe9c52d58fe1470f8068f45f30428e2d879b11621f8f1d5674"
+    },
+    {
+      "path": "out/notes.txt",
+      "bytes": 35,
+      "sha256": "598d2d5b752209af0609675ca93822454282481ce373c408b99b278f164af3bc"
+    },
+    {
+      "path": "out/render.html",
+      "bytes": 3287,
+      "sha256": "92f653bd5114c5d9b3dddb84bc119bf8fbb6bf1c55699ce312d9c2a12b845afb"
+    }
+  ],
+  "missing_patterns": [],
+  "skipped": [],
+  "source": "judge_workspace",
+  "evaluation_status": "evaluated"
+}

@@ -1,0 +1,173 @@
+{
+  "run_id": "20261029-212726-night-study-landing-page",
+  "status": "verified",
+  "model_calls_during_validation": 0,
+  "command": "python verify_saved_results.py",
+  "formal_scores_unchanged": true,
+  "base_commit": "689c349f491f409c009474f7d580d9b9a940657c",
+  "champion_commit": "3e41c07fcd70a789bc98886f487047739cdb5e18",
+  "contract_digest": "9eb1d76e690c",
+  "final_source_snapshot": "rounds/r005/artifacts",
+  "renderer": "headless Chrome via rsi_anything.sdk.screenshot, network blocked",
+  "scores": "recorded jury scores; not recomputed",
+  "checks": [
+    {
+      "round": 0,
+      "status": "BASELINE",
+      "score": 25.0,
+      "snapshot": "artifacts/baseline",
+      "judged": true,
+      "files": {
+        "out/desktop.png": "689fe06835c6721cc66dfb3c55d48c4eb9cae467bb7049cfdcab24101cf1f54d",
+        "out/mobile.png": "2dc5b20da8b6c2cee347f03cef6e3124508d29304131a7ecf5ef9b5c46ffd6b1",
+        "out/notes.txt": "c2af17d840f7d8a830ba850ad6bc19ce8dca290bc18d89f4dc36e1e46929a792",
+        "out/page.txt": "a038daebe0cb2b412ed30c05e2fefd6ec772bcfc8950ba6b3853e01b38b6cd5b"
+      },
+      "render_attempts": 1,
+      "artifact_sha256": {
+        "index.html": "060988c7350d8f939fe6fb79848662a12864b6febf64381be4d368249dfaa67c"
+      },
+      "rerender_matches": true
+    },
+    {
+      "round": 1,
+      "status": "KEEP",
+      "score": 70.0,
+      "snapshot": "rounds/r001/artifacts",
+      "judged": true,
+      "files": {
+        "out/desktop.png": "22aefac155570b387cf456d4f87554f763cc007456541eff13d800dcf2a9870b",
+        "out/mobile.png": "1e319c7ecc7ec8525d8752800e6566d087f71f3d024c435459bebfe317777dcc",
+        "out/notes.txt": "d43b2be5c3648731349865874b6e9699be2fb913cb407b1dd54ef9a076d0d5ea",
+        "out/page.txt": "f8497ff86ae6b8bd45b64a2b80b5784ec18a0a67cbf00d26379bede7b5772be6"
+      },
+      "render_attempts": 1,
+      "artifact_sha256": {
+        "index.html": "1de2d277e65ba8eb654e775187d880b77bc87bdf2c0c49ed281c7fc7e0e137a5"
+      },
+      "rerender_matches": true
+    },
+    {
+      "round": 2,
+      "status": "KEEP",
+      "score": 72.5,
+      "snapshot": "rounds/r002/artifacts",
+      "judged": true,
+      "files": {
+        "out/desktop.png": "7d539b7af3fe04b5de1e9697080b26315786ecb00044d724660293d2b9572685",
+        "out/mobile.png": "1e319c7ecc7ec8525d8752800e6566d087f71f3d024c435459bebfe317777dcc",
+        "out/notes.txt": "deeddd9e3bfb49d47595e8664b8caa823ed9a3234af42fde4de7b25a2496bad1",
+        "out/page.txt": "54b6698eea5b17bf87eca3f1d64fcf75dc077e6c2a56d6354ee239e769e303a0"
+      },
+      "render_attempts": 1,
+      "artifact_sha256": {
+        "index.html": "ef1a459e6a0ead6241547348f321c284543dc5966dd9be8fec1436e694cfd4ac"
+      },
+      "rerender_matches": true
+    },
+    {
+      "round": 3,
+      "status": "REVERT",
+      "score": 70.0,
+      "snapshot": "rounds/r003/artifacts",
+      "judged": true,
+      "files": {
+        "out/desktop.png": "7ef330faf8a0aebc43727f2461befeaaf951c2c01062025df6fd2d7b0c9dea72",
+        "out/mobile.png": "1e319c7ecc7ec8525d8752800e6566d087f71f3d024c435459bebfe317777dcc",
+        "out/notes.txt": "309c1b6907ff5a91ad47a5b307978c2987a2588e5ab17af931f22187a4cac406",
+        "out/page.txt": "0f8bd7f5bc375900937de176b3053c8cf1c7da7960d2c9971fef279c28a2d9ac"
+      },
+      "render_attempts": 1,
+      "artifact_sha256": {
+        "index.html": "13cc912060169bfc5623ad7d6bc151abb070f139acc7314672fcc29982087cbf"
+      },
+      "rerender_matches": true
+    },
+    {
+      "round": 4,
+      "status": "REVERT",
+      "score": 72.0,
+      "snapshot": "rounds/r004/artifacts",
+      "judged": true,
+      "files": {
+        "out/desktop.png": "d96afb6e81438b7527d4394116987e8b69d47ff64effa7b02a641dc119ffa841",
+        "out/mobile.png": "e00e8ca69e5304388fdd4689f8c844f096b163408877dcd2a71c70a9c4b6a0a4",
+        "out/notes.txt": "4c52f2e82c111a5c7fe16aa729b7b76cf56799f26bfa0ee6d3a43a1569708aa0",
+        "out/page.txt": "f3387e259b44baf094a7d456cf282cfa1980d01e1dd75071c64dc832187269fe"
+      },
+      "render_attempts": 1,
+      "artifact_sha256": {
+        "index.html": "66006a50b5aa43432740f04ff992fc9d802f603fbd542e9650c90130a29dcef7"
+      },
+      "rerender_matches": true
+    },
+    {
+      "round": 5,
+      "status": "KEEP",
+      "score": 74.5,
+      "snapshot": "rounds/r005/artifacts",
+      "judged": true,
+      "files": {
+        "out/desktop.png": "0517832ed7c04c5fa33bcb7025b3e7370d716d9d4b9458a59db7e3964ac17bca",
+        "out/mobile.png": "e712e73e12556c63002068cd96204a98f4f03bde5c98cd0cb8822a11d074117c",
+        "out/notes.txt": "f9e44094f216cb279bc9a4ba3d820a46dc6d8f6d8de346a071b7007b3aa40ea5",
+        "out/page.txt": "7adfdf84dd0af3d51ed5a4599ce2482b3b2ce292d37b73c85eed9c6540927d5a"
+      },
+      "render_attempts": 1,
+      "artifact_sha256": {
+        "index.html": "deb2adaca2944c5c0b23e9fa36b53b3c06f0bdc1f964012a6cf4c337ba8fda47"
+      },
+      "rerender_matches": true
+    },
+    {
+      "round": 6,
+      "status": "REVERT",
+      "score": 72.5,
+      "snapshot": "rounds/r006/artifacts",
+      "judged": true,
+      "files": {
+        "out/desktop.png": "0517832ed7c04c5fa33bcb7025b3e7370d716d9d4b9458a59db7e3964ac17bca",
+        "out/mobile.png": "84f683863ab840dbb73060e4a6eeaf3e56da1ed566b94edc0f7080b0b6901435",
+        "out/notes.txt": "5fe5559b6e1629516979b2a29d2bad0eb0077289cf3ca57860bf81390ac5ebf4",
+        "out/page.txt": "020f4ab6f4ea3c82ede9a91e064cc61507a7cdfcf972591ad0ca817649096b11"
+      },
+      "render_attempts": 1,
+      "artifact_sha256": {
+        "index.html": "b82d9a7d892d2ab39fca91a7fd9f724c7d0fc866dd6ae0158c674fbdf7216729"
+      },
+      "rerender_matches": true
+    }
+  ],
+  "content_review_document": "../../README.md",
+  "frozen_files": [
+    {
+      "path": "config/execution.json",
+      "sha256": "304a92ce59b3d0f30b847703c84d2c0acdea3cfcdbb1b7063d4f7fa75a64acf9"
+    },
+    {
+      "path": "config/frozen/judge/brief.md",
+      "sha256": "fb3e9c52e04d0e48ff3cade8b0b253c1c4318a40957a4e4e7d4c6212550c3a98"
+    },
+    {
+      "path": "config/frozen/judge/facts.json",
+      "sha256": "25ce2374bdc8380f57ba0dbbe79638adad6727679ccb565d4f258620e3f80976"
+    },
+    {
+      "path": "config/frozen/judge/render.py",
+      "sha256": "b8753a7d92b947457e3010331f8dc1dc40db58995a9221551d59c6803a6c5476"
+    },
+    {
+      "path": "config/frozen/judge/rubric.yaml",
+      "sha256": "eda0f4135413d944aab724d8bf602b3e6c7afa8f6844060d91c61754bb0f20f7"
+    },
+    {
+      "path": "config/frozen/rsi.yaml",
+      "sha256": "9eb1d76e690cc04bc581966905e69bc4e991ec15190e226e02978f7283b71044"
+    },
+    {
+      "path": "config/rsi.yaml",
+      "sha256": "9eb1d76e690cc04bc581966905e69bc4e991ec15190e226e02978f7283b71044"
+    }
+  ],
+  "all_replay_checks_passed": true
+}

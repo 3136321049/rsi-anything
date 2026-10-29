@@ -19,9 +19,9 @@ PACKAGE = Path(__file__).resolve().parents[1] / "src" / "rsi_anything"
 LAYERS = [
     {"domain", "paths", "contract", "degenerate"},                          # 纯数据与规则
     {"selection", "strategy", "events", "prompt"},                          # 策略：怎么选、怎么搜、怎么播报
-    {"process", "gitops", "workspace", "artifacts", "ledger", "llm", "result", "agents", "judges"},  # 适配：外部世界
+    {"process", "gitops", "workspace", "artifacts", "ledger", "llm", "result", "sdk", "agents", "judges"},  # 适配：外部世界
     {"engine", "stress", "report", "export"},                               # 应用：编排一次运行
-    {"cli", "__init__"},                                                    # 接口
+    {"cli", "live", "__init__"},                                            # 接口：命令行、实时页面与分享页
 ]
 
 
@@ -158,6 +158,8 @@ def test_run_streams_events_and_prints_the_same_lines(toy):
                          "r2  command is working...",
                          "r2  NO_CHANGE  no edits inside the artifact paths; ignored 1 other edits"]
     assert store.meta()["schema"] == ledger.SCHEMA_VERSION
+    toolkit = json.loads((store.dir / "config/execution.json").read_text())["rsi_anything"]
+    assert len(toolkit["sdk_sha256"]) == 64 and "version" in toolkit
 
 
 def test_failed_run_reports_through_events(toy):
@@ -176,3 +178,33 @@ def test_half_written_event_line_is_skipped(tmp_path):
     path = tmp_path / "events.jsonl"
     path.write_text(json.dumps({"type": "run_started"}) + "\n" + '{"type": "rou')
     assert [e["type"] for e in events.read(path)] == ["run_started"]
+
+
+@pytest.mark.parametrize("comparison, keep, reason", [
+    (selection.Comparison(2, 2), True, "tied at 75; won head-to-head 2/2"),
+    (selection.Comparison(1, 2), False, "tied at 75 and lost head-to-head (1/2 votes)"),
+])
+def test_ties_can_be_settled_head_to_head(comparison, keep, reason):
+    rule = selection.default(SPEC, lambda *_: comparison, ties=True)
+    tie = Verdict(75), Verdict(75)
+    assert tuple(rule.decide(None, None, *tie)) == (keep, reason)
+    # 默认规则下平分直接拒绝，不额外比较。
+    assert not selection.default(SPEC, lambda *_: pytest.fail("compared a tie")).decide(None, None, *tie).keep
+    # 低于幅度要求但高于对方，也算平分；明显更差则不比较。
+    assert rule.decide(None, None, Verdict(75.5), Verdict(75)).keep == keep
+    assert selection.default(SPEC, lambda *_: pytest.fail("compared a loss"), ties=True).decide(
+        None, None, Verdict(70), Verdict(75)).reason.startswith("score 70 is not better")
+
+
+def test_ties_compare_needs_a_pairwise_rubric(tmp_path):
+    from rsi_anything.contract import ContractError
+    (tmp_path / "rsi.yaml").write_text("goal: g\nartifact: [a.txt]\njudge: {run: x, ties: compare}\n")
+    with pytest.raises(ContractError, match="ties"):
+        load(tmp_path)
+
+
+def test_runs_started_in_the_same_second_get_separate_folders(toy, monkeypatch):
+    project = toy([{"write": {"value.txt": "5"}}, {"write": {"value.txt": "6"}}], rounds=1)
+    monkeypatch.setattr(ledger.time, "strftime", lambda _: "20261029-120000")
+    first, second = (_ratchet(project).run().run_id for _ in range(2))
+    assert (first, second) == ("20261029-120000-toy", "20261029-120000-toy-2")

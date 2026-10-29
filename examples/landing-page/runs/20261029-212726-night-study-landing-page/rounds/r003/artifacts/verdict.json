@@ -1,0 +1,78 @@
+{
+  "score": 70.0,
+  "gates": {
+    "self_contained": true,
+    "facts_present": true,
+    "no_placeholder": true,
+    "has_title_and_viewport": true,
+    "images_have_alt": true,
+    "under_100kb": true,
+    "check:Every price, time, number and perk on the page appears in th": true,
+    "check:The page has no placeholder text, broken layout or overlappi": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "index.html: 10372 bytes\nfirst_impression 7.0/10: Above the fold the page has a strong headline (\"Busy by day. Make room for your future.\"), a supporting line naming the three exam audiences, the 18:00–02:00 hours and a price card showing ¥129, the 50-spot limit and the NIGHT keyword, so it meets the 7 anchor; it falls short of 8 because the headli\nlayout 7.0/10: The order is clear and the sections are well spaced (hero and offer card, three benefit columns, a safety and location panel, then a numbered two-step closing CTA), which matches the 7 anchor; it isn't an 8 because the benefits section is three columns of identical small grey text, the \"Every day / \n[cli:claude] Turn the hero CTA into an unmistakable primary action tied to the honest urgency: for example a full-width button reading \"Claim 1 of the first 50 trial spots: send NIGHT to Night Voyage Study Room\", with a working copy-to-clipboard or a link to the official account and a correct icon. Also rewrite the headline to name night-time exam prep directly. This would lift both first_impression and persuasion.",
+  "metrics": {
+    "criteria": {
+      "first_impression": 7.0,
+      "layout": 7.0,
+      "visual_craft": 7.0,
+      "mobile": 7.0,
+      "persuasion": 7.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "first_impression": {
+            "score": 7,
+            "evidence": "Work or classes all day? A quiet place to prepare for graduate-school, civil-service or certification exams awaits you at night.",
+            "why": "Above the fold the page has a strong headline (\"Busy by day. Make room for your future.\"), a supporting line naming the three exam audiences, the 18:00–02:00 hours and a price card showing ¥129, the 50-spot limit and the NIGHT keyword, so it meets the 7 anchor; it falls short of 8 because the headline itself never mentions exams or night study and could sell almost anything, and the \"REPLY NIGHT ↗\" box doesn't clearly read as a button."
+          },
+          "layout": {
+            "score": 7,
+            "evidence": "Settle in. Get into your work.",
+            "why": "The order is clear and the sections are well spaced (hero and offer card, three benefit columns, a safety and location panel, then a numbered two-step closing CTA), which matches the 7 anchor; it isn't an 8 because the benefits section is three columns of identical small grey text, the \"Every day / Night Membership\" caption next to the hours and the tiny right-aligned \"Included with your Night Membership\" are awkward, and the closing CTA repeats the hero card instead of building on it."
+          },
+          "visual_craft": {
+            "score": 7,
+            "evidence": "Copy keyword ↗",
+            "why": "The deep green, cream and gold palette with a serif and italic-gold headline is coherent and suits a calm late-night study room; it misses 8 on details: the ↗ external-link arrow is used for both a reply action and a copy action, the body text in the benefit columns is small and low-contrast grey on dark green, and there is no image of the space."
+          },
+          "mobile": {
+            "score": 7,
+            "evidence": "Trial price for the first 50 sign-ups",
+            "why": "At 390px it stacks cleanly into one column with legible type, comfortable line lengths and a large, tappable NIGHT box in the price card; it doesn't feel phone-first: there's no sticky or repeated CTA while scrolling, the long run of stacked benefit blocks gets monotonous, and the screenshot ends partway through the benefits list (at \"One free hot milk…\"), so the lower half could not be checked."
+          },
+          "persuasion": {
+            "score": 7,
+            "evidence": "Staff are on duty until 02:00, when your study time ends.",
+            "why": "Every brief fact is present and framed around the visitor's evening (\"Bring your books and plug in\", \"A little comfort after 22:00\", \"Study late. Staff stay until 02:00.\"), and the ¥129-then-¥199 trial is stated clearly and honestly, which meets the 7 anchor; it falls short of higher scores because the limit of 50 trial spots appears only as a small pill and a footnote, and the details are never tied to the real exam-prep worry of keeping a steady routine after a full day of work."
+          }
+        },
+        "checks": {
+          "Every price, time, number and perk on the page appears in the brief; nothing is invented (no testimonials, ratings or member counts).": {
+            "pass": true,
+            "why": "Every price, time and number on the page (¥129, ¥199, 50 sign-ups, 18:00–02:00, 22:00, 01:30, 42 booths, 4 phone booths, two sockets, one USB-C charger, 6 minutes, second floor) and both perks match the brief, and there are no testimonials, ratings or member counts."
+          },
+          "The page has no placeholder text, broken layout or overlapping elements.": {
+            "pass": true,
+            "why": "Neither screenshot shows placeholder text, overflow or overlapping elements; the phone screenshot is cut off at the bottom, but that is the capture ending, not a layout fault."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Turn the hero CTA into an unmistakable primary action tied to the honest urgency: for example a full-width button reading \"Claim 1 of the first 50 trial spots: send NIGHT to Night Voyage Study Room\", with a working copy-to-clipboard or a link to the official account and a correct icon. Also rewrite the headline to name night-time exam prep directly. This would lift both first_impression and persuasion.",
+        "_model": "cli:claude",
+        "_cost": 0.3249042
+      }
+    ],
+    "cost_usd": 0.3249
+  },
+  "seconds": 61.60503708408214,
+  "error": ""
+}

@@ -1,0 +1,26 @@
+name: pelican-on-a-bicycle
+goal: |
+  Improve drawing.svg so it unmistakably shows a pelican riding a bicycle.
+  The pelican needs its long beak with a throat pouch, a body, wings, legs and feet; the bicycle needs two
+  wheels, a frame, a seat, handlebars, pedals and a chain. The bird must actually ride it: seated on the
+  saddle, feet on the pedals, wings on the handlebars. After that, work on proportions, composition and
+  craft. Vector shapes only, no text or labels, keep the viewBox. One focused visual change per round.
+artifact: [drawing.svg]
+outputs: [out]
+judge:
+  type: rubric
+  prepare: "{python} judge/render.py"     # checks the SVG, then renders out/drawing.png with headless Chrome
+  rubric: judge/rubric.yaml
+  inputs: [out/drawing.png]
+  files: [judge]
+  models: [auto]
+  pairwise: true                          # a higher score must also win a side-by-side look, in both orders
+  ties: compare                           # an equal score is settled by the same side-by-side look
+  timeout: 600
+agent:
+  use: auto
+  timeout: 600
+budget:
+  rounds: 6
+  minutes: 90
+  stagnation: 3

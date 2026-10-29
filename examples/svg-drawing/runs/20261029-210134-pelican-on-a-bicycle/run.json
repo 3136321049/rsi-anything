@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "strategy": "greedy",
+  "run_id": "20261029-210134-pelican-on-a-bicycle",
+  "contract": "pelican-on-a-bicycle",
+  "contract_digest": "9690462cf9e0",
+  "goal": "Improve drawing.svg so it unmistakably shows a pelican riding a bicycle.\nThe pelican needs its long beak with a throat pouch, a body, wings, legs and feet; the bicycle needs two\nwheels, a frame, a seat, handlebars, pedals and a chain. The bird must actually ride it: seated on the\nsaddle, feet on the pedals, wings on the handlebars. After that, work on proportions, composition and\ncraft. Vector shapes only, no text or labels, keep the viewBox. One focused visual change per round.",
+  "base": "e3dd0790a06baa8efd46647e34d5ec5d12c06bfc",
+  "branch": "rsi/20261029-210134-pelican-on-a-bicycle",
+  "project": ".",
+  "agent": "codex",
+  "judge": "rubric",
+  "jury": [
+    "cli:claude"
+  ],
+  "started": "2026-10-29T13:01:34+00:00",
+  "status": "finished",
+  "phase": "finished",
+  "active_round": null,
+  "finished": "2026-10-29T13:10:01+00:00",
+  "error": null,
+  "stop_reason": "no improvement in 3 rounds",
+  "updated": "2026-10-29T13:10:01+00:00",
+  "champion": "1090faf31dbb87c22eea53e48a4b49c8597305ac",
+  "elapsed_seconds": 506.81147904181853,
+  "final_snapshot_champion": "1090faf31dbb87c22eea53e48a4b49c8597305ac",
+  "final_source_artifacts": "rounds/r002/artifacts",
+  "holdout": {},
+  "final_artifacts": "artifacts/final"
+}

@@ -1,0 +1,135 @@
+{
+  "run_id": "20261029-210134-pelican-on-a-bicycle",
+  "status": "verified",
+  "model_calls_during_validation": 0,
+  "command": "python verify_saved_results.py",
+  "formal_scores_unchanged": true,
+  "base_commit": "e3dd0790a06baa8efd46647e34d5ec5d12c06bfc",
+  "champion_commit": "1090faf31dbb87c22eea53e48a4b49c8597305ac",
+  "contract_digest": "9690462cf9e0",
+  "final_source_snapshot": "rounds/r002/artifacts",
+  "renderer": "headless Chrome via rsi_anything.sdk.screenshot, network blocked",
+  "scores": "recorded jury scores; not recomputed",
+  "checks": [
+    {
+      "round": 0,
+      "status": "BASELINE",
+      "score": 37.0,
+      "snapshot": "artifacts/baseline",
+      "judged": true,
+      "files": {
+        "out/drawing.png": "4383a642e8ac180948473f4dc47add1b02b7bda8390127f81aed7d63fbf37d4e",
+        "out/notes.txt": "ae4d6d21e3544236d7760f1bc456d4dc9c772f1c9a90429c561be607c46fbcc2"
+      },
+      "render_attempts": 1,
+      "artifact_sha256": {
+        "drawing.svg": "5d60a3bab776287ea22674520b4ade0a188c7afe9b5682cbc4bacf1aadaa9f15"
+      },
+      "rerender_matches": true
+    },
+    {
+      "round": 1,
+      "status": "KEEP",
+      "score": 68.0,
+      "snapshot": "rounds/r001/artifacts",
+      "judged": true,
+      "files": {
+        "out/drawing.png": "35bff8c583e7deef95327d30d12c945b19502b677c43b77a3b9fc7aa18944dd4",
+        "out/notes.txt": "62280d1756cecdbd12e23680d329093eefee6f6e3838872827f163b49e630e47"
+      },
+      "render_attempts": 1,
+      "artifact_sha256": {
+        "drawing.svg": "88634974fa1b38d47d54d6ebe298844afdb75d69bbb24449a9ccb66c869eefe4"
+      },
+      "rerender_matches": true
+    },
+    {
+      "round": 2,
+      "status": "KEEP",
+      "score": 75.0,
+      "snapshot": "rounds/r002/artifacts",
+      "judged": true,
+      "files": {
+        "out/drawing.png": "8aea65e6f72d26158a52fb0b055650315e4b328c73f1d42a4fa81217a3000bca",
+        "out/notes.txt": "a5bf413e907c23897c66a35a0a04232db6225b05b0ae7e4c844c269e7acc61af"
+      },
+      "render_attempts": 1,
+      "artifact_sha256": {
+        "drawing.svg": "99a5c52d192c3a245325041f6d3a734a02a12e56d392a67717384405a725fb52"
+      },
+      "rerender_matches": true
+    },
+    {
+      "round": 3,
+      "status": "REVERT",
+      "score": 75.0,
+      "snapshot": "rounds/r003/artifacts",
+      "judged": true,
+      "files": {
+        "out/drawing.png": "343d9ab0ec24b759a21204e8679f38152b1dcd4225f10753801b84a4380a1aae",
+        "out/notes.txt": "b1932abab305ac581df85ddaed3995d44428aaf17e2869ed81121e4b15274805"
+      },
+      "render_attempts": 1,
+      "artifact_sha256": {
+        "drawing.svg": "e213bf66bb679347dadf89d67c0778b7f83503fa521edf26aaf0722c9c792d95"
+      },
+      "rerender_matches": true
+    },
+    {
+      "round": 4,
+      "status": "REVERT",
+      "score": 75.0,
+      "snapshot": "rounds/r004/artifacts",
+      "judged": true,
+      "files": {
+        "out/drawing.png": "1362578c4dafae49984f270ad64f883447f48baed977199fc7720799bb36e285",
+        "out/notes.txt": "6beb3240d9b150dbcb6e96ceeec37e23fbde8c6fd0d75d0a9b629740fdc81273"
+      },
+      "render_attempts": 1,
+      "artifact_sha256": {
+        "drawing.svg": "5d708677590eeaebd55f257c4c6b2bc72cc26be09ff1266ac0000710d32b14e2"
+      },
+      "rerender_matches": true
+    },
+    {
+      "round": 5,
+      "status": "REVERT",
+      "score": 75.0,
+      "snapshot": "rounds/r005/artifacts",
+      "judged": true,
+      "files": {
+        "out/drawing.png": "47ff2f0847b8e2778bc69f65fdc8910b7eaf7dae944068c00dc64451f0dec522",
+        "out/notes.txt": "cb7fe0726fc6cf5ad2bb6900fcfdf267aa34696b5ea2566a567e95667fbdd889"
+      },
+      "render_attempts": 1,
+      "artifact_sha256": {
+        "drawing.svg": "45f839ac0f08f179714b806ac6a8b206743dee8e8c8cd8bfccc74649716b1c0a"
+      },
+      "rerender_matches": true
+    }
+  ],
+  "content_review_document": "../../README.md",
+  "frozen_files": [
+    {
+      "path": "config/execution.json",
+      "sha256": "b6ea406ff2b1592b54f35a20871b96b0b86e0fb82c71eaba97a6f2addb48ac49"
+    },
+    {
+      "path": "config/frozen/judge/render.py",
+      "sha256": "dbb705bab9403e9c011b00e9b03834d6fa37dc1f7fd2b095c82a1eec737e9000"
+    },
+    {
+      "path": "config/frozen/judge/rubric.yaml",
+      "sha256": "f57d17bcec39d133a16e576f70c23742b9af087f9140cd6a88dd5c2601a11d0f"
+    },
+    {
+      "path": "config/frozen/rsi.yaml",
+      "sha256": "9690462cf9e0347fdefe54b5ace58d76f8a6be7640458d7476bc03bd44f9cc2b"
+    },
+    {
+      "path": "config/rsi.yaml",
+      "sha256": "9690462cf9e0347fdefe54b5ace58d76f8a6be7640458d7476bc03bd44f9cc2b"
+    }
+  ],
+  "all_replay_checks_passed": true
+}

@@ -1,0 +1,1 @@
+drawing.svg: 11 shapes, 942 bytes

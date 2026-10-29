@@ -42,6 +42,8 @@ rsi export --to ../my-first-result
 
 `rsi check` 会真实执行评分；含模型评委或视频生成的模板会产生实际调用。代码修复只跑本地测试，适合作为第一个任务。`rsi init` 会为任务创建 Git 仓库；首次提交失败时，请先配置 Git 身份。CLI 版本、可选依赖和 API 配置见[安装说明](docs/INSTALL.zh-CN.md)。
 
+用 `rsi run --live`（或在另一个终端运行 `rsi watch`）可以在本地页面实时查看进化：分数曲线，以及每个版本和当时最好版本的并排对比。`rsi share --to run.html` 把同样的页面存成一个自带图片、去掉本机路径的单文件。
+
 ## 有哪些模板
 
 运行 `rsi init` 可以列出全部模板。每个模板都带有输入、初始作品、评价程序、输出位置，以及替换输入的说明。
@@ -63,8 +65,9 @@ rsi export --to ../my-first-result
 | D13 学习教育 | `lesson-builder` | 讲义与例题解释，由学生模型检验 |
 | D14 生活规划 | `weekly-planner` | 一周日程 |
 | D15 GPU 算子 | `kernel-speed` | Softmax 实现与启动参数 |
+| 视觉（新增） | `svg-drawing`、`landing-page` | 一幅 SVG 画，或一页网站，由能看图的评委按截图评分 |
 
-**模板存在不等于完成实跑。** D01–D06、D08–D14 已完成多轮与独立验证；D07 和 D15 是上面说明的资源例外。空的 GPU 结果和失败的生成请求不会被模拟，也不计作完成。
+两个视觉模板是源码中新增的，还没有进入可下载的安装包，实跑见[鹈鹕](examples/svg-drawing/README.md)和[落地页](examples/landing-page/README.md)案例。**模板存在不等于完成实跑。** D01–D06、D08–D14 已完成多轮与独立验证；D07 和 D15 是上面说明的资源例外。空的 GPU 结果和失败的生成请求不会被模拟，也不计作完成。
 
 ## 多轮如何运行
 

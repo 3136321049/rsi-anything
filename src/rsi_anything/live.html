@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DARWIN · run</title>
+<style>
+:root{--bg:#fafaf7;--card:#fff;--ink:#0d0f0c;--muted:#6b6f68;--line:#e4e4de;--keep:#c4f05a;--keep-ink:#3d5a00;--reject:#d4531f;--fail:#9a9d96;--night:#0d0f0c}
+@media (prefers-color-scheme:dark){:root{--bg:#0f110e;--card:#171a16;--ink:#ecefe8;--muted:#9aa096;--line:#2a2e28;--keep-ink:#c4f05a;--fail:#6f746c}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+header.top{display:flex;align-items:center;gap:12px;padding:18px 0;border-bottom:1px solid var(--line)}
+.brand{font-weight:700;letter-spacing:.02em}
+.brand i{font-style:normal;color:var(--muted);font-weight:500}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);font-size:13px;background:var(--card)}
+.pill .dot{width:8px;height:8px;border-radius:50%;background:var(--fail)}
+.pill.running .dot{background:var(--keep);box-shadow:0 0 0 0 rgba(196,240,90,.7);animation:pulse 1.6s infinite}
+.pill.finished .dot{background:var(--ink)}.pill.failed .dot,.pill.interrupted .dot{background:var(--reject)}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(196,240,90,0)}100%{box-shadow:0 0 0 0 rgba(196,240,90,0)}}
+.runid{margin-left:auto;color:var(--muted);font:12px ui-monospace,SFMono-Regular,Menlo,monospace}
+h1{font-size:clamp(26px,4vw,40px);line-height:1.15;letter-spacing:-.01em;margin:28px 0 8px}
+.goal{color:var(--muted);max-width:820px;margin:0 0 14px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13px;margin-bottom:24px}
+.meta b{color:var(--ink);font-weight:600}
+.grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+.card h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 12px;font-weight:600}
+.big{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.big strong{font-size:44px;letter-spacing:-.02em;line-height:1}
+.big span{color:var(--muted)}
+svg.chart{width:100%;height:auto;aspect-ratio:640/260;display:block}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--muted);margin-top:6px;flex-wrap:wrap}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.strip{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 10px;margin:18px 0}
+.thumb{flex:0 0 auto;width:150px;border:2px solid var(--line);border-radius:14px;background:var(--card);padding:6px;cursor:pointer;text-align:left;color:inherit;font:inherit}
+.thumb.sel{outline:3px solid var(--ink);outline-offset:2px}
+.thumb.KEEP,.thumb.BASELINE{border-color:var(--keep)}
+.thumb.REVERT{border-color:var(--reject)}
+.thumb .img{aspect-ratio:4/3;border-radius:9px;background:#fff center/contain no-repeat;border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);font-size:12px}
+.thumb .cap{display:flex;justify-content:space-between;font-size:12px;margin-top:6px}
+.tag{font:600 11px ui-monospace,Menlo,monospace;padding:1px 7px;border-radius:999px;background:var(--line)}
+.tag.KEEP,.tag.BASELINE{background:var(--keep);color:#0d0f0c}.tag.REVERT{background:var(--reject);color:#fff}
+.divider{flex:0 0 auto;width:170px;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:10px 12px;border-left:2px dashed var(--muted);font-size:12px;color:var(--muted)}
+.divider b{color:var(--ink);font-size:13px}.divider code{font:11px ui-monospace,Menlo,monospace;color:var(--ink);background:var(--bg);border-radius:6px;padding:2px 6px;white-space:pre-wrap;word-break:break-word}
+.working .img{background:repeating-linear-gradient(45deg,transparent 0 8px,rgba(127,127,127,.08) 8px 16px)}
+.versus{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.versus figure{margin:0}
+.versus figcaption{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:6px}
+.versus img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;display:block}
+.versus .stack{display:grid;gap:8px}
+.why{margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--bg);border:1px solid var(--line);font-size:14px}
+.why p{margin:0 0 6px}.why p:last-child{margin:0}
+.why .reason{font-weight:600}
+pre{white-space:pre-wrap;word-break:break-word;font:12px/1.5 ui-monospace,Menlo,monospace;max-height:340px;overflow:auto;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;margin:0}
+.log{display:grid;gap:8px;max-height:420px;overflow:auto}
+.log .row{display:grid;grid-template-columns:44px 92px 1fr;gap:10px;align-items:start;font-size:13px;padding:8px 6px;border-radius:10px;cursor:pointer}
+.log .row:hover{background:var(--bg)}
+.log .row .r{font:600 12px ui-monospace,Menlo,monospace;color:var(--muted);padding-top:2px}
+.log .row .h{overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.empty{color:var(--muted);padding:40px 0;text-align:center}
+footer{color:var(--muted);font-size:12px;padding:30px 0 40px}
+@media (max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}.versus{grid-template-columns:1fr}}
+@media (max-width:640px){.runid{display:none}header.top{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<!--STATE-->
+<div class="wrap">
+  <header class="top"><span class="brand">DARWIN <i id="mode">· live</i></span><span id="status" class="pill"><span class="dot"></span><span id="status-text">…</span></span><span class="runid" id="runid"></span></header>
+  <h1 id="title">Waiting for a run…</h1>
+  <p class="goal" id="goal"></p>
+  <div class="meta" id="meta"></div>
+  <div class="grid">
+    <section class="card"><h2 id="t-progress">Score</h2><div class="big"><strong id="best">–</strong><span id="from"></span></div><svg class="chart" id="chart" viewBox="0 0 640 260"></svg>
+      <div class="legend"><span><i style="background:var(--keep)"></i><span id="l-keep">kept</span></span><span><i style="background:var(--reject)"></i><span id="l-rej">rejected</span></span><span><i style="background:var(--fail)"></i><span id="l-fail">no change / failed</span></span></div></section>
+    <section class="card"><h2 id="t-rounds">Rounds</h2><div class="log" id="log"></div></section>
+  </div>
+  <div class="strip" id="strip"></div>
+  <section class="card" id="detail"></section>
+  <footer id="foot">rsi-anything · every version, every verdict, kept or rejected.</footer>
+</div>
+<script>
+const ZH = (navigator.language || "").toLowerCase().startsWith("zh");
+const L = ZH ? {wait:"等待运行开始…",running:"运行中",finished:"已完成",failed:"失败",interrupted:"已中断",agent:"助手",jury:"评委",strategy:"策略",rounds:"轮",best:"当前最好",from:"起点",score:"分数",list:"每一轮",keep:"保留",rej:"拒绝",fail:"无改动 / 失败",working:"正在修改…",judging:"正在评分…",deciding:"正在比较…",candidate:"候选",champion:"当时最好",baseline:"起点",cont:"接着上次的最好版本",run:"第 {n} 次运行",changed:"规则改动",why:"决定理由",feedback:"评委反馈",hyp:"助手的想法",stop:"停止原因",nofile:"这一轮没有可显示的图片",live:"· 实时",shared:"· 分享",foot:"rsi-anything · 每个版本、每次判断，保留的和被拒绝的都在这里。"}
+  : {wait:"Waiting for a run…",running:"Running",finished:"Finished",failed:"Failed",interrupted:"Interrupted",agent:"Agent",jury:"Jury",strategy:"Strategy",rounds:"rounds",best:"Current best",from:"from",score:"Score",list:"Rounds",keep:"kept",rej:"rejected",fail:"no change / failed",working:"editing…",judging:"judging…",deciding:"comparing…",candidate:"Candidate",champion:"Best at the time",baseline:"Starting point",cont:"Continues from the previous best",run:"Run {n}",changed:"Rule change",why:"Decision",feedback:"Judge feedback",hyp:"What the agent tried",stop:"Stopped",nofile:"No image for this round",live:"· live",shared:"· shared",foot:"rsi-anything · every version, every verdict, kept or rejected."};
+const PHASE = {agent: L.working, judging: L.judging, deciding: L.deciding};
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = v => v == null ? "–" : (Math.round(v * 10) / 10).toString();
+const STATIC = document.getElementById("state");
+let S = null, selected = null, pinned = false;
+["l-keep","l-rej","l-fail"].forEach((id, i) => $(id).textContent = [L.keep, L.rej, L.fail][i]);
+$("t-progress").textContent = L.score; $("t-rounds").textContent = L.list; $("foot").textContent = L.foot;
+$("mode").textContent = STATIC ? L.shared : L.live;
+
+const many = () => (S.runs || []).length > 1;
+const label = r => many() ? `${r.run}·r${r.round}` : `r${r.round}`;
+const kept = r => r.status === "KEEP" || r.status === "BASELINE";
+const runStart = r => r.round === 0 && r.run > 1;
+function championBefore(index) {
+  let best = null;
+  for (let i = 0; i < index; i++) if (kept(S.rows[i])) best = S.rows[i];
+  return best;
+}
+function chart() {
+  const rows = S.rows, W = 640, H = 260, P = 28;
+  const remaining = S.budget && S.status === "running" ? Math.max(0, S.budget.rounds - rows.filter(r => r.run === S.runs.length).length + 1) : 0;
+  const total = Math.max(rows.length - 1 + (S.active ? 1 : 0) + remaining, 1);
+  const scores = rows.map(r => r.score).filter(v => v != null);
+  let lo = 0, hi = 100;
+  if (scores.length) { lo = Math.max(0, Math.min(...scores) - 8); hi = Math.min(100, Math.max(...scores) + 8); if (hi - lo < 10) hi = lo + 10; }
+  const x = i => P + (W - 2 * P) * i / total, y = v => H - P - (H - 2 * P) * (v - lo) / (hi - lo);
+  let svg = "";
+  for (let i = 0; i <= 4; i++) { const v = lo + (hi - lo) * i / 4; svg += `<line x1="${P}" x2="${W - P}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="4" y="${y(v) + 4}" font-size="10" fill="var(--muted)">${Math.round(v)}</text>`; }
+  rows.forEach((r, i) => { if (runStart(r)) svg += `<line x1="${x(i)}" x2="${x(i)}" y1="${P - 10}" y2="${H - P}" stroke="var(--muted)" stroke-dasharray="2 4"/><text x="${x(i) + 4}" y="${P - 2}" font-size="10" fill="var(--muted)">${esc(L.run.replace("{n}", r.run))}</text>`; });
+  let path = "", lastBest = null;
+  rows.forEach((r, i) => { const best = kept(r) ? r.score : lastBest; if (best == null) return; path += lastBest == null ? `M${x(i)},${y(best)}` : `H${x(i)}V${y(best)}`; lastBest = best; });
+  if (lastBest != null && S.active) path += `H${x(rows.length)}`;
+  svg += `<path d="${path}" fill="none" stroke="var(--ink)" stroke-width="2.5"/>`;
+  rows.forEach((r, i) => {
+    const cx = x(i), sel = selected === i ? ' stroke="var(--ink)" stroke-width="3"' : ' stroke="var(--ink)" stroke-width="1.5"';
+    if (kept(r)) svg += `<circle cx="${cx}" cy="${y(r.score)}" r="7" fill="var(--keep)"${sel}/>`;
+    else if (r.score != null) { const champ = championBefore(i); svg += `<line x1="${cx}" x2="${cx}" y1="${y(champ ? champ.score : r.score)}" y2="${y(r.score)}" stroke="var(--reject)" stroke-dasharray="4 4"/><circle cx="${cx}" cy="${y(r.score)}" r="6" fill="var(--card)" stroke="var(--reject)" stroke-width="${selected === i ? 4 : 2.5}"/>`; }
+    else svg += `<path d="M${cx - 5},${H - P - 5}l10,10m0,-10l-10,10" stroke="var(--fail)" stroke-width="2.5"/>`;
+    svg += `<text x="${cx}" y="${H - 6}" font-size="10" text-anchor="middle" fill="var(--muted)">${esc(label(r))}</text>`;
+  });
+  if (S.active) svg += `<circle cx="${x(rows.length)}" cy="${lastBest != null ? y(lastBest) : H / 2}" r="6" fill="none" stroke="var(--keep-ink)" stroke-width="2" stroke-dasharray="3 3"><animate attributeName="r" values="5;9;5" dur="1.6s" repeatCount="indefinite"/></circle>`;
+  $("chart").innerHTML = svg;
+}
+function thumbImg(row) { const img = row.snapshot && row.snapshot.images[0]; return img && img.src ? `style="background-image:url('${img.src}')"` : ""; }
+function divider(r) {
+  const run = (S.runs || [])[r.run - 1] || {};
+  return `<div class="divider"><b>${esc(L.run.replace("{n}", r.run))}</b><span>${esc(L.changed)}</span>${(run.change || []).map(l => `<code>${esc(l)}</code>`).join("")}</div>`;
+}
+function render() {
+  const rows = S.rows || [];
+  document.title = `DARWIN · ${S.contract || "run"}`;
+  $("title").textContent = S.contract || L.wait; $("goal").textContent = (S.goal || "").trim().replace(/\n(?!\n)/g, " "); $("runid").textContent = S.run_id || "";
+  const st = S.status === "running" ? "running" : S.status || "waiting";
+  $("status").className = "pill " + st;
+  $("status-text").textContent = st === "running" && S.active ? `${L.running} · ${many() ? S.runs.length + "·" : ""}r${S.active.round} ${PHASE[S.active.phase] || ""}` : (L[st] || st) + (S.stop_reason && st === "finished" ? ` · ${S.stop_reason}` : "");
+  const budget = S.budget ? `${S.budget.rounds} ${L.rounds}` : "";
+  $("meta").innerHTML = [S.agent && `${L.agent} <b>${esc(S.agent)}${S.model ? " · " + esc(S.model) : ""}</b>`, S.jury && S.jury.length && `${L.jury} <b>${esc([].concat(S.jury).join(", "))}</b>`, `${L.strategy} <b>${esc(S.strategy || "greedy")}</b>`, budget && `<b>${budget}</b>`].filter(Boolean).join("<span>·</span>");
+  const keeps = rows.filter(kept), best = keeps[keeps.length - 1], base = rows[0];
+  $("best").textContent = fmt(best && best.score); $("from").textContent = base ? `${L.best} · ${L.from} ${fmt(base.score)}` : "";
+  if (!pinned && rows.length) selected = rows.length - 1;
+  chart();
+  $("log").innerHTML = rows.map((r, i) => [r, i]).reverse().map(([r, i]) => `<div class="row" data-i="${i}"><span class="r">${esc(label(r))}</span><span><span class="tag ${r.status}">${r.status}</span> ${r.score != null ? fmt(r.score) : ""}</span><span class="h">${esc(r.round === 0 ? (r.run > 1 ? L.cont : L.baseline) : r.hypothesis || r.note)}</span></div>`).join("") || `<div class="empty">${L.wait}</div>`;
+  $("strip").innerHTML = rows.map((r, i) => (runStart(r) ? divider(r) : "") + `<button class="thumb ${r.status}${selected === i ? " sel" : ""}" data-i="${i}"><div class="img" ${thumbImg(r)}>${thumbImg(r) ? "" : esc(r.status)}</div><div class="cap"><span>${esc(label(r))}</span><span>${r.score != null ? fmt(r.score) : "–"}</span></div></button>`).join("")
+    + (S.active ? `<div class="thumb working"><div class="img">${esc(PHASE[S.active.phase] || "")}</div><div class="cap"><span>${many() ? S.runs.length + "·" : ""}r${S.active.round}</span><span>${esc(S.active.agent || "")}</span></div></div>` : "");
+  detail();
+}
+function figure(row, title) {
+  if (!row) return "";
+  const imgs = (row.snapshot && row.snapshot.images) || [];
+  const media = imgs.length ? `<div class="stack">${imgs.map(i => i.src ? `<img alt="${esc(i.name)}" src="${i.src}">` : "").join("")}</div>`
+    : Object.entries((row.snapshot && row.snapshot.text) || {}).map(([n, t]) => `<pre>${esc(n)}\n\n${esc(t)}</pre>`).join("") || `<div class="empty">${L.nofile}</div>`;
+  return `<figure><figcaption><span>${title} · ${esc(label(row))}</span><span class="tag ${row.status}">${row.score != null ? fmt(row.score) : row.status}</span></figcaption>${media}</figure>`;
+}
+function detail() {
+  const row = S.rows[selected];
+  if (!row) { $("detail").innerHTML = `<div class="empty">${L.wait}</div>`; return; }
+  const champ = selected ? championBefore(selected) : null;
+  const left = champ ? figure(champ, L.champion) : "";
+  const right = figure(row, row.round === 0 ? (row.run > 1 ? L.cont : L.baseline) : L.candidate);
+  const why = row.round === 0 ? "" : `<div class="why">${row.hypothesis ? `<p><b>${L.hyp}:</b> ${esc(row.hypothesis)}</p>` : ""}<p class="reason">${L.why}: <span class="tag ${row.status}">${row.status}</span> ${esc(row.note)}</p>${row.feedback ? `<p><b>${L.feedback}:</b></p><pre>${esc(row.feedback)}</pre>` : ""}</div>`;
+  $("detail").innerHTML = `<div class="versus">${left}${right}</div>${why}${S.status === "finished" && S.stop_reason ? `<p class="goal" style="margin-top:12px">${L.stop}: ${esc(S.stop_reason)}</p>` : ""}`;
+}
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-i]"); if (!el || !S) return;
+  selected = Number(el.dataset.i); pinned = true; render();
+});
+async function poll() {
+  try { const res = await fetch("api/state", {cache: "no-store"}); S = await res.json(); render(); } catch (err) {}
+  if (!S || !["finished", "failed", "interrupted"].includes(S.status)) setTimeout(poll, 2000);
+}
+if (STATIC) { S = JSON.parse(STATIC.textContent); render(); } else poll();
+</script>
+</body>
+</html>

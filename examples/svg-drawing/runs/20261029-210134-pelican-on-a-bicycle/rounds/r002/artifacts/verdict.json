@@ -1,0 +1,72 @@
+{
+  "score": 75.0,
+  "gates": {
+    "valid_svg": true,
+    "has_viewbox": true,
+    "vector_only": true,
+    "no_text": true,
+    "under_60kb": true,
+    "has_shapes": true,
+    "check:The image contains no text, letters or labels.": true,
+    "check:The image shows one pelican and one bicycle.": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "drawing.svg: 26 shapes, 2562 bytes\npelican 7.0/10: The artifact has no text, so there is nothing to quote; in the image the bird is clearly a pelican, with a long yellow beak, a large pouch, an S-curved white neck, a grey feathered wing, a tail, orange legs and yellow triangular feet, but the body is shaped like a duck's and the legs are plain stick\ncraft 7.0/10: The artifact has no text, so there is nothing to quote; the flat shapes are tidy with consistent dark outlines and a pleasant muted palette (teal frame, orange legs, golden beak), but there is no ground or background, the drawing sits low with a lot of empty space above, and the stick legs and stub \n[cli:claude] Make the pelican look like it's moving: tilt its body forward, wrap its wingtip around a proper raised handlebar with grips, and add a ground shadow and speed lines. This would improve both the riding and the craft scores.",
+  "metrics": {
+    "criteria": {
+      "pelican": 7.0,
+      "bicycle": 8.0,
+      "riding": 8.0,
+      "craft": 7.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "pelican": {
+            "score": 7,
+            "evidence": "",
+            "why": "The artifact has no text, so there is nothing to quote; in the image the bird is clearly a pelican, with a long yellow beak, a large pouch, an S-curved white neck, a grey feathered wing, a tail, orange legs and yellow triangular feet, but the body is shaped like a duck's and the legs are plain sticks, which keeps it from the charming, fully detailed 10 level."
+          },
+          "bicycle": {
+            "score": 8,
+            "evidence": "",
+            "why": "The artifact has no text, so there is nothing to quote; the bike has a full diamond frame (top tube, down tube, seat tube, seat stays and chainstays), a fork, hubs, 8-spoke wheels, a saddle, a chainring with a crank, chain lines to the rear hub and two pedals, but the handlebar is only a short stub with no stem rise or grips, and only one crank arm is clearly drawn."
+          },
+          "riding": {
+            "score": 8,
+            "evidence": "",
+            "why": "The artifact has no text, so there is nothing to quote; the pelican sits right on the saddle, both webbed feet rest on the pedals in an up-and-down pedalling position, and the wingtip reaches the handlebar, but the body is upright with no lean, no speed lines and no real grip on the bars, so it doesn't convey motion."
+          },
+          "craft": {
+            "score": 7,
+            "evidence": "",
+            "why": "The artifact has no text, so there is nothing to quote; the flat shapes are tidy with consistent dark outlines and a pleasant muted palette (teal frame, orange legs, golden beak), but there is no ground or background, the drawing sits low with a lot of empty space above, and the stick legs and stub handlebar look crude, so it isn't poster quality."
+          }
+        },
+        "checks": {
+          "The image contains no text, letters or labels.": {
+            "pass": true,
+            "why": "There are no characters or labels anywhere in the image."
+          },
+          "The image shows one pelican and one bicycle.": {
+            "pass": true,
+            "why": "There is exactly one pelican and exactly one bicycle."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Make the pelican look like it's moving: tilt its body forward, wrap its wingtip around a proper raised handlebar with grips, and add a ground shadow and speed lines. This would improve both the riding and the craft scores.",
+        "_model": "cli:claude",
+        "_cost": 0.23622900000000002
+      }
+    ],
+    "cost_usd": 0.2362
+  },
+  "seconds": 38.91770141618326,
+  "error": ""
+}

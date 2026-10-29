@@ -1,0 +1,53 @@
+{
+  "agent": {
+    "use": "codex",
+    "model": "gpt-6.1-sol",
+    "timeout": 600,
+    "command": "",
+    "extra_args": [],
+    "resolved_adapter": "codex",
+    "requested_model": "gpt-6.1-sol",
+    "actual_model": null,
+    "reasoning_effort": null
+  },
+  "judge": {
+    "type": "rubric",
+    "files": [
+      "judge"
+    ],
+    "direction": "maximize",
+    "min_delta": 0.0,
+    "min_gain": 0.0,
+    "repeats": 1,
+    "timeout": 600,
+    "run": "",
+    "prepare": "{python} judge/render.py",
+    "rubric": "judge/rubric.yaml",
+    "inputs": [
+      "out/drawing.png"
+    ],
+    "models": [
+      "cli:claude"
+    ],
+    "samples": 1,
+    "pairwise": true,
+    "ties": "compare"
+  },
+  "jury": [
+    "cli:claude"
+  ],
+  "holdout": null,
+  "budget": {
+    "rounds": 6,
+    "minutes": 90.0,
+    "stagnation": 3,
+    "target": null
+  },
+  "artifact": [
+    "drawing.svg"
+  ],
+  "outputs": [
+    "out"
+  ],
+  "task_model": null
+}

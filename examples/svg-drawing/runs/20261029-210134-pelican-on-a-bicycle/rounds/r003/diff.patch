@@ -1,0 +1,25 @@
+diff --git a/drawing.svg b/drawing.svg
+index 4e2e968..e7391d8 100644
+--- a/drawing.svg
++++ b/drawing.svg
+@@ -9,7 +9,8 @@
+         <path d="M560 346V514M476 430H644M501 371L619 489M501 489L619 371"/>
+       </g>
+       <path d="M250 430L382 332L400 418ZM382 332L544 322L400 418M382 332L380 320M560 430L540 300" stroke="#467d86" stroke-width="7"/>
+-      <path d="M540 300L535 278H562"/>
++      <path d="M540 300L535 282Q532 267 546 267H570"/>
++      <path d="M548 267H570" stroke="#333" stroke-width="10"/>
+     </g>
+     <path d="M250 420L398 396A22 22 0 1 1 402 440L250 440A10 10 0 0 1 250 420Z" fill="none" stroke="#697578" stroke-width="3"/>
+     <circle cx="400" cy="418" r="19" fill="#ffffff" stroke="#697578" stroke-width="3"/>
+@@ -34,8 +35,8 @@
+     <path d="M333 250C331 214 370 203 416 218C445 229 456 236 462 218C469 199 464 165 484 157C509 147 531 165 530 187C529 207 509 216 500 220C487 229 494 258 470 280C448 303 408 313 377 306C346 300 330 281 333 250Z" fill="#edf1ef" stroke-width="3"/>
+     <path d="M524 190L646 200C617 220 591 246 563 240C540 235 531 216 524 202Z" fill="#e6b953" stroke-width="3"/>
+     <path d="M524 183L650 198L647 204L525 201Z" fill="#f5c45b" stroke-width="3"/>
+-    <path d="M360 243C380 228 406 239 432 254L490 279L542 276L546 285C515 301 481 299 455 289L386 274C368 270 357 257 360 243Z" fill="#c1cdd1" stroke-width="3"/>
+-    <path d="M377 251Q412 261 446 276M376 260L414 273" fill="none" stroke="#899ba3" stroke-width="2.5"/>
++    <path d="M360 243C380 228 406 239 432 254L488 277L540 260C547 257 557 257 562 262L564 271Q564 278 557 279Q550 279 550 273L550 269L497 297C482 302 467 295 455 289L386 274C368 270 357 257 360 243Z" fill="#c1cdd1" stroke-width="3"/>
++    <path d="M377 251Q412 261 446 276M376 260L414 273M542 264Q548 261 553 264L555 272" fill="none" stroke="#899ba3" stroke-width="2.5"/>
+     <circle cx="508" cy="177" r="4" fill="#333" stroke="none"/>
+     <circle cx="509" cy="176" r="1.2" fill="#fff" stroke="none"/>
+   </g>

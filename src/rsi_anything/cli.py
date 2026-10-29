@@ -127,7 +127,22 @@ def cmd_run(args) -> int:
     project, contract = _contract(args)
     agent = make_agent(contract.agent, allow_commands=args.allow_commands)
     ratchet = Ratchet(project, contract, agent, log=lambda line: print(line, flush=True))
-    summary = ratchet.run(resume=args.resume)
+    server = None
+    if args.live:
+        from . import live
+
+        # 只跟随这次启动后的运行（续跑时跟随指定运行），不会先显示旧记录。
+        runs = ratchet.repo / ledger.STATE_DIR / "runs"
+        before = set(ledger.list_runs(ratchet.repo))
+        target = runs / args.resume if args.resume else None
+        server = live.serve(lambda: target or next((runs / r for r in reversed(ledger.list_runs(ratchet.repo))
+                                                    if r not in before), None), args.port)
+        print(f"live view: http://127.0.0.1:{server.server_address[1]}/", flush=True)
+    try:
+        summary = ratchet.run(resume=args.resume)
+    finally:
+        if server is not None:
+            server.shutdown()
     store = RunStore(ratchet.repo, summary.run_id)
     md, page = report.write(store, ratchet.repo)
     print()
@@ -169,6 +184,36 @@ def cmd_export(args) -> int:
     store, repo = _store(args)
     written = export_run(store, repo, Path(args.to).resolve(), with_logs=args.with_logs)
     print(f"exported {len(written)} files to {args.to} (local paths scrubbed; review before publishing)")
+    return 0
+
+
+def cmd_watch(args) -> int:
+    import threading
+
+    from . import live
+
+    repo = gitops.toplevel(Path(args.dir).resolve())
+    fixed = repo / ledger.STATE_DIR / "runs" / args.run if args.run else None
+    if fixed is not None and not fixed.is_dir():
+        raise RunError(f"no run named {args.run}")
+    server = live.serve(lambda: fixed or live.latest(repo), args.port, open_browser=not args.no_open)
+    print(f"watching {'run ' + args.run if args.run else 'the latest run'} at "
+          f"http://127.0.0.1:{server.server_address[1]}/  (Ctrl-C to stop)")
+    try:
+        threading.Event().wait()
+    except KeyboardInterrupt:
+        server.shutdown()
+    return 0
+
+
+def cmd_share(args) -> int:
+    from . import live
+    from .export import scrubber
+
+    store, repo = _store(args)
+    dest = Path(args.to or f"{store.run_id}.html").resolve()
+    live.share(store.dir, dest, scrub=scrubber(repo))
+    print(f"wrote {dest}: one file with images embedded and local paths removed; review it before sharing")
     return 0
 
 
@@ -243,6 +288,8 @@ def main(argv=None) -> int:
             p.add_argument("--allow-commands", action="store_true",
                            help="let the agent run shell commands (tests, benchmarks) without asking")
             p.add_argument("--resume", metavar="RUN_ID")
+            p.add_argument("--live", action="store_true", help="open a page that follows the run as it evolves")
+            p.add_argument("--port", type=int, default=8765, help="port for --live (default 8765)")
         p.set_defaults(func=func)
 
     for name, func in (("status", cmd_status), ("report", cmd_report)):
@@ -257,6 +304,19 @@ def main(argv=None) -> int:
     p.add_argument("--dir", default=".")
     p.add_argument("--with-logs", action="store_true", help="include raw agent logs")
     p.set_defaults(func=cmd_export)
+
+    p = sub.add_parser("watch", help="follow a run in the browser as it evolves (the latest run by default)")
+    p.add_argument("run", nargs="?")
+    p.add_argument("--dir", default=".")
+    p.add_argument("--port", type=int, default=8765)
+    p.add_argument("--no-open", action="store_true", help="print the address instead of opening a browser")
+    p.set_defaults(func=cmd_watch)
+
+    p = sub.add_parser("share", help="save a run as one self-contained HTML page")
+    p.add_argument("run", nargs="?")
+    p.add_argument("--to", help="output file (default: <run-id>.html)")
+    p.add_argument("--dir", default=".")
+    p.set_defaults(func=cmd_share)
 
     sub.add_parser("agents", help="list supported coding agents and detected API keys").set_defaults(func=cmd_agents)
     p = sub.add_parser("skill", help="install the /rsi skill into your coding agents, or print it")

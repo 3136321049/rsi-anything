@@ -1,0 +1,77 @@
+{
+  "score": 72.5,
+  "gates": {
+    "self_contained": true,
+    "facts_present": true,
+    "no_placeholder": true,
+    "has_title_and_viewport": true,
+    "images_have_alt": true,
+    "under_100kb": true,
+    "check:Every price, time, number and perk on the page appears in th": true,
+    "check:The page has no placeholder text, broken layout or overlappi": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "index.html: 9855 bytes\nlayout 7.0/10: The page runs in a clear order with good spacing: hero with price card, three feature columns, practical info, a closing CTA panel. It misses 8 because the 'Close to the metro / Stay focused into the night' row is styled more weakly than the columns above it (no gold eyebrow, smaller titles), so it \nvisual_craft 7.0/10: The deep green, cream and gold palette with serif headlines suits a calm late-night study room. It misses 8 because of small low-contrast grey body text on the dark background, italic headline lines that hang past the left margin, and a '↗' external-link icon used on a 'Copy keyword' action.\n[cli:claude] Turn the location/safety row into a styled block that answers the late-night worries (e.g. 'Safe to stay late: key card entry after 01:30, staff on duty until 02:00 · 6 minutes' walk to the metro'), using the same eyebrow and title treatment as the three feature columns. This raises both persuasion and layout.",
+  "metrics": {
+    "criteria": {
+      "first_impression": 8.0,
+      "layout": 7.0,
+      "visual_craft": 7.0,
+      "mobile": 7.0,
+      "persuasion": 7.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "first_impression": {
+            "score": 8,
+            "evidence": "Work or classes all day? A quiet place to prepare for graduate-school, civil-service or certification exams awaits you at night.",
+            "why": "The desktop first screen shows the audience, the 18:00–02:00 hours, the ¥129 price, the first-50 limit and the join keyword, under a strong two-tone serif headline. It misses 9–10 because 'Make room for your future' could sell any study space, nothing shows the room itself, and the hero CTA reads as an instruction box more than a clear button."
+          },
+          "layout": {
+            "score": 7,
+            "evidence": "Settle in. Get into your work.",
+            "why": "The page runs in a clear order with good spacing: hero with price card, three feature columns, practical info, a closing CTA panel. It misses 8 because the 'Close to the metro / Stay focused into the night' row is styled more weakly than the columns above it (no gold eyebrow, smaller titles), so it reads like an afterthought."
+          },
+          "visual_craft": {
+            "score": 7,
+            "evidence": "Busy by day.",
+            "why": "The deep green, cream and gold palette with serif headlines suits a calm late-night study room. It misses 8 because of small low-contrast grey body text on the dark background, italic headline lines that hang past the left margin, and a '↗' external-link icon used on a 'Copy keyword' action."
+          },
+          "mobile": {
+            "score": 7,
+            "evidence": "Claim your trial spot",
+            "why": "At 390px the page is one clean column with a large headline, readable body text, a full-width price card and a large REPLY NIGHT block. It misses 8 because the price card only starts at the bottom of the first phone screen, and the 'Settle in. Get into your work.' heading runs almost to the right edge."
+          },
+          "persuasion": {
+            "score": 7,
+            "evidence": "Trial offer limited to the first 50 sign-ups.",
+            "why": "Some brief facts are framed around the visitor's evening ('Calls have their own space', 'A little comfort after 22:00'), the trial and the ¥199 follow-on price are stated honestly, and joining takes two steps. It misses 8 because the key card and staff hours are listed flatly under 'Stay focused into the night' instead of answering the safety worry of leaving at 02:00, and the metro distance isn't tied to the late trip home."
+          }
+        },
+        "checks": {
+          "Every price, time, number and perk on the page appears in the brief; nothing is invented (no testimonials, ratings or member counts).": {
+            "pass": true,
+            "why": "Every figure on the page (¥129, ¥199, first 50, 18:00–02:00, 42 booths, 4 phone booths, 22:00, 01:30, 02:00, 6 minutes) and every perk (lamp, two sockets, USB-C, hot or soy milk) comes from the brief. There are no testimonials, ratings or member counts."
+          },
+          "The page has no placeholder text, broken layout or overlapping elements.": {
+            "pass": true,
+            "why": "There is no placeholder text and nothing overlaps. The only flaw is the italic headline hanging slightly past the left margin, which is cosmetic and doesn't break the layout."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Turn the location/safety row into a styled block that answers the late-night worries (e.g. 'Safe to stay late: key card entry after 01:30, staff on duty until 02:00 · 6 minutes' walk to the metro'), using the same eyebrow and title treatment as the three feature columns. This raises both persuasion and layout.",
+        "_model": "cli:claude",
+        "_cost": 0.32736919999999997
+      }
+    ],
+    "cost_usd": 0.3274
+  },
+  "error": ""
+}

@@ -1,0 +1,26 @@
+name: night-study-landing-page
+goal: |
+  Improve index.html into a landing page that converts: someone who can only study at night should see
+  in seconds that the Night Membership is for them, what they get, and how to claim a ¥129 trial spot.
+  Use only the facts in judge/brief.md and keep every fact listed in judge/facts.json in the visible text.
+  The page must be self-contained (inline CSS, inline SVG or data you write yourself; no external fonts,
+  images or scripts) and work on a 390px phone. One focused improvement per round.
+artifact: [index.html]
+outputs: [out]
+judge:
+  type: rubric
+  prepare: "{python} judge/render.py"     # checks facts and self-containment, then screenshots desktop and phone
+  rubric: judge/rubric.yaml
+  inputs: [out/desktop.png, out/mobile.png, out/page.txt]
+  files: [judge]
+  models: [auto]
+  pairwise: true
+  ties: compare                           # an equal score is settled by the side-by-side comparison
+  timeout: 600
+agent:
+  use: auto
+  timeout: 600
+budget:
+  rounds: 6
+  minutes: 90
+  stagnation: 3

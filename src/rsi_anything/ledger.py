@@ -16,7 +16,7 @@ import os
 import time
 from dataclasses import asdict
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 from .artifacts import write_json
 # 轮次状态与账本行属于领域层，这里保留旧的导入位置。
@@ -28,9 +28,15 @@ STATE_DIR = ".rsi"
 SCHEMA_VERSION = 1
 
 
-def new_run_id(name: str) -> str:
+def new_run_id(name: str, repo: Optional[Path] = None) -> str:
     slug = "".join(c if c.isalnum() else "-" for c in name.lower()).strip("-")[:32] or "run"
-    return f"{time.strftime('%Y%m%d-%H%M%S')}-{slug}"
+    run_id = f"{time.strftime('%Y%m%d-%H%M%S')}-{slug}"
+    if repo is not None:  # two runs started within the same second must not share a folder
+        runs, base, n = Path(repo) / STATE_DIR / "runs", run_id, 1
+        while (runs / run_id).exists():
+            n += 1
+            run_id = f"{base}-{n}"
+    return run_id
 
 
 class RunStore:

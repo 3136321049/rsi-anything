@@ -1,0 +1,72 @@
+{
+  "score": 75.0,
+  "gates": {
+    "valid_svg": true,
+    "has_viewbox": true,
+    "vector_only": true,
+    "no_text": true,
+    "under_60kb": true,
+    "has_shapes": true,
+    "check:The image contains no text, letters or labels.": true,
+    "check:The image shows one pelican and one bicycle.": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "drawing.svg: 27 shapes, 2892 bytes\npelican 7.0/10: The long bill and big pouch make it clearly a pelican, but the hunched duck-like body and S-neck, and the tiny wedge feet with no visible webbing, keep it from the 'all well drawn' level.\ncraft 7.0/10: The shapes are tidy and the palette is pleasant, but the composition sits low, there is no setting or ground, and small structural oddities (the floating seat tube, orange legs that don't match the yellow feet) keep it from looking like a poster.\n[cli:claude] Draw clearly webbed pelican feet planted on visible pedals, and curl the wing tip around the handlebar grip. This would help the pelican, bicycle and riding scores at once.",
+  "metrics": {
+    "criteria": {
+      "pelican": 7.0,
+      "bicycle": 8.0,
+      "riding": 8.0,
+      "craft": 7.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "pelican": {
+            "score": 7,
+            "evidence": "The artifact has no text. Visual evidence: a white bird with a long thin yellow upper bill, a large hanging yellow throat pouch, a grey folded wing with feather lines, a grey tail, orange legs and small yellow feet.",
+            "why": "The long bill and big pouch make it clearly a pelican, but the hunched duck-like body and S-neck, and the tiny wedge feet with no visible webbing, keep it from the 'all well drawn' level."
+          },
+          "bicycle": {
+            "score": 8,
+            "evidence": "The artifact has no text. Visual evidence: two dark-rimmed wheels with eight spokes and grey hubs, a teal frame with top tube, down tube, seat stays and chainstays, a black saddle, handlebar and stem, a chainring with a crank arm, and grey chain lines running to the rear hub.",
+            "why": "Nearly every part on the 10 anchor is there (spokes, hubs, chain, crank), but the feet hide the pedals and the seat tube stops at the upper foot instead of reaching the bottom bracket, so the geometry is a little off."
+          },
+          "riding": {
+            "score": 8,
+            "evidence": "The artifact has no text. Visual evidence: the pelican's body rests on the saddle, its two feet sit at opposite ends of the crank (one upper-left and one lower-right of the chainring), and the wing tip reaches forward to the handlebar.",
+            "why": "It is seated with its feet on the pedals and its wing on the bars, but the wing tip only touches the end of the bar without gripping it, and nothing (no lean, speed lines or ground) shows motion, so it falls short of 10."
+          },
+          "craft": {
+            "score": 7,
+            "evidence": "The artifact has no text. Visual evidence: clean, even dark outlines, a muted teal, mustard, grey and white palette, flat fills, and a white background with no ground line, with the whole drawing sitting in the lower part of the canvas and a large empty area above.",
+            "why": "The shapes are tidy and the palette is pleasant, but the composition sits low, there is no setting or ground, and small structural oddities (the floating seat tube, orange legs that don't match the yellow feet) keep it from looking like a poster."
+          }
+        },
+        "checks": {
+          "The image contains no text, letters or labels.": {
+            "pass": true,
+            "why": "The image has no text, letters or labels anywhere."
+          },
+          "The image shows one pelican and one bicycle.": {
+            "pass": true,
+            "why": "Exactly one pelican and one bicycle are drawn."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Draw clearly webbed pelican feet planted on visible pedals, and curl the wing tip around the handlebar grip. This would help the pelican, bicycle and riding scores at once.",
+        "_model": "cli:claude",
+        "_cost": 0.2507672
+      }
+    ],
+    "cost_usd": 0.2508
+  },
+  "seconds": 42.07269295910373,
+  "error": ""
+}

@@ -1,0 +1,72 @@
+{
+  "score": 37.0,
+  "gates": {
+    "valid_svg": true,
+    "has_viewbox": true,
+    "vector_only": true,
+    "no_text": true,
+    "under_60kb": true,
+    "has_shapes": true,
+    "check:The image contains no text, letters or labels.": true,
+    "check:The image shows one pelican and one bicycle.": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "drawing.svg: 11 shapes, 942 bytes\npelican 3.0/10: The text part of the artifact is empty, so this score rests on the image alone: a gray oval body, a separate floating circle head with a dot eye and a thin orange triangle beak, but no throat pouch, wings, legs or feet, and the head is not joined to the body, so it reads below a generic bird; reachi\nbicycle 4.0/10: The image shows two wheels, one horizontal bar between the hubs and two upright strokes for a seat post and a fork, with no saddle, handlebars, pedals, crank, chain or spokes; that matches the 4 anchor of 'two wheels and a few lines'.\n[cli:claude] Connect the head to the body with a neck, then give the bird a long bill with a throat pouch, a wing reaching to new handlebars, and legs running down to pedals on a crank under a saddle. That would lift the pelican, riding and bicycle scores together.",
+  "metrics": {
+    "criteria": {
+      "pelican": 3.0,
+      "bicycle": 4.0,
+      "riding": 4.0,
+      "craft": 4.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "pelican": {
+            "score": 3,
+            "evidence": "",
+            "why": "The text part of the artifact is empty, so this score rests on the image alone: a gray oval body, a separate floating circle head with a dot eye and a thin orange triangle beak, but no throat pouch, wings, legs or feet, and the head is not joined to the body, so it reads below a generic bird; reaching 7 needs a pouch and a long pelican bill."
+          },
+          "bicycle": {
+            "score": 4,
+            "evidence": "",
+            "why": "The image shows two wheels, one horizontal bar between the hubs and two upright strokes for a seat post and a fork, with no saddle, handlebars, pedals, crank, chain or spokes; that matches the 4 anchor of 'two wheels and a few lines'."
+          },
+          "riding": {
+            "score": 4,
+            "evidence": "",
+            "why": "The body hangs above the seat post with a clear gap, and the bird has no legs or wings to reach pedals or handlebars, so it floats near the bike rather than sitting on it (the 4 anchor)."
+          },
+          "craft": {
+            "score": 4,
+            "evidence": "",
+            "why": "The strokes are clean and the gray-and-orange palette is plain, but the drawing is a crude assembly of loose parts: the head floats apart from the body, the strokes are cut off, and there is a large empty band across the top, so it is readable but crude rather than tidy."
+          }
+        },
+        "checks": {
+          "The image contains no text, letters or labels.": {
+            "pass": true,
+            "why": "The image has no text, letters or labels, and the text part of the artifact is empty."
+          },
+          "The image shows one pelican and one bicycle.": {
+            "pass": true,
+            "why": "There is exactly one bird figure and one bicycle-like figure; the bird is only weakly a pelican, but there is one of each."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Connect the head to the body with a neck, then give the bird a long bill with a throat pouch, a wing reaching to new handlebars, and legs running down to pedals on a crank under a saddle. That would lift the pelican, riding and bicycle scores together.",
+        "_model": "cli:claude",
+        "_cost": 0.223369
+      }
+    ],
+    "cost_usd": 0.2234
+  },
+  "seconds": 25.443150208098814,
+  "error": ""
+}

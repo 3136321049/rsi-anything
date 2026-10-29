@@ -1,0 +1,8 @@
+{
+  "self_contained": true,
+  "facts_present": true,
+  "no_placeholder": true,
+  "has_title_and_viewport": true,
+  "images_have_alt": true,
+  "under_100kb": true
+}

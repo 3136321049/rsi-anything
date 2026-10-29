@@ -42,6 +42,7 @@ class JudgeSpec:
     models: list[str] = field(default_factory=list)
     samples: int = 1
     pairwise: bool = True
+    ties: str = "reject"     # or "compare": an equal score is settled by the head-to-head comparison
 
     def better(self, candidate: float, champion: float) -> bool:
         margin = max(self.min_delta, abs(champion) * self.min_gain)
@@ -128,9 +129,14 @@ def _judge(raw: Any, key: str) -> JudgeSpec:
         models=[str(m) for m in (raw.get("models") or [])],
         samples=max(1, int(raw.get("samples", 1))),
         pairwise=bool(raw.get("pairwise", True)),
+        ties=str(raw.get("ties", "reject")),
     )
     if spec.direction not in {"maximize", "minimize"}:
         raise ContractError(f"`{key}.direction` must be maximize or minimize")
+    if spec.ties not in {"reject", "compare"}:
+        raise ContractError(f"`{key}.ties` must be reject or compare")
+    if spec.ties == "compare" and not (kind == "rubric" and spec.pairwise):
+        raise ContractError(f"`{key}.ties: compare` needs a rubric judge with `pairwise: true`")
     if kind == "command" and not spec.run:
         raise ContractError(f"`{key}.run` is required for a command judge")
     if kind == "rubric" and not (spec.rubric and spec.models):

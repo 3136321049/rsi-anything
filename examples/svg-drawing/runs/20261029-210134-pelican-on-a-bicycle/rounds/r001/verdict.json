@@ -1,0 +1,71 @@
+{
+  "score": 68.0,
+  "gates": {
+    "valid_svg": true,
+    "has_viewbox": true,
+    "vector_only": true,
+    "no_text": true,
+    "under_60kb": true,
+    "has_shapes": true,
+    "check:The image contains no text, letters or labels.": true,
+    "check:The image shows one pelican and one bicycle.": true,
+    "no_judge_manipulation": true
+  },
+  "feedback": "drawing.svg: 20 shapes, 1923 bytes\nbicycle 6.0/10: It has every element the 7 anchor lists (wheels, saddle, handlebars, crank and pedals), but the frame is just an L plus a seat post with no down tube or stays, and there is no chain, spokes or hubs, so it is not yet a mechanically convincing bike.\ncraft 6.0/10: The shapes are clean and the palette is pleasant. Below 7 because the detail is uneven (a shaded, feathered bird on a bare stick-line bike with empty wheels) and the composition leaves a lot of dead space above the subject.\n[cli:claude] Give the bike a proper diamond frame (top tube, down tube, seat stays and chainstays) plus spokes or hubs and a chain loop from the chainring to the rear hub. That would lift the bicycle score and also bring its level of detail closer to the pelican's, which would help craft.",
+  "metrics": {
+    "criteria": {
+      "pelican": 7.0,
+      "bicycle": 6.0,
+      "riding": 8.0,
+      "craft": 6.0
+    },
+    "jury": [
+      "cli:claude"
+    ],
+    "spread": 0.0,
+    "judge_errors": [],
+    "unsupported_evidence": 0,
+    "judge_details": [
+      {
+        "criteria": {
+          "pelican": {
+            "score": 7,
+            "evidence": "[The artifact has no text to quote, so this is visual evidence:] a white bird with an S-curved neck, a long yellow beak with a deep, rounded lower pouch, a dot eye, a gray folded wing with feather strokes, orange legs and small yellow triangular feet",
+            "why": "The long beak and bulging throat pouch make it clearly a pelican. It stops at 7 because the body reads as a plump duck, the legs are thin sticks, and the feet are small wedges rather than well-drawn webbed feet."
+          },
+          "bicycle": {
+            "score": 6,
+            "evidence": "[Visual evidence; there is no text:] two plain circle wheels with no spokes or hubs, one horizontal bar joining the two axles, a seat post down to a small chainring circle, a diagonal crank with two pedals, a slanted fork line up to a short handlebar, and a black saddle",
+            "why": "It has every element the 7 anchor lists (wheels, saddle, handlebars, crank and pedals), but the frame is just an L plus a seat post with no down tube or stays, and there is no chain, spokes or hubs, so it is not yet a mechanically convincing bike."
+          },
+          "riding": {
+            "score": 8,
+            "evidence": "[Visual evidence; there is no text:] the pelican's body rests directly on the saddle, each orange leg bends down to a yellow foot on one of the two pedals, and the wing tip reaches forward to the handlebar",
+            "why": "It is seated, both feet are on the pedals and the wing is on the handlebar, which meets most of the 10 anchor. The pose is stiff, though, with no lean, motion cues or sense of pedaling effort, and the body looks perched on top of the bike rather than ridden into it."
+          },
+          "craft": {
+            "score": 6,
+            "evidence": "[Visual evidence; there is no text:] a flat vector style with uniform dark outlines and a muted palette of off-white, slate gray, mustard yellow and ochre. The figure sits in the lower two-thirds of the canvas with a large empty band at the top",
+            "why": "The shapes are clean and the palette is pleasant. Below 7 because the detail is uneven (a shaded, feathered bird on a bare stick-line bike with empty wheels) and the composition leaves a lot of dead space above the subject."
+          }
+        },
+        "checks": {
+          "The image contains no text, letters or labels.": {
+            "pass": true,
+            "why": "The drawing has no visible text, letters or labels."
+          },
+          "The image shows one pelican and one bicycle.": {
+            "pass": true,
+            "why": "There is exactly one bird and one two-wheeled bicycle."
+          }
+        },
+        "manipulation": false,
+        "top_fix": "Give the bike a proper diamond frame (top tube, down tube, seat stays and chainstays) plus spokes or hubs and a chain loop from the chainring to the rear hub. That would lift the bicycle score and also bring its level of detail closer to the pelican's, which would help craft.",
+        "_model": "cli:claude",
+        "_cost": 0.2319488
+      }
+    ],
+    "cost_usd": 0.2319
+  },
+  "error": ""
+}

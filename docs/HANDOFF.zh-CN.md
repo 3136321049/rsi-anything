@@ -32,7 +32,7 @@ rsi agents
 | `docs/GOAL-PROGRESS.zh-CN.md` | 当前验收、资源限制与下一步 |
 | `docs/DEVLOG.zh-CN.md` | 保留的工程结论与重要实验记录 |
 
-源码地图（分层见[架构说明](PLAN.zh-CN.md#代码分层)）：`domain.py` 放纯数据（评分结果、决定、候选、账本行），`contract.py` 读配置；`strategy.py` 决定每轮怎么搜索，`selection.py` 决定候选是否胜出，`events.py` 播报进度并写 `events.jsonl`；`engine.py` 管一次运行的生命周期，`workspace.py` 构造评审副本，`agents/` 适配助手，`llm.py` 调模型，`judges/` 只负责打分，`ledger.py` 写状态，`artifacts.py` 保存作品，`export.py` 和 `report.py` 负责导出与展示。
+源码地图（分层见[架构说明](PLAN.zh-CN.md#代码分层)）：`domain.py` 放纯数据（评分结果、决定、候选、账本行），`contract.py` 读配置；`strategy.py` 决定每轮怎么搜索，`selection.py` 决定候选是否胜出，`events.py` 播报进度并写 `events.jsonl`；`engine.py` 管一次运行的生命周期，`workspace.py` 构造评审副本，`agents/` 适配助手，`llm.py` 调模型，`judges/` 只负责打分，`ledger.py` 写状态，`artifacts.py` 保存作品，`export.py` 和 `report.py` 负责导出与展示；`sdk.py` 是评分脚本的工具包（门槛、结果未知、无头 Chrome 渲染），`live.py` 提供 `rsi watch`、`rsi run --live` 与 `rsi share`。新增视觉模板 `svg-drawing`、`landing-page`，真实案例见 `examples/svg-drawing/` 与 `examples/landing-page/`，尚未接入网站和安装包。
 
 ## 接下来做什么
 
