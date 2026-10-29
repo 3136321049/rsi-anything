@@ -1,31 +1,12 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Optional
+from typing import Optional
 
+from .. import selection
 from ..contract import JudgeSpec
-
-
-@dataclass
-class Verdict:
-    score: Optional[float]
-    gates: dict[str, bool] = field(default_factory=dict)
-    feedback: str = ""
-    metrics: dict[str, Any] = field(default_factory=dict)
-    seconds: float = 0.0
-    error: str = ""
-
-    @property
-    def ok(self) -> bool:
-        return self.score is not None and not self.error
-
-    @property
-    def passed(self) -> bool:
-        return self.ok and all(self.gates.values())
-
-    def failed_gates(self) -> list[str]:
-        return [name for name, good in self.gates.items() if not good]
+from ..domain import Verdict  # noqa: F401  (re-exported: judges have always offered it)
+from ..selection import Selector
 
 
 class Judge:
@@ -87,16 +68,11 @@ class Judge:
             notes = notes_file.read_text(encoding="utf-8").strip()
         return Verdict(0.0, gates, notes, seconds=seconds)
 
+    def selection(self) -> Selector:
+        """This judge's rule for keeping a candidate; `selection.py` holds the rules."""
+        return selection.default(self.spec)
+
     def prefers(self, candidate_ws: Path, champion_ws: Path, candidate: Verdict, champion: Verdict) -> tuple[bool, str]:
         """Should the candidate replace the champion? Returns (decision, reason)."""
-        if not candidate.ok:
-            return False, f"judge error: {candidate.error}"
-        if not candidate.passed:
-            return False, "failed gates: " + ", ".join(candidate.failed_gates())
-        if champion.score is None:
-            return True, "champion had no valid score"
-        if not champion.passed:  # gates come first: fixing a broken gate is progress whatever the score
-            return True, "passes gates the current best fails (" + ", ".join(champion.failed_gates()) + ")"
-        if not self.spec.better(candidate.score, champion.score):
-            return False, f"score {candidate.score:g} is not better than {champion.score:g} (required margin: {self.spec.min_delta:g} or {self.spec.min_gain:.0%})"
-        return True, f"score {champion.score:g} -> {candidate.score:g}"
+        keep, reason = self.selection().decide(candidate_ws, champion_ws, candidate, champion)
+        return keep, reason

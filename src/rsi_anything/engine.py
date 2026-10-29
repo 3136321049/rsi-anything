@@ -5,6 +5,11 @@ tip. Each round resets a dedicated worktree to the champion, lets the agent edit
 it, keeps only edits inside the artifact paths, judges them in a fresh copy with
 the frozen judge files, and commits on a win. The user's own checkout is never
 touched; they merge the branch when they like the result.
+
+`Ratchet` owns the lifecycle (store, resume, baseline, budgets, final snapshot,
+hold-out). What a round does is the strategy's call (`strategy.py`), whether a
+candidate wins is the selector's (`selection.py`), and progress goes out as
+events (`events.py`). `_Arena` gives the strategy one round's moves.
 """
 from __future__ import annotations
 
@@ -19,9 +24,13 @@ from typing import Callable, Optional
 from . import artifacts, gitops, ledger, prompt as briefing, workspace
 from .agents import Agent
 from .contract import Contract
+from .domain import Decision, Proposal
+from .events import Broadcast, EventSink, JsonlSink, TerminalLog
 from .judges import Judge, Verdict, make_judge
 from .ledger import Row, RunStore
 from .paths import matches, normalize
+from .selection import JudgeSelector, Selector
+from .strategy import Greedy, Strategy
 
 Log = Callable[[str], None]
 
@@ -65,7 +74,9 @@ def _prefix(rel_root: str, patterns: list[str]) -> list[str]:
 
 class Ratchet:
     def __init__(self, project: Path, contract: Contract, agent: Agent, log: Log = print,
-                 judge: Optional[Judge] = None, holdout: Optional[Judge] = None):
+                 judge: Optional[Judge] = None, holdout: Optional[Judge] = None,
+                 selector: Optional[Selector] = None, strategy: Optional[Strategy] = None,
+                 events: tuple[EventSink, ...] = ()):
         self.project = Path(project).resolve()
         self.repo = gitops.toplevel(self.project)
         self.rel_root = "" if self.project == self.repo else self.project.relative_to(self.repo).as_posix()
@@ -78,6 +89,10 @@ class Ratchet:
             if hasattr(one, "avoid"):
                 one.avoid = agent.name  # an `auto` jury should not be the same model grading its own work
         self.log = log
+        self.selector = selector or JudgeSelector(self.judge)
+        self.strategy = strategy or Greedy()
+        self.sinks = [TerminalLog(log), *events]
+        self.events = Broadcast(self.sinks)
         self.artifact = _prefix(self.rel_root, contract.artifact)
         self.frozen_patterns = _prefix(self.rel_root, contract.frozen_files)
         self.assets = _prefix(self.rel_root, contract.assets)
@@ -180,11 +195,13 @@ class Ratchet:
             base, branch = gitops.head(self.repo), f"rsi/{store.run_id}"
             champion = base
             store.write_meta({
+                "schema": ledger.SCHEMA_VERSION, "strategy": self.strategy.name,
                 "run_id": store.run_id, "contract": self.contract.name, "contract_digest": self.contract.digest,
                 "goal": self.contract.goal, "base": base, "branch": branch, "project": self.rel_root or ".",
                 "agent": self.agent.name, "judge": self.contract.judge.type,
                 "jury": getattr(self.judge, "models", []), "started": ledger.now(),
             })
+        self.events = Broadcast([*self.sinks, JsonlSink(store.dir / "events.jsonl")])
         frozen = workspace.snapshot_frozen(self.repo, base, self.frozen_patterns)
         self._configuration(store, frozen)
         store.recover_rounds()
@@ -201,7 +218,8 @@ class Ratchet:
             rows = store.rows()
         worktree = store.worktree
         gitops.add_worktree(self.repo, worktree, branch, champion)
-        self.log(f"run {store.run_id}  branch {branch}  agent {self.agent.name}")
+        self.events.emit("run_started", run_id=store.run_id, branch=branch, agent=self.agent.name,
+                         strategy=self.strategy.name, goal=self.contract.goal, resumed=bool(resume))
         started = time.monotonic()
         elapsed_before = float(meta.get("elapsed_seconds", 0))
         champion_ws = None
@@ -225,8 +243,7 @@ class Ratchet:
                     row.holdout = self._holdout(champion, frozen, 0, store.dir / champion_snapshot / "holdout.json")
                 store.complete_round(row)
                 rows = store.rows()
-                self.log(f"r0  BASELINE  score {champion_verdict.score:g}"
-                         + ("" if champion_verdict.passed else f"  failed gates: {', '.join(champion_verdict.failed_gates())}"))
+                self.events.emit("round_finished", round=0, row=asdict(row))
             best, baseline = champion_verdict.score, rows[0]["score"]
             kept = sum(1 for r in rows if r["status"] == ledger.KEEP)
             stagnant = 0
@@ -251,9 +268,13 @@ class Ratchet:
                 number += 1
                 self._checkpoint(store, active_round=number, phase="agent", champion=champion,
                                  elapsed_seconds=elapsed_before + time.monotonic() - started)
-                row, win = self._round(number, store, worktree, champion, champion_verdict, champion_ws, frozen,
-                                       best, store.rows())
+                arena = _Arena(self, store, worktree, number, champion, champion_verdict, champion_ws, frozen,
+                               best, store.rows())
+                outcome = self.strategy.play(arena, number, best)
+                row, win = outcome.row, outcome.win
                 if win is not None:
+                    # 已提交的胜出轮先落盘，账本追加前中断也能恢复。
+                    artifacts.write_json(store.round_dir(number) / "result.json", asdict(row))
                     workspace.discard(champion_ws)
                     champion, champion_verdict, champion_ws = win
                     best = row.score
@@ -267,7 +288,7 @@ class Ratchet:
                 self._checkpoint(store, active_round=None, phase="between_rounds", champion=champion,
                                  elapsed_seconds=elapsed_before + time.monotonic() - started)
                 self._learn(row)
-                self.log(self._line(row))
+                self.events.emit("round_finished", round=row.round, row=asdict(row))
             final = store.dir / "artifacts" / "final"
             previous_final = store.meta().get("final_snapshot_champion")
             if previous_final != champion or not final.exists():
@@ -286,6 +307,8 @@ class Ratchet:
             self._checkpoint(store, finished=ledger.now(), status="finished", phase="finished", champion=champion,
                              stop_reason=stop, holdout=holdout, final_artifacts="artifacts/final",
                              elapsed_seconds=elapsed_before + time.monotonic() - started)
+            self.events.emit("run_finished", run_id=store.run_id, stop_reason=stop, baseline=baseline, best=best,
+                             rounds=number, kept=kept, holdout=holdout)
             return Summary(store.run_id, branch, base, champion, baseline, best, number, kept, stop, holdout)
         except BaseException as exc:
             active = store.meta().get("active_round")
@@ -293,85 +316,16 @@ class Ratchet:
                 artifacts.save(self._sub(worktree), store.round_dir(active) / "artifacts", self.saved_patterns)
             if active and not any(row["round"] == active for row in store.rows()):
                 artifacts.mark_incomplete(store.round_dir(active) / "artifacts")
-            self._checkpoint(store, status="interrupted" if isinstance(exc, (KeyboardInterrupt, SystemExit)) else "failed",
-                             error=f"{type(exc).__name__}: {exc}", champion=champion,
+            status = "interrupted" if isinstance(exc, (KeyboardInterrupt, SystemExit)) else "failed"
+            self._checkpoint(store, status=status, error=f"{type(exc).__name__}: {exc}", champion=champion,
                              elapsed_seconds=elapsed_before + time.monotonic() - started)
+            self.events.emit("run_failed", run_id=store.run_id, status=status, error=f"{type(exc).__name__}: {exc}")
             raise
         finally:
             if champion_ws is not None:
                 workspace.discard(champion_ws)
             gitops.reset_worktree(worktree, champion)
             gitops.git(self.repo, "worktree", "remove", "--force", str(worktree), check=False)
-
-    def _round(self, number: int, store: RunStore, worktree: Path, champion: str, champion_verdict: Verdict,
-               champion_ws: Path, frozen: dict, best: Optional[float], rows: list) -> tuple[Row, Optional[tuple]]:
-        """Play one round. Returns the ledger row and, on a win, (commit, verdict, judge workspace)."""
-        round_dir = store.round_dir(number)
-        gitops.reset_worktree(worktree, champion)
-        workspace.link_assets(self.repo, worktree, self.assets)
-        workspace.remove_matching(worktree, self.hidden)
-        text = briefing.build(self.contract, best, champion_verdict, rows,
-                              ledger.read_lessons(self.repo, self.contract.name))
-        (round_dir / "prompt.md").write_text(text, encoding="utf-8")
-        self.log(f"r{number}  {self.agent.name} is working...")
-        control = gitops.control_files(self.repo)
-        try:
-            with _usage_log(round_dir / "agent-usage.jsonl"):
-                result = self.agent.run(self._sub(worktree), text, round_dir, self.contract.agent.timeout)
-        finally:
-            tampered = gitops.restore_control_files(control, gitops.control_files(self.repo))
-        (round_dir / "agent-final.txt").write_text(result.text, encoding="utf-8")
-        snapshot = f"rounds/r{number:03d}/artifacts"
-        artifacts.save(self._sub(worktree), store.dir / snapshot, self.saved_patterns)
-        if tampered:
-            return Row(number, ledger.AGENT_FAIL, result.hypothesis, best=best, agent_seconds=result.seconds,
-                       artifacts=snapshot, cost_usd=result.cost_usd, note="agent changed git config or hooks (restored): "
-                       + ", ".join(tampered)), None
-        if not result.ok:
-            return Row(number, ledger.AGENT_FAIL, result.hypothesis, best=best, agent_seconds=result.seconds,
-                       artifacts=snapshot, cost_usd=result.cost_usd, note=result.error[:300]), None
-        allowed, ignored = self._changes(worktree)
-        if not allowed:
-            return Row(number, ledger.NO_CHANGE, result.hypothesis, best=best, ignored=ignored,
-                       agent_seconds=result.seconds, cost_usd=result.cost_usd, artifacts=snapshot,
-                       note="no edits inside the artifact paths" + (f"; ignored {len(ignored)} other edits" if ignored else "")), None
-        (round_dir / "diff.patch").write_text(
-            gitops.git(worktree, "diff", "--", *allowed) + "\n" + "\n".join(
-                f"(new file) {p}" for p in allowed if not gitops.show(worktree, champion, p)), encoding="utf-8")
-        overlay = {p: ((worktree / p).read_bytes() if (worktree / p).is_file() else None) for p in allowed}
-        self._checkpoint(store, phase="judge")
-        verdict, ws = self._evaluate(self.judge, champion, frozen, overlay, number, round_dir / "judge-usage.jsonl")
-        artifacts.save(self._sub(ws), store.dir / snapshot, self.saved_patterns, verdict)
-        (round_dir / "verdict.json").write_text(
-            json.dumps({"score": verdict.score, "gates": verdict.gates, "feedback": verdict.feedback,
-                                      "metrics": verdict.metrics, "error": verdict.error}, indent=2,
-                                     ensure_ascii=False, default=str), encoding="utf-8")
-        common = dict(hypothesis=result.hypothesis, changed=allowed, ignored=ignored,
-                      agent_seconds=round(result.seconds, 1), judge_seconds=round(verdict.seconds, 1),
-                      cost_usd=result.cost_usd, gates=verdict.gates, feedback=verdict.feedback[:1500])
-        common.update(artifacts=snapshot, judge_cost_usd=verdict.metrics.get("cost_usd"))
-        if not verdict.ok:
-            workspace.discard(ws)
-            return Row(number, ledger.JUDGE_FAIL, best=best, note=verdict.error[:300], **common), None
-        try:
-            with _usage_log(round_dir / "judge-usage.jsonl"):
-                keep, reason = self.judge.prefers(self._sub(ws), self._sub(champion_ws), verdict, champion_verdict)
-        except BaseException:
-            workspace.discard(ws)
-            raise
-        if not keep:
-            workspace.discard(ws)
-            return Row(number, ledger.REVERT, score=verdict.score, best=best, note=reason[:300], **common), None
-        before = "none" if best is None else f"{best:g}"
-        message = f"rsi r{number}: {result.hypothesis or 'improvement'} ({before} -> {verdict.score:g})"
-        self._checkpoint(store, phase="commit")
-        # 助手可能暂存了范围外文件；提交前重建暂存区，只纳入已评审的文件。
-        gitops.git(worktree, "reset")
-        commit = gitops.commit_paths(worktree, allowed, message[:200])
-        row = Row(number, ledger.KEEP, score=verdict.score, best=verdict.score, commit=commit[:12], note=reason[:300],
-                  **common)
-        artifacts.write_json(round_dir / "result.json", asdict(row))
-        return row, (commit, verdict, ws)
 
     def _holdout(self, commit: str, frozen: dict, number: int, receipt: Optional[Path] = None) -> Optional[float]:
         if receipt is not None and receipt.exists():
@@ -394,8 +348,86 @@ class Ratchet:
         why = row.note or (row.feedback.splitlines()[0] if row.feedback else "")
         ledger.add_lesson(self.repo, self.contract.name, f"{row.status} score={score}: {what} -- {why}"[:500])
 
-    @staticmethod
-    def _line(row: Row) -> str:
-        score = "" if row.score is None else f"score {row.score:g}  "
-        detail = row.hypothesis[:90] if row.status == ledger.KEEP else (row.note or row.hypothesis)[:110]
-        return f"r{row.round}  {row.status:<10} {score}{detail}"
+
+class _Arena:
+    """One round's moves, handed to the strategy (see `strategy.Arena`)."""
+
+    def __init__(self, ratchet: Ratchet, store: RunStore, worktree: Path, number: int, champion: str,
+                 champion_verdict: Verdict, champion_ws: Path, frozen: dict, best: Optional[float], rows: list):
+        self.r, self.store, self.worktree, self.number = ratchet, store, worktree, number
+        self.champion, self.champion_verdict, self.champion_ws = champion, champion_verdict, champion_ws
+        self.frozen, self.best, self.rows = frozen, best, rows
+        self.round_dir = store.round_dir(number)
+
+    def propose(self, number: int) -> Proposal:
+        r, worktree = self.r, self.worktree
+        gitops.reset_worktree(worktree, self.champion)
+        workspace.link_assets(r.repo, worktree, r.assets)
+        workspace.remove_matching(worktree, r.hidden)
+        text = briefing.build(r.contract, self.best, self.champion_verdict, self.rows,
+                              ledger.read_lessons(r.repo, r.contract.name))
+        (self.round_dir / "prompt.md").write_text(text, encoding="utf-8")
+        r.events.emit("round_started", round=number, agent=r.agent.name)
+        control = gitops.control_files(r.repo)
+        try:
+            with _usage_log(self.round_dir / "agent-usage.jsonl"):
+                result = r.agent.run(r._sub(worktree), text, self.round_dir, r.contract.agent.timeout)
+        finally:
+            tampered = gitops.restore_control_files(control, gitops.control_files(r.repo))
+        (self.round_dir / "agent-final.txt").write_text(result.text, encoding="utf-8")
+        snapshot = f"rounds/r{number:03d}/artifacts"
+        artifacts.save(r._sub(worktree), self.store.dir / snapshot, r.saved_patterns)
+        proposal = Proposal(number, result.hypothesis, agent_seconds=result.seconds, cost_usd=result.cost_usd,
+                            snapshot=snapshot)
+        if tampered:
+            proposal.failure = ledger.AGENT_FAIL
+            proposal.note = "agent changed git config or hooks (restored): " + ", ".join(tampered)
+        elif not result.ok:
+            proposal.failure, proposal.note = ledger.AGENT_FAIL, result.error[:300]
+        else:
+            proposal.changed, proposal.ignored = r._changes(worktree)
+            if not proposal.changed:
+                proposal.failure = ledger.NO_CHANGE
+                proposal.note = "no edits inside the artifact paths" + (
+                    f"; ignored {len(proposal.ignored)} other edits" if proposal.ignored else "")
+            else:
+                allowed = proposal.changed
+                (self.round_dir / "diff.patch").write_text(
+                    gitops.git(worktree, "diff", "--", *allowed) + "\n" + "\n".join(
+                        f"(new file) {p}" for p in allowed if not gitops.show(worktree, self.champion, p)),
+                    encoding="utf-8")
+                proposal.overlay = {p: ((worktree / p).read_bytes() if (worktree / p).is_file() else None)
+                                    for p in allowed}
+        r.events.emit("agent_finished", round=number, failure=proposal.failure, hypothesis=proposal.hypothesis,
+                      changed=proposal.changed, seconds=round(result.seconds, 1))
+        return proposal
+
+    def evaluate(self, proposal: Proposal) -> tuple[Verdict, Path]:
+        r = self.r
+        r._checkpoint(self.store, phase="judge")
+        verdict, ws = r._evaluate(r.judge, self.champion, self.frozen, proposal.overlay, proposal.round,
+                                  self.round_dir / "judge-usage.jsonl")
+        artifacts.save(r._sub(ws), self.store.dir / proposal.snapshot, r.saved_patterns, verdict)
+        (self.round_dir / "verdict.json").write_text(
+            json.dumps({"score": verdict.score, "gates": verdict.gates, "feedback": verdict.feedback,
+                        "metrics": verdict.metrics, "error": verdict.error}, indent=2,
+                       ensure_ascii=False, default=str), encoding="utf-8")
+        r.events.emit("judged", round=proposal.round, ok=verdict.ok, score=verdict.score, gates=verdict.gates,
+                      seconds=round(verdict.seconds, 1))
+        return verdict, ws
+
+    def decide(self, ws: Path, verdict: Verdict) -> Decision:
+        with _usage_log(self.round_dir / "judge-usage.jsonl"):
+            return self.r.selector.decide(self.r._sub(ws), self.r._sub(self.champion_ws), verdict,
+                                          self.champion_verdict)
+
+    def commit(self, proposal: Proposal, verdict: Verdict) -> str:
+        before = "none" if self.best is None else f"{self.best:g}"
+        message = f"rsi r{proposal.round}: {proposal.hypothesis or 'improvement'} ({before} -> {verdict.score:g})"
+        self.r._checkpoint(self.store, phase="commit")
+        # 助手可能暂存了范围外文件；提交前重建暂存区，只纳入已评审的文件。
+        gitops.git(self.worktree, "reset")
+        return gitops.commit_paths(self.worktree, proposal.changed, message[:200])
+
+    def discard(self, ws: Path) -> None:
+        workspace.discard(ws)

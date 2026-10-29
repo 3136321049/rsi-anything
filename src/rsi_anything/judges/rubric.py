@@ -32,8 +32,9 @@ from typing import Any
 
 import yaml
 
-from .. import degenerate, llm
+from .. import degenerate, llm, selection
 from ..paths import matches
+from ..selection import Comparison
 from .base import Judge, Verdict
 
 IMAGE_EXT = {".png", ".jpg", ".jpeg", ".webp", ".gif"}
@@ -253,16 +254,17 @@ class RubricJudge(Judge):
         }
         return Verdict(round(statistics.mean(totals), 2), gates, feedback, metrics, time.perf_counter() - started)
 
-    def prefers(self, candidate_ws: Path, champion_ws: Path, candidate: Verdict, champion: Verdict) -> tuple[bool, str]:
-        better, reason = super().prefers(candidate_ws, champion_ws, candidate, champion)
-        if not better or not self.spec.pairwise or not champion.passed:
-            return better, reason
+    def selection(self):
+        return selection.default(self.spec, self.head_to_head if self.spec.pairwise else None)
+
+    def head_to_head(self, candidate_ws: Path, champion_ws: Path) -> Comparison:
+        """Each jury model compares the two texts in both orders, cancelling position bias."""
         with tempfile.TemporaryDirectory(prefix="rsi-pair-") as scratch:
             rubric = self._rubric(candidate_ws)
             new_text, new_images = self._inputs(candidate_ws, Path(scratch))
             old_text, old_images = self._inputs(champion_ws, Path(scratch))
             if new_images or old_images:
-                return better, reason + " (pairwise skipped for image inputs)"
+                return Comparison(skipped="pairwise skipped for image inputs")
             votes = []
             for model in self.models:
                 for first_is_candidate in (True, False):
@@ -270,13 +272,10 @@ class RubricJudge(Judge):
                     try:
                         winner = self._compare(model, rubric, a, b)
                     except llm.LLMError as exc:
-                        return False, f"pairwise check failed: {exc}"
+                        return Comparison(error=str(exc))
                     picked_candidate = (winner == "A") == first_is_candidate and winner in ("A", "B")
                     votes.append(picked_candidate)
-        wins = sum(votes)
-        if wins * 2 > len(votes):
-            return True, f"{reason}; head-to-head {wins}/{len(votes)}"
-        return False, f"higher score but lost head-to-head ({wins}/{len(votes)} votes)"
+        return Comparison(sum(votes), len(votes))
 
     def _compare(self, model: str, rubric: dict[str, Any], a: str, b: str) -> str:
         tag = secrets.token_hex(4)

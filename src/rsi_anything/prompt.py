@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Optional
 
 from .contract import Contract
-from .judges import Verdict
+from .domain import Verdict
 
 TEMPLATE = """\
 You are running one round of a self-improvement loop. Each round makes ONE focused change; a frozen judge \

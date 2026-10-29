@@ -2,7 +2,7 @@
 
 [English](PLAN.md)
 
-更新日期：2026-10-24。首发范围和资源例外以[任务书](GOAL-FIRST-RELEASE.zh-CN.md)为准，实时工作状态见[执行表](GOAL-PROGRESS.zh-CN.md)。本文说明当前保留的实现。
+更新日期：2026-10-29。首发范围和资源例外以[任务书](GOAL-FIRST-RELEASE.zh-CN.md)为准，实时工作状态见[执行表](GOAL-PROGRESS.zh-CN.md)。本文说明当前保留的实现。
 
 ## 目标
 
@@ -32,6 +32,24 @@ flowchart TD
 每次运行使用 `rsi/<运行号>` 分支。候选只来自 `artifact` 指定的路径；评价资料来自起始 Git 提交。生成文件由 `outputs` 指定并随轮次保存。原始开发目录与助手工作目录分开，用户可以查看运行分支后自行合并。
 
 单轮只产生一个正式候选，下一轮从当前最好版本继续。历史反馈与教训帮助助手调整方向；当前没有模型权重训练，也没有多候选种群搜索。
+
+## 代码分层
+
+依赖只能由外向内；`tests/test_architecture.py` 检查每个模块所在的层，新增模块必须先归入某一层。
+
+```mermaid
+flowchart TB
+  I["接口：cli（以后：MCP、实时页面、Web API）"] --> A
+  A["应用：engine（Ratchet 管一次运行的生命周期）· stress · report · export"] --> X
+  X["适配：agents · judges · llm · gitops · workspace · ledger · artifacts · process"] --> P
+  P["策略：strategy（一轮做什么）· selection（候选是否胜出）· events（进度事件）· prompt"] --> D
+  D["领域：domain（Verdict、Decision、Proposal、Row）· contract · paths"]
+```
+
+- **搜索策略**（`strategy.py`）：引擎每轮交给策略一个 `Arena`，可以从当前最好版本提出候选、在干净副本中评分、请选择规则判断、提交胜者。现有做法是 `Greedy`（每轮一个候选）；每轮多个候选或种群搜索在这里新增，不改引擎。
+- **选择规则**（`selection.py`）：评委只负责打分，是否保留由选择规则决定。`GatesThenScore` 先看门槛再看提升幅度；`HeadToHead` 叠加在上面，要求候选在正反两次比较中胜出。`Ratchet` 可以传入任何带 `decide()` 的对象。
+- **事件流**（`events.py`）：每次运行在账本旁写 `events.jsonl`（run_started、round_started、agent_finished、judged、round_finished、run_finished、run_failed）。终端进度行由同一事件生成，实时页面可以直接跟随运行。
+- **记录格式**：新运行的 `run.json` 带 `schema: 1` 和 `strategy`；没有这两个字段的旧记录按版本 1 读取，已保存的实验记录不改写。
 
 ## 评价
 

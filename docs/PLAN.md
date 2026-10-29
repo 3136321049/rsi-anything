@@ -2,7 +2,7 @@
 
 [简体中文](PLAN.zh-CN.md)
 
-Updated: 2026-10-24. The first-release scope and resource exceptions are defined in the [release brief (Chinese)](GOAL-FIRST-RELEASE.zh-CN.md); live work status is in the [progress tracker (Chinese)](GOAL-PROGRESS.zh-CN.md). This document describes the implementation as it currently stands.
+Updated: 2026-10-29. The first-release scope and resource exceptions are defined in the [release brief (Chinese)](GOAL-FIRST-RELEASE.zh-CN.md); live work status is in the [progress tracker (Chinese)](GOAL-PROGRESS.zh-CN.md). This document describes the implementation as it currently stands.
 
 ## Goal
 
@@ -32,6 +32,24 @@ flowchart TD
 Each run uses an `rsi/<run-id>` branch. Candidates come only from the paths listed in `artifact`; evaluator inputs come from the starting Git commit. Generated files are listed in `outputs` and saved with each round. The original development directory is kept separate from the agent's working directory; users can review the run branch and merge it themselves.
 
 Each round produces only one formal candidate, and the next round continues from the current best. Past feedback and lessons learned help the agent adjust its direction. There is currently no model weight training and no multi-candidate population search.
+
+## Code layers
+
+Dependencies only point inward; `tests/test_architecture.py` checks which layer every module belongs to, and a new module has to be assigned to one first.
+
+```mermaid
+flowchart TB
+  I["Interface: cli (later: MCP, live page, web API)"] --> A
+  A["Application: engine (Ratchet owns a run's lifecycle) · stress · report · export"] --> X
+  X["Adapters: agents · judges · llm · gitops · workspace · ledger · artifacts · process"] --> P
+  P["Policy: strategy (what a round does) · selection (does a candidate win) · events (progress) · prompt"] --> D
+  D["Domain: domain (Verdict, Decision, Proposal, Row) · contract · paths"]
+```
+
+- **Search strategy** (`strategy.py`): each round the engine hands the strategy an `Arena` that can propose a candidate from the current best, score it in a clean copy, ask the selection rule and commit a winner. The current behavior is `Greedy` (one candidate per round); several candidates per round or a population search are added here without touching the engine.
+- **Selection rules** (`selection.py`): judges only score; whether a candidate is kept is the selection rule's call. `GatesThenScore` checks gates, then the improvement threshold; `HeadToHead` stacks on top and requires the candidate to win the comparison in both orders. `Ratchet` accepts any object with `decide()`.
+- **Event stream** (`events.py`): every run writes `events.jsonl` next to its ledger (run_started, round_started, agent_finished, judged, round_finished, run_finished, run_failed). The terminal progress lines are generated from the same events, so a live page can follow a run directly.
+- **Record format**: a new run's `run.json` carries `schema: 1` and `strategy`; older records without these fields are read as version 1, and saved experiment records are never rewritten.
 
 ## Evaluation
 

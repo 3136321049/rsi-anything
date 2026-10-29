@@ -14,54 +14,23 @@ from __future__ import annotations
 import json
 import os
 import time
-from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
+from dataclasses import asdict
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 from .artifacts import write_json
+# 轮次状态与账本行属于领域层，这里保留旧的导入位置。
+from .domain import (AGENT_FAIL, BASELINE, INTERRUPTED, JUDGE_FAIL, KEEP, NO_CHANGE, REVERT,  # noqa: F401
+                     Row, now)
 
 STATE_DIR = ".rsi"
-
-# Round outcomes. Only KEEP moves the champion.
-BASELINE = "BASELINE"
-KEEP = "KEEP"
-REVERT = "REVERT"            # judged, not better (or a gate failed)
-NO_CHANGE = "NO_CHANGE"      # the agent changed nothing inside the artifact paths
-AGENT_FAIL = "AGENT_FAIL"    # the agent crashed or timed out
-JUDGE_FAIL = "JUDGE_FAIL"    # the judge could not produce a verdict
-INTERRUPTED = "INTERRUPTED"  # 中断轮保留现场，续跑时不默默重复这一轮。
-
-
-def now() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+# 运行记录格式版本：run.json 带 `schema`；没有该字段的旧记录按 1 读取。
+SCHEMA_VERSION = 1
 
 
 def new_run_id(name: str) -> str:
     slug = "".join(c if c.isalnum() else "-" for c in name.lower()).strip("-")[:32] or "run"
     return f"{time.strftime('%Y%m%d-%H%M%S')}-{slug}"
-
-
-@dataclass
-class Row:
-    round: int
-    status: str
-    hypothesis: str = ""
-    score: Optional[float] = None
-    best: Optional[float] = None
-    gates: dict[str, bool] = field(default_factory=dict)
-    feedback: str = ""
-    commit: str = ""
-    changed: list[str] = field(default_factory=list)
-    ignored: list[str] = field(default_factory=list)
-    agent_seconds: float = 0.0
-    judge_seconds: float = 0.0
-    cost_usd: Optional[float] = None
-    judge_cost_usd: Optional[float] = None
-    artifacts: str = ""
-    holdout: Optional[float] = None
-    note: str = ""
-    time: str = field(default_factory=now)
 
 
 class RunStore:

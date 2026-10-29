@@ -9,7 +9,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Optional
 
-from .judges import Verdict
+from .domain import Verdict
 from .paths import matches, normalize
 
 
