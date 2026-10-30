@@ -20,6 +20,10 @@ PATTERNS = {
     "en": [
         (re.compile(r"^分数从 ([\d.\-]+) 提高到 ([\d.\-]+)。(?:两两比较获胜 (\d+/\d+)。)?$"),
          lambda m, tr: f"Score rose from {m[1]} to {m[2]}." + (f" Won {m[3]} head-to-head comparisons." if m[3] else "")),
+        (re.compile(r"^与当前最好版本同分（([\d.\-]+)），正反并排比较获胜 (\d+/\d+)。$"),
+         lambda m, tr: f"Tied with the best version at {m[1]}; won the head-to-head in both orders, {m[2]}."),
+        (re.compile(r"^与当前最好版本同分（([\d.\-]+)），正反并排比较没有获胜（(\d+/\d+)）。$"),
+         lambda m, tr: f"Tied with the best version at {m[1]}; lost the head-to-head ({m[2]})."),
         (re.compile(r"^未通过必需检查：(.*)$"),
          lambda m, tr: "Failed required checks: " + ", ".join(tr(gate.strip()) for gate in re.split(r"[,，、]", m[1]))),
     ],

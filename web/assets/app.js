@@ -171,7 +171,7 @@ function renderHome() {
   const data = JSON.parse($("#home-data").textContent);
   const panel = $("[data-evo]"), chart = $("#evo-chart"), detail = $("#evo-detail");
   let active = "code-speed", selected = null, timer = null, interacted = false;
-  const labPath = { "code-speed": "labs/code/?case=code-speed&", "cpu-classifier": "labs/experiments/?", "video-cut": "labs/video/?" };
+  const labPath = { "code-speed": "labs/code/?case=code-speed&", "cpu-classifier": "labs/experiments/?", "video-cut": "labs/video/?", "svg-drawing": "labs/visual/?case=svg-drawing&" };
 
   function layout(series) {
     const rows = series.rounds;
@@ -196,7 +196,8 @@ function renderHome() {
     const grid = [20, 50, 80].map(v => `<line x1="0" x2="1000" y1="${v}" y2="${v}" />`).join("");
     chart.innerHTML = `<svg class="${reduceMotion ? "" : "reveal"}" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><g class="evo-grid">${grid}</g>${branches}<path class="evo-line" d="${champion}" /></svg>` +
       points.map((p, i) => `<button class="evo-node ${stateClass(p.row.status)} ${p.row.score == null ? "empty" : ""}" style="left:${p.x}%;top:${p.y}%;--i:${i}" data-node="${i}" aria-label="${esc(roundName(p.row.round) + " · " + status(p.row.status) + (p.row.score == null ? "" : " · " + number(p.row.score) + unitText(series.unit)))}"><span class="evo-value">${p.row.score == null ? "—" : number(p.row.score) + esc(unitText(series.unit))}</span></button>`).join("") +
-      `<div class="evo-axis">${points.map(p => `<span style="left:${p.x}%">${p.row.round ? "R" + p.row.round : "R0"}</span>`).join("")}</div>`;
+      `<div class="evo-axis">${points.map(p => `<span style="left:${p.x}%">${esc(p.row.label || "R" + p.row.round)}</span>`).join("")}</div>`;
+    chart.classList.toggle("dense", points.length > 8);
     $$("[data-node]", chart).forEach(b => b.addEventListener("click", () => { interacted = true; stop(); select(Number(b.dataset.node)); }));
     select(series.rounds.findIndex(r => r.round === series.best_round));
   }
@@ -207,10 +208,12 @@ function renderHome() {
     const best = series.rounds.slice(0, index).reduce((value, r) => (r.round === 0 || r.status === "KEEP") ? r.score : value, null);
     const delta = row.score != null && best != null && index ? row.score - best : null;
     const deltaText = delta == null ? "" : `<span class="evo-delta ${row.status === "KEEP" ? "up" : row.status === "REVERT" ? "down" : ""}">${delta >= 0 ? "+" : "−"}${number(Math.abs(delta))}${esc(unitText(series.unit))} ${esc(t("home.vs_best"))}</span>`;
-    detail.innerHTML = `<div class="evo-detail-top"><span class="mono">${row.round ? "ROUND " + String(row.round).padStart(2, "0") : "BASELINE"}</span><span class="pill ${stateClass(row.status)}">${esc(status(row.status))}${row.round === series.best_round && row.round ? " · " + esc(status("final")) : ""}</span></div>
+    const [, runNo, roundNo] = (row.label || "R" + row.round).match(/^(?:(\d+)·)?R(\d+)$/) || [];
+    const head = (runNo ? `RUN ${runNo} · ` : "") + (Number(roundNo) ? "ROUND " + roundNo.padStart(2, "0") : "BASELINE");
+    detail.innerHTML = `<div class="evo-detail-top"><span class="mono">${head}</span><span class="pill ${stateClass(row.status)}">${esc(status(row.status))}${row.round === series.best_round && row.round ? " · " + esc(status("final")) : ""}</span></div>
       <div class="evo-score">${row.score == null ? "—" : number(row.score)}<small>${row.score == null ? "" : esc(series.unit)}</small></div>
       <div class="evo-metric">${esc(series.metric)} ${deltaText}</div>
-      <p>${esc(row.summary || (row.round ? t("home.no_change") : t("home.baseline_note")))}</p>
+      ${row.image ? `<img class="evo-thumb" src="${url(row.image)}" alt="${esc(head)}" width="1024" height="768">` : ""}<p>${esc(row.summary || (row.round ? t("home.no_change") : t("home.baseline_note")))}</p>
       <a class="evo-open" href="${home(labPath[active] + "round=" + row.round)}">${esc(t("home.open_round"))}<span aria-hidden="true">→</span></a>`;
   }
   function stop() { clearInterval(timer); timer = null; }
@@ -248,16 +251,17 @@ function renderHome() {
 
 /* ---------- labs ---------- */
 let current, selected = 0, loadId = 0;
-const state = { template: page === "code" ? "code-speed" : page === "experiments" ? "cpu-classifier" : "video-cut", mode: "split", compare: "baseline" };
+const LAB_CASES = { code: ["code-speed", "code-repair"], experiments: ["cpu-classifier"], video: ["video-cut"], visual: ["svg-drawing", "landing-page"] };
+const state = { template: LAB_CASES[page]?.[0], mode: "split", compare: "baseline", view: "now" };
 const params = new URLSearchParams(location.search);
-if (page === "code" && ["code-speed", "code-repair"].includes(params.get("case"))) state.template = params.get("case");
+if (LAB_CASES[page]?.includes(params.get("case"))) state.template = params.get("case");
 if (["diff", "split"].includes(params.get("view"))) state.mode = params.get("view");
 if (params.get("compare") === "previous") state.compare = "previous";
 
 function syncAddress() {
   const next = new URL(location.href);
   next.search = "";
-  if (page === "code") next.searchParams.set("case", state.template);
+  if (page === "code" || page === "visual") next.searchParams.set("case", state.template);
   next.searchParams.set("round", selected);
   if (page === "code") {
     if (state.mode !== "split") next.searchParams.set("view", state.mode);
@@ -384,11 +388,67 @@ function renderVideo() {
   });
   $("#original-video").addEventListener("toggle", e => { if (!e.target.open) $("video", e.target).pause(); });
 }
+/* ---------- visual lab ---------- */
+let playTimer = null;
+function stopPlay() { clearInterval(playTimer); playTimer = null; }
+const visualLabel = row => (current.runs.length > 1 ? t("lab.visual.run", { n: row.run + 1 }) + " · " : "") + roundName(row.number);
+function visualFigure(row, image, caption, extra = "") {
+  const src = url(row.files_base + image);
+  return `<figure class="vis-frame ${extra}"><button data-image="${src}" data-title="${esc(caption)}" aria-label="${esc(t("lab.zoom") + " · " + caption)}"><img src="${src}" alt="${esc(caption)}"></button><figcaption>${esc(caption)}</figcaption></figure>`;
+}
+function visualStage(row, then) {
+  if (current.template === "svg-drawing") {
+    const image = row.images[0];
+    return `<div class="vis-compare ${then ? "two" : ""}">${then ? visualFigure(then, image, t("lab.visual.best_then") + " · " + visualLabel(then), "then") : ""}${visualFigure(row, image, (row.number ? t("lab.visual.this_round") : t("lab.visual.start_label")) + " · " + visualLabel(row), "now")}</div>`;
+  }
+  const shown = state.view === "then" && then ? then : row;
+  const which = shown === row ? (row.number ? t("lab.visual.this_round") : t("lab.visual.start_label")) : t("lab.visual.best_then");
+  const toggle = then ? `<div class="segmented vis-toggle" role="group" aria-label="${esc(t("lab.visual.compare"))}"><button data-view="now" class="${shown === row ? "active" : ""}" aria-pressed="${shown === row}">${esc(t("lab.visual.this_round"))}</button><button data-view="then" class="${shown === row ? "" : "active"}" aria-pressed="${shown !== row}">${esc(t("lab.visual.best_then"))}</button></div>` : "";
+  const shot = (image, label, kind) => `<figure class="vis-shot ${kind}"><button data-image="${url(shown.files_base + image)}" data-title="${esc(which + " · " + label)}" aria-label="${esc(t("lab.zoom") + " · " + label)}"><img src="${url(shown.files_base + image)}" alt="${esc(which + " · " + label)}"></button><figcaption>${esc(label)}</figcaption></figure>`;
+  return `<div class="vis-page-head"><span>${esc(which + " · " + visualLabel(shown))}</span>${toggle}</div><div class="vis-page">${shot("out/desktop.png", t("lab.visual.desktop"), "desktop")}${shot("out/mobile.png", t("lab.visual.phone"), "mobile")}</div>`;
+}
+function renderVisual() {
+  const row = current.rounds[selected], run = current.runs[row.run];
+  const then = row.number ? current.rounds[row.previous_best] : null;
+  const delta = row.score != null && row.best_before != null && row.number ? row.score - row.best_before : null;
+  const heading = !row.number ? t(row.run ? "lab.visual.h_run" : "lab.visual.h_base", { n: row.run + 1 })
+    : selected === current.best_round ? t("lab.visual.h_final")
+    : row.status === "KEEP" ? t(delta === 0 ? "lab.visual.h_tie_kept" : "lab.visual.h_kept")
+    : row.status === "REVERT" ? t(delta > 0 ? "lab.visual.h_lost" : delta < 0 ? "lab.visual.h_rejected" : run.ties ? "lab.visual.h_tie_lost" : "lab.visual.h_same")
+    : t("lab.visual.h_other");
+  const kept = current.rounds.filter(r => r.round <= row.round && r.number && r.status === "KEEP").length;
+  const deltaText = delta == null ? "—" : (delta > 0 ? "+" : delta < 0 ? "−" : "±") + number(Math.abs(delta));
+  const criteria = current.criteria.map(c => {
+    const value = row.criteria[c.name], before = then?.criteria[c.name];
+    return `<div class="crit"><div class="crit-head"><span>${esc(t("lab.visual.criteria." + c.name))}<small>${c.weight}%</small></span><span class="mono">${value == null ? "—" : number(value)}<small>/10</small></span></div><div class="crit-track"><i style="width:${(value || 0) * 10}%"></i>${before == null ? "" : `<b style="left:${before * 10}%"></b>`}</div></div>`;
+  }).join("");
+  const film = current.rounds.map(r => `${r.number === 0 && r.run ? `<div class="film-run"><strong>${esc(t("lab.visual.run", { n: r.run + 1 }))}</strong><span>${esc(current.runs[r.run].ties ? t("lab.visual.rule_ties") : t("lab.visual.rule_same"))}</span></div>` : ""}<button class="film-item ${stateClass(r.status)} ${selected === r.round ? "active" : ""}" data-round="${r.round}" aria-pressed="${selected === r.round}" aria-label="${esc(visualLabel(r) + " · " + status(r.status) + " · " + number(r.score))}"><span class="film-thumb"><img src="${url(r.files_base + r.images[0])}" alt="" loading="lazy"></span><span class="film-meta"><span>R${r.number}</span><strong>${number(r.score)}</strong></span>${pill(r)}</button>`).join("");
+  const story = current.template === "svg-drawing" ? "story_pelican" : "story_landing";
+  $("#lab-app").innerHTML = `<div class="cinema vis-cinema"><div class="cinema-top"><span class="mono">${esc(visualLabel(row).toUpperCase())}</span>${pill(row)}</div><div class="vis-body"><div class="vis-stage">${visualStage(row, then)}</div><div class="cinema-info"><p class="eyebrow">${esc(current.title)}</p><h2>${esc(heading)}</h2><p>${esc(row.hypothesis || (row.run ? t("lab.visual.run_body", { n: row.run + 1 }) : t("lab.visual.base_body")))}</p><div class="video-stats"><div><span>${esc(t("lab.visual.score"))}</span><strong class="${row.status === "REVERT" ? "flat" : ""}">${number(row.score)}<small>${esc(current.unit)}</small></strong></div><div><span>${esc(t("lab.visual.vs_best"))}</span><strong class="${delta > 0 ? "" : "flat"}">${deltaText}</strong></div><div><span>${esc(t("lab.visual.kept"))}</span><strong>${kept}</strong></div></div><div class="crit-list" aria-label="${esc(t("lab.visual.criteria_label"))}">${criteria}</div><p class="crit-legend">${esc(t(then ? "lab.visual.legend" : "lab.visual.legend_single"))}</p></div></div></div>
+    <div class="callout ${row.status === "REVERT" ? "warning" : ""}"><strong>${esc(t("lab.visual.decision"))}</strong><p>${esc(row.note || t(row.run ? "lab.visual.run_note" : "lab.visual.base_note"))}</p></div>
+    <div class="round-header vis-film-head"><h2>${esc(t("lab.visual.film"))}</h2><span>${esc(t("lab.visual.film_hint"))}</span><button class="btn btn-soft vis-play" id="vis-play" aria-pressed="${Boolean(playTimer)}">${playTimer ? `<span class="pause" aria-hidden="true"></span>${esc(t("lab.visual.pause"))}` : `<span class="play" aria-hidden="true"></span>${esc(t("lab.visual.play"))}`}</button></div>
+    <div class="film" role="group" aria-label="${esc(t("lab.visual.film"))}">${film}</div>
+    <div class="callout story-callout"><strong>${esc(t("lab.visual." + story + "_title"))}</strong><p>${esc(t("lab.visual." + story))}</p></div>
+    <details class="panel vis-feedback"><summary>${esc(t("lab.visual.feedback"))}<span>${esc(t("lab.visual.feedback_hint"))}</span></summary><pre>${esc(row.feedback)}</pre></details>
+    <div class="lab-actions"><a class="btn btn-primary" href="${url(row.files_base + row.source)}" download>${esc(t("lab.visual.dl_source", { name: row.source }))}<span aria-hidden="true">↓</span></a><a class="btn btn-ghost" href="${url("examples/" + current.template + "/evolution.html")}" target="_blank" rel="noopener">${esc(t("lab.visual.open_page"))}<span aria-hidden="true">↗</span></a><button class="btn btn-ghost" id="share-run">${esc(t("lab.copy_link"))}</button><a class="btn btn-ghost" href="${url("downloads/" + current.template + ".zip")}" download>${esc(t("lab.download_all"))}<span aria-hidden="true">↓</span></a></div>
+    <div class="evidence-section"><details><summary>${esc(t("lab.scope"))}</summary><div class="evidence-body"><p>${esc(t("lab.limits." + current.template))}</p><p>${esc(t("lab.visual.models", { agent: current.requested_model || t("lab.unrecorded"), jury: current.jury.join(", ") }))}</p></div></details><details><summary>${esc(t("lab.records"))}</summary><div class="evidence-body links">${current.runs.map((r, i) => `<span class="mono">${esc(current.runs.length > 1 ? t("lab.visual.run", { n: i + 1 }) + " / " : "RUN / ")}${esc(r.id)}</span><a href="${url(r.root + "ledger.jsonl")}" target="_blank" rel="noopener">${esc(t("cases.ev.ledger"))} ↗</a><a href="${url(r.root + "verification.json")}" target="_blank" rel="noopener">${esc(t("cases.ev.verification"))} ↗</a><a href="${url(r.root + "report.html")}" target="_blank" rel="noopener">${esc(t("cases.ev.report"))} ↗</a>`).join("")}<button class="inline-link" data-doc="${esc(guide("examples/" + current.template))}">${esc(t("lab.case_readme"))} ↗</button></div></details></div>`;
+  $$("[data-view]").forEach(b => b.addEventListener("click", () => { state.view = b.dataset.view; render(); }));
+  $$(".film-item").forEach(b => b.addEventListener("click", () => { stopPlay(); state.view = "now"; }));
+  $("#vis-play").addEventListener("click", () => {
+    if (playTimer) { stopPlay(); render(); return; }
+    const path = current.rounds.filter(r => (r.number === 0 && r.run === 0) || r.status === "KEEP").map(r => r.round);
+    let step = 0;
+    const show = () => { selected = path[step]; state.view = "now"; syncAddress(); render(); };
+    playTimer = setInterval(() => { step += 1; if (step >= path.length - 1) stopPlay(); show(); }, reduceMotion ? 2400 : 1600);
+    show();
+  });
+}
 function render() {
   if (page === "code") renderCode();
   if (page === "experiments") renderModel();
   if (page === "video") renderVideo();
-  const strip = $(".round-nav"), active = $(".round-button.active");
+  if (page === "visual") renderVisual();
+  const strip = $(".round-nav") || $(".film"), active = $(".round-button.active") || $(".film-item.active");
   if (strip && active && strip.scrollWidth > strip.clientWidth) strip.scrollLeft += active.getBoundingClientRect().left - strip.getBoundingClientRect().left - (strip.clientWidth - active.clientWidth) / 2;
   $$("[data-round]").forEach(b => b.addEventListener("click", () => { selected = Number(b.dataset.round); syncAddress(); render(); }));
   $("#share-run")?.addEventListener("click", () => copy(location.href));
@@ -562,8 +622,8 @@ function renderStart() {
 }
 
 if (page === "home") renderHome();
-if (["code", "experiments", "video"].includes(page)) {
-  $$("[data-case]").forEach(b => b.addEventListener("click", () => { state.template = b.dataset.case; loadCase(); }));
+if (LAB_CASES[page]) {
+  $$("[data-case]").forEach(b => b.addEventListener("click", () => { stopPlay(); state.template = b.dataset.case; state.view = "now"; loadCase(); }));
   await loadCase(true);
 }
 if (page === "cases") renderCases();

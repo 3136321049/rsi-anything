@@ -12,7 +12,8 @@
   "experiments": "Model experiments · DARWIN",
   "video": "Video editing · DARWIN",
   "cases": "All experiments · DARWIN",
-  "start": "Get started · DARWIN"
+  "start": "Get started · DARWIN",
+  "visual": "Visual work · DARWIN"
  },
  "skip": "Skip to content",
  "copy": "Copy",
@@ -90,8 +91,9 @@
    "video_sub": "1 kept · 3 rejected",
    "label": "Replay of a saved run",
    "chart": "Score by round. The solid line is the best version so far; dashed branches are rejected candidates.",
-   "fallback": "Fuzzy search: 1× → 4.45× → 17.83× → 27.45×. Digit classifier: 46.9% → 99.3%. Video cut: 18.5 → 75.5, three candidates rejected.",
-   "hint": "Solid line: best so far · dashed: rejected branch"
+   "fallback": "Fuzzy search: 1× → 4.45× → 17.83× → 27.45×. Digit classifier: 46.9% → 99.3%. Video cut: 18.5 → 75.5, three candidates rejected. Pelican drawing: 37 → 78 across two runs.",
+   "hint": "Solid line: best so far · dashed: rejected branch",
+   "visual_sub": "37 → 78 pts"
   },
   "vs_best": "vs. best so far",
   "no_change": "The agent didn't change the allowed files, so nothing was judged. The best version carried forward.",
@@ -106,9 +108,9 @@
   },
   "labs": {
    "eyebrow": "01 — Labs",
-   "title": "Three labs. Three ways to check the work.",
+   "title": "Four labs. Four ways to check the work.",
    "intro": "Each lab replays a real run. Pick any round to see what changed, how it was judged, and why it stayed or went.",
-   "more": "See all 15 domains — writing, reports, prompts, contracts and more"
+   "more": "See all 16 domains — writing, reports, prompts, contracts and more"
   },
   "lab": {
    "code": {
@@ -127,6 +129,13 @@
     "desc": "Cut a five-minute speech into a tighter short — and defend every cut.",
     "metric": "judge score, from 18.5",
     "check": "Model judge + head-to-head"
+   },
+   "visual": {
+    "desc": "A pelican on a bicycle, drawn in SVG and judged only from the rendered picture.",
+    "metric": "judge score, from 37 across two runs",
+    "check": "Screenshot judge + side by side",
+    "before": "Baseline",
+    "after": "Kept"
    }
   },
   "story": {
@@ -154,7 +163,7 @@
   },
   "log": {
    "eyebrow": "03 — Experiment log",
-   "title": "Fifteen domains. One loop.",
+   "title": "Sixteen domains. One loop.",
    "intro": "Some runs improved a lot. Some didn't improve at all. All of them are here.",
    "domain": "Domain",
    "result": "Baseline → kept",
@@ -286,7 +295,9 @@
    "code-speed": "Historical run. Preprocessing may be reused within one batch of names, and timings depend on the machine and random inputs. Source was rebuilt from the original patches and passed an independent correctness check. Later re-measurements never replace the historical curve.",
    "code-repair": "A synthetic Python expense project. Fixed tests check money precision, split remainders and monthly totals. The result only describes these fixed tests.",
    "cpu-classifier": "The fixed validation set has 450 digits; training uses 1,347. The validation set was used repeatedly to choose a configuration, so this isn't evidence of generalization to new data. Rounds without a change have no formal score.",
-   "video-cut": "Footage is an excerpt of a historical speech marked public domain on Wikimedia Commons. The score mainly judges segment choice and structure from the transcript; audio, duration and decoding are verified separately. A text score isn't a full judgment of the viewing experience."
+   "video-cut": "Footage is an excerpt of a historical speech marked public domain on Wikimedia Commons. The score mainly judges segment choice and structure from the transcript; audio, duration and decoding are verified separately. A text score isn't a full judgment of the viewing experience.",
+   "svg-drawing": "Scores come from one judge model looking at the rendered PNG, one sample per round, with whole-number criteria — coarse enough to cause run 1's plateau. Side-by-side comparisons use the same judge, two votes each (one per order). The scores describe this rubric only, not any model's drawing ability.",
+   "landing-page": "The product, prices and amenities are fictional. The judge sees a desktop and a phone screenshot plus the page text, one sample per round, so small gaps — like round 4's 72 against 72.5 — are within its wobble. Scores aren't conversion rates; have a person review a page before it goes live."
   },
   "chart": "Formal results · {metric}",
   "chart_hint": "Select a point to see that round",
@@ -348,12 +359,77 @@
    "correct": "Correct",
    "wrong": "Misread",
    "empty": "No images match this filter."
+  },
+  "visual": {
+   "name": "Visual work",
+   "title": "Judged by eye, one round at a time.",
+   "lede": "A vector drawing and a landing page, scored from screenshots. Flip through every version, see what the judge saw, and why each one stayed or went.",
+   "cases": "Choose a visual run",
+   "case_pelican": "Pelican on a bicycle",
+   "case_landing": "Landing page",
+   "next": "Your own drawing, page or slide is next.",
+   "next_cta": "Run the drawing template",
+   "run": "Run {n}",
+   "this_round": "This round",
+   "best_then": "Best at the time",
+   "start_label": "Starting point",
+   "compare": "Which version to show",
+   "desktop": "Desktop · 1280px",
+   "phone": "Phone · 390px",
+   "score": "Judge score",
+   "vs_best": "vs. best at the time",
+   "kept": "Kept so far",
+   "criteria_label": "Criterion scores",
+   "legend": "Bar: this round · tick: best at the time · each out of 10, with its weight",
+   "legend_single": "Each criterion out of 10, with its weight",
+   "decision": "The decision",
+   "film": "Every version",
+   "film_hint": "Pick a frame to see it",
+   "play": "Play the kept versions",
+   "pause": "Pause",
+   "rule_ties": "New rule: ties go side by side",
+   "rule_same": "Same rules",
+   "h_base": "Where it started.",
+   "h_run": "Run {n} picks up here.",
+   "h_final": "The version that stayed.",
+   "h_kept": "Better, so it was kept.",
+   "h_tie_kept": "Same score — and it won side by side.",
+   "h_tie_lost": "Same score — and it lost side by side.",
+   "h_same": "A visible change, the same score.",
+   "h_rejected": "Lower score, so it was rejected.",
+   "h_lost": "Higher score — but it lost side by side.",
+   "h_other": "No formal result this round.",
+   "base_body": "The crude starting file. The judge, rubric and renderer were frozen before the first round.",
+   "run_body": "The same file run {n} picked up from the previous run, judged again under the new rules.",
+   "base_note": "Baseline score. Every later version has to beat the best one so far.",
+   "run_note": "Re-judged as this run's starting score; the file itself didn't change.",
+   "run2_start": "Run 2 starts from run 1's final drawing, with a new rule: ties are settled side by side.",
+   "story_pelican_title": "Why there are two runs",
+   "story_pelican": "In run 1, rounds 3 to 5 each changed the drawing visibly, yet the judge gave the same four criterion scores every time. Each total was 75, and “the score must go up” rejected all three. Rules never change in the middle of a run, so a second run added ties: compare — a tied candidate goes to the same both-orders, side-by-side comparison. Ties can lose too: round 5 of run 2 lost 0/2.",
+   "story_landing_title": "Two runs that aren't shown",
+   "story_landing": "Two earlier landing-page runs were scored on faulty phone screenshots: the lower part of the page rendered blank, and the judge rejected three rounds as a broken layout. The renderer was fixed and given a regression test, and this run started over. The case notes explain why the earlier runs were left out.",
+   "feedback": "The judge's notes",
+   "feedback_hint": "As recorded",
+   "dl_source": "Download {name}",
+   "open_page": "Open the evolution page",
+   "models": "Edits: Codex ({agent}). Judge: {jury}, looking at screenshots, one sample per round.",
+   "criteria": {
+    "pelican": "Pelican",
+    "bicycle": "Bicycle",
+    "riding": "Riding",
+    "craft": "Craft",
+    "first_impression": "First impression",
+    "layout": "Layout",
+    "visual_craft": "Visual craft",
+    "mobile": "Phone",
+    "persuasion": "Persuasion"
+   }
   }
  },
  "cases": {
   "eyebrow": "All experiments",
   "title": "Every run, every round, every rejection.",
-  "lede": "Fifteen domains, from code to contracts. Open any run to compare versions, read the judge's feedback and download the artifacts.",
+  "lede": "Sixteen domains, from code to contracts and drawings. Open any run to compare versions, read the judge's feedback and download the artifacts.",
   "filter": "Filter experiments",
   "list": "Domains",
   "filter_all": "All",

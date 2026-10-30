@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import html
+import hashlib
 import json
 import re
 import shutil
@@ -15,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 import build_showcase
 import site_i18n
+import yaml
 
 SITE_URL = "https://www.riseai.top/darwin/"
 CASES = {
@@ -23,10 +25,17 @@ CASES = {
     "cpu-classifier": "20261024-001122-cpu-digits-classifier",
     "video-cut": "20261024-002228-talk-highlight",
 }
+# 视觉实验室：同一作品接着跑的多次运行按顺序连成一条时间线。
+VISUAL = {
+    "svg-drawing": ["20261029-210134-pelican-on-a-bicycle", "20261029-211118-pelican-on-a-bicycle"],
+    "landing-page": ["20261029-212726-night-study-landing-page"],
+}
+VISUAL_IMAGES = {"svg-drawing": ["out/drawing.png"], "landing-page": ["out/desktop.png", "out/mobile.png"]}
+VISUAL_SOURCE = {"svg-drawing": "drawing.svg", "landing-page": "index.html"}
 # 英文为默认语言，中文放在 zh/ 下。
 LANGS = {"en": "", "zh": "zh/"}
 PAGES = {"": "home", "labs/code/": "code", "labs/experiments/": "experiments", "labs/video/": "video",
-         "cases/": "cases", "start/": "start"}
+         "labs/visual/": "visual", "cases/": "cases", "start/": "start"}
 # 公开站点只带这些说明文档（中英各一份）；内部交接、开发记录和发布审计不对外。
 PUBLIC_DOCS = tuple(f"{name}{suffix}.md" for name in ("INSTALL", "EXTENDING", "OPEN-SOURCE", "PLAN") for suffix in (".zh-CN", ""))
 EVIDENCE_KEYS = {"report.html": "report", "ledger.jsonl": "ledger", "verification.json": "verification",
@@ -104,6 +113,53 @@ def case_data(root, case, domain):
             "started": run["started"], "stop_reason": run["stop_reason"],
             "verified": run["eligible"], "reconstructed": run["reconstructed"],
             "source": read(root / "examples/video-cut/inputs/public-speech/source.json") if case["template"] == "video-cut" else None}
+
+
+def visual_data(root, case, domain):
+    """视觉案例：逐轮截图、分项分数与判断；后一次运行的起点若就是前一次的最终作品，接在同一条时间线上。"""
+    template = case["template"]
+    runs = {run["id"]: run for run in case["runs"]}
+    rubric = yaml.safe_load((root / "src/rsi_anything/templates" / template / "judge/rubric.yaml").read_text(encoding="utf-8"))
+    rounds, run_list, champion, best, previous_digest = [], [], 0, None, None
+    for index, run_id in enumerate(VISUAL[template]):
+        run = runs[run_id]
+        folder = root / "examples" / template / "runs" / run_id
+        rows = [json.loads(line) for line in (folder / "ledger.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
+        meta = read(folder / "run.json")
+
+        def digest(relative):
+            return hashlib.sha256((folder / relative / "files" / VISUAL_SOURCE[template]).read_bytes()).hexdigest()
+        continues = previous_digest is not None and digest(rows[0]["artifacts"]) == previous_digest
+        run_list.append({"id": run_id, "root": folder.relative_to(root).as_posix() + "/", "started": run["started"],
+                         "minutes": round((meta.get("elapsed_seconds") or 0) / 60, 1), "stop_reason": run["stop_reason"],
+                         "baseline": run["baseline"], "best": run["best"], "attempts": run["rounds"], "kept": run["kept"],
+                         "first": len(rounds), "continues": continues,
+                         "ties": read(folder / "config/execution.json").get("judge", {}).get("ties") == "compare"})
+        for row in rows:
+            files = folder / row["artifacts"] / "files"
+            verdict = read(folder / row["artifacts"] / "verdict.json")
+            start = row["round"] == 0
+            if start and not continues:
+                best = None
+            rounds.append({"round": len(rounds), "run": index, "number": row["round"], "status": row["status"],
+                           "score": row["score"], "previous_best": champion, "best_before": best,
+                           "hypothesis": row.get("hypothesis", ""), "note": build_showcase.human_note(row.get("note", "")),
+                           "feedback": row.get("feedback", ""), "criteria": verdict.get("metrics", {}).get("criteria", {}),
+                           "files_base": files.relative_to(root).as_posix() + "/",
+                           "images": [name for name in VISUAL_IMAGES[template] if (files / name).is_file()],
+                           "source": VISUAL_SOURCE[template], "bytes": (files / VISUAL_SOURCE[template]).stat().st_size})
+            if start:
+                best = row["score"]
+            if (start and not continues) or row["status"] == "KEEP":
+                champion, best = len(rounds) - 1, row["score"]
+        previous_digest = digest(meta.get("final_artifacts") or "artifacts/final")
+    last = runs[VISUAL[template][-1]]
+    return {"template": template, "title": case["title"], "metric": domain["metric"],
+            "unit": domain["unit"], "best_round": champion, "rounds": rounds, "runs": run_list,
+            "root": run_list[-1]["root"], "run_id": run_list[-1]["id"],
+            "criteria": [{"name": item["name"], "weight": item["weight"]} for item in rubric["criteria"]],
+            "agent": last["agent"], "requested_model": last["requested_model"], "actual_model": last["actual_model"],
+            "jury": last["jury"]}
 
 
 def public_file(item):
@@ -187,10 +243,16 @@ def home_data(labs, strings, root):
                 summary = "" if row["status"] == "NO_CHANGE" else row["hypothesis"]
             rounds.append({"round": row["round"], "status": row["status"], "score": row["score"], "summary": summary})
         series[template] = {"metric": lab["metric"], "unit": lab["unit"], "best_round": lab["best_round"], "rounds": rounds}
+    drawing = labs["svg-drawing"]
+    series["svg-drawing"] = {"metric": drawing["metric"], "unit": drawing["unit"], "best_round": drawing["best_round"],
+                             "rounds": [{"round": row["round"], "label": f"R{row['number']}" if not row["run"] else f"{row['run'] + 1}·R{row['number']}",
+                                         "status": row["status"], "score": row["score"],
+                                         "summary": row["hypothesis"] or (strings["lab"]["visual"]["run2_start"] if row["run"] else ""),
+                                         "image": row["files_base"] + row["images"][0]} for row in drawing["rounds"]]}
     model = labs["cpu-classifier"]
     video = labs["video-cut"]
     total = len(read(root / "examples/video-cut/inputs/public-speech/sentences.json", []))
-    return {"series": series,
+    return {"series": series, "drawing": series["svg-drawing"]["rounds"][drawing["best_round"]]["image"],
             "matrices": {"baseline": model["rounds"][0]["metrics"]["confusion_matrix"],
                          "final": model["rounds"][model["best_round"]]["metrics"]["confusion_matrix"]},
             "segments": {"total": total, "selected": video["rounds"][video["best_round"]]["segments"]}}
@@ -282,14 +344,19 @@ def build(root=ROOT, output=None):
     (output / "downloads").mkdir()
     for domain in data["domains"]:
         for case in domain["cases"]:
-            if case["template"] not in CASES:
+            if case["template"] in VISUAL:
+                labs[case["template"]] = result = visual_data(root, case, domain)
+                folders = [root / run["root"] for run in result["runs"]]
+            elif case["template"] in CASES:
+                labs[case["template"]] = result = case_data(root, case, domain)
+                folders = [root / result["root"]]
+            else:
                 continue
-            labs[case["template"]] = result = case_data(root, case, domain)
-            folder = root / result["root"]
             with zipfile.ZipFile(output / "downloads" / (case["template"] + ".zip"), "w", zipfile.ZIP_DEFLATED) as archive:
-                for path in sorted(folder.rglob("*")):
-                    if path.is_file() and not path.is_symlink():
-                        archive.write(path, path.relative_to(folder.parent))
+                for folder in folders:
+                    for path in sorted(folder.rglob("*")):
+                        if path.is_file() and not path.is_symlink():
+                            archive.write(path, path.relative_to(folder.parent))
             if case["template"] == "video-cut":
                 for snapshot in result["rounds"]:
                     srt = root / snapshot["files_base"] / "out/cut.srt"
@@ -318,6 +385,9 @@ def build(root=ROOT, output=None):
             (output / "data" / lang / f"{name}.json").write_text(json.dumps(value, ensure_ascii=False), encoding="utf-8")
         (output / "data" / lang / "cases.json").write_text(json.dumps(lang_catalog, ensure_ascii=False), encoding="utf-8")
         script_strings = inline_json({**strings, "public_docs": public_docs})
+        pelican = labs["svg-drawing"]["rounds"]
+        drawings = {"__DRAWING_START__": "__BASE__" + pelican[0]["files_base"] + pelican[0]["images"][0],
+                    "__DRAWING_FINAL__": "__BASE__" + pelican[labs["svg-drawing"]["best_round"]]["files_base"] + pelican[labs["svg-drawing"]["best_round"]]["images"][0]}
         for route, kind in PAGES.items():
             alt_lang = "zh" if lang == "en" else "en"
             depth = len(Path(prefix + route).parts)
@@ -334,7 +404,7 @@ def build(root=ROOT, output=None):
                 "__WHEEL_URL__": SITE_URL + "dist/" + WHEEL, "__WHEEL_SIZE__": size(root / "dist" / WHEEL),
                 "__EXPERIMENT_LOG__": experiment_log(lang_catalog, strings) if kind == "home" else "",
                 "__HOME_DATA__": inline_json(home_data(lang_labs, strings, root)) if kind == "home" else "",
-                "__JS_STRINGS__": script_strings, **totals}
+                "__JS_STRINGS__": script_strings, **drawings, **totals}
             for key, value in replacements.items():
                 page = page.replace(key, value)
             page = page.replace("__HOME__", home).replace("__BASE__", base)
@@ -354,7 +424,7 @@ def build(root=ROOT, output=None):
     (output / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
                                         + "".join(f"<url><loc>{u}</loc></url>\n" for u in sitemap) + "</urlset>\n", encoding="utf-8")
     (output / "build-info.json").write_text(json.dumps({"domains": int(totals["__N_DOMAINS__"]), "complete": int(totals["__N_COMPLETE__"]),
-                                                        "cases": list(CASES), "languages": list(LANGS), "source": "已保存的正式运行",
+                                                        "cases": [*CASES, *VISUAL], "languages": list(LANGS), "source": "已保存的正式运行",
                                                         "generated_at": data["generated_at"]}, ensure_ascii=False), encoding="utf-8")
     return output
 

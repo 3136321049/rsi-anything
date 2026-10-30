@@ -14,6 +14,7 @@
 <button role="tab" data-evo-tab="code-speed" aria-selected="true"><span>{{lab.code.name}}</span><small>{{home.evo.code_sub}}</small></button>
 <button role="tab" data-evo-tab="cpu-classifier" aria-selected="false"><span>{{lab.models.name}}</span><small>{{home.evo.models_sub}}</small></button>
 <button role="tab" data-evo-tab="video-cut" aria-selected="false"><span>{{lab.video.name}}</span><small>{{home.evo.video_sub}}</small></button>
+<button role="tab" data-evo-tab="svg-drawing" aria-selected="false"><span>{{lab.visual.name}}</span><small>{{home.evo.visual_sub}}</small></button>
 </div>
 <span class="evo-label mono"><span class="rec" aria-hidden="true"></span>{{home.evo.label}}</span>
 </div>
@@ -59,6 +60,12 @@
 <div class="lab-meta"><span class="tag">Lab 03</span><h3>{{lab.video.name}}</h3><p>{{home.lab.video.desc}}</p></div>
 <div class="lab-figure"><strong>75.5<small>{{unit.points}}</small></strong><span>{{home.lab.video.metric}}</span></div>
 <div class="lab-foot"><span>{{home.lab.video.check}}</span><span class="arrow" aria-hidden="true">→</span></div>
+</a>
+<a class="lab-card" href="__HOME__labs/visual/">
+<div class="lab-visual visual-draw" aria-hidden="true"><img src="__DRAWING_START__" alt="" loading="lazy" width="1024" height="768"><span class="vd-arrow">→</span><img src="__DRAWING_FINAL__" alt="" loading="lazy" width="1024" height="768"><div class="vm-caption"><span>{{home.lab.visual.before}}</span><span>{{home.lab.visual.after}}</span></div></div>
+<div class="lab-meta"><span class="tag">Lab 04</span><h3>{{lab.visual.name}}</h3><p>{{home.lab.visual.desc}}</p></div>
+<div class="lab-figure"><strong>78<small>{{unit.points}}</small></strong><span>{{home.lab.visual.metric}}</span></div>
+<div class="lab-foot"><span>{{home.lab.visual.check}}</span><span class="arrow" aria-hidden="true">→</span></div>
 </a>
 </div>
 <a class="more-link" href="__HOME__cases/">{{home.labs.more}}<span aria-hidden="true">→</span></a>

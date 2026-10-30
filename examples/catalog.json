@@ -394,6 +394,46 @@
       "note": "当前没有兼容 GPU，按授权保留资源例外。模板与环境探测可查看，GPU 和模块性能数字留空，不计入实测通过数。",
       "resource_exception": true,
       "resource_exception_label": "待GPU实测（资源例外）"
+    },
+    {
+      "id": "D16",
+      "title": "画得更好看",
+      "category": "创作",
+      "description": "评委只看渲染出的图：一幅矢量画、一页落地页，逐轮修改，留下更好看的版本。",
+      "metric": "看图评审得分",
+      "unit": "分",
+      "pending": "developing",
+      "cases": [
+        {
+          "template": "svg-drawing",
+          "title": "鹈鹕骑自行车",
+          "primary": [
+            "drawing.svg",
+            "out/drawing.png"
+          ],
+          "inputs": [
+            "judge/rubric.yaml",
+            "judge/render.py"
+          ]
+        },
+        {
+          "template": "landing-page",
+          "title": "夜航自习室落地页",
+          "primary": [
+            "index.html",
+            "out/desktop.png",
+            "out/mobile.png",
+            "out/page.txt"
+          ],
+          "inputs": [
+            "judge/brief.md",
+            "judge/facts.json",
+            "judge/rubric.yaml",
+            "judge/render.py"
+          ]
+        }
+      ],
+      "note": "分数来自单个评委模型看截图、每次一个样本，只代表这份评分表。鹈鹕第二次运行加了同分并排比较（ties: compare），两次运行各自验收。"
     }
   ]
 }

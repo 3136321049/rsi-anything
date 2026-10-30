@@ -6,6 +6,7 @@ import zipfile
 from pathlib import Path
 
 import pytest
+import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -23,7 +24,7 @@ def pages(site):
 
 
 def test_site_routes_and_asset_links(site):
-    assert len(pages(site)) == 12
+    assert len(pages(site)) == 14
     for path in pages(site):
         content = path.read_text(encoding="utf-8")
         assert not re.search(r"__[A-Z_]+__|\{\{", content), path
@@ -57,6 +58,10 @@ def test_dictionaries_cover_templates_and_script():
     used |= {f"status.{s}" for s in ("BASELINE", "KEEP", "REVERT", "NO_CHANGE", "AGENT_FAIL", "JUDGE_FAIL", "final", "unknown")}
     for template in build_site.CASES:
         used |= {f"lab.limits.{template}", f"start.pre.{template}"}
+    for template in build_site.VISUAL:
+        used.add(f"lab.limits.{template}")
+        rubric = yaml.safe_load((ROOT / "src/rsi_anything/templates" / template / "judge/rubric.yaml").read_text(encoding="utf-8"))
+        used |= {f"lab.visual.criteria.{item['name']}" for item in rubric["criteria"]}
     used |= {f"lab.video.summary.{n}" for n in range(5)}
     assert used <= keys(en), used - keys(en)
 
@@ -66,9 +71,12 @@ def test_english_pages_and_data_have_no_untranslated_records(site):
     seen = []
     site_i18n.walk(data, lambda text: seen.append(text) or text)
     assert seen and not [text for text in seen if site_i18n.CJK.search(text)]
-    for name in build_site.CASES:
+    for name in [*build_site.CASES, *build_site.VISUAL]:
         lab = json.loads((site / f"data/en/{name}.json").read_text(encoding="utf-8"))
         assert not site_i18n.CJK.search(lab["title"] + lab["metric"] + lab["unit"])
+    for name in build_site.VISUAL:
+        lab = json.loads((site / f"data/en/{name}.json").read_text(encoding="utf-8"))
+        assert not [r for r in lab["rounds"] if site_i18n.CJK.search(r["hypothesis"] + r["note"])]
     body = (site / "index.html").read_text(encoding="utf-8").split('<script id="i18n"')[0]
     visible = re.sub(r"<[^>]+>", " ", body.split("<main", 1)[1])
     assert not site_i18n.CJK.search(visible.replace("中文版", "").replace("中文", ""))  # 语言切换入口
@@ -102,6 +110,32 @@ def test_site_uses_original_timing_and_keeps_rejections(site):
     assert [r["score"] for r in replay["series"]["code-speed"]["rounds"]] == [1, 4.45, 17.83, 27.45]
 
 
+def test_visual_lab_chains_runs_and_keeps_every_frame(site):
+    drawing = json.loads((site / "data/en/svg-drawing.json").read_text())
+    assert [r["score"] for r in drawing["rounds"]] == [37, 68, 75, 75, 75, 75, 75, 75, 78, 75, 78, 78, 78]
+    assert [r["status"] for r in drawing["rounds"]].count("KEEP") == 6
+    first, second = drawing["runs"]
+    assert not first["continues"] and not first["ties"]
+    assert second["continues"] and second["ties"] and second["first"] == 6
+    # 第二次运行的起点就是第一次的最终作品；之后的比较对象仍是那一版。
+    assert drawing["rounds"][7]["previous_best"] == 2 and drawing["rounds"][7]["best_before"] == 75
+    assert drawing["rounds"][drawing["best_round"]]["number"] == 6
+    tie_lost = drawing["rounds"][11]
+    assert tie_lost["status"] == "REVERT" and tie_lost["note"] == "Tied with the best version at 78; lost the head-to-head (0/2)."
+    assert set(drawing["rounds"][0]["criteria"]) == {c["name"] for c in drawing["criteria"]}
+    landing = json.loads((site / "data/zh/landing-page.json").read_text())
+    assert [r["score"] for r in landing["rounds"]] == [25, 70, 72.5, 70, 72, 74.5, 72.5]
+    assert landing["best_round"] == 5
+    for lab in (drawing, landing):
+        for row in lab["rounds"]:
+            assert row["images"]
+            for image in row["images"]:
+                assert (site / row["files_base"] / image).is_file()
+    home = (site / "index.html").read_text(encoding="utf-8")
+    replay = json.loads(re.search(r'<script id="home-data" type="application/json">(.*?)</script>', home)[1])
+    assert [r["label"] for r in replay["series"]["svg-drawing"]["rounds"]][5:8] == ["R5", "2·R0", "2·R1"]
+
+
 def test_video_cues_use_rendered_timeline(site):
     video = json.loads((site / "data/en/video-cut.json").read_text())
     for row in video["rounds"]:
@@ -129,10 +163,12 @@ def test_public_site_contains_only_selected_roots_and_downloads(site):
     assert not (site / "src/rsi_anything/engine.py").exists()
     assert (site / "dist" / build_site.WHEEL).is_file()
     assert [p.name for p in (site / "dist").iterdir()] == [build_site.WHEEL]  # 源码包含内部文档，不上网站
-    for name in build_site.CASES:
+    for name in [*build_site.CASES, *build_site.VISUAL]:
         with zipfile.ZipFile(site / "downloads" / (name + ".zip")) as archive:
             assert archive.testzip() is None
             assert any(p.endswith("/ledger.jsonl") for p in archive.namelist())
+    with zipfile.ZipFile(site / "downloads/svg-drawing.zip") as archive:
+        assert {p.split("/")[0] for p in archive.namelist()} == set(build_site.VISUAL["svg-drawing"])
 
 
 def test_pages_do_not_point_to_the_private_repository(site):

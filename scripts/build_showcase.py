@@ -23,6 +23,8 @@ def human_note(text):
     """界面显示中文说明；精确英文记录仍在原账本。"""
     if text.startswith("no edits inside the artifact paths"):
         return "允许修改的作品文件没有变化，未进入正式评审。"
+    if "tie not broken" in text:
+        return "与当前最好版本同分，并排比较没有完成，按规则不替换。"
     if text.startswith("score ") and " -> " in text:
         match = re.search(r"score ([\d.\-]+) -> ([\d.\-]+)", text)
         if match:
@@ -30,6 +32,10 @@ def human_note(text):
             return f"分数从 {match[1]} 提高到 {match[2]}。" + (f"两两比较获胜 {suffix[1]}。" if suffix else "")
     if text.startswith("score ") and "not better" in text:
         return "正式分数未超过当前最好版本所需的进步幅度。"
+    tie = re.match(r"tied at ([\d.\-]+)(?:; won head-to-head (\d+/\d+)| and lost head-to-head \((\d+/\d+) votes\))", text)
+    if tie:
+        return (f"与当前最好版本同分（{tie[1]}），正反并排比较获胜 {tie[2]}。" if tie[2]
+                else f"与当前最好版本同分（{tie[1]}），正反并排比较没有获胜（{tie[3]}）。")
     if "lost head-to-head" in text:
         return "分数更高，但新旧作品正反顺序比较没有获胜。"
     if text.startswith("passes gates"):
