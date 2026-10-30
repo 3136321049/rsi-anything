@@ -29,7 +29,7 @@ Requires Python 3.11 (3.9+ is declared), Git, and a coding agent you're signed i
 python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install https://www.riseai.top/darwin/dist/rsi_anything-0.2.0.dev0-py3-none-any.whl
-rsi agents
+rsi setup
 rsi init code-repair my-first-run
 cd my-first-run
 rsi check
@@ -39,6 +39,8 @@ rsi export --to ../my-first-result
 ```
 
 From a source checkout, use `python -m pip install -e '.[dev]'` instead. The package is not published on PyPI.
+
+`rsi setup` checks Python, Git, your signed-in coding agents and the optional browser and FFmpeg, suggests who should edit and who should judge (two vendors when you have them), and offers to install the `/rsi` skill. To improve something of your own instead of a template, run `rsi new`: it asks what should get better (a text, a drawing or page, code with tests, or any number a command prints) and writes a task that runs as written; see [Add your own task](docs/EXTENDING.md).
 
 `rsi check` runs the real evaluator; templates with model judges or video generation make real calls. Code repair only runs local tests, which makes it a good first task. `rsi init` creates a Git repository for the task; configure a Git identity if the first commit fails. CLI versions, optional dependencies and API setup are covered in the [install guide](docs/INSTALL.md).
 

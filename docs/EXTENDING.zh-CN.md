@@ -2,9 +2,29 @@
 
 [English](EXTENDING.md)
 
-先选择相近模板，保留现有循环，只替换这个领域的输入、可改产物和评价。命令评分可从 `code-repair` 或 `cpu-classifier` 开始；文字评分可从 `business-report` 或 `literature-review` 开始；需要模型实际执行方法时参考 `writing-guide`、`lesson-builder`。
+最快的开始方式是下面的 `rsi new`。需要更具体时，先选择相近模板，保留现有循环，只替换这个领域的输入、可改产物和评价。命令评分可从 `code-repair` 或 `cpu-classifier` 开始；文字评分可从 `business-report` 或 `literature-review` 开始；需要模型实际执行方法时参考 `writing-guide`、`lesson-builder`。
 
-当前 13 个领域已有完整多轮和独立验证。写作手册、合同演练、讲义都可以直接参考真实作品与记录；D07 是服务受限的部分实测，D15 等待 GPU，不能用这两项的模板或探测替代成功案例。完整入口见[领域清单](DEMO-PLAN.zh-CN.md)。
+当前 14 个领域已有完整多轮和独立验证。写作手册、合同演练、讲义都可以直接参考真实作品与记录；D07 是服务受限的部分实测，D15 等待 GPU，不能用这两项的模板或探测替代成功案例。完整入口见[领域清单](DEMO-PLAN.zh-CN.md)。
+
+## 用 `rsi new` 开始
+
+`rsi new` 先问清楚什么要变好，再写出一个照原样就能运行的任务：`rsi.yaml`、评分程序，文件还不存在时再加一个起始版本。共四类：
+
+| 类型 | 助手修改 | 得分 |
+|---|---|---|
+| `text` | 任意文本文件（默认 `draft.md`） | 模型按你列出的维度评分 |
+| `visual` | 一个 `.svg` 或 `.html` 文件 | 无头 Chrome 断网截图后由模型看图评分（HTML 截桌面和手机两张） |
+| `tests` | 已有代码；测试冻结 | 测试通过比例（读取 pytest 或 unittest 输出） |
+| `number` | 已有代码 | 你的命令打印的最后一个数字；数字越小越好时加 `--minimize` |
+
+```bash
+rsi new lighthouse --kind visual --artifact lighthouse.svg \
+  --goal "A lighthouse on a rocky shore at dusk: the beam across calm water, lit windows, the first stars." \
+  --criteria "lighthouse and shore, light and atmosphere, composition, craft"
+rsi new . --kind tests --artifact calc.py --frozen tests --command "pytest -q"
+```
+
+不带选项时逐项询问，`--yes` 则不询问。不在 Git 仓库里时会新建仓库并完成首次提交；在仓库里时只提示需要提交哪些文件。生成的评分细则只用通用档位描述，正式运行前请用自己的话改写问题和档位，评委会逐字照着评。`number` 类型信任命令输出，请确认被修改的代码不能自己打印这个数字；`rsi check --stress` 可以帮忙检查。`rsi setup` 先检查本机，并建议由谁修改、由谁评分。
 
 ## 把任务写清楚
 
@@ -75,11 +95,25 @@ report_result(
 
 `rubric.yaml` 写清任务、固定参考资料、评价维度与具体档位。先保留少数能解释改进方向的维度，例如事实一致性、论证、读者是否看懂。`context` 可列出固定参考文件，`checks` 是模型判断的必要条件；`gates` 提供长度、必需词、禁用词等基础规则。
 
-准备脚本可输出 `out/gates.json`，格式为 `{"条件名称": true}`，以及 `out/notes.txt`。这些规则失败时不会继续调用模型评委。规则通过后，模型依据作品和细则评分；文字任务可以再做正反顺序的新旧比较。图片、视频输入目前跳过这一步，视频按均匀抽帧评价，不能代表完整视听质量。
+准备脚本可输出 `out/gates.json`，格式为 `{"条件名称": true}`，以及 `out/notes.txt`。这些规则失败时不会继续调用模型评委。规则通过后，模型依据作品和细则评分，还可以再做正反顺序的新旧比较；图片和视频抽帧会按版本标注后一并提供。设置 `ties: compare` 时，同分不再直接拒绝，而是用同样的比较决定。视频按均匀抽帧评价，不能代表完整视听质量。
 
 外部生成或环境失败时，准备脚本还应写 `out/error.json`，明确 `quality_result: "unknown"`，并以非零状态退出。当前引擎将这种失败记为无质量分的评审失败。已经保存的旧记录不要改写，可像 [D07 的派生核验](../examples/video-generation/runs/20261024-003656-warm-morning-product-video/outcome-audit.json)那样关联原账本哈希，说明原失败与有效解释。
 
 程序检查与模型检查各有范围。正文含有一个真实引用编号，不等于那篇资料真的支持该句；模型给分提高，也不等于真实业务收益。把当前检查范围写进模板 README 即可，不必先做研究级校准才能开发 Demo。
+
+## 角色：谁修改、谁评分
+
+`roles:` 在一处写明所有模型，并填入对应设置；两处都写时必须一致：
+
+```yaml
+roles:
+  editor: codex:gpt-6.1-sol      # agent.use + agent.model
+  judge: [cli:claude]            # judge.models（模型评委）
+  compare: cli:claude            # 正反比较用的模型；默认同评委
+  task: deepseek:deepseek-chat   # 任务本身调用的模型，以 $RSI_TASK_MODEL 交给评分脚本
+```
+
+修改方和评委来自不同厂商，可以避免模型给自己打分。`execution.json` 记录本机实际使用的角色（`auto` 已展开）。共享模板里模型可以保留 `auto`，各电脑用 `RSI_AGENT` 和 `RSI_JURY` 设定；`rsi setup` 会打印建议的组合。
 
 ## 把模型当作任务的一部分
 
@@ -90,6 +124,34 @@ report_result(
 - `lesson-builder` 让 `RSI_TASK_MODEL` 读讲义答固定练习，再核对答案与讲义依据。
 
 不要预写一组越来越好的候选作为自动迭代结果。测试中可以模拟模型接口，但测试产物必须留在测试目录，不能计入 Demo 实跑。
+
+## 插件
+
+评委类型、助手和搜索策略都按名称查找：先查内置名称，再查其他软件包通过入口点提供的名称。`rsi plugins` 列出当前可用的全部名称。软件包在 `pyproject.toml` 中声明：
+
+```toml
+[project.entry-points."rsi_anything.judges"]
+vision = "my_package.vision:VisionJudge"      # rsi.yaml: judge: {type: vision, ...}
+
+[project.entry-points."rsi_anything.agents"]
+aider = "my_package.aider:make_agent"         # rsi.yaml: agent: {use: aider}
+
+[project.entry-points."rsi_anything.strategies"]
+best-of-3 = "my_package.search:BestOfThree"   # rsi.yaml: strategy: best-of-3
+```
+
+评委类用评委配置构造；`judge:` 中 rsi 不认识的键放在 `spec.options` 里。实现 `score(workspace, round_no)` 并返回 `Verdict`；基类会先运行 `prepare` 步骤，并合并它的门槛和说明。
+
+```python
+from rsi_anything.judges import Judge, Verdict
+
+class VisionJudge(Judge):
+    def score(self, workspace, round_no):
+        size = (workspace / "out/picture.png").stat().st_size
+        return Verdict(score=..., gates={"rendered": size > 0}, feedback="...")
+```
+
+助手入口是返回助手对象的函数 `make_agent(spec, allow_commands)`，也可以是描述另一个编程助手 CLI 的 `CLISpec`。策略类需要 `name` 和 `play(arena, number, best)`，可参考 `strategy.Greedy`。测试或本地脚本也可以直接注册：`JUDGES.register("vision", VisionJudge)`。插件在 rsi 进程内以你的权限运行，只安装可信的软件包。
 
 ## 保存、恢复和验收
 

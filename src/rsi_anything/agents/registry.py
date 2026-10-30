@@ -25,6 +25,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
 
+from ..plugins import PluginError, Registry
 from ..process import run as run_process
 
 Command = tuple[list[str], Optional[str], Optional[Path], dict]  # argv, stdin, final-message file, extra env
@@ -285,6 +286,22 @@ def make_agent(spec, allow_commands: bool = False):
         if not spec.model:
             raise RuntimeError("`agent.use: api` needs `agent.model`, e.g. deepseek:deepseek-chat")
         return APIAgent(spec.model)
-    if use not in CLI_AGENTS:
-        raise RuntimeError(f"unknown agent {use!r}; choose from auto, api, command, {', '.join(CLI_AGENTS)}")
-    return CLIAgent(CLI_AGENTS[use], spec.model or "", spec.extra_args, allow_commands)
+    if use in CLI_AGENTS:
+        return CLIAgent(CLI_AGENTS[use], spec.model or "", spec.extra_args, allow_commands)
+    try:
+        plugin = AGENTS.find(use)
+    except PluginError as exc:
+        raise RuntimeError(str(exc)) from exc
+    if plugin is None:
+        raise RuntimeError(f"unknown agent {use!r}; choose from {', '.join(agent_names())}")
+    if isinstance(plugin, CLISpec):  # a plugin that only describes another coding-agent CLI
+        return CLIAgent(plugin, spec.model or "", spec.extra_args, allow_commands)
+    return plugin(spec, allow_commands)
+
+
+# `agent.use` names beyond the CLIs above, from the `rsi_anything.agents` entry point.
+AGENTS = Registry("rsi_anything.agents", "agent")
+
+
+def agent_names() -> list[str]:
+    return ["auto", "api", "command", *CLI_AGENTS, *AGENTS.names()]

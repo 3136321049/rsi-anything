@@ -2,6 +2,19 @@
 
 当前使用方式见[中文 README](../README.zh-CN.md)，接手入口见[HANDOFF](HANDOFF.zh-CN.md)，实时领域状态见[执行表](GOAL-PROGRESS.zh-CN.md)。这里保留仍对当前实现和结果有用的工程结论；实验原始文件是效果判断的依据。
 
+## 2026-10-30 · Claude Code：上手命令、角色与插件（第四批）
+
+- `rsi new`：问清什么要变好，写出照原样就能运行的任务。四类：`text`（模型按列出的维度评文字）、`visual`（一个 SVG 或 HTML，断网截图后看图评分）、`tests`（测试冻结，按通过比例计分，读 pytest/unittest 输出）、`number`（命令打印的最后一个数字，可选越小越好）。写入前用 `rsi check` 同样的校验检查配置；已有 `rsi.yaml` 或 `judge/` 时拒绝；已有的作品文件不覆盖；不在仓库里时新建仓库并首次提交。
+- `rsi setup`：检查 Python、Git 与身份、已登录的编程助手、可选的浏览器与 FFmpeg、各助手的 `/rsi` 技能是否最新；建议修改方与评委（Codex 修改时优先 Claude 评分，反之亦然），并给出 `RSI_AGENT`/`RSI_JURY` 设置。`--check` 只报告；默认询问后才安装技能，非交互时不写任何文件。
+- `roles:`：在 rsi.yaml 一处写明 editor、judge、compare、task 四个角色，填入原有设置，两处都写时必须一致；新增 `judge.compare`（正反比较用的模型，默认同评委）；`roles.task` 在运行和 `rsi check` 期间作为 `$RSI_TASK_MODEL` 交给评分脚本，结束后恢复原值；`execution.json` 新增实际展开后的 `roles`。
+- 插件：新增 `plugins.py` 名册，评委类型、助手、搜索策略都按名称查找；其他软件包通过 `rsi_anything.judges/agents/strategies` 入口点提供名称，用到时才加载，加载失败给出明确错误。rsi.yaml 新增 `strategy:`；插件评委在 `spec.options` 中拿到自己配置块里的其他键；助手插件可以是工厂函数，也可以只是描述另一个 CLI 的 `CLISpec`。`rsi plugins` 按来源列出全部名称。
+
+真实检查：用 `rsi new` 一行目标生成“暮色灯塔”矢量画任务（4 个维度），本机个人 Codex（`gpt-6.1-sol`，隔离用户配置）修改、个人 Claude 看图评分，2 轮 10 → 65 → 67.5，两轮都保留，约 10 分钟；记录留在本机临时目录，未放入案例。`rsi setup --check` 在只暴露 Codex、Claude 和 git 的 PATH 下给出“codex 修改、claude 评分”。CodeBuddy 与 Cursor 未参与检查。
+
+验证：完整回归 177 项通过、1 项跳过。新增 `tests/test_scaffold.py`（四类配置都能通过校验、测试类按 1/2 计 50 分、数字类读取最后一个数字且命令失败时门槛不过、交互问答、真实截图、`setup` 只在确认后写技能）与 `tests/test_plugins.py`（名册、入口点加载与失败、插件评委选项、插件助手与 CLISpec、rsi.yaml 选策略、角色填充与冲突、任务模型环境恢复、执行记录）。
+
+下一步：重打安装包（含两个视觉模板、新命令与英文说明），开始使用页加入视觉模板与 `rsi new`，同步各文档中的数量。
+
 ## 2026-10-30 · Claude Code：网站视觉实验室（第三批）
 
 - 全部实验新增 D16“画得更好看”（创作类），包含鹈鹕和落地页两个子案例；目录现为 16 个领域，其中 14 个有完整多轮。首页、集合页和全部实验页的数量随目录生成。

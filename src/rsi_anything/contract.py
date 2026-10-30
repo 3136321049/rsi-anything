@@ -6,6 +6,7 @@ changing it later starts a new experiment instead of moving the goalposts.
 from __future__ import annotations
 
 import hashlib
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
@@ -15,7 +16,11 @@ import yaml
 from .paths import normalize, overlap
 
 CONTRACT_FILE = "rsi.yaml"
-JUDGE_TYPES = {"command", "rubric"}
+JUDGE_TYPES = {"command", "rubric"}   # built in; plugins add more (see plugins.py)
+ROLES = ("editor", "judge", "compare", "task")
+_NAME = re.compile(r"[A-Za-z0-9][\w.-]*")
+_JUDGE_KEYS = {"type", "files", "direction", "min_delta", "min_gain", "repeats", "timeout", "run", "prepare", "rubric",
+               "inputs", "models", "compare", "samples", "pairwise", "ties"}
 
 
 class ContractError(ValueError):
@@ -43,6 +48,9 @@ class JudgeSpec:
     samples: int = 1
     pairwise: bool = True
     ties: str = "reject"     # or "compare": an equal score is settled by the head-to-head comparison
+    compare: list[str] = field(default_factory=list)   # models for head-to-head; empty = the jury itself
+    # a plugin judge: every key of the block that rsi does not know
+    options: dict[str, Any] = field(default_factory=dict)
 
     def better(self, candidate: float, champion: float) -> bool:
         margin = max(self.min_delta, abs(champion) * self.min_gain)
@@ -80,6 +88,8 @@ class Contract:
     context: str = ""
     assets: list[str] = field(default_factory=list)
     outputs: list[str] = field(default_factory=list)  # 评审生成的报告、图表或视频，需要随轮次保存。
+    strategy: str = "greedy"  # what a round does (strategy.py); plugins add more
+    task_model: str = ""      # roles.task: the model the task itself calls, given to judges as $RSI_TASK_MODEL
     root: Path = Path(".")
     digest: str = ""
 
@@ -111,9 +121,9 @@ def _fraction(value: Any) -> float:
 def _judge(raw: Any, key: str) -> JudgeSpec:
     if not isinstance(raw, dict):
         raise ContractError(f"`{key}` must be a mapping")
-    kind = raw.get("type", "command" if "run" in raw else "rubric" if "rubric" in raw else "")
-    if kind not in JUDGE_TYPES:
-        raise ContractError(f"`{key}.type` must be one of {sorted(JUDGE_TYPES)}")
+    kind = str(raw.get("type", "command" if "run" in raw else "rubric" if "rubric" in raw else ""))
+    if not _NAME.fullmatch(kind):
+        raise ContractError(f"`{key}.type` must be {' or '.join(sorted(JUDGE_TYPES))}, or the name of a judge plugin")
     spec = JudgeSpec(
         type=kind,
         files=_list(raw.get("files"), f"{key}.files"),
@@ -130,6 +140,8 @@ def _judge(raw: Any, key: str) -> JudgeSpec:
         samples=max(1, int(raw.get("samples", 1))),
         pairwise=bool(raw.get("pairwise", True)),
         ties=str(raw.get("ties", "reject")),
+        compare=[str(m) for m in _models(raw.get("compare"), f"{key}.compare")],
+        options={k: v for k, v in raw.items() if k not in _JUDGE_KEYS} if kind not in JUDGE_TYPES else {},
     )
     if spec.direction not in {"maximize", "minimize"}:
         raise ContractError(f"`{key}.direction` must be maximize or minimize")
@@ -137,11 +149,53 @@ def _judge(raw: Any, key: str) -> JudgeSpec:
         raise ContractError(f"`{key}.ties` must be reject or compare")
     if spec.ties == "compare" and not (kind == "rubric" and spec.pairwise):
         raise ContractError(f"`{key}.ties: compare` needs a rubric judge with `pairwise: true`")
+    if spec.compare and not (kind == "rubric" and spec.pairwise):
+        raise ContractError(f"`{key}.compare` (roles.compare) needs a rubric judge with `pairwise: true`")
     if kind == "command" and not spec.run:
         raise ContractError(f"`{key}.run` is required for a command judge")
     if kind == "rubric" and not (spec.rubric and spec.models):
         raise ContractError(f"`{key}` needs `rubric` and at least one entry in `models`")
     return spec
+
+
+def _models(value: Any, key: str) -> list[str]:
+    if value is None:
+        return []
+    if isinstance(value, str):
+        value = [value]
+    if not isinstance(value, list) or not all(isinstance(v, str) and v.strip() for v in value):
+        raise ContractError(f"`{key}` must be a model reference or a list of them")
+    return value
+
+
+def _apply_roles(raw: dict) -> tuple[dict, dict, str]:
+    """`roles:` says in one place who edits, who judges, who breaks ties and which model the task calls.
+    It fills `agent.use/model`, `judge.models` and `judge.compare`; saying the same thing twice must agree."""
+    roles = raw.get("roles") or {}
+    if not isinstance(roles, dict):
+        raise ContractError("`roles` must be a mapping, e.g. {editor: codex, judge: cli:claude}")
+    unknown = sorted(set(roles) - set(ROLES))
+    if unknown:
+        raise ContractError(f"unknown role(s) {', '.join(unknown)}; roles are {', '.join(ROLES)}")
+    agent, judge = dict(raw.get("agent") or {}), raw.get("judge")
+    if "editor" in roles:
+        use, _, model = str(roles["editor"]).partition(":")
+        if agent.get("use", use) != use or (model and agent.get("model", model) != model):
+            raise ContractError("`roles.editor` and the `agent:` block name different editors; say it once")
+        agent["use"] = use
+        if model:
+            agent["model"] = model
+    for role, field_name in (("judge", "models"), ("compare", "compare")):
+        if role not in roles:
+            continue
+        models = _models(roles[role], f"roles.{role}")
+        if not isinstance(judge, dict):
+            raise ContractError("`judge` must be a mapping")
+        if judge.get(field_name) not in (None, models, models[0] if len(models) == 1 else None):
+            raise ContractError(f"`roles.{role}` and `judge.{field_name}` disagree; say it once")
+        judge = {**judge, field_name: models}
+    task = str(roles.get("task") or "").strip()
+    return agent, judge, task
 
 
 def load(root: Path, text: Optional[str] = None) -> Contract:
@@ -161,9 +215,15 @@ def load(root: Path, text: Optional[str] = None) -> Contract:
     artifact = _list(raw.get("artifact"), "artifact")
     if not artifact:
         raise ContractError("`artifact` must list at least one path the agent may change")
-    judge = _judge(raw.get("judge"), "judge")
+    agent_raw, judge_raw, task_model = _apply_roles(raw)
+    judge = _judge(judge_raw, "judge")
     holdout = _judge(raw["holdout"], "holdout") if raw.get("holdout") else None
-    agent_raw, budget_raw = raw.get("agent") or {}, raw.get("budget") or {}
+    budget_raw = raw.get("budget") or {}
+    if (raw.get("roles") or {}).get("judge") and judge.type == "command":
+        raise ContractError("`roles.judge` names the models of a rubric judge; a command judge scores itself")
+    strategy = str(raw.get("strategy") or "greedy")
+    if not _NAME.fullmatch(strategy):
+        raise ContractError("`strategy` must be greedy or the name of a strategy plugin")
     contract = Contract(
         name=str(raw.get("name") or root.name),
         goal=str(raw.get("goal") or "").strip(),
@@ -186,6 +246,8 @@ def load(root: Path, text: Optional[str] = None) -> Contract:
         context=str(raw.get("context") or "").strip(),
         assets=_list(raw.get("assets"), "assets"),
         outputs=_list(raw.get("outputs"), "outputs"),
+        strategy=strategy,
+        task_model=task_model,
         root=root,
         digest=hashlib.sha256(text.encode("utf-8")).hexdigest()[:12],
     )

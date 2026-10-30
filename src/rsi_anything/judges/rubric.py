@@ -152,6 +152,11 @@ class RubricJudge(Judge):
     def models(self) -> list[str]:
         return llm.resolve_models(self.spec.models, avoid=self.avoid)
 
+    @property
+    def compare_models(self) -> list[str]:
+        """Who decides head-to-head comparisons: `judge.compare` (roles.compare), else the jury."""
+        return llm.resolve_models(self.spec.compare, avoid=self.avoid) if self.spec.compare else self.models
+
     def _score_prompt(self, rubric: dict[str, Any], artifact: str, has_images: bool) -> str:
         tag = "ARTIFACT_" + secrets.token_hex(4)
         criteria = []
@@ -269,7 +274,7 @@ class RubricJudge(Judge):
             new = self._inputs(candidate_ws, scratch / "new")
             old = self._inputs(champion_ws, scratch / "old")
             votes = []
-            for model in self.models:
+            for model in self.compare_models:
                 for first_is_candidate in (True, False):
                     a, b = (new, old) if first_is_candidate else (old, new)
                     try:

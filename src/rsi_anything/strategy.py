@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Optional, Protocol
 
 from .domain import JUDGE_FAIL, KEEP, NO_CHANGE, REVERT, Decision, Proposal, Row, Verdict
+from .plugins import Registry
 
 
 class Arena(Protocol):
@@ -76,10 +77,10 @@ class Greedy:
         return Outcome(row, (commit, verdict, workspace))
 
 
-STRATEGIES = {Greedy.name: Greedy}
+# `strategy:` in rsi.yaml; packages add more through the `rsi_anything.strategies` entry point.
+STRATEGIES = Registry("rsi_anything.strategies", "strategy")
+STRATEGIES.register(Greedy.name, Greedy, "built-in")
 
 
 def make_strategy(name: str = "greedy") -> Strategy:
-    if name not in STRATEGIES:
-        raise ValueError(f"unknown strategy {name!r}; choose from {', '.join(STRATEGIES)}")
-    return STRATEGIES[name]()
+    return STRATEGIES.get(name)()

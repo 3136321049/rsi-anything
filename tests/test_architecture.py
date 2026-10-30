@@ -18,9 +18,9 @@ PACKAGE = Path(__file__).resolve().parents[1] / "src" / "rsi_anything"
 # 由内到外；外层可以依赖内层，反过来不行。新模块须先归入某一层。
 LAYERS = [
     {"domain", "paths", "contract", "degenerate"},                          # 纯数据与规则
-    {"selection", "strategy", "events", "prompt"},                          # 策略：怎么选、怎么搜、怎么播报
+    {"selection", "strategy", "events", "prompt", "plugins"},               # 策略：怎么选、怎么搜、怎么播报、插件名册
     {"process", "gitops", "workspace", "artifacts", "ledger", "llm", "result", "sdk", "agents", "judges"},  # 适配：外部世界
-    {"engine", "stress", "report", "export"},                               # 应用：编排一次运行
+    {"engine", "stress", "report", "export", "scaffold", "onboard"},        # 应用：编排一次运行、新建任务、检查本机
     {"cli", "live", "__init__"},                                            # 接口：命令行、实时页面与分享页
 ]
 

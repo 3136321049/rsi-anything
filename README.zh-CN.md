@@ -29,7 +29,7 @@ DARWIN 是 RiseAI 的进化实验室，底层是 Open RSI 工具包（`rsi-anyth
 python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install https://www.riseai.top/darwin/dist/rsi_anything-0.2.0.dev0-py3-none-any.whl
-rsi agents
+rsi setup
 rsi init code-repair my-first-run
 cd my-first-run
 rsi check
@@ -39,6 +39,8 @@ rsi export --to ../my-first-result
 ```
 
 已有源码时改用 `python -m pip install -e '.[dev]'`。软件包没有发布到 PyPI。
+
+`rsi setup` 检查 Python、Git、已登录的编程助手以及可选的浏览器和 FFmpeg，建议由谁修改、由谁评分（有两家时分开），并可安装 `/rsi` 技能。想改进自己的东西而不是模板，运行 `rsi new`：它会问清什么要变好（一段文字、一幅画或一个网页、带测试的代码，或者命令打印的任意数字），然后写出照原样就能运行的任务，见[扩展一个自己的任务](docs/EXTENDING.zh-CN.md)。
 
 `rsi check` 会真实执行评分；含模型评委或视频生成的模板会产生实际调用。代码修复只跑本地测试，适合作为第一个任务。`rsi init` 会为任务创建 Git 仓库；首次提交失败时，请先配置 Git 身份。CLI 版本、可选依赖和 API 配置见[安装说明](docs/INSTALL.zh-CN.md)。
 

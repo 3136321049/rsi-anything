@@ -24,12 +24,15 @@ If the user cannot say what "better" means, help them write it down before anyth
 ## 2. Start from a template when one fits
 
 ```bash
+rsi setup           # checks the machine, suggests who edits and who judges
 rsi init            # lists templates
 rsi init code-speed my-speedup
 rsi init copywriting my-post
 ```
 
-Otherwise create `rsi.yaml` in the project:
+No template fits? `rsi new` writes a working task from a few answers: `--kind text|visual|tests|number`,
+`--artifact`, `--goal`, plus `--criteria` (text, visual) or `--command` (tests, number); `--yes` never asks.
+Then rewrite the generated rubric in the user's own words. Or create `rsi.yaml` by hand:
 
 ```yaml
 name: short-name
@@ -52,6 +55,10 @@ Python judges can call `from rsi_anything import report_result` and
 `copywriting` template: criteria with anchors, code gates, yes/no checks, a
 trusted `context` file, and `models: [auto]` or explicit models such as
 `[cli:codex, deepseek:deepseek-chat]`.
+
+`roles:` names every model in one place, e.g. `roles: {editor: codex, judge: cli:claude}`; prefer an
+editor and a judge from different vendors. `rsi plugins` lists judge types, agents and strategies,
+including any that installed packages add.
 
 ## 3. Make the judge hard to fool before running
 

@@ -39,16 +39,19 @@ Dependencies only point inward; `tests/test_architecture.py` checks which layer 
 
 ```mermaid
 flowchart TB
-  I["Interface: cli (later: MCP, live page, web API)"] --> A
-  A["Application: engine (Ratchet owns a run's lifecycle) · stress · report · export"] --> X
-  X["Adapters: agents · judges · llm · gitops · workspace · ledger · artifacts · process"] --> P
-  P["Policy: strategy (what a round does) · selection (does a candidate win) · events (progress) · prompt"] --> D
+  I["Interface: cli · live (watch and share pages)"] --> A
+  A["Application: engine (Ratchet owns a run's lifecycle) · stress · report · export · scaffold (rsi new) · onboard (rsi setup)"] --> X
+  X["Adapters: agents · judges · llm · sdk · gitops · workspace · ledger · artifacts · process"] --> P
+  P["Policy: strategy (what a round does) · selection (does a candidate win) · events (progress) · prompt · plugins (names to classes)"] --> D
   D["Domain: domain (Verdict, Decision, Proposal, Row) · contract · paths"]
 ```
 
 - **Search strategy** (`strategy.py`): each round the engine hands the strategy an `Arena` that can propose a candidate from the current best, score it in a clean copy, ask the selection rule and commit a winner. The current behavior is `Greedy` (one candidate per round); several candidates per round or a population search are added here without touching the engine.
 - **Selection rules** (`selection.py`): judges only score; whether a candidate is kept is the selection rule's call. `GatesThenScore` checks gates, then the improvement threshold; `HeadToHead` stacks on top and requires the candidate to win the comparison in both orders. `Ratchet` accepts any object with `decide()`.
 - **Event stream** (`events.py`): every run writes `events.jsonl` next to its ledger (run_started, round_started, agent_finished, judged, round_finished, run_finished, run_failed). The terminal progress lines are generated from the same events, so a live page can follow a run directly.
+- **Plugins** (`plugins.py`): judge types, agents and strategies are looked up by name in a registry. Built-in names register themselves; other packages add names through the `rsi_anything.judges`, `rsi_anything.agents` and `rsi_anything.strategies` entry points, loaded only when a contract asks for them. `rsi plugins` lists them; a plugin judge gets the unknown keys of its block in `spec.options`.
+- **Roles** (`roles:` in rsi.yaml): editor, judge, compare and task models in one place. They fill `agent.use/model`, `judge.models`, the new `judge.compare` and `$RSI_TASK_MODEL`; `execution.json` records the roles as resolved. `strategy:` picks the search strategy by name.
+- **Onboarding** (`scaffold.py`, `onboard.py`): `rsi new` writes a contract, a judge and a starting file for four kinds of task (text, visual, tests, number) and validates the contract before writing; `rsi setup` checks the machine, suggests an editor and a judge from different vendors, and installs the `/rsi` skill only when asked.
 - **Record format**: a new run's `run.json` carries `schema: 1` and `strategy`; older records without these fields are read as version 1, and saved experiment records are never rewritten.
 
 ## Evaluation

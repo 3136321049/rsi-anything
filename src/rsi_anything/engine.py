@@ -32,7 +32,7 @@ from .judges import Judge, Verdict, make_judge
 from .ledger import Row, RunStore
 from .paths import matches, normalize
 from .selection import JudgeSelector, Selector
-from .strategy import Greedy, Strategy
+from .strategy import Strategy, make_strategy
 
 Log = Callable[[str], None]
 
@@ -64,6 +64,24 @@ def _toolkit() -> dict:
         version = None
     sdk = Path(__file__).with_name("sdk.py")
     return {"version": version, "sdk_sha256": hashlib.sha256(sdk.read_bytes()).hexdigest() if sdk.exists() else None}
+
+
+@contextmanager
+def task_model(contract: Contract):
+    """`roles.task` reaches judge scripts as $RSI_TASK_MODEL, the variable task templates already read.
+    The contract wins over the shell while a run or check is going on; the old value comes back after."""
+    if not contract.task_model:
+        yield
+        return
+    previous = os.environ.get("RSI_TASK_MODEL")
+    os.environ["RSI_TASK_MODEL"] = contract.task_model
+    try:
+        yield
+    finally:
+        if previous is None:
+            os.environ.pop("RSI_TASK_MODEL", None)
+        else:
+            os.environ["RSI_TASK_MODEL"] = previous
 
 
 @dataclass
@@ -102,7 +120,7 @@ class Ratchet:
                 one.avoid = agent.name  # an `auto` jury should not be the same model grading its own work
         self.log = log
         self.selector = selector or JudgeSelector(self.judge)
-        self.strategy = strategy or Greedy()
+        self.strategy = strategy or make_strategy(contract.strategy)
         self.sinks = [TerminalLog(log), *events]
         self.events = Broadcast(self.sinks)
         self.artifact = _prefix(self.rel_root, contract.artifact)
@@ -155,8 +173,16 @@ class Ratchet:
                      "holdout": asdict(self.contract.holdout) if self.contract.holdout else None,
                      "budget": asdict(self.contract.budget), "artifact": self.contract.artifact,
                      "outputs": getattr(self.contract, "outputs", []),
-                     "task_model": os.environ.get("RSI_TASK_MODEL"), "rsi_anything": _toolkit()}
+                     "task_model": os.environ.get("RSI_TASK_MODEL"), "roles": self._roles(), "rsi_anything": _toolkit()}
         artifacts.write_json(config / "execution.json", execution)
+
+    def _roles(self) -> dict:
+        """Who did what in this run, as resolved on this machine (`auto` expanded)."""
+        model = getattr(self.agent, "model", None) or self.contract.agent.model
+        return {"editor": f"{self.agent.name}:{model}" if model else self.agent.name,
+                "judge": getattr(self.judge, "models", []) or self.contract.judge.type,
+                "compare": getattr(self.judge, "compare_models", None) if self.contract.judge.pairwise else None,
+                "task": os.environ.get("RSI_TASK_MODEL")}
 
     def _saved_evaluation(self, store: RunStore, commit: str, frozen: dict, snapshot: str):
         saved = store.dir / snapshot
@@ -191,6 +217,10 @@ class Ratchet:
     # ------------------------------------------------------------------ run
 
     def run(self, resume: Optional[str] = None) -> Summary:
+        with task_model(self.contract):
+            return self._run(resume)
+
+    def _run(self, resume: Optional[str] = None) -> Summary:
         budget = self.contract.budget
         self._preflight()
         if resume:
