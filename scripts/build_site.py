@@ -42,7 +42,7 @@ EVIDENCE_KEYS = {"report.html": "report", "ledger.jsonl": "ledger", "verificatio
                  "artifact-verification.json": "artifact_verification", "outcome-audit.json": "outcome_audit",
                  "source-receipts.json": "source_receipts", "rsi.yaml": "config", "execution.json": "execution",
                  "versions.json": "versions", "NOTES.md": "notes", "README.md": "readme"}
-WHEEL = "rsi_anything-0.2.0.dev0-py3-none-any.whl"
+WHEEL = "rsi_anything-0.3.0.dev0-py3-none-any.whl"
 
 
 def read(path, fallback=None):

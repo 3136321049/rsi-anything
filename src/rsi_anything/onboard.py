@@ -61,6 +61,8 @@ def install_skill(agents: list[str]) -> list[str]:
 
 
 def _git_identity() -> bool:
+    if all(os.environ.get(f"GIT_{who}_{what}") for who in ("AUTHOR", "COMMITTER") for what in ("NAME", "EMAIL")):
+        return True
     return all(subprocess.run(["git", "config", "--get", key], capture_output=True, text=True).stdout.strip()
                for key in ("user.name", "user.email"))
 
@@ -85,7 +87,7 @@ def checks() -> tuple[list[Check], list[str]]:
         Check("git", bool(shutil.which("git")), shutil.which("git") or "not found", "install git"),
     ]
     if shutil.which("git"):
-        found.append(Check("git identity", _git_identity(), "user.name and user.email set" if _git_identity() else "missing",
+        found.append(Check("git identity", _git_identity(), "name and email set" if _git_identity() else "missing",
                            'git config --global user.name "Your Name" && git config --global user.email you@example.com'))
     silent = [name for name in installed if name not in ready]
     found.append(Check("coding agent", bool(ready) or bool(keys),

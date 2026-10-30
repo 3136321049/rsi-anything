@@ -514,9 +514,9 @@
   "nav4": "Sources & licenses",
   "install": {
    "title": "Install the package",
-   "body": "DARWIN ships as the rsi-anything Python package: the rsi command plus 16 templates. Install it into a fresh virtual environment.",
+   "body": "DARWIN ships as the rsi-anything Python package: the rsi command plus 18 templates. Install it into a fresh virtual environment.",
    "shell": "macOS · Linux · WSL",
-   "note": "rsi agents lists the coding agents it can find on this machine. On native Windows, activate the environment with .venv\\Scripts\\Activate.ps1.",
+   "note": "rsi setup checks Python, Git and the coding agents you're signed in to, and suggests who should edit and who should judge. On native Windows, activate the environment with .venv\\Scripts\\Activate.ps1.",
    "wheel": "Download the wheel",
    "private": "The source repository isn't public yet. The package contains everything needed to run the templates."
   },
@@ -529,7 +529,9 @@
    "opt_model": "CPU model experiment",
    "opt_video": "Video editing",
    "shell": "Run in a separate task folder",
-   "note": "Replace YOUR_MODEL with a model your account can use. rsi check runs the real evaluator — templates with model judges make real calls. Run rsi init with no arguments to list all 16 templates."
+   "note": "Replace YOUR_MODEL with a model your account can use. rsi check runs the real evaluator — templates with model judges make real calls. Run rsi init with no arguments to list all 18 templates.",
+   "opt_svg": "Pelican drawing (SVG)",
+   "opt_landing": "Landing page"
   },
   "results": {
    "title": "Review it and take it with you",
@@ -549,15 +551,23 @@
    "install": "Install & accounts",
    "extend": "Build your own template",
    "oss": "Components & sources",
-   "limits": "13 domains have complete multi-round runs. Video generation is partially measured because the public service stopped responding; GPU kernels are waiting for a personal GPU."
+   "limits": "14 domains have complete multi-round runs. Video generation is partially measured because the public service stopped responding; GPU kernels are waiting for a personal GPU."
   },
   "pre": {
    "code-repair": "Python tests only, no extra dependencies. All you need is a coding agent you're signed in to.",
    "code-speed": "Uses local Python to check results and time them. Timings depend on your machine — start with the default task.",
    "cpu-classifier": "Install the training dependencies from requirements.txt in the task folder. Runs on CPU.",
-   "video-cut": "Needs FFmpeg and ffprobe, a prepared video and transcript, and a model judge you can call. Prepare the footage as the template guide describes."
+   "video-cut": "Needs FFmpeg and ffprobe, a prepared video and transcript, and a model judge you can call. Prepare the footage as the template guide describes.",
+   "svg-drawing": "Needs a Chrome-family browser for offline screenshots and a judge that can read images, such as cli:claude. Start with the pelican, then swap in your own subject.",
+   "landing-page": "Needs a Chrome-family browser and a judge that can read images. The product is fictional; replace judge/brief.md and judge/facts.json with your own."
   },
-  "template_doc": "Template guide"
+  "template_doc": "Template guide",
+  "own": {
+   "title": "Or improve something of your own",
+   "body": "rsi new asks what should get better — a text, a drawing or page, code with tests, or any number a command prints — and writes a task that runs as written: the contract, a judge and a starting file.",
+   "shell": "Anywhere",
+   "note": "Rewrite the generated rubric in your own words before a serious run: the judge reads it literally. rsi setup suggests who should edit and who should judge."
+  }
  },
  "log_state": {
   "complete": "Complete",

@@ -2,9 +2,9 @@
 
 [English](INSTALL.md)
 
-本文对应 `0.2.0.dev0`，建议 Python 3.11。代码声明支持 Python 3.9+；视频、训练、GPU 和各助手 CLI 另有依赖。软件包没有发布到 PyPI，请从网站下载安装包，或在源码目录安装。
+本文对应 `0.3.0.dev0`，建议 Python 3.11。代码声明支持 Python 3.9+；视频、训练、GPU 和各助手 CLI 另有依赖。软件包没有发布到 PyPI，请从网站下载安装包，或在源码目录安装。
 
-当前有 13 个领域的完整多轮与独立验证，包含写作手册、合同演练和讲义。D07 保留已生成视频及服务受限的部分实测，D15 保留无 GPU 探测；两项资源例外不算完整实测。先看[35 秒真实产物短片](../examples/showcase-media/openrsi-demo.mp4)或[案例状态](DEMO-PLAN.zh-CN.md)，再选择要运行的模板。
+当前有 14 个领域的完整多轮与独立验证，包含写作手册、合同演练和讲义。D07 保留已生成视频及服务受限的部分实测，D15 保留无 GPU 探测；两项资源例外不算完整实测。先看[35 秒真实产物短片](../examples/showcase-media/openrsi-demo.mp4)或[案例状态](DEMO-PLAN.zh-CN.md)，再选择要运行的模板。
 
 ## 从网站安装
 
@@ -13,7 +13,7 @@
 ```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
-python -m pip install https://www.riseai.top/darwin/dist/rsi_anything-0.2.0.dev0-py3-none-any.whl
+python -m pip install https://www.riseai.top/darwin/dist/rsi_anything-0.3.0.dev0-py3-none-any.whl
 rsi --version
 rsi init
 ```
@@ -47,12 +47,12 @@ python -m build --wheel
 在另一个干净虚拟环境中安装实际生成的文件，例如：
 
 ```bash
-python -m pip install /path/to/rsi_anything-0.2.0.dev0-py3-none-any.whl
+python -m pip install /path/to/rsi_anything-0.3.0.dev0-py3-none-any.whl
 rsi --version
 rsi init
 ```
 
-当前交付的 `dist/rsi_anything-0.2.0.dev0-py3-none-any.whl` 已通过干净环境离线安装：16 个模板及其 `judge/`、README 和输入资源完整；初始化、固定评分、测试代理运行及导出通过。见 [包内容与 SHA256](../release/build-validation.json)、[安装回执](../release/install-receipt.json)。安装测试没有模型调用，不作为新增真实实验。源码级测试和 `scripts/` 不属于 wheel 中的命令行包。
+当前交付的 `dist/rsi_anything-0.3.0.dev0-py3-none-any.whl` 已在使用临时主目录的干净环境中离线安装通过：18 个模板与源码逐字节一致；初始化、固定评分、测试代理运行、导出、`rsi plugins`、`rsi setup --check`、`rsi new` 测试类任务以及画图模板的断网截图都通过。见 [包内容与 SHA256](../release/build-validation-0.3.0.dev0.json)、[安装回执](../release/install-receipt-0.3.0.dev0.json)；首发 `0.2.0.dev0` 的回执仍在同一目录。安装测试没有模型调用，不作为新增真实实验。源码级测试和 `scripts/` 不属于 wheel 中的命令行包。
 
 ## 明确使用哪个助手与模型
 

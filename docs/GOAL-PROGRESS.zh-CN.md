@@ -4,6 +4,8 @@
 
 **当前结果：13 个领域已完成真实多轮与作品验收；D07 部分实测，D15 待 GPU。最终 wheel 与干净环境安装已通过，首发本地候选按资源例外完成验收。** 完整多轮表示运行与产物齐全，不表示每轮都有提升。114 项测试通过，598 条作品清单哈希与 698 个展示入口核查通过。
 
+**2026-10-30 更新：首发后新增 D16 视觉，现为 16 个领域、18 个模板、14 个领域完整多轮。** 新增 `rsi new`、`rsi setup`、`roles:` 与插件名册；`0.3.0.dev0` wheel 在临时主目录的干净环境中离线安装通过。完整回归 180 项通过、1 项跳过，经过见[开发记录](DEVLOG.zh-CN.md)。
+
 ## 领域验收表
 
 模板名对应 `src/rsi_anything/templates/`。下表说明链接包含准确运行目录、作品、固定输入、评价方法和启动命令；模板 README 提供替换用户输入的方法。
@@ -24,6 +26,7 @@
 | D12 | 已验收 | WHO 资料科普 / `medical-explainer` | 3 轮 58.5→80；五版文本、数量与来源复验通过 | [案例](../examples/medical-explainer/README.md) | 保留公众科普用途限定 |
 | D13 | 已验收 | 百分比讲义 / `lesson-builder` | 3 轮，受限学生模型 2/10→10/10；保存原始回复并离线重放判分 | [案例](../examples/lesson-builder/README.md) | 不外推真人学习效果 |
 | D14 | 已验收 | 一周日程 / `weekly-planner` | 正式 3 轮 38.08→100；十四项活动无冲突、偏好满足；后两轮无改动 | [案例](../examples/weekly-planner/README.md) | 可直接查看前后日程 |
+| D16 | 已验收（首发后新增） | 鹈鹕画与落地页 / `svg-drawing`、`landing-page` | 鹈鹕两次运行 37→75（三次同分被拒）、加同分比较后 75→78；落地页 25→74.5；全部版本断网重渲染逐字节一致 | [鹈鹕](../examples/svg-drawing/README.md)、[落地页](../examples/landing-page/README.md) | 网站视觉实验室已展示；评分分辨率仍粗 |
 | D15 | 等待外部条件 | Softmax 与小模块 / `kernel-speed` | 模板与无 GPU 检查通过，实际结果为环境不可用、分数空；没有 GPU 实验 | [案例](../examples/kernel-speed/README.md) | 用户确认无个人 GPU，按资源例外交付；不租设备、不使用公司资源 |
 
 ## 共用交付
@@ -36,7 +39,7 @@
 | 产物与导出 | 已验收 | 初始、各轮、最终作品及配置、补丁、报告齐全；二进制媒体原样导出，598 条作品记录哈希一致。 |
 | 中断与资源 | 已验收 | 超时清理、原子状态、已完成基线复用、轮次恢复、视频事件缓存有回归测试；总时长在轮次间检查，费用未知不冒充零。 |
 | 统一展示 | 已验收 | [本地集合](../examples/index.html) 含 15 领域、版本比较、文本差异、视频、图表、日程；7 项展示测试与 698 个文件入口检查通过。 |
-| 安装构建 | 已验收 | 最终 wheel 含 16 个模板，干净环境完成初始化、评分、测试代理运行与导出；[构建校验](../release/build-validation.json)、[安装回执](../release/install-receipt.json)。 |
+| 安装构建 | 已验收 | 首发 wheel 含 16 个模板，见[构建校验](../release/build-validation.json)、[安装回执](../release/install-receipt.json)。当前 `0.3.0.dev0` 含 18 个模板，干净环境另验 `rsi new`、`rsi setup --check` 与断网截图：[构建校验](../release/build-validation-0.3.0.dev0.json)、[安装回执](../release/install-receipt-0.3.0.dev0.json)。 |
 | 文档接手 | 已验收 | 中英文 README、16 模板说明、[来源](OPEN-SOURCE.zh-CN.md)、[接手说明](HANDOFF.zh-CN.md)、[独立审计](RELEASE-AUDIT.zh-CN.md) 齐全。 |
 | 宣传素材 | 已验收 | [35 秒短演示](../examples/showcase-media/openrsi-demo.mp4) 来自真实保存作品，1280×720、无声；来源和 SHA256 已记录，完整解码通过。 |
 

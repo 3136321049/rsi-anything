@@ -1,0 +1,179 @@
+{
+  "status": "verified",
+  "checked_at": "2026-10-30",
+  "completed_at_utc": "2026-10-30T07:57:56.393008+00:00",
+  "purpose": "wheel 包内容核对：与当前源码逐字节一致、模板完整、无缓存与本机路径；未构建源码包。",
+  "build_command": [
+    "uv",
+    "build",
+    "--wheel",
+    "--out-dir",
+    "<build-dir>"
+  ],
+  "network_calls": 0,
+  "model_calls": 0,
+  "tool_versions": {
+    "python": "3.11.14",
+    "uv": "0.10.7"
+  },
+  "artifact": {
+    "path": "dist/rsi_anything-0.3.0.dev0-py3-none-any.whl",
+    "sha256": "4b7bb84de596baf8f8cf6246cdab85a4ab24e2abcac65169deb30cd69b1c413a",
+    "bytes": 296242,
+    "uncompressed_bytes": 587690,
+    "files": 207
+  },
+  "package_files": 202,
+  "source_files": 202,
+  "missing_from_wheel": [],
+  "differs_from_source": [],
+  "unwanted_files": [],
+  "local_path_hits": 0,
+  "template_count": 18,
+  "templates": [
+    {
+      "name": "business-report",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 10
+    },
+    {
+      "name": "code-repair",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 10
+    },
+    {
+      "name": "code-speed",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 7
+    },
+    {
+      "name": "contract-review",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 10
+    },
+    {
+      "name": "copywriting",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 7
+    },
+    {
+      "name": "cpu-classifier",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 9
+    },
+    {
+      "name": "kernel-speed",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 13
+    },
+    {
+      "name": "landing-page",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 9
+    },
+    {
+      "name": "lesson-builder",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 9
+    },
+    {
+      "name": "literature-review",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 10
+    },
+    {
+      "name": "medical-explainer",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 9
+    },
+    {
+      "name": "prompt-opt",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 8
+    },
+    {
+      "name": "quant-backtest",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 10
+    },
+    {
+      "name": "svg-drawing",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 7
+    },
+    {
+      "name": "video-cut",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 11
+    },
+    {
+      "name": "video-generation",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 9
+    },
+    {
+      "name": "weekly-planner",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 8
+    },
+    {
+      "name": "writing-guide",
+      "config_included": true,
+      "readme_included": true,
+      "judge_resources_included": true,
+      "all_source_resources_match": true,
+      "file_count": 9
+    }
+  ]
+}

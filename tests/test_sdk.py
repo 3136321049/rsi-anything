@@ -46,6 +46,29 @@ def test_missing_browser_is_reported_as_unavailable(tmp_path):
     assert json.loads((tmp_path / "out/error.json").read_text())["quality_result"] == "unknown"
 
 
+@pytest.mark.parametrize("png, says_written, ok", [("complete", True, True), ("truncated", True, False), ("complete", False, False)])
+def test_a_crash_after_a_written_screenshot_still_counts(tmp_path, png, says_written, ok):
+    """Chrome can crash on shutdown after writing the file; only a complete PNG it reported as written counts."""
+    import struct
+    import zlib
+
+    row = b"\x00" + b"\xff\xff\xff" * 2
+    chunk = lambda kind, data: struct.pack(">I", len(data)) + kind + data + struct.pack(">I", zlib.crc32(kind + data))
+    image = b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", 2, 1, 8, 2, 0, 0, 0)) \
+        + chunk(b"IDAT", zlib.compress(row)) + chunk(b"IEND", b"")
+    (tmp_path / "image.bin").write_bytes(image if png == "complete" else image[:-10])
+    browser = tmp_path / "fake-chrome"
+    browser.write_text("#!/bin/sh\nfor a; do case $a in --screenshot=*) cp " + str(tmp_path / "image.bin") + " ${a#--screenshot=};; esac; done\n"
+                       + ("echo '123 bytes written to file' >&2\n" if says_written else "") + "exit 133\n")
+    browser.chmod(0o755)
+    (tmp_path / "page.html").write_text("<p>hi</p>")
+    run = subprocess.run([sys.executable, "-c", "from pathlib import Path\nfrom rsi_anything import sdk\n"
+                          "sdk.screenshot(Path('page.html'), Path('out/page.png'), 800, 600)"],
+                         cwd=tmp_path, env={**os.environ, "RSI_BROWSER": str(browser)}, capture_output=True, text=True)
+    assert (run.returncode == 0) is ok, run.stderr
+    assert (tmp_path / "out/error.json").exists() is not ok
+
+
 def _png_rows(path: Path) -> list[bytes]:
     """Decode an 8-bit RGB PNG (what Chrome writes) into raw rows, enough to look at pixels."""
     import struct

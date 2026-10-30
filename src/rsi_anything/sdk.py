@@ -117,9 +117,20 @@ def screenshot(page: Path, png: Path, width: int, height: int, timeout: int = 90
             unavailable(f"browser timed out after {timeout}s rendering {Path(page).name}", "render")
         except OSError as exc:
             unavailable(f"browser could not start: {exc}", "render")
-    if run.returncode != 0 or not png.is_file() or png.stat().st_size == 0:
+    # Chrome can crash while shutting down (e.g. when its crash reporter has no home folder to write to)
+    # after it has written the screenshot; a complete PNG it reported as written still counts.
+    written = "written to file" in run.stdout + run.stderr and _complete_png(png)
+    if not written and (run.returncode != 0 or not png.is_file() or png.stat().st_size == 0):
         unavailable(f"browser could not render {Path(page).name}: {(run.stderr or run.stdout)[-400:]}", "render")
     return png
+
+
+def _complete_png(path: Path) -> bool:
+    try:
+        data = path.read_bytes()
+    except OSError:
+        return False
+    return data[:8] == b"\x89PNG\r\n\x1a\n" and data[-12:-8] == b"\x00\x00\x00\x00" and data[-8:-4] == b"IEND"
 
 
 class _Text(HTMLParser):

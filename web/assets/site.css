@@ -646,6 +646,7 @@ a.log-row:hover{background:rgba(255,255,255,.7)}
 .setup-main .terminal{margin:20px 0 14px}
 .setup-main .eyebrow{margin-bottom:10px;font-family:var(--mono);font-size:12px;color:var(--muted)}
 .template-help{color:var(--ink-2);font-size:15px;margin-top:14px}
+.own-title{margin:36px 0 10px;padding-top:28px;border-top:1px solid var(--line);font-size:22px}
 .downloads{display:grid;grid-template-columns:minmax(0,420px);gap:12px;margin:20px 0 14px}
 .download{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:14px;align-items:center;padding:16px;border-radius:14px;border:1px solid var(--line-2);transition:border-color .2s}
 .download:hover{border-color:var(--ink)}

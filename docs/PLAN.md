@@ -8,7 +8,7 @@ Updated: 2026-10-29. The first-release scope and resource exceptions are defined
 
 Use one local loop to let AI repeatedly edit code, text, configuration and media production methods against a clear goal and evaluation. The first version emphasizes real calls, visible artifacts and the full process: it shows users what changed, what the tools actually did, why something was kept or rejected, and what they can take away at the end.
 
-There are currently 15 domains and 16 templates. D01–D06 and D08–D14, 13 domains in all, have saved complete multi-round runs, final artifacts and independent verification; D05 covers both a single post and a reusable guide. D07 keeps a partial measured generation run limited by the service, and D15 keeps an entry point awaiting a measured GPU run. These two resource exceptions don't count toward measured passes. Evaluation uses the basic program checks each task needs plus whatever model feedback is available; sophisticated calibration, strong adversarial isolation and advanced search aren't prerequisites for the first release.
+There are currently 16 domains and 18 templates. D01–D06, D08–D14 and D16, 14 domains in all, have saved complete multi-round runs, final artifacts and independent verification; D05 covers both a single post and a reusable guide. D07 keeps a partial measured generation run limited by the service, and D15 keeps an entry point awaiting a measured GPU run. These two resource exceptions don't count toward measured passes. Evaluation uses the basic program checks each task needs plus whatever model feedback is available; sophisticated calibration, strong adversarial isolation and advanced search aren't prerequisites for the first release.
 
 ## Main loop
 

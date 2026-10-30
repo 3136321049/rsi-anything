@@ -2,9 +2,9 @@
 
 [简体中文](INSTALL.zh-CN.md)
 
-This guide covers `0.2.0.dev0`. Python 3.11 is recommended. The code declares support for Python 3.9+; video, training, GPU and each agent's CLI have their own dependencies. The package isn't published on PyPI: download it from the website, or install from a source checkout.
+This guide covers `0.3.0.dev0`. Python 3.11 is recommended. The code declares support for Python 3.9+; video, training, GPU and each agent's CLI have their own dependencies. The package isn't published on PyPI: download it from the website, or install from a source checkout.
 
-13 domains currently have complete multi-round runs with independent verification, including the writing guide, the contract exercise and the lesson. D07 keeps the videos it generated and a partial measured run limited by the service; D15 keeps an environment probe run without a GPU. These two resource exceptions don't count as complete measured runs. Watch the [35-second clip of real outputs](../examples/showcase-media/openrsi-demo.mp4) or check the [run status (Chinese)](DEMO-PLAN.zh-CN.md) before you pick a template to run.
+14 domains currently have complete multi-round runs with independent verification, including the writing guide, the contract exercise and the lesson. D07 keeps the videos it generated and a partial measured run limited by the service; D15 keeps an environment probe run without a GPU. These two resource exceptions don't count as complete measured runs. Watch the [35-second clip of real outputs](../examples/showcase-media/openrsi-demo.mp4) or check the [run status (Chinese)](DEMO-PLAN.zh-CN.md) before you pick a template to run.
 
 ## Install from the website
 
@@ -13,7 +13,7 @@ Install the wheel from the website into a fresh virtual environment:
 ```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
-python -m pip install https://www.riseai.top/darwin/dist/rsi_anything-0.2.0.dev0-py3-none-any.whl
+python -m pip install https://www.riseai.top/darwin/dist/rsi_anything-0.3.0.dev0-py3-none-any.whl
 rsi --version
 rsi init
 ```
@@ -47,12 +47,12 @@ python -m build --wheel
 Install the file that was actually built into a separate, clean virtual environment, for example:
 
 ```bash
-python -m pip install /path/to/rsi_anything-0.2.0.dev0-py3-none-any.whl
+python -m pip install /path/to/rsi_anything-0.3.0.dev0-py3-none-any.whl
 rsi --version
 rsi init
 ```
 
-The delivered `dist/rsi_anything-0.2.0.dev0-py3-none-any.whl` passed an offline install in a clean environment: all 16 templates are complete with their `judge/`, README and input resources, and init, fixed evaluation, a test-agent run and export all passed. See [package contents and SHA256](../release/build-validation.json) and the [install receipt](../release/install-receipt.json). The install test made no model calls and doesn't count as a new real experiment. Source-level tests and `scripts/` aren't part of the command-line package in the wheel.
+The delivered `dist/rsi_anything-0.3.0.dev0-py3-none-any.whl` passed an offline install in a clean environment with a temporary home folder: all 18 templates match the source byte for byte, and init, fixed evaluation, a test-agent run, export, `rsi plugins`, `rsi setup --check`, a `rsi new` tests task and an offline screenshot of the drawing template all passed. See [package contents and SHA256](../release/build-validation-0.3.0.dev0.json) and the [install receipt](../release/install-receipt-0.3.0.dev0.json); the first release's receipts for `0.2.0.dev0` stay in the same folder. The install test made no model calls and doesn't count as a new real experiment. Source-level tests and `scripts/` aren't part of the command-line package in the wheel.
 
 ## Choose the agent and model explicitly
 

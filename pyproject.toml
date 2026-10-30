@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "rsi-anything"
-version = "0.2.0.dev0"
+version = "0.3.0.dev0"
 description = "Point any coding agent at anything you can score. A git ratchet keeps only the changes a frozen judge proves better."
 readme = "README.md"
 requires-python = ">=3.9"

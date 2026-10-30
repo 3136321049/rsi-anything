@@ -4,7 +4,7 @@
 
 Updated: 2026-10-24. This page separates what the code actually calls, public material used as input, and projects used only as research references. More detailed versions, call sites and verification records are in each template README, the frozen configs and the experiment directories.
 
-13 domains currently have real multi-round runs and independent verification. D07 has only partial generation results, and the cause of the later service errors is unknown. D15 has no measured GPU run. Whether a component is in a template, whether it was really called, and whether the experiment was completed are each stated separately; one doesn't stand in for another.
+14 domains currently have real multi-round runs and independent verification. D07 has only partial generation results, and the cause of the later service errors is unknown. D15 has no measured GPU run. Whether a component is in a template, whether it was really called, and whether the experiment was completed are each stated separately; one doesn't stand in for another.
 
 Code written for this project is provided under the root [LICENSE](../LICENSE). It doesn't change the terms of use for third-party libraries, model weights, source material, market data, videos or derived outputs.
 

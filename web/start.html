@@ -6,13 +6,19 @@
 <div class="terminal"><div class="terminal-top"><span class="mono">{{start.install.shell}}</span><button class="copy-btn" data-copy-target="install-code">{{copy}}</button></div><pre id="install-code">python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install <span data-wheel-url>__WHEEL_URL__</span>
-rsi agents</pre></div>
+rsi setup</pre></div>
 <p class="subtle">{{start.install.note}}</p>
-<div class="downloads"><a class="download" href="__BASE__dist/__WHEEL__" download><span class="mono">.whl</span><strong>{{start.install.wheel}}</strong><small>rsi-anything 0.2.0.dev0 · __WHEEL_SIZE__</small></a></div>
+<div class="downloads"><a class="download" href="__BASE__dist/__WHEEL__" download><span class="mono">.whl</span><strong>{{start.install.wheel}}</strong><small>rsi-anything 0.3.0.dev0 · __WHEEL_SIZE__</small></a></div>
 <p class="subtle">{{start.install.private}}</p></article>
-<article id="first-run"><p class="eyebrow">02 · Run</p><h2>{{start.run.title}}</h2><p>{{start.run.body}}</p><label class="field-label" for="template-choice">{{start.run.choose}}</label><div class="select-wrap"><select id="template-choice"><option value="code-repair">{{start.run.opt_repair}}</option><option value="code-speed">{{start.run.opt_speed}}</option><option value="cpu-classifier">{{start.run.opt_model}}</option><option value="video-cut">{{start.run.opt_video}}</option></select></div><p id="template-help" class="template-help"></p>
+<article id="first-run"><p class="eyebrow">02 · Run</p><h2>{{start.run.title}}</h2><p>{{start.run.body}}</p><label class="field-label" for="template-choice">{{start.run.choose}}</label><div class="select-wrap"><select id="template-choice"><option value="code-repair">{{start.run.opt_repair}}</option><option value="code-speed">{{start.run.opt_speed}}</option><option value="cpu-classifier">{{start.run.opt_model}}</option><option value="video-cut">{{start.run.opt_video}}</option><option value="svg-drawing">{{start.run.opt_svg}}</option><option value="landing-page">{{start.run.opt_landing}}</option></select></div><p id="template-help" class="template-help"></p>
 <div class="terminal"><div class="terminal-top"><span class="mono">{{start.run.shell}}</span><button class="copy-btn" data-copy-target="run-code">{{copy}}</button></div><pre id="run-code"></pre></div>
-<p class="subtle">{{start.run.note}}</p></article>
+<p class="subtle">{{start.run.note}}</p>
+<h3 class="own-title">{{start.own.title}}</h3><p>{{start.own.body}}</p>
+<div class="terminal"><div class="terminal-top"><span class="mono">{{start.own.shell}}</span><button class="copy-btn" data-copy-target="own-code">{{copy}}</button></div><pre id="own-code">rsi new my-task
+cd my-task
+rsi check --stress
+rsi run --live</pre></div>
+<p class="subtle">{{start.own.note}}</p></article>
 <article id="results"><p class="eyebrow">03 · Review</p><h2>{{start.results.title}}</h2><p>{{start.results.body}}</p>
 <div class="terminal"><div class="terminal-top"><span class="mono">{{start.results.shell}}</span><button class="copy-btn" data-copy-target="result-code">{{copy}}</button></div><pre id="result-code">rsi status
 rsi report

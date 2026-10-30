@@ -614,7 +614,7 @@ function renderStart() {
     const template = choice.value;
     $("#template-help").innerHTML = `${esc(t("start.pre." + template))} <button class="inline-link" data-doc="${esc(guide("src/rsi_anything/templates/" + template))}">${esc(t("start.template_doc"))} ↗</button>`;
     const install = template === "cpu-classifier" ? "\npython -m pip install -r requirements.txt" : "";
-    $("#run-code").textContent = `rsi init ${template} my-rsi-task\ncd my-rsi-task${install}\nrsi check\nrsi run --agent codex --model YOUR_MODEL --rounds 3${template === "video-cut" ? " --jury cli:codex:YOUR_MODEL" : ""}`;
+    $("#run-code").textContent = `rsi init ${template} my-rsi-task\ncd my-rsi-task${install}\nrsi check\nrsi run --agent codex --model YOUR_MODEL --rounds 3${template === "video-cut" ? " --jury cli:codex:YOUR_MODEL" : ["svg-drawing", "landing-page"].includes(template) ? " --jury cli:claude --live" : ""}`;
     const next = new URL(location.href); next.searchParams.set("template", template);
     history.replaceState(null, "", next);
   }

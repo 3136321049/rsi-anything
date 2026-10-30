@@ -6,7 +6,7 @@
 
 DARWIN is an evolution lab by RiseAI, built on the Open RSI toolkit (`rsi-anything`). A coding agent edits a real artifact — code, a prompt, a model configuration, an article, a video cut — one round at a time. A fixed evaluator checks every attempt: tests, a metric, or a model jury. Better versions become Git commits; rejected and failed attempts are saved next to them. You can inspect the starting point, every attempt, the final artifact and the reason behind each decision.
 
-The current development version is `0.2.0.dev0`: **15 domains, 16 templates, 13 domains with complete multi-round runs** and independent verification. Two domains are resource exceptions and are not counted as complete: video generation is partially measured because the public generation service stopped responding, and GPU kernels have only a template and an environment probe because no personal GPU is available.
+The current development version is `0.3.0.dev0`: **16 domains, 18 templates, 14 domains with complete multi-round runs** and independent verification. Two domains are resource exceptions and are not counted as complete: video generation is partially measured because the public generation service stopped responding, and GPU kernels have only a template and an environment probe because no personal GPU is available.
 
 ## A few real runs
 
@@ -28,7 +28,7 @@ Requires Python 3.11 (3.9+ is declared), Git, and a coding agent you're signed i
 ```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
-python -m pip install https://www.riseai.top/darwin/dist/rsi_anything-0.2.0.dev0-py3-none-any.whl
+python -m pip install https://www.riseai.top/darwin/dist/rsi_anything-0.3.0.dev0-py3-none-any.whl
 rsi setup
 rsi init code-repair my-first-run
 cd my-first-run

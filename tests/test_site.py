@@ -59,7 +59,7 @@ def test_dictionaries_cover_templates_and_script():
     for template in build_site.CASES:
         used |= {f"lab.limits.{template}", f"start.pre.{template}"}
     for template in build_site.VISUAL:
-        used.add(f"lab.limits.{template}")
+        used |= {f"lab.limits.{template}", f"start.pre.{template}"}
         rubric = yaml.safe_load((ROOT / "src/rsi_anything/templates" / template / "judge/rubric.yaml").read_text(encoding="utf-8"))
         used |= {f"lab.visual.criteria.{item['name']}" for item in rubric["criteria"]}
     used |= {f"lab.video.summary.{n}" for n in range(5)}
@@ -169,6 +169,17 @@ def test_public_site_contains_only_selected_roots_and_downloads(site):
             assert any(p.endswith("/ledger.jsonl") for p in archive.namelist())
     with zipfile.ZipFile(site / "downloads/svg-drawing.zip") as archive:
         assert {p.split("/")[0] for p in archive.namelist()} == set(build_site.VISUAL["svg-drawing"])
+
+
+def test_start_page_offers_every_lab_template(site):
+    for prefix in build_site.LANGS.values():
+        page = (site / prefix / "start/index.html").read_text(encoding="utf-8")
+        offered = set(re.findall(r'<option value="([\w-]+)"', page))
+        assert offered == {*build_site.CASES, *build_site.VISUAL}
+        assert "rsi setup" in page and "rsi new my-task" in page
+        assert build_site.WHEEL in page and "0.3.0.dev0" in page
+        for template in offered:
+            assert (ROOT / "src/rsi_anything/templates" / template / "rsi.yaml").is_file()
 
 
 def test_pages_do_not_point_to_the_private_repository(site):

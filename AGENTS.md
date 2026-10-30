@@ -6,7 +6,7 @@
 
 依次阅读 `README.zh-CN.md`、`docs/COLLABORATION.zh-CN.md`、`docs/HANDOFF.zh-CN.md` 和 `docs/GOAL-PROGRESS.zh-CN.md`。架构看 `docs/PLAN.zh-CN.md`，工程结论看 `docs/DEVLOG.zh-CN.md`，资料来源看 `docs/OPEN-SOURCE.zh-CN.md`。本机若有 `.agents/WORKLOG.md`，可补充读取，但不能要求另一台电脑拥有它。
 
-当前有 15 个领域、16 个模板。13 个领域有完整真实多轮；D07 为生成服务受限的部分实测，D15 待个人 GPU。完整运行不表示每轮提升。默认先查看 `examples/`，不要为了接手而重新运行所有模型任务。
+当前有 16 个领域、18 个模板。14 个领域有完整真实多轮（D16 视觉为首发后新增）；D07 为生成服务受限的部分实测，D15 待个人 GPU。完整运行不表示每轮提升。默认先查看 `examples/`，不要为了接手而重新运行所有模型任务。
 
 ## 修改与实验
 

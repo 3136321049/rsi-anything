@@ -2,5 +2,5 @@
 
 from .result import report_result
 
-__version__ = "0.2.0.dev0"
+__version__ = "0.3.0.dev0"
 __all__ = ["report_result", "__version__"]

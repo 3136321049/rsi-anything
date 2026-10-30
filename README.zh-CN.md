@@ -6,7 +6,7 @@
 
 DARWIN 是 RiseAI 的进化实验室，底层是 Open RSI 工具包（`rsi-anything`）。编程助手一轮轮修改真实作品：代码、提示词、模型配置、文章、视频剪辑。每次尝试都由固定的评判方式检查，可能是测试、指标或模型评委。更好的版本成为 Git 提交，被拒绝和失败的尝试也一起保存。你可以看到初稿、每一次尝试、最终作品，以及每个决定的理由。
 
-当前开发版本为 `0.2.0.dev0`：**15 个领域、16 个模板，其中 13 个领域已有完整多轮记录**和独立验证。另外两个领域属于资源例外，不计入完整数量：视频生成因公开生成服务停止响应只完成部分实测；GPU 算子因缺少个人 GPU，目前只有模板和环境探测。
+当前开发版本为 `0.3.0.dev0`：**16 个领域、18 个模板，其中 14 个领域已有完整多轮记录**和独立验证。另外两个领域属于资源例外，不计入完整数量：视频生成因公开生成服务停止响应只完成部分实测；GPU 算子因缺少个人 GPU，目前只有模板和环境探测。
 
 ## 先看几个真实案例
 
@@ -28,7 +28,7 @@ DARWIN 是 RiseAI 的进化实验室，底层是 Open RSI 工具包（`rsi-anyth
 ```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
-python -m pip install https://www.riseai.top/darwin/dist/rsi_anything-0.2.0.dev0-py3-none-any.whl
+python -m pip install https://www.riseai.top/darwin/dist/rsi_anything-0.3.0.dev0-py3-none-any.whl
 rsi setup
 rsi init code-repair my-first-run
 cd my-first-run

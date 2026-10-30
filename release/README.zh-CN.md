@@ -1,5 +1,7 @@
 # 本地首发候选
 
+> 2026-10-30：当前安装包为 [`rsi_anything-0.3.0.dev0`](../dist/rsi_anything-0.3.0.dev0-py3-none-any.whl)（18 个模板，含 `rsi new`、`rsi setup`、角色与插件），验证见 [构建校验](build-validation-0.3.0.dev0.json) 与 [干净安装回执](install-receipt-0.3.0.dev0.json)。以下为首发 `0.2.0.dev0` 的原始记录，保持不变。
+
 版本 `0.2.0.dev0`，日期 2026-10-24。提供 15 个领域、16 个模板；13 个领域有完整真实多轮，D07 为部分视频生成实测，D15 待个人 GPU。当前开发与接力以 `rebuild` 分支和[跨电脑协作](../docs/COLLABORATION.zh-CN.md)为准。
 
 | 入口 | 内容 |
