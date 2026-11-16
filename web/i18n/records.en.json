@@ -244,5 +244,6 @@
  "补全鹈鹕特征及身体与自行车的接触关系，应能提高物种辨识度和骑乘可信度。": "Fills in the pelican's features and how its body meets the bicycle, so it reads as a pelican and as actually riding.",
  "评委只看渲染出的图：一幅矢量画、一页落地页，逐轮修改，留下更好看的版本。": "The judge sees only the rendered picture: a vector drawing and a landing page, changed round by round, keeping the versions that look better.",
  "鹈鹕骑自行车": "Pelican on a bicycle",
- "与当前最好版本同分，并排比较没有完成，按规则不替换。": "Tied with the best version, but the side-by-side comparison didn't finish, so the best version stays."
+ "与当前最好版本同分，并排比较没有完成，按规则不替换。": "Tied with the best version, but the side-by-side comparison didn't finish, so the best version stays.",
+ "服务或环境未完成，未获得可评价的作品，质量未知。原始记录保持不变。": "The service or environment didn't finish, so there was no artifact to judge and its quality is unknown. The raw record is kept unchanged."
 }

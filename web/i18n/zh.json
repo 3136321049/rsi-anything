@@ -30,10 +30,13 @@
   "start": "开始使用",
   "alt": "English",
   "alt_long": "English version",
-  "open": "打开菜单"
+  "open": "打开菜单",
+  "theme": "主题"
  },
  "nav_open": "打开菜单",
  "nav_close": "关闭菜单",
+ "theme_to_dark": "切换到深色",
+ "theme_to_light": "切换到浅色",
  "lang_hint": "这个网站有中文版。",
  "lang_hint_go": "切换到中文 →",
  "dialog": {

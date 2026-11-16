@@ -2,7 +2,9 @@
 <html lang="{{html_lang}}">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#fafaf7">
+<meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121411" media="(prefers-color-scheme: dark)">
+<script>try{var m=localStorage.getItem("darwin-theme");if(m==="dark"||m==="light")document.documentElement.dataset.theme=m}catch(e){}</script>
 <title>__TITLE__</title>
 <meta name="description" content="{{meta.description}}">
 <link rel="canonical" href="__CANONICAL__">
@@ -31,6 +33,7 @@
 <a href="__HOME__#how" data-nav="how">{{nav.how}}</a>
 <a href="__HOME__cases/" data-nav="cases">{{nav.cases}}</a>
 <a class="nav-lang" href="__ALT__" hreflang="{{alt_lang}}" lang="{{alt_lang}}" data-lang-switch="{{alt_lang}}"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M1.8 8h12.4M8 1.7c1.8 1.9 2.6 4 2.6 6.3S9.8 12.4 8 14.3C6.2 12.4 5.4 10.3 5.4 8S6.2 3.6 8 1.7Z" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>{{nav.alt}}</a>
+<button class="theme-toggle" type="button" data-mode="light" aria-label="{{nav.theme}}" title="{{nav.theme}}"><svg class="moon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.6 9.9A5.9 5.9 0 0 1 6.1 2.4a5.9 5.9 0 1 0 7.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg><svg class="sun" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.2v1.6M8 13.2v1.6M1.2 8h1.6M13.2 8h1.6M3.2 3.2l1.1 1.1M11.7 11.7l1.1 1.1M3.2 12.8l1.1-1.1M11.7 4.3l1.1-1.1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="theme-label">{{nav.theme}}</span></button>
 <a class="nav-start" href="__HOME__start/" data-nav="start">{{nav.start}}<span aria-hidden="true">→</span></a>
 </nav>
 <button class="menu-toggle" aria-label="{{nav.open}}" aria-controls="main-nav" aria-expanded="false"><span></span><span></span></button>

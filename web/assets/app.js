@@ -80,6 +80,26 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") setMenu(fals
 addEventListener("scroll", () => header.classList.toggle("scrolled", scrollY > 8), { passive: true });
 $$(`[data-nav="${page === "start" ? "start" : page === "cases" ? "cases" : ""}"]`).forEach(a => a.setAttribute("aria-current", "page"));
 
+// 深浅主题：默认跟随系统；访客点过就记住选择（<head> 里的小脚本在首帧前恢复）。
+const themeButton = $(".theme-toggle");
+const systemDark = matchMedia("(prefers-color-scheme: dark)");
+const currentTheme = () => document.documentElement.dataset.theme || (systemDark.matches ? "dark" : "light");
+function paintTheme() {
+  if (!themeButton) return;
+  const mode = currentTheme(), label = mode === "dark" ? t("theme_to_light") : t("theme_to_dark");
+  themeButton.dataset.mode = mode;
+  themeButton.setAttribute("aria-label", label);
+  themeButton.title = label;
+}
+themeButton?.addEventListener("click", () => {
+  const next = currentTheme() === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem("darwin-theme", next); } catch { /* 无痕模式 */ }
+  paintTheme();
+});
+systemDark.addEventListener?.("change", paintTheme);
+paintTheme();
+
 function remember(choice) { try { localStorage.setItem("darwin-lang", choice); } catch { /* 无痕模式 */ } }
 $$("[data-lang-switch]").forEach(a => a.addEventListener("click", () => {
   remember(a.dataset.langSwitch);

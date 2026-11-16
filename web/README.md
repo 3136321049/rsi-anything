@@ -15,7 +15,7 @@ python -m http.server 8765 --bind 127.0.0.1 --directory build/site
 - `i18n/en.json`、`i18n/zh.json`：界面文字。模板用 `{{键名}}` 引用，脚本用 `t("键名")`；两份文件的键必须一致，缺键时构建失败。
 - `i18n/records.en.json`、`i18n/records.zh.json`：实验记录（领域标题、修改思路、评委反馈等）的译文，键为原文。英文页缺译文时构建失败；`python scripts/site_i18n.py --missing en` 可列出待翻译文字。作品文件本身保持原语言。
 - 说明文档中英各一份：`docs/X.zh-CN.md` 对应 `docs/X.md`，模板、案例和环境探测的 `README.md` 对应同目录 `README.en.md`（`THIRD_PARTY.md` 同理）。英文页的文档按钮与案例链接自动打开英文版；修改中文说明时同步英文版，新增说明须带译文，否则测试失败。
-- `assets/site.css`：设计变量、组件与窄屏布局。浅色底配深色放映区，强调色只用于“保留”的版本，拒绝用橙色。
+- `assets/site.css`：设计变量、组件与窄屏布局。浅色底配深色放映区，强调色只用于“保留”的版本，拒绝用橙色。深色主题只改 `:root` 的变量（系统为深色时自动启用，`html[data-theme]` 记录访客的手动选择）；新样式请用变量而不是写死颜色，否则深色下会出现浅底块或看不清的文字。
 - `assets/app.js`：首页进化回放、四个实验室、全部实验浏览与比较、文档预览和语言切换。视觉实验室按轮翻看截图、分项分数与当时最好版本的对比，可连播保留的版本。
 - `assets/fonts/`：自托管的 Inter 与 JetBrains Mono 拉丁子集（SIL OFL），避免依赖国内无法访问的字体服务；中文使用系统字体。
 
