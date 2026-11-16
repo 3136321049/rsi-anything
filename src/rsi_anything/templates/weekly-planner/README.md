@@ -1,8 +1,8 @@
-# D14：安排工作之外的一周
+# D14: Plan the week outside work
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-输入是一名普通上班族的固定工作、通勤、晚饭与聚会，以及 8 类共 14 次可安排活动。初稿已经安排部分活动，但次数不足，有些时间不符合偏好。AI 只修改 `schedule.json`，逐步补全并调整。
+The input is an ordinary office worker's fixed work hours, commute, dinners and a get-together, plus 14 schedulable sessions across 8 kinds of activity. The starting draft already schedules some activities, but not enough sessions, and some times don't match preferences. The AI edits only `schedule.json`, filling in and adjusting the schedule step by step.
 
 ```bash
 rsi init weekly-planner my-week
@@ -12,12 +12,12 @@ rsi check
 rsi run --agent codex --rounds 6
 ```
 
-`out/schedule.html` 是可在浏览器打开的七日日程，`out/schedule.md` 是文字版本，`out/schedule.json` 包含固定安排与候选安排，`out/metrics.json` 记录评分和具体问题。配置中的 `outputs: [out]` 供引擎保存每轮产物，便于比较安排变化。
+`out/schedule.html` is a seven-day schedule you can open in a browser, `out/schedule.md` is the text version, `out/schedule.json` contains the fixed items and the candidate sessions, and `out/metrics.json` records the score and specific problems. `outputs: [out]` in the configuration lets the engine save each round's outputs, so changes to the schedule can be compared.
 
-评分前检查格式、时间冲突、清醒时间、允许日期、单次时长、次数上限与每天最多 240 分钟的活动。固定事项不能挪动，相邻事项的结束与开始可以相同。得分为 70 分的加权任务覆盖，加上 30 分的加权偏好覆盖；每类活动按所需次数封顶。少排活动可继续优化，多排重复活动不能刷分。空日程虽没有冲突，但得分为零。
+Before scoring, the evaluator checks the format, time conflicts, waking hours, allowed days, session length, count limits and a cap of 240 minutes of activities per day. Fixed items can't move; one item may end at the same time the next one starts. The score is 70 points of weighted task coverage plus 30 points of weighted preference coverage, and each kind of activity counts only up to its required number of sessions. Scheduling too few activities leaves room to improve, while adding extra repeats can't pad the score. An empty schedule has no conflicts but scores zero.
 
-替换输入：在开始新实验前编辑 `judge/requirements.json`，修改 `fixed`、`tasks`、`awake` 等，再提交。每个任务写清 `id`、名称、次数、分钟数、权重、允许星期和偏好时间窗口。`schedule.json` 使用 `sessions` 数组，每项如 `{"task":"exercise","day":1,"start":"07:00","end":"07:45"}`；星期 1–7 表示周一到周日，不跨午夜。当前按单周本地钟表时间评审，不处理日期、时区或夏令时转换。
+Replacing the inputs: before starting a new experiment, edit `fixed`, `tasks`, `awake` and the other fields in `judge/requirements.json`, then commit. Each task states its `id`, name, number of sessions, minutes, weight, allowed weekdays and preferred time windows. `schedule.json` uses a `sessions` array, with items like `{"task":"exercise","day":1,"start":"07:00","end":"07:45"}`; days 1–7 mean Monday to Sunday, and sessions don't cross midnight. Reviews currently use local clock time for a single week, with no handling of dates, time zones or daylight saving time.
 
-数据为本项目编写的虚构生活需求，不访问个人日历。只用 Python 3.9+ 标准库，无额外依赖或服务费用。`judge/evaluate.py` 使用 [datetime.strptime](https://docs.python.org/3/library/datetime.html) 验证时间和 [html.escape](https://docs.python.org/3/library/html.html) 生成可读页面；官方资料查阅日期为 2026-10-23。当前规模直接逐项检查即可，没有引入额外排程求解器。
+The data is a set of fictional everyday needs written for this project; it doesn't access any personal calendar. It uses only the Python 3.9+ standard library, with no extra dependencies or service fees. `judge/evaluate.py` uses [datetime.strptime](https://docs.python.org/3/library/datetime.html) to validate times and [html.escape](https://docs.python.org/3/library/html.html) to build the readable page; the official docs were consulted on 2026-10-23. At the current size, checking each item directly is enough, so no extra scheduling solver is used.
 
-基线与验收器测试不代表真实模型完成了多轮规划。模型实验需另存 `examples/weekly-planner/runs/`，保留完整记录。
+Baseline and evaluator tests don't mean a real model has completed multi-round planning. Model experiments should be saved separately under `examples/weekly-planner/runs/`, with complete records.

@@ -1,8 +1,8 @@
-# D11：示例合同问题梳理
+# D11: Sorting out issues in a synthetic contract
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-默认材料是项目作者自写的虚构设计服务合同，含交付范围、付款、变更排期、验收返工、素材权利、终止结算和客户资料使用七类问题。不是用户的真实合同，不判断合同效力。
+The default material is a fictional design-services contract written by the project author. It contains seven categories of issues: delivery scope, payment, changes and scheduling, acceptance and rework, rights in materials, termination and settlement, and use of client data. It isn't a user's real contract, and the template doesn't judge whether a contract is valid.
 
 ```sh
 rsi init contract-review demo-contract
@@ -11,12 +11,12 @@ python3 judge/prepare.py
 rsi run --rounds 6
 ```
 
-助手只改 `review.json`。每项写 `issue_id`、`clause_id`、原文 `quote`、争议 `risk` 和建议 `suggestion`，编号来自 `judge/review-guide.json`。默认初稿只讨论两类问题，留出发现遗漏、说明后果和完善条款的空间。
+The agent edits only `review.json`. Each item has an `issue_id`, a `clause_id`, the original `quote`, the `risk` of dispute and a `suggestion`; the IDs come from `judge/review-guide.json`. The default starting draft discusses only two issue categories, which leaves room to find omissions, explain consequences and improve clauses.
 
-程序核对条款定位、原句和内容长度，输出七类问题的覆盖率；模型评委另评风险解释、修改建议和阅读体验。覆盖某个编号不代表该条建议合格。评审标准与合同均冻结，初稿和后续候选不是预写的播放序列。
+The program checks clause locations, quoted sentences and content length, and reports coverage of the seven issue categories. The model judge separately rates the risk explanations, the suggested revisions and readability. Covering an ID doesn't mean the suggestion for it is adequate. The review criteria and the contract are both frozen; the starting draft and later candidates aren't a pre-written sequence played back.
 
-`out/review.html`、`review.md` 是可读报告，`coverage.json` 是定位与遗漏记录，其他文件供评审使用；`outputs: [out]` 保存逐轮产物。准备脚本只用 Python 标准库，可离线执行；多轮运行需个人助手或个人模型账号。
+`out/review.html` and `review.md` are the readable report, `coverage.json` records locations and gaps, and the other files are for the review; `outputs: [out]` saves each round's outputs. The prepare script uses only the Python standard library and can run offline; multi-round runs need your own agent or personal model account.
 
-更换材料时，在新运行前修改 `judge/contract.json`、`review-guide.json`，同步更新初稿和评分细则。演练标准为作者自拟，只借鉴 [business.gov.au 的合同写作要素](https://business.gov.au/people/contractors/prepare-a-contract)，不把澳大利亚法律套到本例。来源核查日期为 2026-10-24。
+To change the material, edit `judge/contract.json` and `review-guide.json` before a new run, and update the starting draft and scoring rubric to match. The exercise criteria were written by the author and only draw on [the contract essentials from business.gov.au](https://business.gov.au/people/contractors/prepare-a-contract); Australian law isn't applied to this example. Sources were checked on 2026-10-24.
 
-所有成稿保留“示例、不构成法律意见”的说明。已完成真实三轮实验，最终保留分数从 41 提高到 91.5，覆盖预设的七类问题；记录与逐版复验保存在仓库 `examples/contract-review/`。
+Every finished draft keeps the "示例、不构成法律意见" note ("an example; not legal advice"). A real three-round experiment is complete: the final kept score rose from 41 to 91.5, covering all seven preset issue categories. The records and per-version re-verification are saved in the repository under `examples/contract-review/`.

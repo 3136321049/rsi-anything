@@ -1,4 +1,4 @@
-"""验证领域评审器与产物；这些固定测试不代表真实模型多轮运行。"""
+"""Check the domain judges and outputs; these fixed tests do not stand for real multi-round model runs."""
 import importlib.util
 import datetime
 import json
@@ -87,7 +87,7 @@ def monthly_totals(entries, month):
     assert result["score"] == 100
     assert result["metrics"]["all_tests_passed"]
     sample = json.loads((root / "out/example.json").read_text())
-    assert sample["totals_cents"] == {"餐饮": 3740, "交通": 420}
+    assert sample["totals_cents"] == {"dining": 3740, "transport": 420}
     assert sum(sample["dinner_split_cents"]) == 10000
 
 
@@ -101,7 +101,7 @@ def test_schedule_rejects_conflicts_and_duplicate_sessions(tmp_path):
     assert not result["gates"]["no_conflicts"]
     assert not result["gates"]["session_limits"]
     assert result["score"] <= 100
-    assert "工作" in (root / "out/schedule.html").read_text()
+    assert "Work" in (root / "out/schedule.html").read_text()
 
 
 def test_schedule_full_feasible_plan_and_malformed_input(tmp_path):
@@ -129,7 +129,7 @@ def test_schedule_full_feasible_plan_and_malformed_input(tmp_path):
 
 
 @pytest.mark.skipif(not importlib.util.find_spec("sklearn") or not importlib.util.find_spec("matplotlib"),
-                    reason="D04 可选依赖：安装 cpu-classifier/requirements.txt 后验证真实训练")
+                    reason="D04 optional dependencies: install cpu-classifier/requirements.txt to check real training")
 def test_classifier_actual_training_fixed_split_and_invalid_config(tmp_path):
     root = project(tmp_path, "cpu-classifier")
     baseline = evaluate(root)
@@ -170,7 +170,7 @@ def test_backtest_next_day_execution_costs_and_future_independence():
                 "minimum_trade_orders": 2}
     payload, curve, trades = module.backtest(rows, config, settings)
     assert all(payload["gates"].values())
-    assert trades and all(row["signal_date"] < row["date"] for row in trades if row["side"] != "期末平仓")
+    assert trades and all(row["signal_date"] < row["date"] for row in trades if row["side"] != "close_at_end")
     assert curve[-1]["position_units"] == 0
     no_cost, _, _ = module.backtest(rows, config, {**settings, "fee_bps": 0, "slippage_bps": 0})
     assert no_cost["metrics"]["ending_equity"] > payload["metrics"]["ending_equity"]

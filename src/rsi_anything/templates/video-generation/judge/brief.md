@@ -1,7 +1,7 @@
-# 晨光陶瓷杯短视频
+# Ceramic Mug in Morning Light
 
-为一个虚构的家居品牌制作约两秒、横向画面的产品氛围片。主角是一只无品牌、浅米白色陶瓷杯，放在木桌上；晨光从侧面的窗户照入，杯口有细微蒸汽，背景简洁且略微虚化。画面应让人感到安静温暖，杯身完整、主体突出，没有人脸、文字、水印或品牌标志。
+Make a landscape product mood clip of about two seconds for a fictional homeware brand. The hero is an unbranded, light off-white ceramic mug on a wooden table; morning light comes in from a window at the side, a faint wisp of steam rises from the rim, and the background is simple and slightly blurred. The image should feel quiet and warm, with the whole mug visible and the subject standing out, and no faces, text, watermarks or brand logos.
 
-镜头可轻微靠近，让蒸汽和光线有自然变化，不要剧烈晃动。现阶段评委只查看均匀抽取的静帧：可以判断主体、材质、背景和明显形变，不能确认完整运动顺滑、节奏或音频。视频仍应由人播放检查。
+The camera may move in slightly so the steam and light change naturally, without strong shaking. For now the jury looks only at evenly sampled still frames: it can judge the subject, material, background and obvious deformation, but cannot confirm smooth motion, rhythm or audio. A person should still play the video to check it.
 
-这是作者自拟的演示简报，没有真实品牌资料。默认尺寸704×512，目标时长两秒，固定调用Lightricks公开的LTX Video Fast服务。每个提示词/种子组合对应实际服务任务；不能用静态图片、旧片或手工制作视频冒充新生成结果。
+This is a demonstration brief written by the authors, with no real brand material. The default size is 704×512, the target duration is two seconds, and every call goes to Lightricks' public LTX Video Fast service. Each prompt/seed combination corresponds to a real service job; a still image, an old clip or a hand-made video must not be passed off as a new generation.

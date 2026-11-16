@@ -1,19 +1,19 @@
 {
   "claims": [
     {
-      "claim": "Sparrow等人的实验发现，当人们预期日后仍能访问资料时，对信息内容的回忆较少，对获取位置的回忆较好。",
+      "claim": "The experiments by Sparrow and colleagues found that when people expected to be able to access information again later, they recalled less of the information itself and recalled better where to find it.",
       "sources": [
         "S1"
       ]
     },
     {
-      "claim": "Risko与Gilbert的综述把认知外包理解为借助外部行动降低任务的信息处理需求。",
+      "claim": "The review by Risko and Gilbert describes cognitive offloading as using physical action to reduce the information-processing demands of a task.",
       "sources": [
         "S2"
       ]
     },
     {
-      "claim": "UNESCO提出生成式AI教育应用应重视人的能动性与隐私，并检验教育适用性。",
+      "claim": "UNESCO states that educational uses of generative AI should respect human agency and privacy and should be validated for their educational suitability.",
       "sources": [
         "S3"
       ]

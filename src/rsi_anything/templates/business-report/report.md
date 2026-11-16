@@ -1,15 +1,15 @@
-# Apple 2024 财年经营观察
+# Apple Fiscal 2024 Operating Review
 
-本文使用固定历史资料，不构成投资建议。金额口径为百万美元，财年而非自然年。[S1]
+This piece uses fixed historical data and is not investment advice. Amounts are in millions of US dollars, and years are fiscal years, not calendar years. [S1]
 
-## 经营数字
+## Operating figures
 
-2024 财年总营收为 {{revenue_2024}}，2023 财年为 {{revenue_2023}}，同比 {{revenue_growth}}。产品营收从 {{products_2023}} 变为 {{products_2024}}；服务营收从 {{services_2023}} 变为 {{services_2024}}。这些变化值得关注。[S1]
+Total revenue was {{revenue_2024}} in fiscal 2024 and {{revenue_2023}} in fiscal 2023, a year-over-year change of {{revenue_growth}}. Products revenue went from {{products_2023}} to {{products_2024}}; services revenue went from {{services_2023}} to {{services_2024}}. These changes are worth watching. [S1]
 
-## 盈利表现
+## Profitability
 
-营业利润由 {{operating_income_2023}} 增至 {{operating_income_2024}}，净利润则由 {{net_income_2023}} 降至 {{net_income_2024}}。资料还列出一次性所得税费用 {{tax_charge_2024}}。营业利润与净利润的变动方向不同，应该分别观察。[S1][S2]
+Operating income rose from {{operating_income_2023}} to {{operating_income_2024}}, while net income fell from {{net_income_2023}} to {{net_income_2024}}. The data also lists a one-time income tax charge of {{tax_charge_2024}}. Operating income and net income moved in different directions, so they should be looked at separately. [S1][S2]
 
-## 局限
+## Limits
 
-两年数字能够描述变化，但尚不足以解释每项变化的原因。资料不包含未来需求和估值，不能据此推断未来收益。市场竞争、供应链以及监管变化仍需要后续跟踪。[S2]
+Two years of figures can describe the changes but are not enough to explain the cause of each one. The data contains no future demand or valuation, so it cannot be used to infer future returns. Market competition, the supply chain and regulatory changes still need to be followed up. [S2]

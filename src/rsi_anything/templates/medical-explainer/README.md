@@ -1,12 +1,12 @@
-# D12：成人身体活动科普
+# D12: Physical activity explainer for adults
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-把 WHO 公开指南转成一般健康成人看得懂的说明，演示从资料摘抄到准确、易读、有实际帮助的文章。助手只改 `explainer.md`。默认初稿由人编写，没有预设后续候选或分数。
+This template turns public WHO guidelines into an explanation that generally healthy adults can understand. It shows the path from excerpts of source material to an article that is accurate, readable and of practical help. The agent edits only `explainer.md`. The default starting draft was written by a person; there are no preset later candidates or scores.
 
-## 启动
+## Getting started
 
-配置好个人编程助手或个人模型账号后执行：
+After setting up your own coding agent or personal model account, run:
 
 ```sh
 rsi init medical-explainer demo-medical-explainer
@@ -15,22 +15,22 @@ python3 judge/prepare.py
 rsi run --rounds 6
 ```
 
-准备脚本不联网、不调用模型；实际多轮运行使用个人账号资源。可以用 `rsi run --agent codex --rounds 6` 指定助手，评委在 `rsi.yaml` 中设置。
+The prepare script doesn't go online or call a model; the actual multi-round run uses your own account's resources. Use `rsi run --agent codex --rounds 6` to choose the agent; the judge is set in `rsi.yaml`.
 
-## 来源与评价
+## Sources and evaluation
 
-冻结的 `judge/sources.json` 保存 WHO 来源、作者改写的简短摘要和用途边界。关键数量通过 `{{adult_age}}`、`{{moderate_minutes}}`、`{{vigorous_minutes}}`、`{{strength_days}}` 插值，来源标记为 `[W1]`、`[W2]`。不要另写阿拉伯数字。
+The frozen `judge/sources.json` holds the WHO sources, short summaries rewritten by the author, and the limits on how they may be used. Key quantities are interpolated through `{{adult_age}}`, `{{moderate_minutes}}`, `{{vigorous_minutes}}` and `{{strength_days}}`, and sources are marked `[W1]` and `[W2]`. Don't write any other numbers in digits.
 
-程序检查数量、来源、少量起步与久坐说明、科普用途和部分明显违规表达。模型评委另行判断是否准确转述、是否过度承诺、是否给出了个体化医疗指令，并评价普通读者能否理解及开始行动。免责声明本身不会得到高分。
+The program checks the quantities, the sources, the notes on starting small and on sedentary time, the health-education purpose, and some obviously prohibited wording. The model judge separately decides whether the material is restated accurately, whether it overpromises, and whether it gives individualized medical instructions, and rates whether ordinary readers can understand it and get started. A disclaimer by itself won't earn a high score.
 
-## 输出与替换输入
+## Outputs and replacing the inputs
 
-`out/explainer.html`、`explainer.md` 是可读成稿，`checklist.json` 保存数量和检查清单；另有评审用的 `evaluation.md`、`gates.json` 和 `notes.txt`。HTML 可离线阅读。`outputs: [out]` 交给主循环保存每轮产物，助手不直接改 `out/`。
+`out/explainer.html` and `explainer.md` are the readable finished article, and `checklist.json` holds the quantities and the checklist; `evaluation.md`, `gates.json` and `notes.txt` are for the review. The HTML can be read offline. `outputs: [out]` lets the main loop save each round's outputs; the agent doesn't edit `out/` directly.
 
-换科普主题时，需要先由人核对权威来源、数量和适用人群，再同步修改输入、准备脚本、目标、初稿与评分细则。只换标题不能完成主题迁移。此包不接收病历，不制定患者的诊疗或个人训练方案。
+To change the health topic, a person must first check the authoritative sources, the quantities and the population they apply to, then update the inputs, the prepare script, the goal, the starting draft and the scoring rubric to match. Changing only the title doesn't move the template to a new topic. This package doesn't accept medical records and doesn't create diagnosis or treatment plans for patients, or personal training plans.
 
-## 依赖与状态
+## Dependencies and status
 
-准备脚本只用 Python 标准库，循环沿用项目的 PyYAML 和模型接口。未接入额外医疗服务、模型或公司资源。官方来源核查日期为 2026-10-23，运行按保存的资料快照执行。
+The prepare script uses only the Python standard library, and the loop uses the project's existing PyYAML and model interfaces. No additional medical service, model or company resource is used. The official sources were checked on 2026-10-23, and runs use the saved snapshot of the material.
 
-已完成真实三轮实验，最终保留分数从 58.5 提高到 80；后两轮候选被拒绝。科普文本、来源、数量核对与复验记录保存在仓库 `examples/medical-explainer/`。该结果只说明给定资料下的科普表达，不构成临床有效性判断。
+A real three-round experiment is complete: the final kept score rose from 58.5 to 80, and the candidates from the last two rounds were rejected. The explainer texts, sources, quantity checks and re-verification records are saved in the repository under `examples/medical-explainer/`. This result only describes health-explainer writing from the supplied material; it isn't a judgment of clinical effectiveness.

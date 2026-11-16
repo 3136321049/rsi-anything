@@ -17,11 +17,11 @@ def test_guide_generates_all_briefs_and_separates_new_input(tmp_path, monkeypatc
     seen = []
     def ask(model, prompt, **kwargs):
         seen.append(prompt)
-        return Reply("测试生成稿\n符合给定事实。", model="fixed-writer", usage={"output_tokens": 20})
+        return Reply("Test draft\nMatches the given facts.", model="fixed-writer", usage={"output_tokens": 20})
     dev = module.generate(tmp_path, "development", ask)
     assert len(dev) == 3 and all(r["requested_model"] == "cli:codex:fixed-writer" for r in dev)
-    assert all("慢读周三" not in prompt for prompt in seen)
+    assert all("Slow Read Wednesdays" not in prompt for prompt in seen)
     holdout = module.generate(tmp_path, "holdout", ask)
-    assert len(holdout) == 1 and "慢读周三" in seen[-1]
+    assert len(holdout) == 1 and "Slow Read Wednesdays" in seen[-1]
     assert json.loads((tmp_path / "out/gates.json").read_text())["all_briefs_generated"]
     assert (tmp_path / "out/posts.html").is_file()

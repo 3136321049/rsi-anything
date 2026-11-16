@@ -1,30 +1,30 @@
-# DARWIN 网站
+# DARWIN Website
 
-DARWIN 用 Open RSI 已保存的正式实验生成中英文两套静态网站：首页、代码优化、模型实验、视频创作、视觉作品、全部实验和开始使用。所有交互都在浏览器读取静态数据，不调用模型。
+DARWIN builds two static websites, English and Chinese, from Open RSI's saved official experiments: Home, Code Optimization, Model Experiments, Video Creation, Visual Work, All Experiments and Get Started. All interaction reads static data in the browser; no models are called.
 
 ```bash
 python scripts/build_site.py
 python -m http.server 8765 --bind 127.0.0.1 --directory build/site
 ```
 
-英文为默认语言（`/`），中文在 `/zh/`。两种语言的页面结构相同，页头可互相切换；首次以中文浏览器访问英文页时，右下角提示切换，不自动跳转。正式入口为 `https://www.riseai.top/darwin/`，只部署 `build/site`，不要把源码仓库根目录作为网站根目录。
+English is the default language (`/`); Chinese is at `/zh/`. Both languages share the same page structure and the header links between them. When a Chinese-language browser first visits an English page, a prompt in the bottom-right corner offers to switch; there is no automatic redirect. The official entry point is `https://www.riseai.top/darwin/`. Deploy only `build/site`; do not use the source repository root as the website root.
 
-## 文件分工
+## File Responsibilities
 
-- `page.html`：共用页头、页脚与元数据；`home.html`、`code.html`、`experiments.html`、`video.html`、`visual.html`、`cases.html`、`start.html` 为各页内容。
-- `i18n/en.json`、`i18n/zh.json`：界面文字。模板用 `{{键名}}` 引用，脚本用 `t("键名")`；两份文件的键必须一致，缺键时构建失败。
-- `i18n/records.en.json`、`i18n/records.zh.json`：实验记录（领域标题、修改思路、评委反馈等）的译文，键为原文。英文页缺译文时构建失败；`python scripts/site_i18n.py --missing en` 可列出待翻译文字。作品文件本身保持原语言。
-- 说明文档中英各一份：`docs/X.zh-CN.md` 对应 `docs/X.md`，模板、案例和环境探测的 `README.md` 对应同目录 `README.en.md`（`THIRD_PARTY.md` 同理）。英文页的文档按钮与案例链接自动打开英文版；修改中文说明时同步英文版，新增说明须带译文，否则测试失败。
-- `assets/site.css`：设计变量、组件与窄屏布局。浅色底配深色放映区，强调色只用于“保留”的版本，拒绝用橙色。深色主题只改 `:root` 的变量（系统为深色时自动启用，`html[data-theme]` 记录访客的手动选择，由 `assets/theme.js` 在首帧前恢复；线上 CSP 为 `script-src 'self'`，不要写内联脚本）；新样式请用变量而不是写死颜色，否则深色下会出现浅底块或看不清的文字。
-- `assets/app.js`：首页进化回放、四个实验室、全部实验浏览与比较、文档预览和语言切换。视觉实验室按轮翻看截图、分项分数与当时最好版本的对比，可连播保留的版本。
-- `assets/fonts/`：自托管的 Inter 与 JetBrains Mono 拉丁子集（SIL OFL），避免依赖国内无法访问的字体服务；中文使用系统字体。
+- `page.html`: shared header, footer and metadata; `home.html`, `code.html`, `experiments.html`, `video.html`, `visual.html`, `cases.html` and `start.html` hold each page's content.
+- `i18n/en.json`, `i18n/zh.json`: UI text. Templates reference it with `{{key}}`, scripts with `t("key")`; both files must have identical keys, and a missing key fails the build.
+- `i18n/records.en.json`, `i18n/records.zh.json`: translations of experiment records (domain titles, change rationale, judge feedback, etc.), keyed by the original text. A missing translation on the English pages fails the build; `python scripts/site_i18n.py --missing en` lists text awaiting translation. Work files themselves stay in their original language.
+- Documentation comes in English and Chinese with one naming rule everywhere: `X.md` is English and `X.zh-CN.md` in the same directory is Chinese (`docs/`, the `README.md` of templates, cases and environment probes, and `THIRD_PARTY.md`). On Chinese pages, document buttons and case links open the Chinese version automatically. When editing one language, update the other too; new documents must include a translation, otherwise tests fail.
+- `assets/site.css`: design variables, components and narrow-screen layout. Light background with a dark screening area; the accent color is used only for "kept" versions, and rejections use orange. The dark theme changes only the variables on `:root` (enabled automatically when the system is dark; `html[data-theme]` records the visitor's manual choice and is restored by `assets/theme.js` before the first frame; the production CSP is `script-src 'self'`, so do not write inline scripts). Use variables for new styles rather than hard-coded colors, otherwise dark mode will show light blocks or unreadable text.
+- `assets/app.js`: home-page evolution replay, the four labs, All Experiments browsing and comparison, document preview and language switching. The visual lab pages through screenshots, per-criterion scores and comparisons with the best version at the time, round by round, and can play the kept versions in sequence.
+- `assets/fonts/`: self-hosted Latin subsets of Inter and JetBrains Mono (SIL OFL), avoiding font services that are unreachable in mainland China; Chinese uses system fonts.
 
-## 数据与公开范围
+## Data and Public Scope
 
-`scripts/build_site.py` 固定使用四份已验收运行生成前三个实验室的数据（`CASES`）；视觉实验室按 `VISUAL` 读取鹈鹕的两次运行和落地页的一次运行，后一次运行的起点若与前一次的最终作品逐字节相同，就接成一条时间线。全部实验页由 `examples/catalog.json` 与原始运行汇总，文件正文按需读取。构建只复制公开需要的内容：`examples/`、模板目录、四份说明文档（中英文）、中英文 README、许可证和 wheel 安装包；源码包含内部开发文档，不放到网站；协作约定、接手说明、开发记录和发布审计不会进入网站。旧的 `examples/index.html` 地址在网站中转到全部实验页。
+`scripts/build_site.py` uses four fixed accepted runs to generate data for the first three labs (`CASES`); the visual lab reads the two pelican runs and the one landing-page run listed in `VISUAL`, and if a later run's starting point is byte-identical to the previous run's final work, the two are joined into one timeline. The All Experiments page is aggregated from `examples/catalog.json` and the original runs, with file contents read on demand. The build copies only what needs to be public: `examples/`, template directories, four documentation files (Chinese and English), the Chinese and English READMEs, the license and the wheel package. The source includes internal development docs that are not put on the website; the collaboration conventions, handoff notes, devlog and release audit do not go onto the website. The old `examples/index.html` address redirects to the All Experiments page on the website.
 
-源码仓库暂未公开，页面不链接仓库，开始使用页通过网站上的 wheel 安装。视频卡片与封面取自真实成片，时间点、裁切和哈希见 `assets/media-sources.json`；`assets/og.png` 是按页面设计绘制的分享图，不代表某次实验数据。
+The source repository is not public yet, so pages do not link to it, and the Get Started page installs via the wheel hosted on the website. Video cards and covers are taken from real finished videos; timestamps, crops and hashes are in `assets/media-sources.json`. `assets/og.png` is a share image drawn to match the page design and does not represent any particular experiment's data.
 
-## 修改后检查
+## Checks After Changes
 
-运行 `python -m pytest -q`。`tests/test_site.py` 检查两种语言的全部页面链接、语言互链、界面文字键、英文数据无漏译、说明文档的英文版及其链接、未评审轮次边界、视频字幕时间、结果包与公开文件范围。之后在浏览器检查桌面与 390px 窄屏：首页回放、轮次切换、代码差异、矩阵筛选、视频字幕跳转、视觉实验室的截图切换与连播、全部实验的版本比较与下载。
+Run `python -m pytest -q`. `tests/test_site.py` checks all page links in both languages, cross-language links, UI text keys, no missing translations in English data, English versions of documentation and their links, unreviewed-round boundaries, video subtitle timing, result bundles and the public file scope. Then check in a browser on desktop and at 390px narrow width: home-page replay, round switching, code diffs, matrix filters, video subtitle seeking, screenshot switching and sequential playback in the visual lab, and version comparison and download in All Experiments.

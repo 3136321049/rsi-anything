@@ -1,39 +1,40 @@
 task: |
-  一篇小红书笔记，推广「夜航自习室」的夜间会员。读者是白天要上班或上课、只能晚上备考的人。
-  好笔记要让这群人在信息流里停下来，相信这是真的，并知道下一步怎么做。
-  事实以 judge/brief.md 为准，资料之外的价格、数字、评价、福利都算编造。
+  A Xiaohongshu (RedNote) post promoting the Night Membership of "Night Voyage Study Room". The readers work or attend
+  classes during the day and can only prepare for exams at night.
+  A good post makes these people stop in their feed, believe it is real, and know exactly what to do next.
+  judge/brief.md is the source of truth; any price, number, review or perk not in the brief counts as invented.
 
-context: [judge/brief.md]   # 评审时一并提供给评委的冻结资料
+context: [judge/brief.md]   # frozen material given to the judges along with the post
 
 criteria:
   - name: hook
     weight: 25
-    question: 标题和开头两行，能否让「只能晚上学习的人」停下来？
-    anchors: {1: 空泛口号或自夸, 5: 点到了人群但没有具体画面, 8: 具体场景让目标读者认出自己, 10: 一句话说中这群人的真实处境和顾虑，在信息流里明显比同类笔记更想点开}
+    question: Do the title and the first two lines make "people who can only study at night" stop scrolling?
+    anchors: {1: an empty slogan or self-praise, 5: names the audience but paints no concrete picture, 8: a concrete scene in which target readers recognize themselves, 10: one line captures this group's real situation and worries, clearly more clickable in the feed than similar posts}
   - name: concrete_value
     weight: 25
-    question: 是否用资料里的具体细节（时间、价格、隔间设施、夜间福利、安全）回答「对我有什么用」？
-    anchors: {1: 只有形容词, 5: 列了一些细节但像说明书, 8: 细节按读者的一个晚上组织起来, 10: 每个细节都回答了这群人的一个具体顾虑，读完不需要再问任何问题}
+    question: Does it use the brief's concrete details (hours, price, booth facilities, night perk, safety) to answer "what's in it for me"?
+    anchors: {1: adjectives only, 5: lists some details but reads like a manual, 8: details are organized around the reader's evening, 10: every detail answers one specific worry of this group, and the reader has no questions left}
   - name: credibility
     weight: 20
-    question: 读起来像真人分享还是硬广？有没有夸大、绝对化或资料外的信息？
-    anchors: {1: 明显硬广或有编造, 5: 基本可信但有套话, 8: 克制真诚，几乎没有套话, 10: 像一位真实的熟客在分享，没有一句可删的客套}
+    question: Does it read like a real person sharing or like a hard-sell ad? Is there exaggeration, absolute claims or information not in the brief?
+    anchors: {1: an obvious hard sell or invented facts, 5: mostly believable but with stock phrases, 8: restrained and sincere with almost no stock phrases, 10: reads like a genuine regular sharing it, with not a single filler line to cut}
   - name: platform_fit
     weight: 15
-    question: 是否符合小红书的阅读习惯：短段落、要点清楚、表情和话题标签适度？
-    anchors: {1: 大段文字或满屏表情, 5: 格式一般, 8: 手机上一眼扫完，层次清楚, 10: 标题、分段、表情和 3 到 6 个话题标签都恰到好处，像平台上的高赞笔记}
+    question: Does it fit how people read on Xiaohongshu (RedNote) - short paragraphs, clear points, emoji and hashtags in moderation?
+    anchors: {1: a wall of text or a screen full of emoji, 5: average formatting, 8: scannable at a glance on a phone with a clear structure, 10: title, paragraphs, emoji and 3 to 6 hashtags are all just right, like a top-liked post on the platform}
   - name: call_to_action
     weight: 15
-    question: 结尾是否让读者清楚知道下一步做什么，并有合理的紧迫感？
-    anchors: {1: 没有行动指引, 5: 有指引但模糊, 8: 明确写出公众号回复「夜间」和前 50 名体验价, 10: 行动指引清楚且自然，读者会马上收藏或去回复，而不是被催促}
+    question: Does the ending make the next step clear, with a reasonable sense of urgency?
+    anchors: {1: no call to action, 5: a call to action but vague, 8: clearly says to reply "NIGHT" to the official account and mentions the trial price for the first 50, 10: a clear and natural call to action that makes the reader save the post or reply right away without feeling pushed}
 
 gates:
-  min_chars: 200
-  max_chars: 900
-  must_include: ["129", "夜间"]
-  must_not_include: ["最好", "第一", "100%", "顶级", "在这个快节奏的时代", "让我们一起"]
-  regex_absent: ['\A[^\n]{21,}']   # 标题（第一行）不超过 20 个字
+  min_chars: 600
+  max_chars: 2200
+  must_include: ["129", "NIGHT"]
+  must_not_include: ["the best", "number one", "100%", "top-notch", "fast-paced world", "Let's all", "let's all"]
+  regex_absent: ['\A[^\n]{61,}']   # the title (first line) is at most 60 characters
 
 checks:
-  - 笔记中出现的所有价格、时间、数量、设施和福利都与资料一致，没有资料之外的数字、评价或承诺。
-  - 没有冒充真实用户的虚构经历或好评（可以用第二人称描述场景）。
+  - Every price, time, quantity, facility and perk in the post matches the brief, with no numbers, reviews or promises beyond it.
+  - The post does not pose as a real customer with made-up experiences or reviews (describing a scene in the second person is fine).

@@ -4,7 +4,7 @@
 
 This guide covers `0.3.0.dev0`. Python 3.11 is recommended. The code declares support for Python 3.9+; video, training, GPU and each agent's CLI have their own dependencies. The package isn't published on PyPI: download it from the website, or install from a source checkout.
 
-14 domains currently have complete multi-round runs with independent verification, including the writing guide, the contract exercise and the lesson. D07 keeps the videos it generated and a partial measured run limited by the service; D15 keeps an environment probe run without a GPU. These two resource exceptions don't count as complete measured runs. Watch the [35-second clip of real outputs](../examples/showcase-media/openrsi-demo.mp4) or check the [run status (Chinese)](DEMO-PLAN.zh-CN.md) before you pick a template to run.
+14 domains currently have complete multi-round runs with independent verification, including the writing guide, the contract exercise and the lesson. D07 keeps the videos it generated and a partial measured run limited by the service; D15 keeps an environment probe run without a GPU. These two resource exceptions don't count as complete measured runs. Watch the [35-second clip of real outputs](../examples/showcase-media/openrsi-demo.mp4) or check the [run status (Chinese)](DEMO-PLAN.md) before you pick a template to run.
 
 ## Install from the website
 

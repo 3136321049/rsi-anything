@@ -102,7 +102,7 @@ def ask(ref: ModelRef, prompt: str, system: str = "", images: Optional[list[Path
     reply.seconds = time.perf_counter() - started
     usage_log = os.environ.get("RSI_USAGE_LOG")
     if usage_log:
-        # 只记调用元信息，任务正文与账号凭据不进用量记录。
+        # Record only call metadata; task text and account credentials never go into the usage record.
         record = {"requested_model": ref.raw, "actual_model": reply.model or None,
                   "usage": reply.usage, "seconds": round(reply.seconds, 3), "cost_usd": reply.cost_usd}
         destination = Path(usage_log)

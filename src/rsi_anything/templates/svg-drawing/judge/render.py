@@ -21,10 +21,10 @@ shapes = sum(tag in SHAPES for tag in tags)
 gates = {
     "valid_svg": root is not None and tags[:1] == ["svg"],
     "has_viewbox": root is not None and bool(root.get("viewBox")),
-    # 只能用矢量图形画：不能嵌入位图、外部资源、脚本或 HTML。
+    # Vector shapes only: no embedded bitmaps, external resources, scripts or HTML.
     "vector_only": not any(tag in {"image", "foreignObject", "script", "iframe"} for tag in tags)
                    and not re.search(r"(?:href|src)\s*=\s*[\"'](?:https?:|data:)|url\(\s*[\"']?(?:https?:|data:)", text, re.I),
-    # 写上 “PELICAN” 之类的字会讨好评委，不算画得像。
+    # Writing words like "PELICAN" would flatter the jury without making the drawing any better.
     "no_text": not any(tag in {"text", "textPath", "tspan"} for tag in tags),
     "under_60kb": len(text.encode("utf-8")) <= 60_000,
     "has_shapes": shapes >= 3,

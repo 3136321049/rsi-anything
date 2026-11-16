@@ -1,11 +1,11 @@
-# 一次匿名服务诊断
+# A single anonymous service diagnosis
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-2026-10-24 只提交一次生成请求：复用先前成功的 24 字符描述、种子、尺寸、两秒时长和其他参数。POST 返回 HTTP 200 和事件编号，事件流也返回 HTTP 200，但内容为 `event: error`、`data: null`。没有重试，也没有切换账号、IP 或付费入口。
+On 2026-10-24, exactly one generation request was submitted. It reused the 24-character prompt, seed, size, two-second duration and other settings from an earlier successful request. The POST returned HTTP 200 and an event ID, and the event stream also returned HTTP 200, but its content was `event: error` and `data: null`. There was no retry, and no switching of accounts, IPs or paid tiers.
 
-- `request.json`：本次实际输入。
-- `receipt.json`、`events.txt`：实际受理与失败事件。
-- `service.json`：现场接口输入顺序、Gradio 版本、`show_error`、公开上游提交号与代码哈希。
+- `request.json`: the input actually sent.
+- `receipt.json`, `events.txt`: the actual acceptance and failure events.
+- `service.json`: the live API's input order, Gradio version, `show_error`, the public upstream commit and the code hash.
 
-这说明短描述也遇到服务错误；它不能证明具体是额度不足、GPU 不可用或某种内部异常。没有生成作品，因此质量分保持未知。
+This shows that a short prompt also hit a service error. It can't show whether the cause was an exhausted quota, an unavailable GPU or some internal fault. No video was generated, so the quality score stays unknown.

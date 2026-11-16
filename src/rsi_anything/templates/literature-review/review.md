@@ -1,11 +1,11 @@
-# 数字工具与记忆：三份资料的阅读笔记
+# Digital Tools and Memory: Reading Notes on Three Sources
 
-数字工具可能影响人们处理信息的方式。本文只讨论给定资料，不是覆盖全部研究的系统综述。
+Digital tools may affect how people process information. This piece discusses only the given sources and is not a systematic review of all research.
 
-Sparrow等人的实验发现，当人们预期日后仍能访问资料时，对信息内容的回忆较少，对获取位置的回忆较好。[S1] 这提示我们不应把“记得内容”和“记得位置”视作同一种表现。
+The experiments by Sparrow and colleagues found that when people expected to be able to access information again later, they recalled less of the information itself and recalled better where to find it. [S1] This suggests we should not treat "remembering the content" and "remembering the location" as the same kind of performance.
 
-Risko与Gilbert的综述把认知外包理解为借助外部行动降低任务的信息处理需求。[S2] 综述讨论了这种行为出现的机制及后果，提供了一个整理问题的概念框架。
+The review by Risko and Gilbert describes cognitive offloading as using physical action to reduce the information-processing demands of a task. [S2] The review discusses the mechanisms behind this behavior and its consequences, offering a conceptual framework for organizing the question.
 
-UNESCO提出生成式AI教育应用应重视人的能动性与隐私，并检验教育适用性。[S3] 这是政策建议，与前两份资料的证据类型不同。
+UNESCO states that educational uses of generative AI should respect human agency and privacy and should be validated for their educational suitability. [S3] This is policy guidance, a different type of evidence from the first two sources.
 
-这些资料都与工具和人的关系有关，但研究对象不同。旧实验没有直接检验生成式AI，政策指导也不能替代效果实验。未来可以继续研究具体课堂任务中，工具帮助完成作业与学生脱离工具后理解内容之间是什么关系。
+All of these sources concern the relationship between tools and people, but they study different things. The older experiments did not test generative AI directly, and policy guidance cannot replace experiments on effects. Future research could look at specific classroom tasks and ask how a tool that helps students complete assignments relates to whether students understand the content once the tool is taken away.

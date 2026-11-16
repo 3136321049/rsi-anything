@@ -1,4 +1,4 @@
-"""固定业务测试；每个测试对应一项可解释的行为。"""
+"""Fixed business tests; each test covers one explainable behavior."""
 import copy
 import unittest
 
@@ -42,14 +42,14 @@ class ExpenseTests(unittest.TestCase):
         self.assertEqual(monthly_totals([], "2026-10"), {})
 
     def test_month_filter(self):
-        rows = [{"date": "2026-10-02", "category": "交通", "amount": "4.20"},
-                {"date": "2026-09-30", "category": "交通", "amount": "3"}]
-        self.assertEqual(monthly_totals(rows, "2026-10"), {"交通": 420})
+        rows = [{"date": "2026-10-02", "category": "transport", "amount": "4.20"},
+                {"date": "2026-09-30", "category": "transport", "amount": "3"}]
+        self.assertEqual(monthly_totals(rows, "2026-10"), {"transport": 420})
 
     def test_month_refund(self):
-        rows = [{"date": "2026-10-01", "category": "餐饮", "amount": "12.50"},
-                {"date": "2026-10-02", "category": "餐饮", "amount": "-2.50"}]
-        self.assertEqual(monthly_totals(rows, "2026-10"), {"餐饮": 1000})
+        rows = [{"date": "2026-10-01", "category": "dining", "amount": "12.50"},
+                {"date": "2026-10-02", "category": "dining", "amount": "-2.50"}]
+        self.assertEqual(monthly_totals(rows, "2026-10"), {"dining": 1000})
 
     def test_month_reject_invalid(self):
         with self.assertRaises(ValueError):
@@ -57,10 +57,10 @@ class ExpenseTests(unittest.TestCase):
 
     def test_date_reject_invalid(self):
         with self.assertRaises(ValueError):
-            monthly_totals([{"date": "2026-02-30", "category": "交通", "amount": "3"}], "2026-02")
+            monthly_totals([{"date": "2026-02-30", "category": "transport", "amount": "3"}], "2026-02")
 
     def test_does_not_mutate_input(self):
-        rows = [{"date": "2026-10-01", "category": "交通", "amount": "3"}]
+        rows = [{"date": "2026-10-01", "category": "transport", "amount": "3"}]
         before = copy.deepcopy(rows)
         monthly_totals(rows, "2026-10")
         self.assertEqual(rows, before)

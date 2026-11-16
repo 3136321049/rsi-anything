@@ -1,46 +1,46 @@
 {
-  "title": "Apple 2024 财年经营资料",
+  "title": "Apple fiscal 2024 operating data",
   "checked_at": "2026-10-23",
-  "unit": "百万美元",
-  "scope": "历史公开资料演示，不是最新财报或投资建议",
+  "unit": "US$ millions",
+  "scope": "Demonstration on historical public data; not the latest financial statements and not investment advice",
   "sources": {
     "S1": {
       "title": "Apple FY24 Q4 Consolidated Financial Statements",
       "url": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
       "published": "2024-10-31",
-      "locator": "第1页 Twelve Months Ended 两列；第4页 GAAP 与 Non-GAAP 调节表",
-      "note": "采用未审计简明财务报表中的全年 GAAP 数值；2024财年截至9月28日，2023财年截至9月30日。"
+      "locator": "Page 1, the two Twelve Months Ended columns; page 4, GAAP to Non-GAAP reconciliation",
+      "note": "Uses the full-year GAAP figures from the unaudited condensed financial statements; fiscal 2024 ended September 28 and fiscal 2023 ended September 30."
     },
     "S2": {
       "title": "Apple reports fourth quarter results",
       "url": "https://www.apple.com/newsroom/2024/10/apple-reports-fourth-quarter-results/",
       "published": "2024-10-31",
-      "summary": "新闻稿说明当季确认了与欧盟税务裁决有关的一次性费用，并列示市场竞争、供应链及监管等风险。季度口径不可混入全年同比。"
+      "summary": "The press release says the quarter included a one-time charge related to the European Union tax ruling, and lists risks such as market competition, the supply chain and regulation. Quarterly figures must not be mixed into full-year comparisons."
     }
   },
   "series": {
     "revenue": {
-      "label": "总营收",
+      "label": "Total revenue",
       "2023": 383285,
       "2024": 391035
     },
     "products": {
-      "label": "产品营收",
+      "label": "Products revenue",
       "2023": 298085,
       "2024": 294866
     },
     "services": {
-      "label": "服务营收",
+      "label": "Services revenue",
       "2023": 85200,
       "2024": 96169
     },
     "operating_income": {
-      "label": "营业利润",
+      "label": "Operating income",
       "2023": 114301,
       "2024": 123216
     },
     "net_income": {
-      "label": "净利润",
+      "label": "Net income",
       "2023": 96995,
       "2024": 93736
     }
@@ -49,9 +49,9 @@
     "tax_charge_2024": 10246
   },
   "analysis_notes": [
-    "2024全年总营收增加，同时产品收入减少、服务收入增加；金额贡献不等于因果解释。",
-    "营业利润上升而净利润下降。一次性所得税费用影响净利润，不能直接据此断言核心经营恶化，也不能用非GAAP口径替代GAAP。",
-    "没有估值、未来预期和竞争对手数据，不支持买卖建议。"
+    "Full-year 2024 total revenue rose while products revenue fell and services revenue rose; a contribution in dollars is not a causal explanation.",
+    "Operating income rose while net income fell. A one-time income tax charge affected net income, so this alone does not show that the core business got worse, and non-GAAP figures must not replace GAAP figures.",
+    "There is no valuation, outlook or competitor data, so the material does not support buy or sell advice."
   ],
-  "template_keys": "每条 series 可用 <id>_2023、<id>_2024、<id>_growth（同比百分比）；另有 services_share_2023、services_share_2024、tax_charge_2024。数值含单位，由prepare计算。"
+  "template_keys": "Each series offers <id>_2023, <id>_2024 and <id>_growth (year-over-year percent); there are also services_share_2023, services_share_2024 and tax_charge_2024. Values include units and are computed by prepare.py."
 }

@@ -1,1 +1,1 @@
-修好一个记账小项目：固定测试逐条反馈，保存测试结果和可运行账单示例。
+Fix a small expense-tracking project: fixed tests give per-test feedback; test results and a runnable billing example are saved.

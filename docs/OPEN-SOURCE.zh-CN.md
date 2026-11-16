@@ -14,13 +14,13 @@
 |---|---|---|
 | Python、Git、PyYAML | 配置、独立运行分支、评价程序和结果记录 | 主循环；[PyYAML](https://github.com/yaml/pyyaml) |
 | pytest | 项目开发回归；测试中的模拟助手只验证程序行为 | `tests/`，不作为真实演示结果 |
-| scikit-learn 1.6.1 | 读取 digits，固定划分、训练和预测 | [CPU 分类模板](../src/rsi_anything/templates/cpu-classifier/README.md)；调用现有学习算法，不复制其训练引擎 |
+| scikit-learn 1.6.1 | 读取 digits，固定划分、训练和预测 | [CPU 分类模板](../src/rsi_anything/templates/cpu-classifier/README.zh-CN.md)；调用现有学习算法，不复制其训练引擎 |
 | Matplotlib 3.9.4 | 生成混淆矩阵、错例和回测曲线 | CPU 分类与量化模板；[官方项目](https://matplotlib.org/) |
-| FFmpeg / ffprobe | 剪片、字幕、视频解码和基本媒体检查 | [剪辑模板](../src/rsi_anything/templates/video-cut/README.md)、[生成模板](../src/rsi_anything/templates/video-generation/README.md)；安装的 FFmpeg 构建与编解码器条件由上游提供 |
+| FFmpeg / ffprobe | 剪片、字幕、视频解码和基本媒体检查 | [剪辑模板](../src/rsi_anything/templates/video-cut/README.zh-CN.md)、[生成模板](../src/rsi_anything/templates/video-generation/README.zh-CN.md)；安装的 FFmpeg 构建与编解码器条件由上游提供 |
 | faster-whisper | 用户没有现成转写时的可选转写入口 | [官方仓库](https://github.com/SYSTRAN/faster-whisper)；不是默认必需依赖，模型另行下载 |
-| Mermaid | 经营分析的图表描述，HTML 可通过 CDN 渲染 | [经营分析模板](../src/rsi_anything/templates/business-report/README.md)；离线保留数值表 |
-| Lightricks LTX Video Fast / Gradio | 向官方公开 Space 提交描述；本次初始与第 1 轮取得真实视频，后两轮未生成 | [官方 Space](https://huggingface.co/spaces/Lightricks/ltx-video-distilled)；一次短描述诊断仍为 `error/null`，具体原因未知。见[部分实测与来源](../examples/video-generation/README.md)；服务状态及使用条件独立于代码许可 |
-| PyTorch 2.6.0、Triton 3.2.0 | GPU Softmax、数值比较、事件计时与小型模块对照 | [GPU 模板](../src/rsi_anything/templates/kernel-speed/README.md)；尚无本项目 GPU 实测。公开教程版权与许可保留在 [THIRD_PARTY.md](../src/rsi_anything/templates/kernel-speed/THIRD_PARTY.md) |
+| Mermaid | 经营分析的图表描述，HTML 可通过 CDN 渲染 | [经营分析模板](../src/rsi_anything/templates/business-report/README.zh-CN.md)；离线保留数值表 |
+| Lightricks LTX Video Fast / Gradio | 向官方公开 Space 提交描述；本次初始与第 1 轮取得真实视频，后两轮未生成 | [官方 Space](https://huggingface.co/spaces/Lightricks/ltx-video-distilled)；一次短描述诊断仍为 `error/null`，具体原因未知。见[部分实测与来源](../examples/video-generation/README.zh-CN.md)；服务状态及使用条件独立于代码许可 |
+| PyTorch 2.6.0、Triton 3.2.0 | GPU Softmax、数值比较、事件计时与小型模块对照 | [GPU 模板](../src/rsi_anything/templates/kernel-speed/README.zh-CN.md)；尚无本项目 GPU 实测。公开教程版权与许可保留在 [THIRD_PARTY.zh-CN.md](../src/rsi_anything/templates/kernel-speed/THIRD_PARTY.zh-CN.md) |
 
 模型调用使用用户自己的个人 CLI 或 API。第三方助手、订阅服务和模型接口不是本仓库的一部分；“写了适配器”不表示所有账号、地区和版本都已验证。
 
@@ -35,7 +35,7 @@
 | 量化回测 | [Binance 公共行情](https://github.com/binance/binance-public-data)、官方 Kline 接口 | 模板登记的 [CC BY-NC-SA 4.0 与 Binance Vision Dataset Terms](https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md) 独立适用。默认数据、派生图表及分析保留署名、非商业和相同方式共享条件；不得以代码 MIT 宣称无限制商用。模板包只含下载器，不捆绑行情 |
 | 资料综述 | 两篇认知研究的官方索引与 UNESCO 指南 | 使用作者自写的短摘要，保留作者、年份、链接、证据类型与局限；不是原文授权替代。见[模板来源](../src/rsi_anything/templates/literature-review/judge/sources.json) |
 | 合同演练 | 自编合同与检查标准，参考 [business.gov.au 合同写作要素](https://business.gov.au/people/contractors/prepare-a-contract) | 不复制真实合同，不把来源司法辖区的法律套到本例，明确不构成法律意见 |
-| 医学科普 | WHO 官方身体活动资料与指南摘要 | 只转述公开科普信息，保留来源与人群边界，不把文章当成个体医疗建议。实际读取范围见[案例说明](../examples/medical-explainer/README.md) |
+| 医学科普 | WHO 官方身体活动资料与指南摘要 | 只转述公开科普信息，保留来源与人群边界，不把文章当成个体医疗建议。实际读取范围见[案例说明](../examples/medical-explainer/README.zh-CN.md) |
 | 百分比讲义 | 自编讲义与练习，概念参考 [OpenStax Prealgebra 2e](https://openstax.org/books/prealgebra-2e/pages/6-introduction-to-percents) | 没有复制教材题目或整章内容；替换为其他教材时另核对资料使用条件 |
 
 默认回测属于同一段历史上的参数演示，不是投资建议。法律和医学模板仅处理边界清楚的合成演练或公众资料，不提供真实个案判断。商业宣传或再分发素材前，逐项检查具体资料条件；开源代码与公开可读资料不是同一回事。

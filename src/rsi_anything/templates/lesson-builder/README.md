@@ -1,8 +1,8 @@
-# D13：百分比讲义与练习
+# D13: Percentages lesson and exercises
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-助手改进 `lesson.md`，让一个真实学生模型阅读后完成十道固定原创练习。内容从求部分延伸到还原原量、变化率、连续涨跌、百分点和整体改变。初稿只讲基本定义与求部分。
+The agent improves `lesson.md` so that a real student model can read it and then complete ten fixed original exercises. The content extends from finding a part to recovering the original amount, rates of change, successive increases and decreases, percentage points and changes in the whole. The starting draft covers only the basic definition and finding a part.
 
 ```sh
 rsi init lesson-builder demo-lesson
@@ -11,12 +11,12 @@ export RSI_TASK_MODEL='cli:codex'
 rsi run --rounds 6
 ```
 
-`RSI_TASK_MODEL` 必须明确设置，可填已有个人模型引用，例如 `cli:codex` 或自己配置的 API 模型。学生收到讲义、题目与格式要求，不收到固定答案；允许算术与按讲义方法推导，所需方法缺失时返回不确定。此限制通过提示词表达，不是经过校准的人类学生模拟。
+`RSI_TASK_MODEL` must be set explicitly. It can be an existing personal model reference, such as `cli:codex`, or an API model you've configured yourself. The student receives the lesson, the questions and the format requirements, but not the fixed answers. It may do arithmetic and derive answers with the lesson's methods, and says it is unsure when a needed method is missing. This restriction is expressed through the prompt; it isn't a calibrated simulation of a human student.
 
-程序逐题比较真实模型给出的数值与固定答案，并检查推导文字和讲义原句是否存在。主分数是“有原句依据且数值正确”的比例，同时保留纯数值正确率。原句匹配不能证明语义上充分支持答案；强模型可能在初稿上已满分，必须如实记录，不人为降低成绩。
+The program compares each value the real model gives with the fixed answer, and checks that the derivation text and the lesson quote exist. The main score is the share of answers that are "numerically correct with a supporting lesson quote"; plain numeric accuracy is also kept. A matching quote can't prove that it semantically supports the answer well enough. A strong model may already score full marks on the starting draft; that must be recorded truthfully, not hidden by artificially lowering the score.
 
-`out/lesson.html`、`lesson.md` 保存讲义，`exercise-results.md` 保存每题解答，`results.json` 含实际模型与调用信息，`mistakes.json` 保存错例，`student-response.txt` 保留原回复。模型或响应格式失败写入 `error.json` 并作为运行错误退出，不计为学生答错。`outputs: [out]` 保存逐轮产物。
+`out/lesson.html` and `lesson.md` hold the lesson, `exercise-results.md` holds the answer to each question, `results.json` includes the actual model and call information, `mistakes.json` holds the mistakes, and `student-response.txt` keeps the raw reply. Model or response-format failures are written to `error.json` and exit as a run error; they aren't counted as wrong student answers. `outputs: [out]` saves each round's outputs.
 
-本包沿用项目的模型调用接口，没有新增依赖。直接运行 `python3 judge/evaluate.py` 会真实调用学生模型；离线开发应运行仓库测试，不会调用模型。固定题目与初稿由作者自行编写，公开概念参考 [OpenStax Prealgebra 2e 第六章](https://openstax.org/books/prealgebra-2e/pages/6-introduction-to-percents)，查阅日期为 2026-10-24，没有复制教材题目。
+This package uses the project's existing model-calling interface and adds no dependencies. Running `python3 judge/evaluate.py` directly makes a real call to the student model; for offline development, run the repository tests, which don't call a model. The fixed questions and the starting draft were written by the author. Public concepts follow [OpenStax Prealgebra 2e, chapter 6](https://openstax.org/books/prealgebra-2e/pages/6-introduction-to-percents), consulted on 2026-10-24; no textbook questions were copied.
 
-更换主题前同步修改 `judge/brief.md`、`exercises.json` 的题目/答案/容差/解析及初始讲义；保持数值题格式可复用现有评分器。提交新输入后开始新运行，不在一次实验中修改固定练习。已完成真实三轮实验，受限学生模型由 2/10 提高到 10/10；记录与离线判分重放保存在仓库 `examples/lesson-builder/`。这不等同于真人学习效果。
+Before changing the topic, update `judge/brief.md`, the questions, answers, tolerances and explanations in `exercises.json`, and the starting lesson. Keeping the numeric-answer format lets you reuse the existing grader. Commit the new inputs, then start a new run; don't change the fixed exercises within an experiment. A real three-round experiment is complete: the restricted student model went from 2/10 to 10/10. The records and an offline grading replay are saved in the repository under `examples/lesson-builder/`. This isn't the same as learning outcomes for real people.

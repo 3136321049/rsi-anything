@@ -1,4 +1,4 @@
-"""分层边界、可替换的选择规则与搜索策略、运行事件流。"""
+"""Layer boundaries, swappable selection rules and search strategies, and the run event stream."""
 from __future__ import annotations
 
 import ast
@@ -15,13 +15,13 @@ from rsi_anything.engine import Ratchet
 
 PACKAGE = Path(__file__).resolve().parents[1] / "src" / "rsi_anything"
 
-# 由内到外；外层可以依赖内层，反过来不行。新模块须先归入某一层。
+# Inner to outer; an outer layer may depend on an inner one, never the reverse. A new module must first be assigned a layer.
 LAYERS = [
-    {"domain", "paths", "contract", "degenerate"},                          # 纯数据与规则
-    {"selection", "strategy", "events", "prompt", "plugins"},               # 策略：怎么选、怎么搜、怎么播报、插件名册
-    {"process", "gitops", "workspace", "artifacts", "ledger", "llm", "result", "sdk", "agents", "judges"},  # 适配：外部世界
-    {"engine", "stress", "report", "export", "scaffold", "onboard"},        # 应用：编排一次运行、新建任务、检查本机
-    {"cli", "live", "__init__"},                                            # 接口：命令行、实时页面与分享页
+    {"domain", "paths", "contract", "degenerate"},                          # pure data and rules
+    {"selection", "strategy", "events", "prompt", "plugins"},               # policy: how to select, search and report; the plugin registry
+    {"process", "gitops", "workspace", "artifacts", "ledger", "llm", "result", "sdk", "agents", "judges"},  # adapters: the outside world
+    {"engine", "stress", "report", "export", "scaffold", "onboard"},        # application: orchestrate a run, create a task, check this machine
+    {"cli", "live", "__init__"},                                            # interfaces: CLI, live page and share page
 ]
 
 
@@ -60,7 +60,7 @@ def _modules():
 
 def test_every_module_belongs_to_a_layer():
     for name, _ in _modules():
-        assert any(name.split(".")[0] in layer for layer in LAYERS), f"{name} 未归入任何层"
+        assert any(name.split(".")[0] in layer for layer in LAYERS), f"{name} is not assigned to any layer"
 
 
 def test_dependencies_point_inward():
@@ -188,9 +188,9 @@ def test_ties_can_be_settled_head_to_head(comparison, keep, reason):
     rule = selection.default(SPEC, lambda *_: comparison, ties=True)
     tie = Verdict(75), Verdict(75)
     assert tuple(rule.decide(None, None, *tie)) == (keep, reason)
-    # 默认规则下平分直接拒绝，不额外比较。
+    # Under the default rule a tie is rejected outright, with no extra comparison.
     assert not selection.default(SPEC, lambda *_: pytest.fail("compared a tie")).decide(None, None, *tie).keep
-    # 低于幅度要求但高于对方，也算平分；明显更差则不比较。
+    # Higher but below the required margin also counts as a tie; clearly worse is never compared.
     assert rule.decide(None, None, Verdict(75.5), Verdict(75)).keep == keep
     assert selection.default(SPEC, lambda *_: pytest.fail("compared a loss"), ties=True).decide(
         None, None, Verdict(70), Verdict(75)).reason.startswith("score 70 is not better")

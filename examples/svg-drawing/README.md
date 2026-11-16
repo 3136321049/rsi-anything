@@ -1,48 +1,48 @@
-# 矢量画进化：鹈鹕骑自行车
+# Evolving a vector drawing: a pelican riding a bicycle
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-题目借用 Simon Willison 常用来测试模型画 SVG 的“鹈鹕骑自行车”。每轮由本机个人 Codex（`gpt-6.1-sol`，隔离用户配置）只改 `drawing.svg`。评审先检查它是干净的矢量画，再用无头 Chrome 渲染成 PNG，交给个人 Claude（`cli:claude`）按评分表看图打分。分数更高的候选还要和当时最好的版本并排比较，正反顺序各看一次。修改方和评审来自两家，不是同一个模型自己给自己打分。
+The prompt borrows "a pelican riding a bicycle", which Simon Willison often uses to test how models draw SVG. Each round a personal Codex account on this machine (`gpt-6.1-sol`, user config isolated) changes only `drawing.svg`. The evaluator first checks that it's a clean vector drawing, then renders it to PNG with headless Chrome, and a personal Claude account (`cli:claude`) scores the image against the rubric. A higher-scoring candidate must also beat the best version at the time side by side, viewed in both orders. The editor and the judge come from two different vendors, so no model grades its own work.
 
-打开 [evolution.html](evolution.html) 可以把两次运行当作一条时间线看。页面需要通过本地 HTTP 服务打开，例如在 `examples/` 目录运行 `python -m http.server`。也可以在项目里用 `rsi watch` 实时查看。
+Open [evolution.html](evolution.html) to see both runs as one timeline. Serve it over HTTP first, for example by running `python -m http.server` in `examples/`. Inside a project, `rsi watch` shows the same view live.
 
-## 第一次运行：37 → 75，然后卡在同分
+## Run 1: 37 → 75, then stuck on the same score
 
-`runs/20261029-210134-pelican-on-a-bicycle/`，用时 8.4 分钟。
+`runs/20261029-210134-pelican-on-a-bicycle/`, 8.4 minutes.
 
-| 轮次 | 结果 | 分数 | 改了什么 |
+| Round | Result | Score | What changed |
 |---|---|---|---|
-| 起点 | 起点 | 37 | 两个圆、几根线、一个椭圆身体 |
-| r1 | 保留 | 68 | 补全鹈鹕特征（喉囊、腿脚）和身体与自行车的接触；正反比较 2/2 |
-| r2 | 保留 | 75 | 补全车架、链条和传动；正反比较 2/2 |
-| r3 | 拒绝 | 75 | 翅膀伸到车把并包住握把 |
-| r4 | 拒绝 | 75 | 腿改成有粗细和关节的轮廓，补清蹼脚 |
-| r5 | 拒绝 | 75 | 地面投影和速度线 |
+| Start | Baseline | 37 | Two circles, a few lines and an oval body |
+| r1 | Kept | 68 | Pelican features (pouch, legs, feet) and contact with the bike; head-to-head 2/2 |
+| r2 | Kept | 75 | Frame, chain and drivetrain; head-to-head 2/2 |
+| r3 | Rejected | 75 | Wings reach forward and grip the handlebars |
+| r4 | Rejected | 75 | Legs with thickness and joints, clearer webbed feet |
+| r5 | Rejected | 75 | Ground shadow and speed lines |
 
-r3 到 r5 是三处肉眼可见的改进，但评委给出的分项分完全相同（鹈鹕 7、自行车 8、骑乘 8、画工 7），总分都是 75。按“分数必须更高”的规则全部被拒，连续三轮没有提升，运行按预算停止。问题出在评分的分辨率：每项只有一个整数分、只取一次样，细小的进步落不到总分上。
+Rounds 3 to 5 are three visible improvements, but the judge gave identical criterion scores every time (pelican 7, bicycle 8, riding 8, craft 7), so each totalled 75. Under "the score must go up" all three were rejected, and after three rounds without improvement the run stopped on budget. The problem is the judge's resolution: one integer per criterion and a single sample can't register small gains.
 
-## 规则改动：同分时并排比较
+## Rule change: settle ties side by side
 
-`rsi.yaml` 增加 `ties: compare`：分数相同的候选，交给同样的正反并排比较决定，多数票认为更好才保留。改了规则就是新实验，运行中途不换规则，所以开始第二次运行。
+`rsi.yaml` gained `ties: compare`: a candidate with an equal score goes to the same both-orders side-by-side comparison and is kept only if it wins the majority. A rule change means a new experiment, since a run never switches rules midway, so a second run started.
 
-## 第二次运行：75 → 78
+## Run 2: 75 → 78
 
-`runs/20261029-211118-pelican-on-a-bicycle/`，用时 11.4 分钟。起点就是第一次运行最后保留的画，重新评分仍是 75。
+`runs/20261029-211118-pelican-on-a-bicycle/`, 11.4 minutes. It starts from the drawing run 1 ended with, which scored 75 again when re-judged.
 
-| 轮次 | 结果 | 分数 | 判断 | 改了什么 |
+| Round | Result | Score | Decision | What changed |
 |---|---|---|---|---|
-| 起点 | 起点 | 75 | | 第一次运行的最终版本 |
-| r1 | 保留 | 75 | 同分，比较 2/2 | 整体放大 20% 并居中 |
-| r2 | 保留 | 78 | 75 → 78，比较 2/2 | 更大的三趾蹼脚，前趾沿踏板弯曲 |
-| r3 | 拒绝 | 75 | 分数更低 | 带关节和羽毛走向的翅膀 |
-| r4 | 保留 | 78 | 同分，比较 2/2 | 自然下垂的喉囊，加暖色阴影 |
-| r5 | 拒绝 | 78 | 同分，比较 0/2 | 更饱满的身体轮廓 |
-| r6 | 保留 | 78 | 同分，比较 2/2 | 链节、前后齿盘的细节 |
+| Start | Baseline | 75 | | The final version from run 1 |
+| r1 | Kept | 75 | tie, head-to-head 2/2 | Scaled up 20% and centered |
+| r2 | Kept | 78 | 75 → 78, head-to-head 2/2 | Larger three-toed webbed feet curling over the pedals |
+| r3 | Rejected | 75 | lower score | Wings with joints and feather direction |
+| r4 | Kept | 78 | tie, head-to-head 2/2 | A naturally drooping throat pouch with warm shading |
+| r5 | Rejected | 78 | tie, head-to-head 0/2 | A fuller body outline |
+| r6 | Kept | 78 | tie, head-to-head 2/2 | Chain links and detailed front and rear sprockets |
 
-6 轮里保留 4 轮，用完轮次预算停止。r5 说明平分规则并不是“同分就收”：评委并排看过之后，两次都选了原来的版本。
+Four of six rounds were kept, and the run stopped when its round budget ran out. Round 5 shows that the tie rule isn't "equal means keep": after looking side by side, the judge picked the existing version both times.
 
-## 核验与边界
+## Verification and limits
 
-每个运行目录里的 `verify_saved_results.py` 不调用模型。它用冻结的评分程序把每个评过分的版本重新渲染一遍，要求门槛结果相同、截图逐字节一致，并检查账本里每次保留都确实提高了分数或赢下了同分比较、最终版本就是最后保留的版本。两次运行共 13 个版本全部通过，结果写在 `verification.json`。模型给的分数按原记录保存，没有重新计算。
+Each run folder has a `verify_saved_results.py` that makes no model calls. It re-renders every judged version with the frozen evaluator and requires the same gate results and byte-identical screenshots. It also checks the ledger: every kept version either raised the score or won a tie comparison, and the final version is the last one kept. All 13 versions across both runs pass; the results are in `verification.json`. The model scores are kept as recorded, not recomputed.
 
-分数来自单个评委模型、每次只取一个样本，分项为整数，第一次运行的平台期就是这种粗粒度造成的。同分比较也由同一个评委完成，每次比较两票（一个模型，正反各一次）。这些分数只代表这份评分表下的判断，不是美术评审，也不说明模型的通用绘画能力。助手写的修改说明是中文，原样保留在记录里。
+Scores come from a single judge model, one sample at a time, with integer criteria; that coarseness caused run 1's plateau. Ties are settled by the same judge, with two votes per comparison (one model, both orders). These scores reflect this rubric only. They aren't an art review and say nothing about a model's general drawing ability. The agent wrote its change notes in Chinese; they're kept as recorded.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""从已有补丁重建历史作品；保留原始账本和分数，不运行新优化。"""
+"""Rebuild historical artifacts from the existing patches; keeps the original ledger and scores and runs no new optimization."""
 from __future__ import annotations
 
 import json
@@ -40,11 +40,11 @@ def restore(domain, run, filename, baseline):
         artifacts.save(work, folder / "artifacts" / "final", [filename])
         expected = folder / "final-post.md"
         if expected.exists():
-            assert current == expected.read_bytes(), "重建稿与原始最终稿不一致"
+            assert current == expected.read_bytes(), "the rebuilt draft does not match the original final draft"
     versions.append({"round": "final", "status": "FINAL", "path": f"artifacts/final/files/{filename}"})
     (folder / "versions.json").write_text(json.dumps({"source": "reconstructed_from_original_patches", "versions": versions},
                                                    ensure_ascii=False, indent=2) + "\n")
-    print(domain, len(versions), "个版本已从原补丁重建")
+    print(domain, len(versions), "versions rebuilt from the original patches")
 
 
 if __name__ == "__main__":

@@ -1,14 +1,14 @@
 {
-  "title": "宣传页面设计服务合同（合成演练）",
-  "origin": "项目作者自行编写，所有当事人和业务情节均为虚构。",
-  "scope": "仅用于合同阅读与表达演练，不是可直接签署的合同。",
+  "title": "Promotional Page Design Services Contract (synthetic exercise)",
+  "origin": "Written by the project authors; all parties and business facts are fictional.",
+  "scope": "For practice in reading and drafting contracts only; not a contract ready to be signed.",
   "clauses": {
-    "C1": "甲方委托乙方制作宣传页面。乙方应提供若干设计稿以及必要的源文件，交付内容以甲方满意为准。",
-    "C2": "项目总价为人民币一万元。甲方先支付百分之三十，余款在项目结束后及时支付。项目产生的额外费用另行处理。",
-    "C3": "乙方应尽快完成交付。甲方可以随时新增内容，新增工作不影响原定工期，乙方应配合完成。",
-    "C4": "甲方收到设计稿后进行验收，没有回复不代表验收通过。甲方可要求乙方修改，修改次数不限。",
-    "C5": "全部设计成果的所有权归甲方，乙方原有模板、字体以及第三方素材也一并转让给甲方。",
-    "C6": "甲方可随时终止合作且不支付未完成部分费用。乙方提前终止需退还全部款项；已完成工作如何确认与交接，由双方另行协商。",
-    "C7": "乙方可以使用甲方提供的客户名单制作样稿。双方均可在自己的宣传中展示全部项目资料，合同结束后不再约束资料使用。"
+    "C1": "The Client engages the Designer to produce a promotional page. The Designer shall provide several design drafts and the necessary source files, and the deliverables are complete when the Client is satisfied.",
+    "C2": "The total project price is RMB 10,000. The Client pays thirty percent up front, and the balance is paid promptly after the project ends. Any additional costs arising from the project will be handled separately.",
+    "C3": "The Designer shall complete delivery as soon as possible. The Client may add content at any time, added work does not change the original schedule, and the Designer shall cooperate to complete it.",
+    "C4": "The Client reviews the design drafts for acceptance after receiving them, and no reply does not mean acceptance. The Client may ask the Designer for revisions, with no limit on the number of revisions.",
+    "C5": "Ownership of all design work belongs to the Client, and the Designer's existing templates, fonts and third-party materials are also transferred to the Client.",
+    "C6": "The Client may end the engagement at any time without paying for unfinished work. If the Designer ends it early, the Designer must refund all payments; how completed work is confirmed and handed over will be negotiated separately by the parties.",
+    "C7": "The Designer may use the customer list provided by the Client to produce sample drafts. Either party may show all project materials in its own promotion, and use of the materials is no longer restricted after the contract ends."
   }
 }

@@ -1,4 +1,4 @@
-"""运行 `python example.py` 查看月度账单及三人分账。"""
+"""Run `python example.py` to see the monthly totals and a three-way dinner split."""
 import json
 from pathlib import Path
 

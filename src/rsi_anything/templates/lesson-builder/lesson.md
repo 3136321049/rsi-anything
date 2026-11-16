@@ -1,13 +1,13 @@
-# 从整体的一部分理解百分比
+# Understanding Percentages as Part of a Whole
 
-百分比就是把整体看成一百份，表示其中有多少份。百分之二十可以写成20%，也就是0.2。做题前，先说清楚哪个量是整体，哪个量是部分，单位是什么。
+A percentage treats the whole as one hundred equal parts and says how many of those parts we have. Twenty percent can be written as 20%, which is 0.2. Before solving a problem, first say clearly which quantity is the whole, which quantity is the part, and what the unit is.
 
-## 已知整体，求其中一部分
+## Finding a part when the whole is known
 
-求一个数量的百分之几，可以把整体数量乘以对应的小数。比如一盒彩笔有50支，其中20%是蓝色，则蓝色彩笔有50×0.2=10支。这里整体是50支，比例是20%，所求部分是10支。
+To find a percentage of a quantity, multiply the whole quantity by the matching decimal. For example, a box holds 50 colored pens and 20% of them are blue, so there are 50 × 0.2 = 10 blue pens. Here the whole is 50 pens, the rate is 20%, and the part we want is 10 pens.
 
-另一个例子：一本书共80页，读完了25%，已读页数为80×0.25=20页。计算结果要写单位，才能知道自己算的是页数，不是比例。
+Another example: a book has 80 pages and you have read 25% of it, so you have read 80 × 0.25 = 20 pages. Always write the unit with the result, so you know you have calculated a number of pages and not a rate.
 
-## 做题顺序
+## Order of work
 
-先读清题目，再找到整体和比例，把百分数换成小数，然后计算。最后检查答案：如果求的是整体的一部分，结果通常不应大于整体；比例越大，对应的部分也越大。不要看到两个数字就直接相乘，应先解释每个数字的意义。
+Read the problem carefully, find the whole and the rate, change the percentage into a decimal, and then calculate. Finally, check the answer: if you were asked for a part of the whole, the result should usually not be larger than the whole, and a larger rate gives a larger part. Do not multiply two numbers just because you see them; first explain what each number means.

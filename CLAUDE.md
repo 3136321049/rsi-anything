@@ -1,3 +1,3 @@
 @AGENTS.md
 
-接手入口为 `docs/COLLABORATION.zh-CN.md` 与 `docs/HANDOFF.zh-CN.md`；当前状态和已完成实验以仓库文档及 `examples/` 为准。
+The handoff entry points are `docs/COLLABORATION.md` and `docs/HANDOFF.md`; the repository docs and `examples/` are the source of truth for current status and completed experiments.

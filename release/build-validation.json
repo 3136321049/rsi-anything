@@ -2,7 +2,7 @@
   "status": "verified",
   "checked_at": "2026-10-24",
   "completed_at_utc": "2026-10-23T17:11:29.178721+00:00",
-  "purpose": "最终wheel包内容与离线安装验收；未构建或发布源码包。",
+  "purpose": "Final wheel contents and offline install acceptance; source package not built or published.",
   "build_command": [
     ".venv311/bin/python",
     "-m",

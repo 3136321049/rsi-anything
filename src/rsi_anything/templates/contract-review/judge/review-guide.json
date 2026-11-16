@@ -1,47 +1,47 @@
 {
-  "purpose": "本演练的检查标准由项目作者自拟，判断文字是否完整可执行，不判断法律效力。",
+  "purpose": "The review criteria for this exercise were written by the project authors; they judge whether the wording is complete and workable, not legal validity.",
   "issues": {
     "I1": {
       "clause_id": "C1",
-      "name": "交付范围不明确",
-      "principle": "明确页面数量、格式、源文件清单和交付渠道，避免只写满意。"
+      "name": "Unclear scope of deliverables",
+      "principle": "Specify the number of pages, formats, a list of source files and the delivery channel, instead of only saying the client must be satisfied."
     },
     "I2": {
       "clause_id": "C2",
-      "name": "付款条件与费用不明确",
-      "principle": "写清付款触发事件、期限、发票和额外费用确认方式。"
+      "name": "Unclear payment terms and costs",
+      "principle": "State the event that triggers payment, the deadline, invoicing, and how additional costs are approved."
     },
     "I3": {
       "clause_id": "C3",
-      "name": "排期和变更没有联动",
-      "principle": "建立交付日期和变更确认流程，新增范围应同时确认费用与工期。"
+      "name": "Schedule not linked to changes",
+      "principle": "Set delivery dates and a change-approval process; added scope should confirm both the fee and the schedule."
     },
     "I4": {
       "clause_id": "C4",
-      "name": "验收和返工没有边界",
-      "principle": "明确验收标准、反馈期限、修改轮次，以及超范围修改处理。"
+      "name": "No limits on acceptance and rework",
+      "principle": "Specify acceptance criteria, the feedback deadline, the number of revision rounds, and how out-of-scope revisions are handled."
     },
     "I5": {
       "clause_id": "C5",
-      "name": "成果和既有素材权利混同",
-      "principle": "区分本项目新成果、乙方既有模板与第三方素材，并列明交付或许可范围；不能假设乙方能转让第三方权利。"
+      "name": "New work mixed up with existing materials",
+      "principle": "Separate new work from this project, the Designer's existing templates and third-party materials, and list what is delivered or licensed; do not assume the Designer can transfer third-party rights."
     },
     "I6": {
       "clause_id": "C6",
-      "name": "终止结算与交接不完整",
-      "principle": "约定终止通知、按已完成工作结算、退款计算和交付清单，不留下未决交接。"
+      "name": "Incomplete settlement and handover on termination",
+      "principle": "Agree on termination notice, payment for completed work, how refunds are calculated, and a delivery list, leaving no handover unresolved."
     },
     "I7": {
       "clause_id": "C7",
-      "name": "客户资料使用缺少限制",
-      "principle": "限制使用目的、访问人员和对外展示，约定保管、返还删除及终止后的义务。"
+      "name": "No limits on use of customer data",
+      "principle": "Limit the purpose of use, who may access it and any public display, and agree on safekeeping, return or deletion, and obligations after termination."
     }
   },
   "source": {
     "title": "Prepare a contract — Australian Government business.gov.au",
     "url": "https://business.gov.au/people/contractors/prepare-a-contract",
     "checked_at": "2026-10-24",
-    "usage": "只参考服务范围、付款、知识产权等合同写作要素；不将澳大利亚法律用于本虚构案例。"
+    "usage": "Used only as a reference for contract drafting elements such as scope of services, payment and intellectual property; Australian law is not applied to this fictional case."
   },
-  "boundary": "不得编造法律、判例或断言必然无效、必然胜诉；建议数字应标为双方可协商方案，而非现行约定。"
+  "boundary": "Do not invent laws or case law, and do not assert that anything is certainly void or certainly wins; numbers in suggestions must be marked as options for the parties to negotiate, not as existing terms."
 }

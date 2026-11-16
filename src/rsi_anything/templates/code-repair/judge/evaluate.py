@@ -1,4 +1,4 @@
-"""执行固定测试，输出通过率、逐项失败与示例结果。"""
+"""Run the fixed tests and write the pass rate, each failure and the example output."""
 import importlib.util
 import io
 import json
@@ -37,7 +37,7 @@ def main():
                    "skipped": len(result.skipped), "passed_tests": result.passed_names}
         score = round(100 * details["passed"] / expected, 2) if expected else 0
         gates = {"tests_executed": expected > 0 and result.testsRun == expected, "no_skips": not result.skipped}
-        feedback = f"固定测试通过 {details['passed']}/{expected}。"
+        feedback = f"Fixed tests passed: {details['passed']}/{expected}."
         feedback += "\n" + "\n".join(f"{f['test']}: {f['detail'].strip().splitlines()[-1]}" for f in failures)
         try:
             from example import build_example
@@ -45,14 +45,14 @@ def main():
         except Exception as exc:
             example = {"error": str(exc)}
     except Exception as exc:
-        score, gates, feedback = 0, {"tests_executed": False}, f"业务模块无法运行：{type(exc).__name__}: {exc}"
+        score, gates, feedback = 0, {"tests_executed": False}, f"The expense module cannot run: {type(exc).__name__}: {exc}"
         details = {"total": 0, "passed": 0, "failed": [], "error": feedback}
     payload = {"score": score, "gates": gates, "feedback": feedback,
                "metrics": {"tests_passed": details["passed"], "tests_total": details["total"],
                            "all_tests_passed": bool(details["total"]) and score == 100}}
     (out / "tests.json").write_text(json.dumps(details, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (out / "example.json").write_text(json.dumps(example, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    (out / "report.md").write_text("# 记账项目检查\n\n" + feedback + "\n\n## 当前示例\n\n```json\n"
+    (out / "report.md").write_text("# Expense project check\n\n" + feedback + "\n\n## Current example\n\n```json\n"
                                    + json.dumps(example, ensure_ascii=False, indent=2) + "\n```\n", encoding="utf-8")
     (out / "metrics.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     if os.environ.get("RSI_RESULT"):

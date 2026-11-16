@@ -1,7 +1,7 @@
 name: xiaohongshu-post
 goal: |
-  把 post.md 改成一篇能让目标读者停下来、愿意收藏和到店的小红书笔记。
-  所有事实只能来自 judge/brief.md，不能编造价格、地址、福利或用户评价。
+  Rewrite post.md into a Xiaohongshu (RedNote) post that makes the target reader stop scrolling, save it and visit the study room.
+  Every fact must come from judge/brief.md; never invent prices, addresses, perks or customer reviews.
 artifact:
   - post.md
 judge:

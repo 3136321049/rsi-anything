@@ -1,18 +1,18 @@
-"""记账工具：金额以分为单位，退款使用负数。"""
+"""Expense tracker helpers: amounts are stored in integer cents, refunds are negative."""
 
 
 def amount_to_cents(text):
-    """解析十进制金额；允许前后空格和正负号，拒绝非有限数及超过两位小数。"""
+    """Parse a decimal amount; allow surrounding spaces and a sign, reject non-finite values and more than two decimals."""
     return int(float(text) * 100)
 
 
 def split_bill(cents, people):
-    """将非负整数金额分给正整数人数；余下的分依次给前几人。"""
+    """Split a non-negative integer amount among a positive integer number of people; leftover cents go to the first people in turn."""
     return [cents // people] * people
 
 
 def monthly_totals(entries, month):
-    """按分类汇总指定月份的收支；日期和月份格式错误时抛出 ValueError，不修改输入。"""
+    """Total the given month's entries per category; raise ValueError on a malformed date or month, and do not modify the input."""
     totals = {}
     for entry in entries:
         if entry["date"].startswith(month):

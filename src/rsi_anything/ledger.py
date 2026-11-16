@@ -19,12 +19,12 @@ from pathlib import Path
 from typing import Any, Optional
 
 from .artifacts import write_json
-# 轮次状态与账本行属于领域层，这里保留旧的导入位置。
+# Round statuses and ledger rows belong to the domain layer; this keeps the old import location working.
 from .domain import (AGENT_FAIL, BASELINE, INTERRUPTED, JUDGE_FAIL, KEEP, NO_CHANGE, REVERT,  # noqa: F401
                      Row, now)
 
 STATE_DIR = ".rsi"
-# 运行记录格式版本：run.json 带 `schema`；没有该字段的旧记录按 1 读取。
+# Run record format version: run.json carries `schema`; old records without it are read as version 1.
 SCHEMA_VERSION = 1
 
 
@@ -69,7 +69,7 @@ class RunStore:
     def append(self, row: Row):
         if any(item["round"] == row.round for item in self.rows()):
             raise ValueError(f"round {row.round} is already recorded")
-        # 保留异常退出留下的尾部片段，再补写完整记录。
+        # Keep the trailing fragment left by an abnormal exit, then append the complete record.
         if self.ledger_path.exists():
             content = self.ledger_path.read_bytes()
             if content and not content.endswith(b"\n"):
@@ -92,7 +92,7 @@ class RunStore:
         self.append(row)
 
     def recover_rounds(self):
-        """补齐已落盘、但还没追加到账本的完整轮次。"""
+        """Append complete rounds that were saved to disk but not yet added to the ledger."""
         recorded = {item["round"] for item in self.rows()}
         for path in sorted((self.dir / "rounds").glob("r*/result.json")):
             row = Row(**json.loads(path.read_text(encoding="utf-8")))

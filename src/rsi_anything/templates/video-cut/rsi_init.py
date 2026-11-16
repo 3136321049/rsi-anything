@@ -18,11 +18,14 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import textwrap
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-FONTS = ["/System/Library/Fonts/STHeiti Medium.ttc", "/System/Library/Fonts/Hiragino Sans GB.ttc",
-         "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc", "/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc"]
+CJK_FONTS = ["/System/Library/Fonts/STHeiti Medium.ttc", "/System/Library/Fonts/Hiragino Sans GB.ttc",
+             "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc", "/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc"]
+LATIN_FONTS = ["/System/Library/Fonts/Helvetica.ttc", "/System/Library/Fonts/Supplemental/Arial.ttf",
+               "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", "/usr/share/fonts/TTF/DejaVuSans.ttf"]
 GAP = 0.3  # seconds of silence between sentences
 
 
@@ -36,19 +39,24 @@ def duration(path: Path) -> float:
     return float(out.strip())
 
 
+def is_cjk(text: str) -> bool:
+    return any("\u4e00" <= ch <= "\u9fff" for ch in text)
+
+
 def speak(text: str, out: Path):
     if platform.system() == "Darwin" and shutil.which("say"):
-        voice = "Tingting" if any("一" <= ch <= "鿿" for ch in text) else "Samantha"
+        voice = "Tingting" if is_cjk(text) else "Samantha"
         run("say", "-v", voice, "-o", str(out.with_suffix(".aiff")), text)
         run("ffmpeg", "-y", "-v", "error", "-i", str(out.with_suffix(".aiff")), "-ar", "44100", "-ac", "1", str(out))
     elif shutil.which("espeak-ng"):
-        run("espeak-ng", "-v", "cmn" if any("一" <= ch <= "鿿" for ch in text) else "en", "-w", str(out), text)
+        run("espeak-ng", "-v", "cmn" if is_cjk(text) else "en", "-w", str(out), text)
     else:
         sys.exit("need macOS `say` or `espeak-ng` to synthesize the demo talk (or provide input.mp4)")
 
 
 def synthesize(lines: list[str], raw: Path) -> list[dict]:
-    font = next((f for f in FONTS if Path(f).exists()), None)
+    fonts = CJK_FONTS + LATIN_FONTS if any(is_cjk(line) for line in lines) else LATIN_FONTS + CJK_FONTS
+    font = next((f for f in fonts if Path(f).exists()), None)
     timeline, clips, cursor = [], [], 0.0
     with tempfile.TemporaryDirectory() as tmp:
         tmp_dir = Path(tmp)
@@ -59,7 +67,10 @@ def synthesize(lines: list[str], raw: Path) -> list[dict]:
             card = f"color=c=0x1d2433:s=720x1280:d={length:.3f}"
             draw = []
             if font:
-                caption = text if len(text) <= 16 else "\n".join(text[i:i + 14] for i in range(0, len(text), 14))
+                if is_cjk(text):
+                    caption = text if len(text) <= 16 else "\n".join(text[i:i + 14] for i in range(0, len(text), 14))
+                else:
+                    caption = "\n".join(textwrap.wrap(text, 26))
                 (tmp_dir / f"{index:03d}.txt").write_text(caption, encoding="utf-8")
                 draw = ["-vf", f"drawtext=fontfile='{font}':textfile='{tmp_dir / f'{index:03d}.txt'}':fontcolor=white:"
                                f"fontsize=44:line_spacing=18:x=(w-text_w)/2:y=(h-text_h)/2"]
@@ -103,24 +114,26 @@ def main():
             limit = duration(source)
             if not timeline or any(not (0 <= float(s["start"]) < float(s["end"]) <= limit + 0.1)
                                    or not str(s.get("text", "")).strip() for s in timeline):
-                sys.exit("提供的句子时间线为空或超出视频时长")
+                sys.exit("the supplied sentence timeline is empty or runs past the end of the video")
             if len({s["id"] for s in timeline}) != len(timeline):
-                sys.exit("句子编号不能重复")
+                sys.exit("sentence ids must not repeat")
             raw.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source, raw)
         else:
             timeline = transcribe(source, raw)
         (HERE / "judge" / "talk.txt").write_text("\n".join(s["text"] for s in timeline) + "\n", encoding="utf-8")
-        # 自备素材使用对应的目标说明，避免继承默认学习话题。
+        # Your own footage gets its own brief, so it does not inherit the default study-habits topic.
         if os.environ.get("RSI_VIDEO_BRIEF"):
             (HERE / "judge" / "keypoints.md").write_text(Path(os.environ["RSI_VIDEO_BRIEF"]).read_text(), encoding="utf-8")
         else:
             (HERE / "judge" / "keypoints.md").write_text(
-                "# 剪辑目标\n\n从给定原始讲稿中选取主题明确、衔接自然的片段，保持原意和语境。\n", encoding="utf-8")
+                "# Editing goal\n\nChoose passages from the given original transcript that have a clear topic and "
+                "connect naturally, keeping the original meaning and context.\n", encoding="utf-8")
         import yaml
         cfg = yaml.safe_load((HERE / "rsi.yaml").read_text())
-        cfg["goal"] = ("从 judge/transcript.json 对应的真实口播中选出40到75秒的短片，只修改edit.json。"
-                       "按judge/keypoints.md给出的目标选句和安排顺序，保留原意，不拼接出相反含义。")
+        cfg["goal"] = ("Cut a 40 to 75 second short from the real talk behind judge/transcript.json, editing only "
+                       "edit.json. Choose and order sentences for the goal in judge/keypoints.md, keep the original "
+                       "meaning, and do not splice sentences into the opposite meaning.")
         (HERE / "rsi.yaml").write_text(yaml.safe_dump(cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")
         if os.environ.get("RSI_VIDEO_SOURCE_INFO"):
             shutil.copyfile(os.environ["RSI_VIDEO_SOURCE_INFO"], HERE / "judge" / "source.json")

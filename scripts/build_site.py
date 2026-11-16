@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""从已保存的实验构建可独立托管的中英文网站，不执行模型任务。"""
+"""Build the self-hostable bilingual (English/Chinese) website from saved experiments; runs no model tasks."""
 from __future__ import annotations
 
 import argparse
@@ -25,18 +25,18 @@ CASES = {
     "cpu-classifier": "20261024-001122-cpu-digits-classifier",
     "video-cut": "20261024-002228-talk-highlight",
 }
-# 视觉实验室：同一作品接着跑的多次运行按顺序连成一条时间线。
+# Visual lab: successive runs that continue the same artifact are chained into one timeline, in order.
 VISUAL = {
     "svg-drawing": ["20261029-210134-pelican-on-a-bicycle", "20261029-211118-pelican-on-a-bicycle"],
     "landing-page": ["20261029-212726-night-study-landing-page"],
 }
 VISUAL_IMAGES = {"svg-drawing": ["out/drawing.png"], "landing-page": ["out/desktop.png", "out/mobile.png"]}
 VISUAL_SOURCE = {"svg-drawing": "drawing.svg", "landing-page": "index.html"}
-# 英文为默认语言，中文放在 zh/ 下。
+# English is the default language; Chinese lives under zh/.
 LANGS = {"en": "", "zh": "zh/"}
 PAGES = {"": "home", "labs/code/": "code", "labs/experiments/": "experiments", "labs/video/": "video",
          "labs/visual/": "visual", "cases/": "cases", "start/": "start"}
-# 公开站点只带这些说明文档（中英各一份）；内部交接、开发记录和发布审计不对外。
+# The public site ships only these docs (one English and one Chinese copy each); internal handoffs, dev logs and release audits stay private.
 PUBLIC_DOCS = tuple(f"{name}{suffix}.md" for name in ("INSTALL", "EXTENDING", "OPEN-SOURCE", "PLAN") for suffix in (".zh-CN", ""))
 EVIDENCE_KEYS = {"report.html": "report", "ledger.jsonl": "ledger", "verification.json": "verification",
                  "artifact-verification.json": "artifact_verification", "outcome-audit.json": "outcome_audit",
@@ -116,7 +116,7 @@ def case_data(root, case, domain):
 
 
 def visual_data(root, case, domain):
-    """视觉案例：逐轮截图、分项分数与判断；后一次运行的起点若就是前一次的最终作品，接在同一条时间线上。"""
+    """Visual case: per-round screenshots, criterion scores and verdicts; a run that starts from the previous run's final artifact continues the same timeline."""
     template = case["template"]
     runs = {run["id"]: run for run in case["runs"]}
     rubric = yaml.safe_load((root / "src/rsi_anything/templates" / template / "judge/rubric.yaml").read_text(encoding="utf-8"))
@@ -163,22 +163,32 @@ def visual_data(root, case, domain):
 
 
 def public_file(item):
-    """展示数据里的文件只留地址与类型，正文由页面按需读取。"""
+    """Files in the site data keep only their address and type; the page fetches the content on demand."""
     return {"name": item["name"], "url": "examples/" + item["url"], "kind": item["kind"], "bytes": item["bytes"]}
 
 
 def english_doc(url, output):
-    """说明文档的英文版：README.md → README.en.md，X.zh-CN.md → X.md；没有译文时沿用原文。"""
+    """English version of a doc: X.zh-CN.md -> X.md; other paths are already English and stay as they are."""
     folder, _, name = url.rpartition("/")
-    english = name[:-len(".zh-CN.md")] + ".md" if name.endswith(".zh-CN.md") else name[:-3] + ".en.md"
-    candidate = (folder + "/" if folder else "") + english
-    return candidate if name.endswith(".md") and not name.endswith(".en.md") and (output / candidate).is_file() else url
+    if not name.endswith(".zh-CN.md"):
+        return url
+    candidate = (folder + "/" if folder else "") + name[:-len(".zh-CN.md")] + ".md"
+    return candidate if (output / candidate).is_file() else url
 
 
-def english_catalog_docs(catalog, output):
-    """英文页的案例说明、模板说明和环境探测链接改指英文版。"""
+def chinese_doc(url, output):
+    """Chinese version of a doc: X.md -> X.zh-CN.md; keeps the English original when there is no translation."""
+    folder, _, name = url.rpartition("/")
+    if not name.endswith(".md") or name.endswith(".zh-CN.md"):
+        return url
+    candidate = (folder + "/" if folder else "") + name[:-3] + ".zh-CN.md"
+    return candidate if (output / candidate).is_file() else url
+
+
+def chinese_catalog_docs(catalog, output):
+    """Point the case, template and environment-probe doc links on Chinese pages to the Chinese versions."""
     def swap(item):
-        return item and {**item, "url": english_doc(item["url"], output)}
+        return item and {**item, "url": chinese_doc(item["url"], output)}
     for domain in catalog["domains"]:
         domain["probe"] = swap(domain["probe"])
         for case in domain["cases"]:
@@ -205,8 +215,8 @@ def compact_catalog(data):
                                      "files": [public_file(f) for f in version["files"]]})
                 inputs = []
                 for item in run["inputs"]:
-                    original = item["name"].startswith("原始输入 · ")
-                    inputs.append({**public_file(item), "name": item["name"].removeprefix("原始输入 · "), "original": original})
+                    original = item["name"].startswith(build_showcase.ORIGINAL_INPUT)
+                    inputs.append({**public_file(item), "name": item["name"].removeprefix(build_showcase.ORIGINAL_INPUT), "original": original})
                 evidence = []
                 for item in run["evidence"]:
                     name = item["url"].rsplit("/", 1)[-1]
@@ -276,7 +286,7 @@ def experiment_log(catalog, strings):
 
 
 def unit_text(unit):
-    """英文单位前留空格，符号与中文单位紧贴数字。"""
+    """English units get a leading space; symbols and Chinese units sit right against the number."""
     return " " + unit if re.match(r"[A-Za-z]", unit or "") else unit or ""
 
 
@@ -289,7 +299,7 @@ def fill(text, strings):
         node = strings
         for part in match[1].split("."):
             if not isinstance(node, dict) or part not in node:
-                raise KeyError(f"缺少界面文字：{match[1]}")
+                raise KeyError(f"Missing UI string: {match[1]}")
             node = node[part]
         return node
     return re.sub(r"\{\{([\w.]+)\}\}", lookup, text)
@@ -315,16 +325,16 @@ def size(path):
 def build(root=ROOT, output=None):
     output = Path(output) if output else root / "build/site"
     if output.resolve() == root.resolve() or output.resolve() in (root / "src", root / "examples"):
-        raise ValueError("网站输出必须使用独立目录。")
+        raise ValueError("The site output must use a separate directory.")
     if output.exists() and any(output.iterdir()):
-        # 只清理此前生成的网站目录，避免误删其他内容。
+        # Only clear a directory this script generated before, so nothing else gets deleted by mistake.
         if not (output / "build-info.json").is_file():
-            raise ValueError(f"输出目录不为空，也不是此前生成的网站：{output}")
+            raise ValueError(f"The output directory is not empty and is not a previously generated site: {output}")
         shutil.rmtree(output)
     output.mkdir(parents=True, exist_ok=True)
     data = build_showcase.collect(root)
     copy_public_tree(root / "examples", output / "examples")
-    # 旧版集合页的地址可能已被分享，在网站中转到新的全部实验页。
+    # The old showcase page URL may have been shared; on the site it redirects to the new all-experiments page.
     (output / "examples/index.html").write_text(
         '<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><title>DARWIN</title>'
         '<meta http-equiv="refresh" content="0;url=../cases/">'
@@ -336,7 +346,7 @@ def build(root=ROOT, output=None):
     for name in ("README.md", "README.zh-CN.md", "LICENSE"):
         shutil.copy2(root / name, output / name)
     (output / "dist").mkdir()
-    # 源码包含内部开发文档，网站只提供 wheel。
+    # The source distribution contains internal dev docs, so the site only offers the wheel.
     shutil.copy2(root / "dist" / WHEEL, output / "dist" / WHEEL)
     copy_public_tree(root / "web/assets", output / "assets")
 
@@ -378,8 +388,8 @@ def build(root=ROOT, output=None):
         strings = json.loads((root / f"web/i18n/{lang}.json").read_text(encoding="utf-8"))
         lang_labs = {name: site_i18n.localize(value, lang, missing if lang == "en" else None) for name, value in labs.items()}
         lang_catalog = site_i18n.localize(catalog, lang, missing if lang == "en" else None)
-        if lang == "en":
-            lang_catalog = english_catalog_docs(lang_catalog, output)
+        if lang == "zh":
+            lang_catalog = chinese_catalog_docs(lang_catalog, output)
         (output / "data" / lang).mkdir(parents=True)
         for name, value in lang_labs.items():
             (output / "data" / lang / f"{name}.json").write_text(json.dumps(value, ensure_ascii=False), encoding="utf-8")
@@ -413,7 +423,7 @@ def build(root=ROOT, output=None):
             (target / "index.html").write_text(page, encoding="utf-8")
             sitemap.append(SITE_URL + prefix + route)
     if missing:
-        raise ValueError("以下实验记录缺少英文译文，请补充 web/i18n/records.en.json：\n" + "\n".join(sorted(missing)[:20]))
+        raise ValueError("These experiment records have no English translation; add them to web/i18n/records.en.json:\n" + "\n".join(sorted(missing)[:20]))
     (output / "404.html").write_text(
         '<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
         '<title>Page not found · DARWIN</title><link rel="stylesheet" href="/darwin/assets/site.css">'
@@ -424,7 +434,7 @@ def build(root=ROOT, output=None):
     (output / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
                                         + "".join(f"<url><loc>{u}</loc></url>\n" for u in sitemap) + "</urlset>\n", encoding="utf-8")
     (output / "build-info.json").write_text(json.dumps({"domains": int(totals["__N_DOMAINS__"]), "complete": int(totals["__N_COMPLETE__"]),
-                                                        "cases": [*CASES, *VISUAL], "languages": list(LANGS), "source": "已保存的正式运行",
+                                                        "cases": [*CASES, *VISUAL], "languages": list(LANGS), "source": "saved formal runs",
                                                         "generated_at": data["generated_at"]}, ensure_ascii=False), encoding="utf-8")
     return output
 
@@ -434,4 +444,4 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     path = build(output=args.output)
-    print(f"网站已生成：{path}")
+    print(f"Site built: {path}")

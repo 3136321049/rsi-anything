@@ -1,6 +1,6 @@
 {
   "generated": "2026-10-27",
-  "method": "从已有真实视频提取帧，不生成新内容",
+  "method": "Frames extracted from existing real videos; no new content generated",
   "images": [
     {
       "file": "video-poster.jpg",
@@ -22,7 +22,7 @@
       "file": "video-card.jpg",
       "source": "examples/video-cut/runs/20261024-002228-talk-highlight/artifacts/final/files/out/cut.mp4",
       "seconds": 20,
-      "crop": "360:270:0:184（去掉竖屏上下黑边）",
+      "crop": "360:270:0:184 (removes the black bars above and below the vertical video)",
       "scale": "720x540 lanczos",
       "width": 720,
       "height": 540,

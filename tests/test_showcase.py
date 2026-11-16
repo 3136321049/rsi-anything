@@ -1,4 +1,4 @@
-"""展示必须尊重原始轮次和未完成状态，不把探测或单轮算作多轮完成。"""
+"""The showcase must respect the raw rounds and unfinished states, and never count a probe or a single round as a finished multi-round run."""
 import importlib.util
 import hashlib
 import json
@@ -22,10 +22,10 @@ def fixture_run(tmp_path, *, rounds=3, finished=True, invalid=False):
     for name in ["artifacts/baseline", "artifacts/final"]:
         folder = run / name / "files"
         folder.mkdir(parents=True)
-        (folder / "post.md").write_text("正文\n</script><script>alert(1)</script>", encoding="utf-8")
-    case = {"template": "demo", "title": "示例", "primary": ["post.md"], "inputs": [],
-            "invalid_runs": {"real-run": "评分解析问题"} if invalid else {}}
-    catalog = {"title": "示例", "description": "本地", "domains": [{"id": "D01", "title": "示例",
+        (folder / "post.md").write_text("Body\n</script><script>alert(1)</script>", encoding="utf-8")
+    case = {"template": "demo", "title": "Example", "primary": ["post.md"], "inputs": [],
+            "invalid_runs": {"real-run": "score parsing problem"} if invalid else {}}
+    catalog = {"title": "Example", "description": "Local", "domains": [{"id": "D01", "title": "Example",
                "pending": "developing", "cases": [case]}]}
     (root / "examples/catalog.json").write_text(json.dumps(catalog))
     return root, run, catalog
@@ -63,8 +63,8 @@ def test_showcase_hides_unjudged_generated_outputs_and_requires_video(tmp_path):
     root, run, catalog = fixture_run(tmp_path)
     directory = run / "rounds/r002/artifacts/files"
     (directory / "out").mkdir(parents=True)
-    (directory / "post.md").write_text("已恢复配置")
-    (directory / "out/report.md").write_text("未评审的内部实验")
+    (directory / "post.md").write_text("restored config")
+    (directory / "out/report.md").write_text("unjudged internal experiment")
     rows = [json.loads(line) for line in (run / "ledger.jsonl").read_text().splitlines()]
     rows[2].update(status="NO_CHANGE", score=None)
     (run / "ledger.jsonl").write_text("\n".join(json.dumps(row) for row in rows))
@@ -77,7 +77,7 @@ def test_showcase_hides_unjudged_generated_outputs_and_requires_video(tmp_path):
 
 def test_showcase_domain_needs_every_subcase(tmp_path):
     root, _, catalog = fixture_run(tmp_path)
-    catalog["domains"][0]["cases"].append({"template": "unfinished-guide", "title": "手册", "primary": [], "inputs": []})
+    catalog["domains"][0]["cases"].append({"template": "unfinished-guide", "title": "Guide", "primary": [], "inputs": []})
     assert SHOWCASE.collect(root, catalog)["domains"][0]["state"] == "partial"
 
 
@@ -86,7 +86,7 @@ def test_showcase_finished_run_needs_independent_verification(tmp_path):
     (run / "verification.json").unlink()
     data = SHOWCASE.collect(root)
     assert data["domains"][0]["state"] == "partial"
-    assert any("独立验证" in reason for reason in data["domains"][0]["cases"][0]["runs"][0]["reasons"])
+    assert any("independent verification" in reason for reason in data["domains"][0]["cases"][0]["runs"][0]["reasons"])
 
 
 def test_service_error_is_unknown_without_changing_original_ledger(tmp_path):
@@ -99,7 +99,7 @@ def test_service_error_is_unknown_without_changing_original_ledger(tmp_path):
     out.mkdir(parents=True)
     (out / "error.json").write_text(json.dumps({"quality_result": "unknown", "error": "service error: null"}))
     (run / "outcome-audit.json").write_text(json.dumps({"raw_ledger_sha256": hashlib.sha256(raw).hexdigest(),
-        "complete_multiround": False, "rounds": [{"round": 2, "quality_result": "unknown", "reason": "未生成作品"}]}))
+        "complete_multiround": False, "rounds": [{"round": 2, "quality_result": "unknown", "reason": "no artifact generated"}]}))
     data = SHOWCASE.collect(root)
     domain = data["domains"][0]
     record = domain["cases"][0]["runs"][0]

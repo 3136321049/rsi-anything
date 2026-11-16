@@ -1,4 +1,4 @@
-"""视频接口与恢复测试；所有网络和视频探测均替换为单元测试对象。"""
+"""Video API and recovery tests; every network call and video probe is replaced with a unit-test stand-in."""
 import importlib.util
 import json
 from pathlib import Path
@@ -114,20 +114,20 @@ def test_corrupt_cached_video_does_not_silently_regenerate(tmp_path,module,monke
     folder=tmp_path/'cache'
     module.generate('https://example.org',body(module),folder)
     (folder/'video.mp4').write_bytes(b'changed')
-    with pytest.raises(RuntimeError,match='缓存视频校验'):
+    with pytest.raises(RuntimeError,match='Cached video checksum'):
         module.generate('https://example.org',body(module),folder)
     assert calls['submit']==1
 
 
 def test_changed_service_schema_stops_before_submit(module,monkeypatch):
     monkeypatch.setattr(module,'request_json',lambda *a,**k:{'components':[],'dependencies':[]})
-    with pytest.raises(RuntimeError,match='未提交生成'):
+    with pytest.raises(RuntimeError,match='nothing was submitted'):
         module.verify_service('https://example.org')
 
 
 def test_cache_lock_prevents_same_request_concurrency(tmp_path,module):
     with module.cache_lock(tmp_path):
-        with pytest.raises(RuntimeError,match='正在执行'):
+        with pytest.raises(RuntimeError,match='already running'):
             with module.cache_lock(tmp_path):
                 pass
 

@@ -2,10 +2,10 @@
   "date": "2026-11-16",
   "brand": "DARWIN",
   "tagline": "An evolution lab by RiseAI.",
-  "description": "用真实反馈，持续改进作品。",
+  "description": "Keep improving your work with real feedback.",
   "url": "https://www.riseai.top/darwin/",
   "status": "deployed",
-  "hosting": "RiseAI 现有 HTTPS 站点的独立路径",
+  "hosting": "A separate path on RiseAI's existing HTTPS site",
   "checks": {
     "files_match_local_build": 1977,
     "http_200": [
@@ -27,12 +27,12 @@
   },
   "models_called": 0,
   "new_run_web_api": false,
-  "browser_verification": "无头 Chrome 分别强制浅色与深色检查线上首页",
+  "browser_verification": "Headless Chrome checked the live home page with light and dark forced separately",
   "source_commit": "310d328",
-  "release": "20261116-darwin-theme-v2（上一版 20261025-darwin-path-v1 保留，可切回）",
+  "release": "20261116-darwin-theme-v2 (previous release 20261025-darwin-path-v1 kept; can switch back)",
   "changes": [
-    "英文为默认语言，中文在 /zh/",
-    "深浅两套主题，默认跟随系统，可手动切换",
-    "视觉实验室、全部实验页与安装包 0.3.0.dev0"
+    "English is the default language; Chinese is at /zh/",
+    "Light and dark themes; follows the system by default, can be switched manually",
+    "Visual lab, All Experiments page and package 0.3.0.dev0"
   ]
 }

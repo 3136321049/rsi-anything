@@ -32,7 +32,7 @@ def fake_cli(tmp_path):
         "    print(json.dumps({'loggedIn': logged_in})); sys.exit(0 if logged_in else 1)\n"
         "child = subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(60)'])\n"
         f"pathlib.Path({str(pids)!r}).write_text(json.dumps({{'parent': os.getpid(), 'child': child.pid}}))\n"
-        "print('已启动子进程', flush=True)\n"
+        "print('child process started', flush=True)\n"
         "child.wait()\n"
     )
     executable.chmod(0o700)
@@ -47,10 +47,10 @@ def assert_stopped(pid):
         if not state or state.startswith("Z"):
             return
         time.sleep(0.02)
-    pytest.fail(f"超时后仍有存活进程：{pid}")
+    pytest.fail(f"process still alive after the timeout: {pid}")
 
 
-@pytest.mark.skipif(os.name != "posix", reason="验证 POSIX 进程组清理")
+@pytest.mark.skipif(os.name != "posix", reason="checks POSIX process-group cleanup")
 @pytest.mark.parametrize("entry", ["ask", "probe", "round", "judge", "prepare"])
 def test_timeout_stops_descendants(entry, fake_cli, tmp_path, monkeypatch):
     spec, _, pids = fake_cli
@@ -60,12 +60,12 @@ def test_timeout_stops_descendants(entry, fake_cli, tmp_path, monkeypatch):
     try:
         if entry == "ask":
             with pytest.raises(llm.LLMError, match="timed out"):
-                llm._ask_cli(llm.parse("cli:claude"), "测试输入", [], 1)
+                llm._ask_cli(llm.parse("cli:claude"), "test input", [], 1)
         elif entry == "probe":
             monkeypatch.setenv("TEST_PROBE_TIMEOUT", "1")
             assert not registry.ready(spec, timeout=1)
         elif entry == "round":
-            result, _ = _run([spec.binary], tmp_path, "测试输入", None, 1, tmp_path / "agent.log")
+            result, _ = _run([spec.binary], tmp_path, "test input", None, 1, tmp_path / "agent.log")
             assert result is None
         else:
             from types import SimpleNamespace
@@ -77,7 +77,7 @@ def test_timeout_stops_descendants(entry, fake_cli, tmp_path, monkeypatch):
         assert_stopped(recorded["parent"])
         assert_stopped(recorded["child"])
     finally:
-        # 断言失败时也清理假命令，测试不留下后台进程。
+        # Clean up the fake command even when an assertion fails, so the test leaves no background processes.
         if pids.exists():
             import signal
             for pid in json.loads(pids.read_text()).values():
@@ -93,11 +93,11 @@ def test_unauthenticated_cli_never_receives_prompt(fake_cli, tmp_path, monkeypat
     monkeypatch.setattr(registry, "_READY", {})
     monkeypatch.delenv("TEST_LOGGED_IN", raising=False)
     assert not registry.ready(spec)
-    with pytest.raises(llm.LLMError, match="尚未登录"):
-        llm._ask_cli(llm.parse("cli:claude"), "不应传给未登录命令的输入", [], 1)
+    with pytest.raises(llm.LLMError, match="not logged in"):
+        llm._ask_cli(llm.parse("cli:claude"), "input that must never reach a logged-out command", [], 1)
     agent = CLIAgent(spec, "", [], False)
-    result = agent.run(tmp_path, "不应传给未登录命令的输入", tmp_path, 1)
-    assert not result.ok and "尚未登录" in result.error
+    result = agent.run(tmp_path, "input that must never reach a logged-out command", tmp_path, 1)
+    assert not result.ok and "not logged in" in result.error
     arguments = [json.loads(line) for line in calls.read_text().splitlines()]
     assert arguments and all(args == ["--version"] or args == ["auth", "status", "--json"]
                              for args in arguments)

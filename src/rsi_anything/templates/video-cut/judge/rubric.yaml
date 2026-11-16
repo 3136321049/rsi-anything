@@ -1,33 +1,33 @@
 task: |
-  一条 40 到 75 秒的竖屏短视频，从给定口播中剪出，具体受众和目标见要点清单。
-  前几秒要让观众知道值得看什么，看完能带走清楚的核心信息。
-  评委看到的是成片按顺序播放的句子（每行一句），以及完整的原始讲稿和要点清单。
-  只能从原讲稿里选句子、调顺序，所以要评的是"选得好不好、排得好不好"，不是文字本身写得好不好。
+  A 40 to 75 second vertical short video cut from the given talk; the audience and goal are in the key points list.
+  The first few seconds must tell viewers what is worth watching, and viewers should come away with a clear core message.
+  The jury sees the sentences of the cut in playback order (one per line), plus the full original transcript and the key points list.
+  The editor can only choose sentences from the original transcript and reorder them, so judge how well they were chosen and ordered, not how well the words themselves are written.
 
 context: [judge/keypoints.md, judge/talk.txt]
 
 criteria:
   - name: hook
     weight: 30
-    question: 第一句和第二句能不能让刷到的人停下来？
-    anchors: {1: 寒暄或自我介绍开场, 5: 点出了话题但平淡, 8: 用一个具体的冲突或反差开场, 10: 前两句就制造了强烈的好奇或共鸣，让人非看完不可}
+    question: Do the first and second sentences make a scrolling viewer stop?
+    anchors: {1: opens with small talk or a self-introduction, 5: names the topic but flatly, 8: opens with a concrete conflict or contrast, 10: the first two sentences create strong curiosity or recognition that makes the viewer watch to the end}
   - name: coherence
     weight: 25
-    question: 去掉中间的句子后，前后还接得上吗？有没有指代不明、说了"后面再说"却没有下文、编号跳号这类断裂？
-    anchors: {1: 多处断裂，看不懂, 5: 能看懂但有明显跳跃, 8: 基本流畅，只有一处小跳跃, 10: 像原本就是一段完整的短讲}
+    question: With the middle sentences removed, does it still connect? Are there breaks such as unclear references, a "we'll get to that later" with no follow-up, or skipped numbering?
+    anchors: {1: many breaks, hard to follow, 5: understandable but with obvious jumps, 8: mostly smooth with one small jump, 10: feels like it was always one complete short talk}
   - name: value
     weight: 25
-    question: 对照要点清单，观众看完能理解多少核心内容？
-    anchors: {1: 没有明确内容, 5: 有一个要点但说明单薄, 8: 围绕主题把重要信息讲清楚, 10: 信息完整具体且适合短片受众}
+    question: Compared with the key points list, how much of the core content does the viewer understand by the end?
+    anchors: {1: no clear content, 5: one point but thinly explained, 8: explains the important information around the topic clearly, 10: complete, concrete information that suits a short-video audience}
   - name: ending
     weight: 10
-    question: 结尾是否自然收束主题，而非突然截断？
-    anchors: {1: 戛然而止, 5: 有结尾但无力, 10: 结尾让人想收藏或马上行动}
+    question: Does the ending wrap up the topic naturally rather than cutting off abruptly?
+    anchors: {1: stops abruptly, 5: has an ending but a weak one, 10: the ending makes the viewer want to save it or act right away}
   - name: pacing
     weight: 10
-    question: 有没有浪费时间的句子，比如寒暄、铺垫过长、重复？
-    anchors: {1: 一半是废话, 5: 有几句可删, 10: 每一句都在推进}
+    question: Are there sentences that waste time, such as small talk, overly long setup or repetition?
+    anchors: {1: half of it is filler, 5: a few sentences could go, 10: every sentence moves things forward}
 
 checks:
-  - 成片里没有"后面再说""第二点"这类引用了被剪掉内容的句子，或者被引用的内容也在成片里。
-  - 成片没有因为剪辑而让某个方法的意思和原分享相反或被曲解。
+  - The cut has no sentence such as "we'll get to that later" or "the second point" that refers to content that was cut, unless the referenced content is also in the cut.
+  - The editing does not make any method mean the opposite of, or distort, what the original talk said.

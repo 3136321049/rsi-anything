@@ -46,7 +46,7 @@ def export_run(store: RunStore, repo: Path, dest: Path, with_logs: bool = False)
         if source.is_file() and not source.is_symlink():
             target.parent.mkdir(parents=True, exist_ok=True)
             data = source.read_bytes()
-            # 视频、图片和训练产物保留原字节，文本才做本机路径替换。
+            # Videos, images and training outputs keep their original bytes; only text gets local paths replaced.
             binary_suffixes = {".mp4", ".mov", ".mkv", ".webm", ".mp3", ".wav", ".png", ".jpg", ".jpeg",
                                ".gif", ".webp", ".pdf", ".zip", ".gz", ".npy", ".npz", ".pkl", ".joblib"}
             if source.suffix.lower() not in binary_suffixes and b"\0" not in data:
@@ -82,7 +82,7 @@ def export_run(store: RunStore, repo: Path, dest: Path, with_logs: bool = False)
         patch = gitops.git(repo, "diff", meta["base"], meta["champion"])
         (dest / "champion.patch").write_text(scrub(patch) + "\n", encoding="utf-8")
         written.append(dest / "champion.patch")
-    # 导出文本经过路径替换后，以实际导出字节更新清单，并保留原始哈希。
+    # After path replacement, update the manifest with the exported bytes and keep the original hashes.
     for path in dest.rglob("manifest.json"):
         if not (path.parent / "files").is_dir():
             continue

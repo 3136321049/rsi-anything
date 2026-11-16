@@ -1,4 +1,4 @@
-"""离线验证三个资料写作模板的产物和关键事实检查，不调用模型。"""
+"""Offline checks of the outputs and key fact checks of the three source-based writing templates; no models are called."""
 from __future__ import annotations
 
 import json
@@ -39,7 +39,7 @@ def test_default_writing_templates_prepare_and_pass_basic_gates(tmp_path, domain
     assert gates and all(gates.values()), gates
     artifact, page = DOMAINS[domain]
     assert (project / "out" / artifact).stat().st_size > 300
-    assert '<html lang="zh-CN">' in (project / "out" / page).read_text(encoding="utf-8")
+    assert '<html lang="en">' in (project / "out" / page).read_text(encoding="utf-8")
     rubric = load_rubric(project / "judge/rubric.yaml")
     rendered = (project / "out/evaluation.md").read_text(encoding="utf-8")
     assert all(code_gates(rendered, rubric["gates"]).values())
@@ -52,7 +52,7 @@ def test_default_writing_templates_prepare_and_pass_basic_gates(tmp_path, domain
 def test_business_numbers_are_computed_from_frozen_figures(tmp_path):
     project, _ = prepare(tmp_path, "business-report")
     values = json.loads((project / "out/metrics.json").read_text(encoding="utf-8"))["rendered_values"]
-    assert values["revenue_2024"] == "391,035 百万美元"
+    assert values["revenue_2024"] == "US$391,035 million"
     assert values["revenue_growth"] == "+2.02%"
     assert values["net_income_growth"] == "-3.36%"
     assert values["services_share_2024"] == "24.59%"
@@ -62,25 +62,25 @@ def test_business_numbers_are_computed_from_frozen_figures(tmp_path):
 
 def test_business_rejects_fabricated_literal_and_unknown_chart(tmp_path):
     text = (TEMPLATES / "business-report/report.md").read_text(encoding="utf-8")
-    text += "\n总营收是999999百万美元。\n"
+    text += "\nTotal revenue was US$999,999 million.\n"
     _, gates = prepare(tmp_path, "business-report", {
         "report.md": text, "charts.json": '{"metrics":["invented_metric"]}'})
-    assert gates["金额和比率使用资料插值"] is False
-    assert gates["图表指标有效"] is False
+    assert gates["numbers_use_data_placeholders"] is False
+    assert gates["chart_metrics_valid"] is False
 
 
 def test_business_reports_unknown_placeholder(tmp_path):
     text = (TEMPLATES / "business-report/report.md").read_text(encoding="utf-8")
     _, gates = prepare(tmp_path, "business-report", {"report.md": text + "\n{{made_up_profit}}"})
-    assert gates["数字资料键存在"] is False
+    assert gates["data_keys_exist"] is False
 
 
 def test_literature_mapping_cannot_claim_a_sentence_missing_from_article(tmp_path):
     mapping = json.loads((TEMPLATES / "literature-review/evidence.json").read_text(encoding="utf-8"))
-    mapping["claims"][0]["claim"] = "这句论断没有出现在待评审的实际文章中。"
+    mapping["claims"][0]["claim"] = "This claim does not appear anywhere in the article under review."
     _, gates = prepare(tmp_path, "literature-review", {"evidence.json": json.dumps(mapping, ensure_ascii=False)})
-    assert gates["证据映射有效"] is False
-    assert gates["映射覆盖全部来源"] is False
+    assert gates["evidence_map_valid"] is False
+    assert gates["evidence_map_covers_all_sources"] is False
 
 
 def test_literature_rejects_unknown_source_and_unrelated_reference(tmp_path):
@@ -88,36 +88,36 @@ def test_literature_rejects_unknown_source_and_unrelated_reference(tmp_path):
     text = text.replace("[S1]", "[S99]")
     text += "\nhttps://example.org/fabricated-paper\n"
     _, gates = prepare(tmp_path, "literature-review", {"review.md": text})
-    assert gates["来源编号有效"] is False
-    assert gates["未引入资料外链接"] is False
-    assert gates["证据映射有效"] is False
+    assert gates["source_ids_valid"] is False
+    assert gates["no_outside_links"] is False
+    assert gates["evidence_map_valid"] is False
 
 
 def test_literature_invalid_json_is_feedback_not_crash(tmp_path):
     project, gates = prepare(tmp_path, "literature-review", {"evidence.json": "{broken"})
-    assert gates["证据映射有效"] is False
-    assert "证据映射有效" in (project / "out/notes.txt").read_text(encoding="utf-8")
+    assert gates["evidence_map_valid"] is False
+    assert "evidence_map_valid" in (project / "out/notes.txt").read_text(encoding="utf-8")
 
 
 def test_medical_rejects_manual_guideline_number_and_dosing(tmp_path):
     text = (TEMPLATES / "medical-explainer/explainer.md").read_text(encoding="utf-8")
-    text = text.replace("{{moderate_minutes}}", "600分钟") + "\n每天服用10毫克药物。\n"
+    text = text.replace("{{moderate_minutes}}", "600 minutes") + "\nTake 10 mg of medication every day.\n"
     _, gates = prepare(tmp_path, "medical-explainer", {"explainer.md": text})
-    assert gates["指南数量使用固定资料"] is False
-    assert gates["没有药物剂量或疗效保证"] is False
+    assert gates["guideline_numbers_use_fixed_data"] is False
+    assert gates["no_drug_doses_or_cure_promises"] is False
 
 
 def test_medical_keeps_audience_and_public_education_scope(tmp_path):
     text = (TEMPLATES / "medical-explainer/explainer.md").read_text(encoding="utf-8")
-    text = text.replace("一般健康成人", "所有患者").replace("不能替代", "完全替代")
+    text = text.replace("generally healthy adults", "all patients").replace("not a substitute", "a full substitute")
     _, gates = prepare(tmp_path, "medical-explainer", {"explainer.md": text})
-    assert gates["适用边界清楚"] is False
+    assert gates["scope_is_clear"] is False
 
 
 @pytest.mark.parametrize("domain", DOMAINS)
 def test_empty_article_is_rejected(tmp_path, domain):
     _, gates = prepare(tmp_path, domain, {DOMAINS[domain][0]: ""})
-    assert gates["正文有实质内容"] is False
+    assert gates["article_has_substance"] is False
 
 
 @pytest.mark.parametrize("domain", DOMAINS)

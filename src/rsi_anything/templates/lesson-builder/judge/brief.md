@@ -1,10 +1,10 @@
-# 百分比学习材料任务
+# Percentages Lesson Task
 
-读者已会小数和分数乘除，尚未系统学习百分比应用。讲义应解释“以谁为整体”、百分比求部分、由部分还原整体、增长和减少、连续变化，以及百分比和百分点。
+The readers already know how to multiply and divide decimals and fractions but have not yet studied applications of percentages systematically. The lesson should explain "what is the whole (the base)", finding a part from a percentage, recovering the whole from a part, increases and decreases, successive changes, and the difference between percent and percentage points.
 
-默认讲义只提供基本定义和简单求部分，留下逆向问题与多步问题的教学空间。可换例题，但不要照抄固定测试题或做题号答案表。测试是程序生成的原创练习，不来自任何学生数据。
+The default lesson only gives the basic definition and simple part-finding, leaving room to teach reverse problems and multi-step problems. You may change the examples, but do not copy the fixed test questions or write an answer table keyed by question number. The tests are original exercises written for this template and do not come from any student data.
 
-学生模型收到的材料只有讲义、题目和回答格式，没有答案。要求它用讲义中可定位的原句支持推导，不具备所需方法时可以明确说不足。此为受限模型阅读表现，不代表真人学习效果；强模型可能已经会做题，初始满分应如实保留。
+The student model receives only the lesson, the questions and the answer format, with no answers. It is asked to support each derivation with a sentence that can be located in the lesson, and may say plainly that the lesson is insufficient when it lacks a needed method. This measures how a restricted model performs when reading the lesson; it does not represent real human learning outcomes. A strong model may already know how to solve the problems, and a perfect starting score should be kept as it is.
 
-公开参考：OpenStax《Prealgebra 2e》第六章，百分数与应用。https://openstax.org/books/prealgebra-2e/pages/6-introduction-to-percents
-项目作者自行编写讲义与题目，不复制教材原文。查阅日期：2026-10-24。
+Public reference: OpenStax, *Prealgebra 2e*, Chapter 6, Percents and their applications. https://openstax.org/books/prealgebra-2e/pages/6-introduction-to-percents
+The project authors wrote the lesson and exercises themselves and did not copy textbook text. Accessed: 2026-10-24.

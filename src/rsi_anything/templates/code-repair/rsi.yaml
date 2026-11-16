@@ -1,9 +1,9 @@
 name: expense-code-repair
 goal: |
-  修复 expense.py 中的金额解析、账单均分和月度分类汇总，使 judge/test_expense.py 的固定测试全部通过。
-  金额用整数分保存；均分时前几人各多分一分钱；退款为负数；月份按有效的 YYYY-MM 匹配。
-  保持公开函数接口与返回类型，不能改测试或针对测试输入写死答案。每轮优先修复一类根因。
-  得分为固定测试通过率，100 分才表示全部修复；部分通过也能作为下一轮起点。
+  Fix amount parsing, bill splitting and monthly per-category totals in expense.py so every fixed test in judge/test_expense.py passes.
+  Amounts are stored as integer cents; when splitting, the first people each get one extra cent; refunds are negative; months match a valid YYYY-MM.
+  Keep the public function signatures and return types; do not edit the tests or hard-code answers for the test inputs. Fix one class of root cause per round.
+  The score is the fixed-test pass rate; only 100 means everything is fixed, and a partial pass is a valid starting point for the next round.
 artifact: [expense.py]
 outputs: [out]
 judge:

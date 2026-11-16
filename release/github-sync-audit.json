@@ -86,9 +86,9 @@
   "shared_entrypoints": [
     "AGENTS.md",
     "CLAUDE.md",
-    "docs/COLLABORATION.zh-CN.md",
-    "docs/HANDOFF.zh-CN.md",
-    "docs/DEVLOG.zh-CN.md",
-    "docs/GOAL-PROGRESS.zh-CN.md"
+    "docs/COLLABORATION.md",
+    "docs/HANDOFF.md",
+    "docs/DEVLOG.md",
+    "docs/GOAL-PROGRESS.md"
   ]
 }

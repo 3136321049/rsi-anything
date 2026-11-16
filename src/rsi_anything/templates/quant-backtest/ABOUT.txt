@@ -1,1 +1,1 @@
-用固定公开历史日线测试均线策略，计入成本，保存净值、回撤和每笔模拟交易。
+finance: test a moving-average strategy on fixed public daily price history, with costs; saves equity, drawdown and every simulated trade

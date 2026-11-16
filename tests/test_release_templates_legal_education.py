@@ -1,4 +1,4 @@
-"""合同定位与模型答题评分的离线测试，模型回复仅为单元测试输入。"""
+"""Offline tests for contract issue location and model answer grading; the model replies are unit-test inputs only."""
 import importlib.util
 import json
 import shutil
@@ -33,15 +33,15 @@ def test_contract_baseline_reports_partial_coverage(tmp_path):
     assert (project/'out/review.html').exists()
 
 
-@pytest.mark.parametrize('field,value',[('clause_id','C7'),('quote','合同中没有这句话'),('suggestion','补充一下')])
+@pytest.mark.parametrize('field,value',[('clause_id','C7'),('quote','This sentence is not in the contract'),('suggestion','Add it')])
 def test_contract_rejects_wrong_location_or_empty_advice(tmp_path,field,value):
     _,gates=contract(tmp_path,lambda d:d['issues'][0].update({field:value}))
-    assert gates['定位引用和建议完整'] is False
+    assert gates['location_quote_and_advice_complete'] is False
 
 
 def test_contract_duplicate_issue_is_not_more_coverage(tmp_path):
     project,gates=contract(tmp_path,lambda d:d['issues'].append(d['issues'][0].copy()))
-    assert gates['定位引用和建议完整'] is False
+    assert gates['location_quote_and_advice_complete'] is False
     assert len(json.loads((project/'out/coverage.json').read_text())['covered'])==2
 
 
@@ -54,19 +54,19 @@ def lesson_module():
 
 
 def test_student_prompt_omits_answer_key_and_solution(lesson_module):
-    exercises=[{'id':'T1','question':'原创数字题','unit':'元','expected':987654,'solution':'秘密解析不得传入'}]
-    prompt=lesson_module.build_prompt('讲义内容',exercises)
-    assert '987654' not in prompt and '秘密解析' not in prompt
-    assert '原创数字题' in prompt
+    exercises=[{'id':'T1','question':'An original number question','unit':'yuan','expected':987654,'solution':'Secret solution that must not be passed on'}]
+    prompt=lesson_module.build_prompt('Lesson content',exercises)
+    assert '987654' not in prompt and 'Secret solution' not in prompt
+    assert 'An original number question' in prompt
 
 
 def test_student_scoring_counts_wrong_answers_and_missing_evidence(lesson_module):
-    lesson='求部分量要用整体乘以对应比例。'
-    exercises=[{'id':f'T{i}','question':'题目','expected':12,'unit':'本','solution':'解析'} for i in range(3)]
+    lesson='To find a part, multiply the whole by the matching proportion.'
+    exercises=[{'id':f'T{i}','question':'Question','expected':12,'unit':'books','solution':'Solution'} for i in range(3)]
     replies={'answers':[
-        {'id':'T0','answer':12,'reason':'根据整体乘比例可以算出结果。','lesson_quote':lesson},
-        {'id':'T1','answer':13,'reason':'根据整体乘比例可以算出结果。','lesson_quote':lesson},
-        {'id':'T2','answer':12,'reason':'这是来自模型已有知识的结果。','lesson_quote':'讲义里其实不存在的那句话。'}]}
+        {'id':'T0','answer':12,'reason':'Multiplying the whole by the proportion gives the result.','lesson_quote':lesson},
+        {'id':'T1','answer':13,'reason':'Multiplying the whole by the proportion gives the result.','lesson_quote':lesson},
+        {'id':'T2','answer':12,'reason':'This result comes from what the model already knew.','lesson_quote':'A sentence that is not actually in the lesson.'}]}
     result=lesson_module.grade(lesson,exercises,replies)
     assert result['correct']==1
     assert result['score']==33.33
@@ -75,7 +75,7 @@ def test_student_scoring_counts_wrong_answers_and_missing_evidence(lesson_module
 
 def test_student_duplicate_ids_are_protocol_error(lesson_module):
     with pytest.raises(ValueError):
-        lesson_module.grade('讲义',[{'id':'T1'}],{'answers':[{'id':'T1'},{'id':'T1'}]})
+        lesson_module.grade('Lesson',[{'id':'T1'}],{'answers':[{'id':'T1'},{'id':'T1'}]})
 
 
 def test_student_main_saves_real_call_metadata_using_mock_only_in_test(tmp_path,monkeypatch,lesson_module):
@@ -85,8 +85,8 @@ def test_student_main_saves_real_call_metadata_using_mock_only_in_test(tmp_path,
     monkeypatch.setenv('RSI_TASK_MODEL','cli:codex:test-student')
     monkeypatch.setenv('RSI_RESULT',str(tmp_path/'result.json'))
     exercises=json.loads((project/'judge/exercises.json').read_text())['exercises']
-    quote='求一个数量的百分之几，可以把整体数量乘以对应的小数。'
-    response={'answers':[{'id':e['id'],'answer':None,'reason':'测试回复说明讲义方法不足，不代表真实学生表现。','lesson_quote':quote} for e in exercises]}
+    quote='To find a percentage of an amount, multiply the whole amount by the matching decimal.'
+    response={'answers':[{'id':e['id'],'answer':None,'reason':'Test reply saying the lesson method is not enough; not real student behavior.','lesson_quote':quote} for e in exercises]}
     monkeypatch.setattr(lesson_module.llm,'ask',lambda *a,**k:SimpleNamespace(text=json.dumps(response),model='unit-test-only',usage={'total_tokens':12},seconds=0.1,cost_usd=None))
     assert lesson_module.main()==0
     data=json.loads((project/'out/results.json').read_text())

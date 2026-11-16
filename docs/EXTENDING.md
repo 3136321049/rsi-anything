@@ -4,7 +4,7 @@
 
 The fastest start is `rsi new`, below. For anything more specific, start from the closest template, keep the existing loop, and replace only this domain's inputs, editable artifact and evaluation. For command-based evaluation, start from `code-repair` or `cpu-classifier`; for text evaluation, start from `business-report` or `literature-review`. When a model has to actually carry out the method, look at `writing-guide` and `lesson-builder`.
 
-14 domains currently have complete multi-round runs and independent verification. For the writing guide, the contract exercise and the lesson, you can refer directly to real artifacts and records. D07 is a partial measured run limited by the service, and D15 is waiting for a GPU; their templates or probes can't stand in for a successful run. The full list is in the [domain list (Chinese)](DEMO-PLAN.zh-CN.md).
+14 domains currently have complete multi-round runs and independent verification. For the writing guide, the contract exercise and the lesson, you can refer directly to real artifacts and records. D07 is a partial measured run limited by the service, and D15 is waiting for a GPU; their templates or probes can't stand in for a successful run. The full list is in the [domain list (Chinese)](DEMO-PLAN.md).
 
 ## Start with `rsi new`
 

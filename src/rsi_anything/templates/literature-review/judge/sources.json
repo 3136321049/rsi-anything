@@ -1,37 +1,37 @@
 {
-  "topic": "数字工具与认知外包：记住内容，还是记住去哪里找",
+  "topic": "Digital tools and cognitive offloading: remembering the content, or remembering where to find it",
   "checked_at": "2026-10-23",
-  "scope": "固定资料摘要的叙述性综述，不是系统综述；以下是自行撰写的摘要，不是原文引语。",
+  "scope": "A narrative review of fixed source summaries, not a systematic review; the summaries below were written by the project authors and are not quotations from the originals.",
   "sources": {
     "S1": {
       "title": "Google effects on memory: cognitive consequences of having information at our fingertips",
       "authors": "Betsy Sparrow; Jenny Liu; Daniel M. Wegner",
       "year": 2011,
-      "kind": "实验研究",
+      "kind": "experimental study",
       "url": "https://pubmed.ncbi.nlm.nih.gov/21764755/",
       "doi": "10.1126/science.1207745",
-      "summary": "摘要汇总四项研究：预期未来能再次访问资料时，人们对信息内容本身的回忆较少，对到哪里寻找信息的回忆较好。",
-      "limit": "给定摘要不提供长期课堂学习效果，也不涉及现代生成式AI；不能推出互联网使所有人记忆力永久下降。"
+      "summary": "The abstract summarizes four studies: when people expect to have future access to information, they recall the information itself less well and recall better where to find it.",
+      "limit": "The given summary says nothing about long-term classroom learning and does not involve modern generative AI; it does not show that the internet permanently lowers everyone's memory."
     },
     "S2": {
       "title": "Cognitive Offloading",
       "authors": "Evan F. Risko; Sam J. Gilbert",
       "year": 2016,
-      "kind": "理论综述",
+      "kind": "theoretical review",
       "url": "https://pubmed.ncbi.nlm.nih.gov/27542527/",
       "doi": "10.1016/j.tics.2016.07.002",
-      "summary": "把部分信息处理交给环境或工具，以减少任务的认知需求，属于认知外包。综述讨论什么触发外包，以及外包的认知后果，并提出连接多领域结果的元认知框架。",
-      "limit": "这是综述框架，不是单次干预试验；概念本身不证明任何具体工具必然提升或损害学习。"
+      "summary": "Handing part of information processing to the environment or to tools in order to reduce the cognitive demands of a task is cognitive offloading. The review discusses what triggers offloading and its cognitive consequences, and proposes a metacognitive framework connecting results from several fields.",
+      "limit": "This is a review framework, not a single intervention trial; the concept itself does not prove that any particular tool necessarily improves or harms learning."
     },
     "S3": {
       "title": "Guidance for generative AI in education and research",
       "authors": "Fengchun Miao; Wayne Holmes; UNESCO",
       "year": 2023,
-      "kind": "政策指导",
+      "kind": "policy guidance",
       "url": "https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research?hub=387",
       "doi": "10.54675/EWZM9535",
-      "summary": "指南主张以人为中心应用生成式AI，保护隐私，并让教育机构检验工具的教育适用性。它讨论教学设计与研究使用，也重视人的能动性。",
-      "limit": "政策建议不是证明学习效果的实验结果；连接到认知外包是作者的分析推论，需要明确说明。"
+      "summary": "The guidance argues for a human-centred use of generative AI, protecting privacy, and having educational institutions validate tools for educational suitability. It discusses teaching design and research use and emphasizes human agency.",
+      "limit": "Policy guidance is not an experimental result showing learning effects; linking it to cognitive offloading is the author's own analytical inference and must be stated as such."
     }
   }
 }

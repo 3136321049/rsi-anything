@@ -1,4 +1,4 @@
-"""调用公开 Gradio 视频服务；保存事件编号并复用相同请求的成片。"""
+"""Call the public Gradio video service; save the event id and reuse the finished video for identical requests."""
 import hashlib
 import html
 import json
@@ -34,20 +34,20 @@ def atomic_json(path, data):
 def url_ok(url):
     parsed=urllib.parse.urlsplit(url)
     if parsed.scheme not in ('http','https') or not parsed.hostname or parsed.username or parsed.password:
-        raise ValueError('服务与视频URL必须是无内嵌凭据的HTTP(S)地址')
+        raise ValueError('service and video URLs must be HTTP(S) addresses without embedded credentials')
     return url
 
 
 def payload(config):
     if not isinstance(config,dict) or set(config)!={'prompt','negative','seed'}:
-        raise ValueError('generation.json只能包含prompt、negative和seed')
+        raise ValueError('generation.json may only contain prompt, negative and seed')
     if not isinstance(config['prompt'],str) or not 10<=len(config['prompt'].strip())<=3500:
-        raise ValueError('prompt需为10至3500字的描述')
+        raise ValueError('prompt must be a description of 10 to 3500 characters')
     if not isinstance(config['negative'],str) or len(config['negative'])>1500:
-        raise ValueError('negative需为不超过1500字的文本')
+        raise ValueError('negative must be text of at most 1500 characters')
     seed=config['seed']
     if not isinstance(seed,int) or isinstance(seed,bool) or not 0<=seed<=4294967295:
-        raise ValueError('seed需为0至4294967295的整数')
+        raise ValueError('seed must be an integer from 0 to 4294967295')
     return {'data':[config['prompt'],config['negative'],None,None,512,704,'text-to-video',2,9,seed,False,1,False]}
 
 
@@ -60,7 +60,7 @@ def cache_root():
 
 @contextmanager
 def cache_lock(folder):
-    """操作系统在进程结束时释放锁，超时停止后不会留下永久占用。"""
+    """The OS releases the lock when the process exits, so a timed-out run never leaves it held for good."""
     handle=(folder/'request.lock').open('a+b')
     try:
         if os.name=='nt':
@@ -72,7 +72,7 @@ def cache_lock(folder):
             fcntl.flock(handle,fcntl.LOCK_EX|fcntl.LOCK_NB)
     except OSError as exc:
         handle.close()
-        raise RuntimeError('相同视频请求正在执行，请等待该任务结束后重试') from exc
+        raise RuntimeError('the same video request is already running; wait for it to finish and retry') from exc
     try:
         yield
     finally:
@@ -91,16 +91,16 @@ def verify_service(endpoint):
     components={item['id']:item for item in config['components']}
     dep=next((d for d in config['dependencies'] if d.get('api_name')==API_NAME),None)
     if dep is None:
-        raise RuntimeError('服务未提供text_to_video接口；未提交生成')
+        raise RuntimeError('the service has no text_to_video endpoint; nothing was submitted')
     labels=[components[i].get('props',{}).get('label') for i in dep['inputs']]
     if labels!=INPUT_LABELS:
-        raise RuntimeError('服务输入顺序已变化；为避免错误提交，请先更新适配器')
+        raise RuntimeError('the service input order has changed; update the adapter first to avoid a wrong submission')
     return {'gradio_version':config.get('version'),'input_labels':labels,
-            'declared_model':'LTX 0.9.8 13B distilled（上游公开说明）','checked_at':now()}
+            'declared_model':'LTX 0.9.8 13B distilled (as publicly stated upstream)','checked_at':now()}
 
 
 def sse_events(lines):
-    """解析Gradio事件流，支持心跳、CRLF和多行data字段。"""
+    """Parse a Gradio event stream, handling heartbeats, CRLF and multi-line data fields."""
     event, parts = '', []
     for raw in lines:
         line=raw.decode('utf-8') if isinstance(raw,bytes) else raw
@@ -128,10 +128,10 @@ def wait_result(endpoint,event_id,log_path,timeout):
                 item=value[0]['video']
                 return {'video_url':url_ok(item['url']),'returned_seed':value[1] if len(value)>1 else None,'complete_event':value}
             if event=='error':
-                raise RuntimeError('视频服务返回错误：'+data[:600])
+                raise RuntimeError('the video service returned an error: '+data[:600])
             if time.monotonic()-started>timeout:
-                raise TimeoutError('等待生成结果超时；事件编号已保存，可恢复等待')
-    raise RuntimeError('事件流结束但没有完成结果；事件编号已保存，可恢复等待')
+                raise TimeoutError('timed out waiting for the generation result; the event id is saved and waiting can resume')
+    raise RuntimeError('the event stream ended without a completed result; the event id is saved and waiting can resume')
 
 
 def download_video(url,destination):
@@ -144,10 +144,10 @@ def download_video(url,destination):
                 break
             total+=len(block)
             if total>128*1024*1024:
-                raise RuntimeError('返回文件超过128MiB，本例停止下载')
+                raise RuntimeError('the returned file exceeds 128 MiB; this example stops the download')
             stream.write(block)
     if total==0:
-        raise RuntimeError('返回视频为空')
+        raise RuntimeError('the returned video is empty')
     part.replace(destination)
 
 
@@ -155,15 +155,15 @@ def probe_video(path):
     result=subprocess.run(['ffprobe','-v','error','-show_entries','format=duration:stream=codec_type,width,height,codec_name',
                            '-of','json',str(path)],capture_output=True,text=True,timeout=30)
     if result.returncode:
-        raise RuntimeError('ffprobe无法读取服务视频：'+result.stderr[-400:])
+        raise RuntimeError('ffprobe cannot read the service video: '+result.stderr[-400:])
     data=json.loads(result.stdout)
     videos=[s for s in data.get('streams',[]) if s.get('codec_type')=='video']
     if not videos:
-        raise RuntimeError('服务文件没有视频轨')
+        raise RuntimeError('the service file has no video stream')
     duration=float(data.get('format',{}).get('duration',0))
     stream=videos[0]
     if not 1<=duration<=3.5 or stream.get('width')!=704 or stream.get('height')!=512:
-        raise RuntimeError('返回视频时长或尺寸不符合本例约定')
+        raise RuntimeError('the returned video duration or size does not match this example')
     return {'duration_seconds':duration,'width':stream['width'],'height':stream['height'],
             'codec':stream.get('codec_name'),'has_audio':any(s.get('codec_type')=='audio' for s in data['streams'])}
 
@@ -177,7 +177,7 @@ def generate(endpoint,body,folder,timeout=480):
         if cached.exists() and state.get('status')=='ready':
             digest=hashlib.sha256(cached.read_bytes()).hexdigest()
             if digest!=state.get('video_sha256'):
-                raise RuntimeError('缓存视频校验不一致；保留请求记录，先检查缓存再处理')
+                raise RuntimeError('Cached video checksum mismatch; the request record is kept, inspect the cache before continuing')
             return cached,state,True
         if not state:
             service=verify_service(endpoint)
@@ -188,17 +188,17 @@ def generate(endpoint,body,folder,timeout=480):
                 receipt=request_json(endpoint+'/gradio_api/call/'+API_NAME,body)
                 event_id=receipt['event_id']
                 if not isinstance(event_id,str) or not re.fullmatch(r'[A-Za-z0-9_-]{1,128}',event_id):
-                    raise ValueError('生成服务没有返回有效事件编号')
+                    raise ValueError('the generation service did not return a valid event id')
             except Exception as exc:
                 state.update(status='submission_unknown',error=str(exc),updated_at=now())
                 atomic_json(state_file,state)
-                raise RuntimeError('提交结果不确定，未自动重发；请先检查缓存中的提交记录') from exc
+                raise RuntimeError('the submission outcome is unknown and was not resent automatically; check the submission record in the cache first') from exc
             state.update(status='submitted',event_id=event_id,submit_response=receipt,updated_at=now())
             atomic_json(state_file,state)
         elif not state.get('event_id'):
-            raise RuntimeError('上次提交结果不确定，禁止自动重复生成；请人工确认服务状态后处理该缓存记录')
+            raise RuntimeError('the last submission outcome is unknown, so automatic regeneration is blocked; confirm the service state by hand, then deal with this cache record')
         if state.get('request')!=body or state.get('endpoint')!=endpoint:
-            raise RuntimeError('缓存请求与当前输入不一致')
+            raise RuntimeError('the cached request does not match the current input')
         if not state.get('video_url'):
             completed=wait_result(endpoint,state['event_id'],folder/'events.txt',timeout)
             state.update(completed,status='complete',updated_at=now())
@@ -219,7 +219,7 @@ def main():
     folder=None
     try:
         if not shutil.which('ffprobe') or not shutil.which('ffmpeg'):
-            raise RuntimeError('需要ffmpeg和ffprobe；未提交生成')
+            raise RuntimeError('ffmpeg and ffprobe are required; nothing was submitted')
         config=json.loads(Path('generation.json').read_text(encoding='utf-8'))
         body=payload(config)
         endpoint=url_ok(os.environ.get('RSI_VIDEO_ENDPOINT',DEFAULT_ENDPOINT).rstrip('/'))
@@ -234,9 +234,9 @@ def main():
         atomic_json(out/'metadata.json',receipt)
         if (folder/'events.txt').exists():
             shutil.copyfile(folder/'events.txt',out/'events.txt')
-        atomic_json(out/'gates.json',{'真实服务结果已取得':True,'视频可读取且尺寸时长符合':True})
-        (out/'notes.txt').write_text(f"真实生成事件 {state['event_id']}；{probe['duration_seconds']:.2f}秒，704×512；相同请求缓存复用={reused}。评委仅看抽帧，声音与完整运动仍需播放检查。",encoding='utf-8')
-        page='<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>真实生成短视频</title><style>body{max-width:900px;margin:40px auto;padding:20px;font:17px/1.7 system-ui;background:#f8f4ee}video{width:100%;background:#222}pre{white-space:pre-wrap}</style><h1>晨光陶瓷杯</h1><video controls preload="metadata" src="video.mp4"></video><h2>本次生成描述</h2><pre>'+html.escape(config['prompt'])+'</pre><p>实际事件：'+html.escape(state['event_id'])+'；评价只覆盖可见静帧，需播放检查完整运动。</p></html>'
+        atomic_json(out/'gates.json',{'real_service_result_obtained':True,'video_readable_with_expected_size_and_duration':True})
+        (out/'notes.txt').write_text(f"Real generation event {state['event_id']}; {probe['duration_seconds']:.2f} s, 704×512; reused cache for identical request={reused}. The jury sees only sampled frames; sound and full motion still need to be checked by playing the video.",encoding='utf-8')
+        page='<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Generated short video</title><style>body{max-width:900px;margin:40px auto;padding:20px;font:17px/1.7 system-ui;background:#f8f4ee}video{width:100%;background:#222}pre{white-space:pre-wrap}</style><h1>Ceramic mug in morning light</h1><video controls preload="metadata" src="video.mp4"></video><h2>Prompt for this generation</h2><pre>'+html.escape(config['prompt'])+'</pre><p>Actual event: '+html.escape(state['event_id'])+'; the evaluation covers only visible still frames, so play the video to check full motion.</p></html>'
         (out/'preview.html').write_text(page,encoding='utf-8')
         return 0
     except Exception as exc:
@@ -244,8 +244,8 @@ def main():
         if folder is not None and (folder/'state.json').exists():
             error['request_state']=json.loads((folder/'state.json').read_text())
         atomic_json(out/'error.json',error)
-        atomic_json(out/'gates.json',{'真实服务结果已取得':False})
-        (out/'notes.txt').write_text('视频服务或环境未完成，作品质量未知：'+str(exc),encoding='utf-8')
+        atomic_json(out/'gates.json',{'real_service_result_obtained':False})
+        (out/'notes.txt').write_text('The video service or environment did not finish, so the quality of the work is unknown: '+str(exc),encoding='utf-8')
         print(str(exc),file=sys.stderr)
         return 2
 

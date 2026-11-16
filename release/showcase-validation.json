@@ -64,11 +64,11 @@
       "document_scroll_width": 1636
     },
     "notes": [
-      "只绑定127.0.0.1，未部署或发布",
-      "桌面浏览器实际验证；没有声称完成手机尺寸测试",
-      "生成器不覆盖原run报告或账本"
+      "Bound to 127.0.0.1 only; not deployed or published",
+      "Actually verified in a desktop browser; no claim of phone-size testing",
+      "The generator does not overwrite original run reports or ledgers"
     ],
-    "scope": "早于最终状态更新；不代表当前页面已重新进行浏览器视觉检查。"
+    "scope": "Predates the final status update; does not mean the current page has been re-checked visually in a browser."
   },
   "passed": true
 }

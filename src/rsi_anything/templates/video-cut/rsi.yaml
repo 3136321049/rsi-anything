@@ -1,7 +1,7 @@
 name: talk-highlight
 goal: |
-  从一段约 4 分钟的分享里剪出一条 40 到 75 秒的竖屏高光：刷到的人前 3 秒愿意停下，看完能带走核心方法。
-  只能编辑 edit.json，用 judge/transcript.json 里的句子编号选择和排列原视频里的句子，不能改写内容。
+  Cut a 40 to 75 second vertical highlight from a talk of about 4 minutes: someone scrolling past should want to stop within the first 3 seconds and come away with the core method.
+  Edit only edit.json: use the sentence ids in judge/transcript.json to choose and order sentences from the original video; do not rewrite the content.
 artifact:
   - edit.json
 outputs: [out]

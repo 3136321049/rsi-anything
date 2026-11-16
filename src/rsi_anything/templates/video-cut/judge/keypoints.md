@@ -1,7 +1,7 @@
-# 这段分享的核心要点（评委用来判断成片有没有讲到重点）
+# Key points of this talk (the jury uses these to judge whether the cut covers what matters)
 
-1. 不靠意志力：固定时段（每晚八点在固定的地方坐下），只规定时间地点，不规定学多久。
-2. 换环境：去专门学习的地方（比如自习室），比买课更有用。
-3. 任务切小：切成 25 分钟能做完的小块，完成一块划掉一块。
-4. 睡前五分钟复盘：写三行（做了什么、卡在哪、明天第一件事）。
-5. 允许中断：可以断一天，绝不连续断两天。
+1. Don't rely on willpower: use a fixed time slot (sit down in the same place at eight every evening); set only the time and place, not how long to study.
+2. Change your environment: going to a place meant for studying (such as a study room) helps more than buying courses.
+3. Cut tasks small: split work into chunks you can finish in 25 minutes, and cross each one off when it's done.
+4. Five-minute review before bed: write three lines (what you did, where you got stuck, the first thing tomorrow).
+5. Allow breaks: you can skip one day, but never two days in a row.

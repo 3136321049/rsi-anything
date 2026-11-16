@@ -1,4 +1,4 @@
-"""冻结的组合实现与框架内置实现。"""
+"""Frozen composed implementation and the framework built-in implementation."""
 import torch
 
 

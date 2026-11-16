@@ -1,32 +1,32 @@
 {
-  "topic": "一般健康成人的身体活动科普",
+  "topic": "Public explainer on physical activity for generally healthy adults",
   "checked_at": "2026-10-23",
-  "scope": "公众教育示例，不诊断疾病，不提供个人训练或用药方案。摘要由项目作者改写。",
+  "scope": "Public education example; it does not diagnose disease or give personal training or medication plans. The summaries are paraphrased by the project authors.",
   "values": {
-    "adult_age": "18至64岁",
-    "moderate_minutes": "150至300分钟",
-    "vigorous_minutes": "75至150分钟",
-    "strength_days": "至少2天"
+    "adult_age": "18 to 64 years",
+    "moderate_minutes": "150 to 300 minutes",
+    "vigorous_minutes": "75 to 150 minutes",
+    "strength_days": "at least 2 days"
   },
   "sources": {
     "W1": {
-      "title": "WHO: Physical activity（欧洲区域事实清单）",
+      "title": "WHO: Physical activity (WHO/Europe fact sheet)",
       "url": "https://www.who.int/europe/news-room/fact-sheets/item/physical-activity",
       "guideline_url": "https://www.ncbi.nlm.nih.gov/books/NBK566048/?report=reader",
-      "summary": "成人每周宜完成150至300分钟中等强度有氧活动，或75至150分钟高强度有氧活动，或等量组合；每周至少2天进行涉及主要肌群的强化活动。少量活动好于完全不动，可从少量开始逐步增加。",
-      "locator": "成年人推荐量见 WHO 欧洲区域页面；从少量开始逐步增加见 WHO 2020 指南执行摘要（NCBI Bookshelf 收录）的 ADULTS 实践说明。"
+      "summary": "Adults should do 150 to 300 minutes of moderate-intensity aerobic activity a week, or 75 to 150 minutes of vigorous-intensity aerobic activity, or an equivalent combination, plus muscle-strengthening activities involving the major muscle groups on at least 2 days a week. Doing some activity is better than doing none, and people can start with small amounts and increase gradually.",
+      "locator": "Recommended amounts for adults are on the WHO/Europe page; starting small and increasing gradually is in the ADULTS good practice statements of the executive summary of the WHO 2020 guidelines (on NCBI Bookshelf)."
     },
     "W2": {
       "title": "WHO: Physical activity",
       "url": "https://www.who.int/news-room/fact-sheets/detail/physical-activity",
       "published": "2024-06-26",
-      "summary": "活动不限于健身，也包括步行、骑行和日常生活中的身体活动。规律活动有身体与心理健康益处，应该减少久坐。各类活动都算数，但不能把任意轻微动作等同于达到中高强度有氧目标。",
-      "locator": "Overview；How much physical activity is recommended?"
+      "summary": "Activity is not limited to exercise; it also includes walking, cycling and physical activity in daily life. Regular activity benefits physical and mental health, and sedentary time should be reduced. All kinds of activity count, but not every light movement can be equated with meeting the moderate- to vigorous-intensity aerobic target.",
+      "locator": "Overview; How much physical activity is recommended?"
     }
   },
   "editorial_boundaries": [
-    "这是面向一般健康成人的资料转述；儿童、孕产期、慢性病及康复人群需考虑各自情境。",
-    "可以用步行通勤、减少长时间连续坐着等一般例子解释；不能为某个读者规定强度或宣称治疗效果。",
-    "正文不得加入药物剂量、停药建议或诊断判断。"
+    "This restates the material for generally healthy adults; children, pregnancy and postpartum, chronic conditions and rehabilitation each need their own context.",
+    "General examples such as walking to work or breaking up long periods of sitting may be used; do not set an intensity for a particular reader or claim treatment effects.",
+    "The text must not add medication doses, advice to stop medication, or diagnostic judgments."
   ]
 }

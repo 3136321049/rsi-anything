@@ -1,33 +1,33 @@
-# 落地页进化：夜航自习室夜间会员
+# Evolving a landing page: Night Voyage Study Room
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-每轮由本机个人 Codex（`gpt-6.1-sol`，隔离用户配置）只改 `index.html`，为虚构的“夜航自习室”夜间会员做一页英文落地页。评审先检查关键事实是否都在、页面是否自带全部资源，再用无头 Chrome 截桌面（1280px）和手机（390px 排版）两张图。个人 Claude（`cli:claude`）对照产品资料看图评分；分数更高的候选还要和当时最好的版本并排比较，正反顺序各看一次。同分时用同样的比较决定（`ties: compare`）。
+Each round a personal Codex account on this machine (`gpt-6.1-sol`, user config isolated) changes only `index.html`, a one-page English landing page for the Night Membership of the fictional "Night Voyage Study Room". The evaluator first checks that every key fact is present and that the page carries all its own resources. Then headless Chrome takes two screenshots: desktop (1280px) and phone (laid out at 390px). A personal Claude account (`cli:claude`) scores them against the product brief. A higher-scoring candidate must also beat the best version at the time side by side, viewed in both orders, and ties are settled by the same comparison (`ties: compare`).
 
-打开 [evolution.html](evolution.html) 看每一轮的截图和判断，需要通过本地 HTTP 服务打开，例如在 `examples/` 目录运行 `python -m http.server`。
+Open [evolution.html](evolution.html) to see every round's screenshots and decisions. Serve it over HTTP first, for example by running `python -m http.server` in `examples/`.
 
-## 运行：25 → 74.5
+## The run: 25 → 74.5
 
-`runs/20261029-212726-night-study-landing-page/`，用时 13.8 分钟，6 轮保留 3 轮。
+`runs/20261029-212726-night-study-landing-page/`, 13.8 minutes, 3 of 6 rounds kept.
 
-| 轮次 | 结果 | 分数 | 改了什么 |
+| Round | Result | Score | What changed |
 |---|---|---|---|
-| 起点 | 起点 | 25 | 浏览器默认样式的事实清单 |
-| r1 | 保留 | 70 | 夜间主题首屏，串起目标人群、¥129 试学价和领取步骤；正反比较 2/2 |
-| r2 | 保留 | 72.5 | 底部完整的领取区：优惠、名额限制、步骤；正反比较 2/2 |
-| r3 | 拒绝 | 70 | 把夜间安全与交通信息做成醒目区块 |
-| r4 | 拒绝 | 72 | 更紧凑的首屏，修掉标题斜体外伸 |
-| r5 | 保留 | 74.5 | 首屏关键词变成可用的“复制 NIGHT”按钮，统一两处领取操作；正反比较 2/2 |
-| r6 | 拒绝 | 72.5 | 手机底部常驻价格和领取按钮 |
+| Start | Baseline | 25 | A list of facts in browser default styles |
+| r1 | Kept | 70 | A night-themed first screen tying together the audience, the ¥129 trial and how to claim it; head-to-head 2/2 |
+| r2 | Kept | 72.5 | A complete claim section at the bottom: offer, spot limit and steps; head-to-head 2/2 |
+| r3 | Rejected | 70 | Night-time safety and transport info as a prominent block |
+| r4 | Rejected | 72 | A tighter first screen, fixing an italic headline that overhung |
+| r5 | Kept | 74.5 | The keyword on the first screen becomes a working "copy NIGHT" button, and both claim actions match; head-to-head 2/2 |
+| r6 | Rejected | 72.5 | A sticky price and claim button at the bottom of the phone screen |
 
-起点各项在 1–4 分；r1 后五项都是 7 分，r2 把第一印象提到 8 分，r5 再把视觉完成度提到 8 分。r4 的 72 只比当时最好的 72.5 低 0.5 分，在评委的波动范围内，按“必须更高”的规则仍被拒绝。
+The criteria start between 1 and 4. After r1 all five sit at 7; r2 raises first impression to 8, and r5 raises visual craft to 8. Round 4's 72 is only 0.5 below the best at the time, within the judge's wobble, but "the score must go up" still rejects it.
 
-## 被排除的两次运行
+## Two excluded runs
 
-这次之前还跑过两次落地页（23 → 72.5，之后没有提升），但当时手机截图的渲染有缺陷：页面在缩放后只绘制到约 1092px，下方是空白。评委因此三次判定“版式损坏”，这三次拒绝不是页面本身的问题。缺陷在评分工具包里修复并加了回归测试；那两次运行是在错误的截图上评分的，修复后也无法逐字节复现，所以没有放进案例，原因记录在开发记录里。鹈鹕案例使用桌面宽度，不受影响。
+Two earlier landing page runs went 23 → 72.5 and then stalled, but the phone screenshot was rendered incorrectly at the time. The zoomed page was only painted down to about 1092px, leaving the rest blank. The judge therefore flagged "broken layout" three times, and those three rejections weren't the pages' fault. The defect was fixed in the scoring toolkit and a regression test was added. Those two runs were judged on faulty screenshots and can't be reproduced byte for byte after the fix, so they aren't included as cases; the dev log records why. The pelican case renders at desktop width and isn't affected.
 
-## 核验与边界
+## Verification and limits
 
-`verify_saved_results.py` 不调用模型：用冻结的评分程序把 7 个版本逐一重新截图，要求门槛结果、截图和页面文字逐字节一致（手机截图底边几行像素偶有差异，最多重试三次），并检查每次保留都确实提高了分数、最终版本就是最后保留的版本。结果在 `verification.json`。模型给的分数按原记录保存，没有重新计算。
+`verify_saved_results.py` makes no model calls. It re-renders all 7 versions with the frozen evaluator and requires byte-identical gate results, screenshots and page text. The bottom few pixel rows of a phone screenshot occasionally differ between browser launches, so it retries up to three times. It also checks the ledger: every kept version really raised the score, and the final version is the last one kept. The results are in `verification.json`. The model scores are kept as recorded, not recomputed.
 
-产品、价格和设施都是虚构资料。分数来自单个评委模型、每次一个样本，只代表这份评分表的判断，不等于真实转化率；页面上线前仍需真人检查。助手写的修改说明是中文，原样保留在记录里。
+The product, prices and amenities are fictional. Scores come from a single judge model, one sample at a time. They reflect this rubric only, not real conversion rates; have a person review the page before it goes live. The agent wrote its change notes in Chinese; they're kept as recorded.

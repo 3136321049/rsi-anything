@@ -1,1 +1,1 @@
-D10 给定资料综述：真实来源输入、可改初稿、程序检查与模型评审。
+research: a literature review built from three fixed real sources, with citation and evidence-map checks and an LLM jury

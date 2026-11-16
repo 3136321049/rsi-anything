@@ -1,4 +1,4 @@
-"""二维连续张量的行 Softmax；基本实现采用一个 Triton program 处理一行。"""
+"""Row softmax for contiguous 2-D tensors; the basic implementation uses one Triton program per row."""
 import torch
 import triton
 import triton.language as tl
@@ -17,11 +17,11 @@ def _row_softmax(src, dst, WIDTH: tl.constexpr, BLOCK: tl.constexpr):
 
 
 def softmax(x):
-    """返回独立输出；不改变输入，不复用跨调用结果。"""
+    """Return a fresh output; never modify the input or reuse results across calls."""
     if x.ndim != 2 or not x.is_cuda or not x.is_contiguous():
-        raise ValueError("输入需要连续二维 CUDA 张量")
+        raise ValueError("input must be a contiguous 2-D CUDA tensor")
     if x.dtype not in (torch.float16, torch.float32) or min(x.shape) < 1 or x.shape[1] > 8192:
-        raise ValueError("仅支持 float16/float32、非空且每行至多 8192 项")
+        raise ValueError("only non-empty float16/float32 tensors with at most 8192 items per row are supported")
     output = torch.empty_like(x)
     _row_softmax[(x.shape[0],)](x, output, x.shape[1], triton.next_power_of_2(x.shape[1]), num_warps=4)
     return output

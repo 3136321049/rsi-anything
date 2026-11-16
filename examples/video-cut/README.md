@@ -1,14 +1,14 @@
-# D06：真实口播剪辑
+# D06: Cutting a real talking-head speech
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-本例使用 Wikimedia Commons 标注 Public Domain Mark 的1961年肯尼迪就职演说连续节选；原素材、字幕片段和来源信息位于 `inputs/public-speech/`。用于展示历史讲话选段与重排，不代表当代政策观点或人物背书。
+This example uses a continuous excerpt of John F. Kennedy's 1961 inaugural address, marked with the Public Domain Mark on Wikimedia Commons. The source footage, transcript segments and source information are in `inputs/public-speech/`. It's used to show selecting and reordering passages from a historical speech; it doesn't represent contemporary policy views or an endorsement by the speaker.
 
-完整实验：`runs/20261024-002228-talk-highlight/`。基线18.5分，第一轮75.5分保留，后续68、77、75分均被拒绝，其中77分未赢过新旧对比。连续三轮无提升后正常停止，共4轮。评分由同请求型号模型判断剪后文字，未评价完整视听质量。
+Full experiment: `runs/20261024-002228-talk-highlight/`. The baseline scored 18.5, and round 1 scored 75.5 and was kept. The later rounds, at 68, 77 and 75, were all rejected; the 77 didn't win the head-to-head comparison with the current best. The run stopped normally after three rounds without improvement, 4 rounds in total. The score comes from a judge using the same requested model, reading the text of each cut; full audiovisual quality wasn't evaluated.
 
-`artifacts/baseline/files/out/cut.mp4`、`rounds/rNNN/artifacts/files/out/cut.mp4`、`artifacts/final/files/out/cut.mp4` 是真实本地FFmpeg渲染的可播放视频，各有对应文字和SRT字幕。`verification.json` 保存逐版解码、时长和音轨检查。
+`artifacts/baseline/files/out/cut.mp4`, `rounds/rNNN/artifacts/files/out/cut.mp4` and `artifacts/final/files/out/cut.mp4` are playable videos actually rendered with FFmpeg on a local machine, each with matching text and SRT subtitles. `verification.json` records per-version decoding, duration and audio-track checks.
 
-复现：先安装FFmpeg，登录个人Codex，明确设置 `RSI_CODEX_BIN`（需要时），然后在仓库根目录：
+To reproduce, install FFmpeg, sign in to a personal Codex, and set `RSI_CODEX_BIN` explicitly (if needed). Then, from the repository root:
 
 ```bash
 export RSI_VIDEO_INPUT="$PWD/examples/video-cut/inputs/public-speech/input.mp4"
@@ -18,4 +18,4 @@ export RSI_VIDEO_SOURCE_INFO="$PWD/examples/video-cut/inputs/public-speech/sourc
 python scripts/run_demo.py video-cut --model gpt-6.1-sol --jury cli:codex:gpt-6.1-sol --rounds 5 --minutes 60 --codex-isolated
 ```
 
-选择初稿、中间候选、最终成片直接比较；被拒候选同样保留。设置新的运行目录，重跑不会覆盖历史记录。替换用户素材的办法见模板README。
+Pick the first cut, an intermediate candidate and the final cut to compare directly; rejected candidates are kept too. A rerun gets a new run folder and doesn't overwrite the historical record. For how to replace the footage with your own, see the template README.

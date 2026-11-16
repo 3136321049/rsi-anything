@@ -13,7 +13,7 @@ facts = json.loads(Path("judge/facts.json").read_text(encoding="utf-8"))
 missing = [fact for fact in facts if fact not in text]
 images = re.findall(r"<img\b[^>]*>", html, re.I)
 gates = {
-    # 截图时断网：页面里的图片、字体、样式和脚本都必须内嵌。
+    # Screenshots are taken offline: every image, font, style and script on the page must be inlined.
     "self_contained": not re.search(r"<(?:script|img|iframe|source|video|audio)\b[^>]*\bsrc\s*=\s*[\"']?(?:https?:)?//"
                                     r"|<link\b[^>]*\bhref\s*=\s*[\"']?(?:https?:)?//|url\(\s*[\"']?(?:https?:)?//|@import",
                                     html, re.I),

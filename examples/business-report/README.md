@@ -1,28 +1,28 @@
-# D08：Apple 历史经营分析的三轮改写
+# D08: Three rounds of rewriting a historical Apple business analysis
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-这次实验使用 Apple 2023、2024 财年的固定官方资料，AI 修改报告和图表选择。最终稿把产品下降、服务增长、营业利润与净利润的不同走势连成可追踪的解释，区分数字事实、可能原因和资料不能回答的问题。
+This experiment uses fixed official data for Apple's fiscal 2023 and 2024, and the AI edits the report and the chart selection. The final draft links the product decline, the services growth and the diverging paths of operating income and net income into a traceable explanation. It separates numerical facts, possible causes and questions the data can't answer.
 
-| 版本 | 得分 | 处理结果 |
+| Version | Score | Outcome |
 |---|---:|---|
-| 初始 | 53.5 | 建立基线 |
-| 第 1 轮 | 74 | 保留；补充收入结构和一次性所得税费用的解释 |
-| 第 2 轮 | 79 | 拒绝；交换顺序后新稿只获 1/2 票 |
-| 第 3 轮 | 61.5 | 拒绝；没有超过当前保留稿 |
+| Starting | 53.5 | Baseline |
+| Round 1 | 74 | Kept; adds explanations of the revenue mix and the one-time income tax charge |
+| Round 2 | 79 | Rejected; in the head-to-head comparison with the order swapped, the new draft won only 1 of 2 votes |
+| Round 3 | 61.5 | Rejected; did not beat the currently kept draft |
 
-[打开完整实验报告](runs/20261024-000043-apple-operating-report/report.html) · [阅读最终成稿和图表](runs/20261024-000043-apple-operating-report/artifacts/final/files/out/report.html) · [查看最终 Markdown](runs/20261024-000043-apple-operating-report/artifacts/final/files/out/report.md) · [核验记录](runs/20261024-000043-apple-operating-report/verification.json)
+[Open the full experiment report](runs/20261024-000043-apple-operating-report/report.html) · [Read the final report and charts](runs/20261024-000043-apple-operating-report/artifacts/final/files/out/report.html) · [View the final Markdown](runs/20261024-000043-apple-operating-report/artifacts/final/files/out/report.md) · [Verification record](runs/20261024-000043-apple-operating-report/verification.json)
 
-程序核对数字键、单位、引用和图表；模型评价解释与结构。写手和评委都显式请求个人 Codex 的 `gpt-6.1-sol`、`medium`，实际型号和美元费用未由 CLI 返回，保持未知。每次评分是当前评价条件下的判断，不等同于独立财经专家认可。
+The program checks number keys, units, citations and charts; the model rates the explanations and structure. Both the agent and the judge explicitly requested `gpt-6.1-sol` at `medium` from a personal Codex account. The CLI didn't return the actual model or the cost in US dollars, so both stay unknown. Each score is a judgment under the current evaluation settings, not endorsement by an independent financial expert.
 
-第 3 轮有两项评委引文未通过当时的原文匹配，触发该维度最高 3 分的规则。旧核对逻辑可能把多处原句拼接引用误判为无法匹配；本次未保存原始评分 JSON，不能进一步确认这两项属于哪种情况，也不能只凭 61.5 推断正文大幅退化。当前模板只能选择最多三张单指标图，无法生成评委建议的合并贡献图；这限制了进一步图表改进。
+In round 3, two of the judge's evidence quotes failed the text match used at the time, which triggered the rule that caps the affected criterion at 3. The old matching logic may have wrongly rejected quotes stitched together from several sentences. The raw scoring JSON wasn't saved for this run, so it can't be confirmed which case these two belong to, and 61.5 alone doesn't show that the text got much worse. The current template can only select up to three single-metric charts, so it can't produce the combined contribution chart the judge suggested; this limits further chart improvements.
 
-已阅读最终稿，核对官方财报全年数据和一次性税费，独立重算同比和产品加服务的营收关系。导出的初始、三轮候选和最终版本均在新临时目录重新生成，输出逐字节一致。浏览器已实际显示正文、数据表和三张图；图形依赖联网加载 Mermaid，离线仍可读正文与数值表。
+The final draft was read, the full-year figures and the one-time tax charge were checked against the official statements, and the year-over-year changes and the product-plus-services revenue relationship were recomputed independently. The exported starting version, the three round candidates and the final version were each regenerated in a fresh temporary directory, and the outputs matched byte for byte. A browser displayed the text, the data table and all three charts. The charts need an internet connection to load Mermaid; offline, the text and the figures table are still readable.
 
-使用自己的个人 Codex 登录，从项目根目录另开实验：
+To start a new experiment with your own personal Codex login, run this from the project root:
 
 ```bash
 python3 scripts/run_demo.py business-report --model gpt-6.1-sol --jury cli:codex:gpt-6.1-sol --rounds 3 --minutes 25 --codex-isolated --continue-after-target
 ```
 
-数据来自 [Apple 官方全年财务报表](https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf)，本次核查日期为 2026-10-24。这是固定历史资料的经营分析演示，不是最新财报或投资建议。
+The data comes from [Apple's official full-year financial statements](https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf), checked on 2026-10-24 for this run. This is a business-analysis demo on fixed historical data, not the latest financial report or investment advice.

@@ -2,7 +2,7 @@
 
 [简体中文](PLAN.zh-CN.md)
 
-Updated: 2026-10-29. The first-release scope and resource exceptions are defined in the [release brief (Chinese)](GOAL-FIRST-RELEASE.zh-CN.md); live work status is in the [progress tracker (Chinese)](GOAL-PROGRESS.zh-CN.md). This document describes the implementation as it currently stands.
+Updated: 2026-10-29. The first-release scope and resource exceptions are defined in the [release brief (Chinese)](GOAL-FIRST-RELEASE.md); live work status is in the [progress tracker (Chinese)](GOAL-PROGRESS.md). This document describes the implementation as it currently stands.
 
 ## Goal
 

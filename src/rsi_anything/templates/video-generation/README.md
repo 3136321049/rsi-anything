@@ -1,14 +1,14 @@
-# D07：真实视频生成
+# D07: Real video generation
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-助手只改 `generation.json` 的生成描述、反向描述和种子。准备步骤调用 Lightricks 官方公开 Space，真正生成短片；评委查看均匀抽取的静帧，反馈后再尝试改进。
+The agent changes only the prompt, negative prompt and seed in `generation.json`. The prepare step calls Lightricks' official public Space and actually generates a short clip. The judge looks at evenly sampled still frames and gives feedback, and the agent then tries to improve.
 
-默认服务是 [LTX Video Fast](https://huggingface.co/spaces/Lightricks/ltx-video-distilled)，上游说明为 LTX 0.9.8 13B distilled。2026-10-24 的真实实验已取得初始片段与第一轮生成片段；后两轮服务返回错误，没有新视频，标为质量未知。当前按资源例外保留部分实测，公开服务可能限额、排队或暂停，本包不自动切换付费服务。
+The default service is [LTX Video Fast](https://huggingface.co/spaces/Lightricks/ltx-video-distilled), which upstream describes as LTX 0.9.8 13B distilled. The real experiment on 2026-10-24 got the starting clip and the round-1 clip. In the last two rounds the service returned errors and no new video, so their quality is marked unknown. The experiment is currently kept as partially measured under a resource exception. The public service may rate-limit, queue or pause, and this package doesn't switch to a paid service automatically.
 
-## 启动
+## Getting started
 
-需要 Python、项目本身、FFmpeg/ffprobe 和一个能看图的个人模型评委。
+You need Python, this project, FFmpeg/ffprobe and a personal model judge that can read images.
 
 ```sh
 rsi init video-generation demo-video-generation
@@ -17,28 +17,28 @@ export RSI_VIDEO_CACHE="$HOME/.cache/rsi-anything/video-generation"
 rsi run --rounds 5
 ```
 
-`python3 judge/prepare.py` 也会真实提交生成，不是离线预览命令。若要离线验证程序，运行仓库中的单元测试。只更换 `judge/brief.md` 的主题时，应同时修改初始描述与评分细则，然后开新运行；尺寸与时长由准备脚本固定为 704×512、约两秒。
+`python3 judge/prepare.py` also really submits a generation; it isn't an offline preview command. To check the program offline, run the unit tests in the repository. If you change only the subject in `judge/brief.md`, also change the starting prompt and the rubric, then start a new run. The prepare script fixes the size and duration at 704×512 and about two seconds.
 
-## 评价与输出
+## Evaluation and outputs
 
-程序确认服务返回了视频，并用 ffprobe 检查视频轨、尺寸和时长。模型从静帧判断杯子、材质、环境、蒸汽与构图，不评价音频，也不能确认完整运动是否顺滑。`pairwise: false`，本例按同一评分规则的分数保留较好版本，最终仍需播放检查。
+The program confirms that the service returned a video and uses ffprobe to check the video track, size and duration. The model judges the cup, material, setting, steam and composition from still frames. It doesn't evaluate audio and can't confirm whether the full motion is smooth. With `pairwise: false`, this example keeps the better version by score under the same rubric; the final clip still needs to be checked by playing it.
 
-`out/video.mp4` 是下载的真实服务结果，`preview.html` 可播放；`request.json`、`metadata.json`、`events.txt` 记录输入、事件编号、返回种子、视频哈希、服务版本和复用状态。`outputs: [out]` 保存逐轮产物。失败时输出 `error.json`，明确标记作品质量未知，不生成替代视频。
+`out/video.mp4` is the real result downloaded from the service, and `preview.html` plays it. `request.json`, `metadata.json` and `events.txt` record the input, event ID, returned seed, video hash, service version and reuse status. `outputs: [out]` saves each round's outputs. On failure, the program writes `error.json`, explicitly marks the artifact's quality as unknown, and doesn't produce a substitute video.
 
-## 缓存与恢复
+## Cache and recovery
 
-请求按服务地址、固定参数、描述与种子计算哈希。`RSI_VIDEO_CACHE` 可指定项目外的持久目录；未设置时使用用户缓存目录下的 `rsi-anything/video-generation`。缓存不能放在评分用的临时目录里。
+Each request is hashed from the service address, the fixed parameters, the prompt and the seed. `RSI_VIDEO_CACHE` can point to a persistent folder outside the project; if it's unset, `rsi-anything/video-generation` under the user cache folder is used. The cache can't live in the temporary folder used for scoring.
 
-提交前写入状态，取得事件编号后立即保存。等待中断时，下次继续等待同一事件；下载中断时复用已经完成的结果地址；已完成的相同请求直接复用经过哈希核对的成片。系统文件锁避免并发提交同一请求，进程结束会释放锁。
+State is written before submitting, and the event ID is saved as soon as it arrives. If waiting is interrupted, the next attempt keeps waiting on the same event. If a download is interrupted, the finished result URL is reused. An identical request that already finished reuses its clip after the hash is checked. A system file lock prevents concurrent submissions of the same request, and the lock is released when the process ends.
 
-如果提交后没有拿到事件编号，程序保留 `submission_unknown` 或 `submission_pending`，不会自动重发。需要人根据缓存记录确认服务是否受理，再决定如何处理该项缓存。此限制避免超时重试悄悄重复生成。
+If no event ID comes back after submitting, the program keeps `submission_unknown` or `submission_pending` and doesn't resend automatically. A person needs to check the cache record to confirm whether the service accepted the request, then decide what to do with that cache entry. This limit keeps timeout retries from quietly generating duplicates.
 
-## 接口与来源
+## API and sources
 
-- `RSI_VIDEO_ENDPOINT` 可覆盖公开服务基址，但目标必须提供相同的输入顺序与 `text_to_video` 接口；没有账号或付费回退。
-- `RSI_VIDEO_TIMEOUT` 控制本次等待秒数，默认 480；主评审步骤上限为 900 秒。
-- 先 `POST /gradio_api/call/text_to_video` 获得事件编号，再 `GET /gradio_api/call/text_to_video/<event_id>` 读取事件流；只接受 `event: complete` 的视频地址。
-- [Gradio 官方调用说明](https://gradio.app/4.44.1/guides/querying-gradio-apps-with-curl) 提供两步调用协议；服务实测为 Gradio 5.42.0，使用该实例的 `/gradio_api` 前缀。
-- [上游 README](https://huggingface.co/spaces/Lightricks/ltx-video-distilled/blob/main/README.md)、[上游实现](https://huggingface.co/spaces/Lightricks/ltx-video-distilled/blob/main/app.py) 与公开 `/config` 已于 2026-10-24 核查。每次新提交会核对输入顺序并保存服务版本；不能把上游声明型号当成远端运行时额外返回的模型证明。
+- `RSI_VIDEO_ENDPOINT` can override the public service's base URL, but the target must offer the same input order and `text_to_video` endpoint. There is no account or paid fallback.
+- `RSI_VIDEO_TIMEOUT` sets how many seconds this call waits, 480 by default; the main evaluation step is capped at 900 seconds.
+- First `POST /gradio_api/call/text_to_video` to get an event ID, then `GET /gradio_api/call/text_to_video/<event_id>` to read the event stream. Only a video URL from `event: complete` is accepted.
+- The [official Gradio guide to calling apps](https://gradio.app/4.44.1/guides/querying-gradio-apps-with-curl) describes the two-step protocol. The service was measured as running Gradio 5.42.0 and uses that instance's `/gradio_api` prefix.
+- The [upstream README](https://huggingface.co/spaces/Lightricks/ltx-video-distilled/blob/main/README.md), the [upstream implementation](https://huggingface.co/spaces/Lightricks/ltx-video-distilled/blob/main/app.py) and the public `/config` were checked on 2026-10-24. Every new submission checks the input order and saves the service version. The model upstream declares can't be treated as if it were model evidence returned by the remote service at runtime.
 
-本适配只使用 Python 标准库及 FFmpeg。离线接口和恢复测试已通过；真实片段、请求、错误凭证与视频解码结果保存在仓库 `examples/video-generation/`。完整多轮仍待可用生成资源；测试中的模拟响应仅用于单元测试。
+This adapter uses only the Python standard library and FFmpeg. The offline interface and recovery tests pass. Real clips, requests, error evidence and video-decoding results are saved in `examples/video-generation/` in the repository. A complete multi-round run still awaits an available generation resource; the mocked responses in the tests are only for unit testing.

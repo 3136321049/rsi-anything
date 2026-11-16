@@ -243,7 +243,7 @@ def cmd_run(args) -> int:
     if args.live:
         from . import live
 
-        # 只跟随这次启动后的运行（续跑时跟随指定运行），不会先显示旧记录。
+        # Follow only the run started now (or the named run when resuming), without replaying old records first.
         runs = ratchet.repo / ledger.STATE_DIR / "runs"
         before = set(ledger.list_runs(ratchet.repo))
         target = runs / args.resume if args.resume else None

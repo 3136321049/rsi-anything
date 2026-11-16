@@ -13,11 +13,11 @@ The current development version is `0.3.0.dev0`: **16 domains, 18 templates, 14 
 | Run | What happened | Evidence |
 |---|---|---|
 | Fuzzy search speedup | Three kept rounds: 1× → 4.45× → 17.83× → 27.45×, with every result checked before timing | [Code lab](https://www.riseai.top/darwin/labs/code/) |
-| Python expense repair | Fixed tests went from 6/15 to 9/15, 12/15 and 15/15 | [Code and tests](examples/code-repair/README.en.md) |
+| Python expense repair | Fixed tests went from 6/15 to 9/15, 12/15 and 15/15 | [Code and tests](examples/code-repair/README.md) |
 | CPU digit classifier | Validation accuracy rose from 46.889% to 99.333%; the next two rounds produced no formal change | [Model lab](https://www.riseai.top/darwin/labs/experiments/) |
 | Speech → short video | Kept 75.5 from 18.5. A later 77-point cut lost both head-to-head comparisons and was rejected | [Video lab](https://www.riseai.top/darwin/labs/video/) |
-| Customer-support prompt | Three candidates failed to improve; the original prompt stayed (89.6% dev, 82.8% held out) | [Prompts and mistakes](examples/prompt-opt/README.en.md) |
-| Synthetic contract | Kept a 91.5-point draft covering 7/7 issue categories; weaker candidates stay visible | [Drafts and review](examples/contract-review/README.en.md) |
+| Customer-support prompt | Three candidates failed to improve; the original prompt stayed (89.6% dev, 82.8% held out) | [Prompts and mistakes](examples/prompt-opt/README.md) |
+| Synthetic contract | Kept a 91.5-point draft covering 7/7 issue categories; weaker candidates stay visible | [Drafts and review](examples/contract-review/README.md) |
 
 These results belong to their tasks and evaluation settings. Repeated tuning on a fixed validation set isn't independent evidence of generalization, and a model score isn't expert approval. Plateaus, rejections and failures stay in the record.
 
@@ -48,7 +48,7 @@ Watch a run as it evolves with `rsi run --live` (or `rsi watch` from another ter
 
 ## Templates
 
-Run `rsi init` to list templates. Each one ships with inputs, a starting artifact, an evaluator, output paths, and notes on replacing the inputs. English guides sit next to the Chinese ones as `src/rsi_anything/templates/<name>/README.en.md`.
+Run `rsi init` to list templates. Each one ships with inputs, a starting artifact, an evaluator, output paths, and notes on replacing the inputs. Each template's `README.md` is in English, with a Chinese version next to it as `README.zh-CN.md`.
 
 | Domain | Template | What changes each round |
 |---|---|---|
@@ -69,7 +69,7 @@ Run `rsi init` to list templates. Each one ships with inputs, a starting artifac
 | D15 GPU kernels | `kernel-speed` | Softmax implementation and launch parameters |
 | Visual (new) | `svg-drawing`, `landing-page` | An SVG drawing, or a one-page website, judged from screenshots by an image-capable jury |
 
-The two visual templates are new in the source tree and not yet in the downloadable package; see the [pelican](examples/svg-drawing/README.en.md) and [landing page](examples/landing-page/README.en.md) runs. A template isn't a finished experiment. D01–D06 and D08–D14 have verified multi-round runs; D07 and D15 are the resource exceptions described above. Empty GPU results and failed generation requests are never simulated or counted as complete.
+The two visual templates are new in the source tree and not yet in the downloadable package; see the [pelican](examples/svg-drawing/README.md) and [landing page](examples/landing-page/README.md) runs. A template isn't a finished experiment. D01–D06 and D08–D14 have verified multi-round runs; D07 and D15 are the resource exceptions described above. Empty GPU results and failed generation requests are never simulated or counted as complete.
 
 ## How a run works
 

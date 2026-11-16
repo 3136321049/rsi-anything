@@ -1,7 +1,7 @@
-夜航自习室推出夜间会员啦
+Night Voyage Study Room launches Night Membership
 
-在这个快节奏的时代，每个人都需要一个安静的地方学习和工作。夜航自习室是一个非常好的选择，环境很好，服务也很好。
+In today's fast-paced world, everyone needs a quiet place to study and work. Night Voyage Study Room is a great choice, with a great environment and great service.
 
-我们现在推出了夜间会员，价格非常实惠，欢迎大家来体验。这里有舒适的座位和良好的学习氛围，相信你一定会喜欢的。
+We have just launched our Night Membership at a very affordable price, and everyone is welcome to come and try it. We have comfortable seats and a good study atmosphere, and we are sure you will love it.
 
-赶快行动起来吧！让我们一起努力，成为更好的自己！
+Act now! Let's all work hard together and become better versions of ourselves!

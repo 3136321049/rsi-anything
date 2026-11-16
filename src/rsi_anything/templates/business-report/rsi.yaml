@@ -1,9 +1,9 @@
 name: apple-operating-report
 goal: |
-  面向不熟悉财报的产品经理，改进 Apple 2024 财年经营分析报告 report.md 和图表配置 charts.json。
-  资料只有 judge/facts.json。说明总营收、产品与服务结构、营业利润与净利润的不同走势、资料局限。
-  正文数字用 {{资料键}} 插值，键见 judge/facts.json；财年可以直接写 2023、2024。
-  引用使用 [S1]、[S2]。不要写股价、评级或投资建议。图表只能选择资料中现有指标。
+  Improve the Apple fiscal 2024 operating analysis report.md and the chart configuration charts.json for product managers who are not used to reading financial statements.
+  The only source material is judge/facts.json. Explain total revenue, the products and services mix, the different directions of operating income and net income, and the limits of the data.
+  Write every number in the text as a {{data key}} placeholder; the keys are listed in judge/facts.json. Fiscal years can be written directly as 2023 and 2024.
+  Cite sources as [S1], [S2]. Do not write about share prices, ratings or investment advice. Charts may only use metrics that exist in the data.
 artifact: [report.md, charts.json]
 judge:
   type: rubric

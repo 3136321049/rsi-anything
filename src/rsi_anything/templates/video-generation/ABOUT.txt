@@ -1,1 +1,1 @@
-D07 真实视频生成：改提示词与种子，调用 Lightricks 官方 Space 生成短片并看帧评分。
+video: real text-to-video generation; tune the prompt and seed, call the official Lightricks Space, and judge sampled frames

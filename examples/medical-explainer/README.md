@@ -1,28 +1,28 @@
-# D12：把身体活动指南讲成办公日里的常识
+# D12: Physical activity guidelines as common sense for an office workday
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-这次真实三轮实验只修改科普文章，使用冻结的 WHO 资料。最终稿围绕通勤、工作间隙和活动安排，解释有氧活动、肌肉强化与减少久坐各自解决什么问题，保留一般健康成人的适用范围和少量起步的建议。
+This real three-round experiment edited only the health explainer, using frozen WHO material. Built around commuting, breaks at work and planning activity, the final draft explains what aerobic activity, muscle strengthening and reducing sedentary time each address. It keeps the scope (generally healthy adults) and the advice to start small.
 
-| 版本 | 得分 | 处理结果 |
+| Version | Score | Outcome |
 |---|---:|---|
-| 初始 | 58.5 | 建立基线 |
-| 第 1 轮 | 80 | 保留；用生活场景解释术语、活动类型和常见误读 |
-| 第 2 轮 | 77.5 | 拒绝，没有超过当前稿 |
-| 第 3 轮 | 77.5 | 拒绝，最终仍使用第 1 轮 |
+| Starting | 58.5 | Baseline |
+| Round 1 | 80 | Kept; uses everyday scenarios to explain terms, activity types and common misreadings |
+| Round 2 | 77.5 | Rejected; did not beat the current draft |
+| Round 3 | 77.5 | Rejected; round 1 remains the final version |
 
-[打开完整实验报告](runs/20261024-001506-adult-activity-explainer/report.html) · [阅读最终科普与来源](runs/20261024-001506-adult-activity-explainer/artifacts/final/files/out/explainer.html) · [最终 Markdown](runs/20261024-001506-adult-activity-explainer/artifacts/final/files/out/explainer.md) · [核验记录](runs/20261024-001506-adult-activity-explainer/verification.json)
+[Open the full experiment report](runs/20261024-001506-adult-activity-explainer/report.html) · [Read the final explainer and sources](runs/20261024-001506-adult-activity-explainer/artifacts/final/files/out/explainer.html) · [Final Markdown](runs/20261024-001506-adult-activity-explainer/artifacts/final/files/out/explainer.md) · [Verification record](runs/20261024-001506-adult-activity-explainer/verification.json)
 
-已逐段阅读最终稿，核对固定年龄、活动量和频率，确认没有药物、诊断、疾病疗效承诺或针对某个人的运动处方。文中例子与通俗解释是作者表达，不是 WHO 原文引语；它明确区分轻微走动和中高强度活动，也没有把完成有氧量等同于全部身体活动建议。
+The final draft was read paragraph by paragraph, and the fixed age, activity amounts and frequencies were checked. It contains no medication advice, diagnoses, promises about treating disease, or exercise prescriptions for a specific person. The examples and plain-language explanations are the article's own wording, not quotations from WHO. It clearly distinguishes light movement from moderate-to-vigorous activity, and doesn't treat meeting the aerobic amount as the whole of the physical activity recommendations.
 
-导出的初始、三轮候选和最终版本都重新执行了冻结准备脚本，输出逐字节一致。浏览器实际显示正文、四项指南数量和来源链接。本次使用支持多段原句核对的评分规则，四次评分的引文匹配未触发扣分，原始评委 JSON 均保存在 `verdict.json` 的 `judge_details` 中。77.5 与 80 的差别仍属于单次模型评价，不是临床有效性判断。
+The exported starting version, the three round candidates and the final version were all rerun through the frozen prepare script, and the outputs matched byte for byte. A browser displayed the text, the four guideline quantities and the source links. This run used the scoring rule that can check quotes made of several separate passages. Quote matching triggered no deductions in any of the four scorings, and the raw judge JSON for each is saved under `judge_details` in `verdict.json`. The difference between 77.5 and 80 is still a single model evaluation, not a judgment of clinical effectiveness.
 
-写手和评委都通过个人 Codex 显式请求 `gpt-6.1-sol`、`medium`；CLI 没有返回实际型号与费用，保持未知。此案例只演示公众科普的组织与改写，不接收病历，也没有经过临床专家审稿。
+Both the agent and the judge explicitly requested `gpt-6.1-sol` at `medium` through a personal Codex account; the CLI didn't return the actual model or cost, so both stay unknown. This case only demonstrates organizing and rewriting a public health explainer. It doesn't accept medical records and hasn't been reviewed by a clinical expert.
 
-从项目根目录使用自己的个人 Codex 登录另开实验：
+To start a new experiment with your own personal Codex login, run this from the project root:
 
 ```bash
 python3 scripts/run_demo.py medical-explainer --model gpt-6.1-sol --jury cli:codex:gpt-6.1-sol --rounds 3 --minutes 25 --codex-isolated --continue-after-target
 ```
 
-来源是 [WHO 欧洲区域身体活动清单](https://www.who.int/europe/news-room/fact-sheets/item/physical-activity)、[WHO 身体活动事实清单](https://www.who.int/news-room/fact-sheets/detail/physical-activity) 以及 [WHO 指南执行摘要](https://www.ncbi.nlm.nih.gov/books/NBK566048/?report=reader)。本次在 2026-10-24 核对 WHO 主站及官方搜索索引；欧洲页直读超时、NCBI 直读出现验证码，年龄、活动量、强化频率与渐进起步段通过官方索引读取，未声称重新读完指南全文。
+The sources are [the WHO/Europe physical activity fact sheet](https://www.who.int/europe/news-room/fact-sheets/item/physical-activity), [the WHO physical activity fact sheet](https://www.who.int/news-room/fact-sheets/detail/physical-activity) and [the executive summary of the WHO guidelines](https://www.ncbi.nlm.nih.gov/books/NBK566048/?report=reader). On 2026-10-24, the WHO main site and the official search index were checked. Reading the Europe page directly timed out, and reading NCBI directly hit a CAPTCHA, so the passages on age, activity amounts, strengthening frequency and starting gradually were read through the official index. There's no claim that the full guidelines were reread.

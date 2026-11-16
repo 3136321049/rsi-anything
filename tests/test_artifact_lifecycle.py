@@ -76,7 +76,7 @@ def test_export_preserves_binary_scrubs_text_and_links_versions(toy, tmp_path):
     assert '<video controls preload="metadata"' in page
     assert "rounds/r002/artifacts/files/value.txt" in page
     assert "artifacts/final/files/value.txt" in page
-    assert "模型与运行参数" in page
+    assert "Model and run parameters" in page
     for manifest in dest.rglob("manifest.json"):
         if manifest.parent.name in {"baseline", "final", "artifacts"}:
             for item in json.loads(manifest.read_text())["files"]:
@@ -119,7 +119,7 @@ def test_interrupt_preserves_round_and_resumes_from_champion(toy, monkeypatch):
     assert (store.dir / "rounds/r002/artifacts/files/value.txt").read_text() == "7"
     manifest = json.loads((store.dir / "rounds/r002/artifacts/manifest.json").read_text())
     assert manifest["source"] == "agent_workspace" and manifest["evaluation_status"] == "round_incomplete"
-    assert "未经本轮正式评审" in report.markdown(store)
+    assert "not formally judged this round" in report.markdown(store)
     resumed = configured(project).run(resume=run_id)
     assert resumed.best == 9
     assert [row["status"] for row in store.rows()] == ["BASELINE", "KEEP", "INTERRUPTED", "KEEP"]
@@ -133,7 +133,7 @@ def test_complete_round_is_recovered_after_partial_ledger_write(toy, monkeypatch
     baseline = store.ledger_path.read_bytes().splitlines()[0]
     store.ledger_path.write_bytes(baseline + b'\n{"round": 1, "stat')
     judge = make_judge(load(project).judge)
-    monkeypatch.setattr(judge, "evaluate", lambda *args: pytest.fail("已完成评分不应重复"))
+    monkeypatch.setattr(judge, "evaluate", lambda *args: pytest.fail("a finished judgement must not be repeated"))
     resumed = configured(project, judge=judge).run(resume=first.run_id)
     assert resumed.best == 5 and len(store.rows()) == 2
     assert (store.dir / "ledger.interrupted-tail").exists()
@@ -269,13 +269,13 @@ def test_unreviewed_agent_outputs_do_not_become_formal_results(toy, exit_code, s
     assert store.rows()[-1]["status"] == status and store.rows()[-1]["score"] is None
     assert summary.best == 1
     assert "999" not in report._chart(store.rows())
-    assert "助手工作目录，未经本轮正式评审" in report.html_page(store, project)
-    # 历史快照没有新字段时，报告按正式轮次状态补说明，不回写原文件。
+    assert "agent working directory, not formally judged this round" in report.html_page(store, project)
+    # When a historical snapshot lacks the new fields, the report explains it from the formal round status without rewriting the file.
     del manifest["source"]
     del manifest["evaluation_status"]
     (snapshot / "manifest.json").write_text(json.dumps(manifest))
     original = (snapshot / "manifest.json").read_bytes()
-    assert "助手工作目录，未经本轮正式评审" in report.markdown(store)
+    assert "agent working directory, not formally judged this round" in report.markdown(store)
     assert (snapshot / "manifest.json").read_bytes() == original
 
 
@@ -295,4 +295,4 @@ def test_interrupted_judged_snapshot_keeps_actual_source(toy, monkeypatch):
     assert manifest["source"] == "judge_workspace" and manifest["evaluation_status"] == "round_incomplete"
     assert len(store.rows()) == 1
     text = report.markdown(store)
-    assert "中断轮的评审目录" in text and "尚无完整正式轮次结论" in text
+    assert "judge workspace of an interrupted round" in text and "no complete formal round result yet" in text

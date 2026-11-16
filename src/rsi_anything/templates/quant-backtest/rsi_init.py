@@ -1,4 +1,4 @@
-"""一次性下载公开历史价格并记录来源；每轮只读本地冻结数据。"""
+"""Download public historical prices once and record the source; every round reads only the frozen local data."""
 import csv
 import hashlib
 import io
@@ -14,10 +14,10 @@ URL = ("https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=1d
 def save_data(raw, root):
     rows = json.loads(raw)
     if not isinstance(rows, list) or len(rows) != 731 or any(not isinstance(row, list) or len(row) < 6 for row in rows):
-        raise ValueError("公开接口未返回预期的 731 条日线；不使用替代或合成数据")
+        raise ValueError("the public API did not return the expected 731 daily bars; no substitute or synthetic data is used")
     dates = [datetime.fromtimestamp(row[0] / 1000, timezone.utc).date().isoformat() for row in rows]
     if dates[0] != "2023-01-01" or dates[-1] != "2024-12-31" or len(set(dates)) != 731:
-        raise ValueError("历史数据日期范围不符")
+        raise ValueError("the historical data date range does not match")
     text = io.StringIO(newline="")
     writer = csv.writer(text, lineterminator="\n")
     writer.writerow(["date", "open", "high", "low", "close", "volume"])
@@ -38,7 +38,7 @@ def main():
     root = Path(__file__).resolve().parent
     target = root / "judge/prices.csv"
     if target.exists() and (root / "judge/source.json").exists():
-        print("已存在冻结历史价格，不重复下载。")
+        print("Frozen historical prices already exist; not downloading again.")
         return
     try:
         request = urllib.request.Request(URL, headers={"User-Agent": "RSI-Anything historical demo"})
@@ -46,8 +46,8 @@ def main():
             raw = response.read()
         source = save_data(raw, root)
     except Exception as exc:
-        raise SystemExit(f"历史数据准备失败：{exc}。修复网络后在此目录执行 python rsi_init.py。")
-    print(f"已保存 {source['rows']} 条公开日线；数据及衍生产物按 CC BY-NC-SA 4.0 标注。")
+        raise SystemExit(f"Preparing the historical data failed: {exc}. Fix the network, then run python rsi_init.py in this folder.")
+    print(f"Saved {source['rows']} public daily bars; the data and derived outputs are labeled CC BY-NC-SA 4.0.")
 
 
 if __name__ == "__main__":

@@ -1,8 +1,8 @@
 name: warm-morning-product-video
 goal: |
-  根据 judge/brief.md 改进 generation.json 的 prompt、negative 和 seed，真实生成晨光陶瓷杯短视频。
-  每轮通过 Lightricks 官方公开 Space 生成新片，观察成片中主体、环境、蒸汽和构图是否符合简报。
-  只修改三个字段，不变更生成服务、尺寸或时长。评委只看抽取的静帧，不能据此证明完整运动或音频质量。
+  Following judge/brief.md, improve the prompt, negative and seed in generation.json to generate a real short video of a ceramic mug in morning light.
+  Each round generates a new clip through Lightricks' official public Space; check whether the subject, setting, steam and composition of the result match the brief.
+  Change only those three fields, not the generation service, size or duration. The jury sees only sampled still frames, which cannot prove full motion or audio quality.
 artifact: [generation.json]
 judge:
   type: rubric

@@ -1,44 +1,44 @@
-# D07：真实视频生成，部分实测
+# D07: Real video generation, partially measured
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-本次包含初始生成和 3 轮模型修改：初始与第 1 轮取得真实视频，第 2、3 轮在服务已受理后收到 `event: error / data: null`，没有视频可以评价。当前保留第 1 轮成片与全部输入，按资源例外列为**部分实测**，不计作完整多轮验收。
+This run includes a starting generation and 3 rounds of model edits. The baseline and round 1 produced real videos. Rounds 2 and 3 received `event: error / data: null` after the service had accepted them, so there was no video to evaluate. The round-1 clip and all inputs are kept, and the run is listed as **partially measured** under a resource exception; it doesn't count as a complete multi-round acceptance.
 
-| 版本 | 实际结果 | 可用质量分 | 视频 |
+| Version | Actual result | Usable quality score | Video |
 |---|---|---:|---|
-| 初始 | 服务生成成功 | 60.5 | 1.90 秒，704×512，H.264，无音轨 |
-| 第 1 轮 | 服务生成成功，保留 | 61.0 | 1.90 秒，704×512，H.264，无音轨 |
-| 第 2 轮 | 服务返回错误，没有作品 | 未知 | 无 |
-| 第 3 轮 | 服务返回错误，没有作品 | 未知 | 无 |
+| Baseline | Service generated successfully | 60.5 | 1.90 s, 704×512, H.264, no audio track |
+| Round 1 | Service generated successfully, kept | 61.0 | 1.90 s, 704×512, H.264, no audio track |
+| Round 2 | Service returned an error, no artifact | Unknown | None |
+| Round 3 | Service returned an error, no artifact | Unknown | None |
 
-写手和评委均显式请求个人 Codex CLI 的 `gpt-6.1-sol`，服务端实际型号没有返回，仍记 `null`。生成服务为 Lightricks 官方公开 [LTX Video Fast](https://huggingface.co/spaces/Lightricks/ltx-video-distilled)；上游声明 LTX 0.9.8 13B distilled，不能把这个声明当成运行时额外返回的模型证明。模型评分只覆盖抽取的静帧，未据此评价完整运动或声音。
+Both the agent and the judge explicitly requested `gpt-6.1-sol` through a personal Codex CLI. The service didn't return the actual model, so it's still recorded as `null`. The generation service is Lightricks' official public [LTX Video Fast](https://huggingface.co/spaces/Lightricks/ltx-video-distilled). Upstream declares LTX 0.9.8 13B distilled, but that declaration can't be treated as model evidence returned at runtime. The model scores cover only the sampled still frames; full motion and sound weren't evaluated from them.
 
-第 1 轮主要强化蒸汽、侧后方光线和背景对比。评委发现蒸汽出现了，但偏浓，杯底和杯柄也存在裁切，最终仅比初始高 0.5 分。这是该次评价的结果，不代表可靠的整体质量提升。
+Round 1 mainly strengthened the steam, the light from behind and to the side, and the background contrast. The judge found that the steam now appeared but was too dense, and that the cup's base and handle were cropped, so the round ended up only 0.5 points above the baseline. This is the result of that one evaluation, not a reliable overall quality improvement.
 
-[初始视频](runs/20261024-003656-warm-morning-product-video/artifacts/baseline/files/out/video.mp4) · [最终保留视频](runs/20261024-003656-warm-morning-product-video/artifacts/final/files/out/video.mp4) · [最终生成参数](runs/20261024-003656-warm-morning-product-video/artifacts/final/files/generation.json) · [可播放预览](runs/20261024-003656-warm-morning-product-video/artifacts/final/files/out/preview.html) · [独立验证](runs/20261024-003656-warm-morning-product-video/verification.json)
+[Baseline video](runs/20261024-003656-warm-morning-product-video/artifacts/baseline/files/out/video.mp4) · [Final kept video](runs/20261024-003656-warm-morning-product-video/artifacts/final/files/out/video.mp4) · [Final generation parameters](runs/20261024-003656-warm-morning-product-video/artifacts/final/files/generation.json) · [Playable preview](runs/20261024-003656-warm-morning-product-video/artifacts/final/files/out/preview.html) · [Independent verification](runs/20261024-003656-warm-morning-product-video/verification.json)
 
-## 服务错误核对
+## Checking the service errors
 
-2026-10-24 重新核对 [官方实现](https://huggingface.co/spaces/Lightricks/ltx-video-distilled/blob/8a42e93469c66b62d794b83a4233f5fc8439e2b5/app.py) 与公开 `/config`。服务仍使用 Gradio 5.42.0，13 个输入标签和顺序与原请求一致，`show_error` 为 false。当前 `app.py` 未见按字符数拒绝提示词的逻辑；成功第 1 轮描述 868 字符，失败两轮分别为 981、1159 字符，均通过本地输入校验。接口顺序没有发现变化，但模型内部限制或远端异常不能仅凭公开应用代码排除。
+On 2026-10-24, the [official implementation](https://huggingface.co/spaces/Lightricks/ltx-video-distilled/blob/8a42e93469c66b62d794b83a4233f5fc8439e2b5/app.py) and the public `/config` were checked again. The service still uses Gradio 5.42.0, the 13 input labels and their order match the original request, and `show_error` is false. The current `app.py` has no visible logic that rejects prompts by character count. The successful round-1 prompt was 868 characters and the two failed ones were 981 and 1159; all passed local input validation. No change in the interface order was found, but limits inside the model or remote faults can't be ruled out from the public app code alone.
 
-只追加了**一次**匿名免费诊断请求，完全复用先前成功基线的短描述（24 字符）、反向描述、seed=42、704×512 和两秒参数。提交与事件流都返回 HTTP 200，事件 `4413c88e602948a19b642ddeae2b756f` 仍为 `error/null`。因此“仅因本次描述变长而失败”得不到支持；服务没有公开具体异常，**无法确认是额度、GPU 资源、服务内部错误或其他原因**。没有切换账号、IP、付费服务，也没有继续重试。
+Only **one** anonymous free diagnostic request was added. It reused exactly the earlier successful baseline's short prompt (24 characters), negative prompt, seed=42, 704×512 and two-second settings. Both the submission and the event stream returned HTTP 200, and event `4413c88e602948a19b642ddeae2b756f` was still `error/null`. So "it failed only because the prompt got longer this time" isn't supported. The service doesn't disclose the specific fault, and **it can't be confirmed whether the cause was quota, GPU resources, an internal service error or something else**. No other account, IP or paid service was used, and there were no further retries.
 
-[唯一诊断请求与结果](probes/2026-10-24-service-diagnosis/receipt.json) · [服务配置与上游版本](probes/2026-10-24-service-diagnosis/service.json) · [诊断输入](probes/2026-10-24-service-diagnosis/request.json)
+[The single diagnostic request and result](probes/2026-10-24-service-diagnosis/receipt.json) · [Service configuration and upstream version](probes/2026-10-24-service-diagnosis/service.json) · [Diagnostic input](probes/2026-10-24-service-diagnosis/request.json)
 
-## 原记录与派生核验
+## Original records and derived checks
 
-原账本将准备阶段失败编码为 `REVERT / 0`，这些原字节保持不变。这里的 0 不代表作品质量下降，因为对应轮次没有生成视频。[派生结果核验](runs/20261024-003656-warm-morning-product-video/outcome-audit.json) 逐项列出原状态、原分数、服务事件和有效解释：第 2、3 轮为 `JUDGE_FAIL`、质量未知、质量分为空。统一展示页使用这一解释，原始失败仍可追溯。
+The original ledger encodes the prepare-step failures as `REVERT / 0`, and those original bytes are unchanged. This 0 doesn't mean the artifact's quality dropped, because no video was generated in those rounds. The [derived outcome check](runs/20261024-003656-warm-morning-product-video/outcome-audit.json) lists, item by item, the original status, the original score, the service events and the valid interpretation: rounds 2 and 3 are `JUDGE_FAIL`, with quality unknown and an empty quality score. The combined showcase page uses this interpretation, and the original failures remain traceable.
 
-已用 FFmpeg 完整解码初始、第 1 轮和最终视频，核对尺寸、时长、文件哈希与来源回执；最终文件与第 1 轮逐字节相同。各轮 `generation.json` 与实际请求的描述、反向描述和种子一致。`verification.json` 只确认这些已保存证据有效，明确写有 `multi_round_demo_complete: false`。
+The baseline, round-1 and final videos were fully decoded with FFmpeg, and their size, duration, file hashes and source receipts were checked; the final file is byte-identical to round 1. Each round's `generation.json` matches the prompt, negative prompt and seed of the actual request. `verification.json` only confirms that this saved evidence is valid, and explicitly states `multi_round_demo_complete: false`.
 
-[原始账本](runs/20261024-003656-warm-morning-product-video/ledger.jsonl) · [原始报告（含旧失败编码）](runs/20261024-003656-warm-morning-product-video/report.html) · [来源事件与原视频地址](runs/20261024-003656-warm-morning-product-video/source-receipts.json)
+[Raw ledger](runs/20261024-003656-warm-morning-product-video/ledger.jsonl) · [Original report (with the old failure code)](runs/20261024-003656-warm-morning-product-video/report.html) · [Source events and original video URLs](runs/20261024-003656-warm-morning-product-video/source-receipts.json)
 
-## 继续实测的入口
+## How to continue measuring
 
-服务恢复或有另行获准的兼容免费资源后，按[模板说明](../../src/rsi_anything/templates/video-generation/README.md) 检查接口，再另开一条实验。不要覆盖这次的成功视频和失败记录。
+Once the service recovers, or a compatible free resource has been separately approved, check the interface as described in the [template guide](../../src/rsi_anything/templates/video-generation/README.md), then start a new experiment. Don't overwrite this run's successful video and failure records.
 
 ```bash
 python scripts/run_demo.py video-generation --model gpt-6.1-sol --jury cli:codex:gpt-6.1-sol --rounds 3 --minutes 25 --codex-isolated --continue-after-target
 ```
 
-`RSI_VIDEO_ENDPOINT` 可设置兼容接口，`RSI_VIDEO_CACHE` 保存已受理事件和成片，避免不知情地重复提交。调用会向公开服务提交描述；不要放个人敏感或公司资料。本项目没有自动付费回退。
+`RSI_VIDEO_ENDPOINT` can set a compatible endpoint, and `RSI_VIDEO_CACHE` stores accepted events and clips so nothing is resubmitted without your knowledge. Calls submit the prompt to a public service, so don't include sensitive personal information or company material. This project has no automatic paid fallback.

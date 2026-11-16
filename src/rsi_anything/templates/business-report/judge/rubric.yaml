@@ -1,32 +1,32 @@
 task: |
-  给不熟悉财报的产品经理写一份简明的 Apple 历史经营分析。重点是看懂结构变化、利润口径和资料局限。
-  所有数字与说明只来自冻结资料；已渲染的数字插值由程序计算。评价候选的解释，而非资料表本身。
+  Write a concise analysis of Apple's historical operating results for product managers who are not used to reading financial statements. The focus is on understanding changes in the mix, which profit measure is which, and the limits of the data.
+  Every number and statement comes only from the frozen data; the rendered numbers in placeholders are computed by a program. Judge the candidate's explanation, not the data table itself.
 context: [judge/facts.json]
 criteria:
   - name: main_point
     weight: 25
-    question: 能否用简短开头说明本期最值得关注的经营变化，而非只复述数字？
-    anchors: {1: 空泛看好或看坏, 5: 数字齐全但没有重点, 8: 清楚解释总量与结构的不同走势, 10: 结论鲜明克制并指出最有解释力的证据}
+    question: Does a short opening state the most important operating change of the period, rather than only repeating numbers?
+    anchors: {1: vague bullish or bearish talk, 5: all the numbers but no focus, 8: clearly explains how the total and the mix moved differently, 10: a sharp but restrained conclusion that points to the most telling evidence}
   - name: reasoning
     weight: 30
-    question: 是否解释产品与服务、营业利润与净利润为什么不能混为一谈，并把事实和推论分开？
-    anchors: {1: 把营收等同利润或编造原因, 5: 注意到差异但解释很薄, 8: 形成可追踪的论据链并正确处理一次性税务费用, 10: 准确说明能推出什么和还缺什么数据}
+    question: Does it explain why products and services, and operating income and net income, must not be lumped together, and does it keep facts separate from inferences?
+    anchors: {1: treats revenue as profit or invents causes, 5: notices the differences but explains them thinly, 8: a traceable chain of argument that handles the one-time tax charge correctly, 10: states precisely what can be concluded and what data is still missing}
   - name: chart_use
     weight: 20
-    question: 选取的图表是否服务正文的主要判断，正文是否解释了读者应从图里看什么？
-    anchors: {1: 图与正文无关, 5: 图能看但只是重复数据, 8: 图表选择与论点紧密相连, 10: 用最少图表澄清最容易误解的关系}
+    question: Do the chosen charts serve the main judgment of the text, and does the text explain what the reader should see in them?
+    anchors: {1: charts unrelated to the text, 5: readable charts that only repeat the data, 8: chart choice tightly tied to the argument, 10: the fewest charts that clarify the relationship most easily misread}
   - name: readability
     weight: 15
-    question: 非金融读者能否快速理解，术语是否解释、段落是否有明确作用？
-    anchors: {1: 难懂或空话很多, 5: 可读但像财报抄写, 8: 结构紧凑并用人话解释, 10: 每段都帮助读者回答一个具体问题}
+    question: Can a non-finance reader understand it quickly? Are terms explained, and does every paragraph have a clear job?
+    anchors: {1: hard to follow or full of filler, 5: readable but reads like a copied financial statement, 8: tight structure explained in plain language, 10: every paragraph helps the reader answer one specific question}
   - name: limits
     weight: 10
-    question: 是否把历史资料、缺少的数据和未来不确定性说明白？
-    anchors: {1: 把过去变化当收益保证, 5: 只有泛泛风险提醒, 8: 局限与结论逐项对应, 10: 给出合理后续观察项且不伪装成投资建议}
+    question: Does it make clear that the data is historical, what data is missing, and what is uncertain about the future?
+    anchors: {1: treats past changes as a guarantee of returns, 5: only generic risk warnings, 8: each limit is matched to a conclusion, 10: offers sensible things to watch next without posing as investment advice}
 gates:
-  min_chars: 250
-  max_chars: 6500
+  min_chars: 900
+  max_chars: 24000
 checks:
-  - 所有公司事实、数字及因果归因均有给定资料支持；没有股价、目标价、买卖评级或收益承诺。
-  - 没有把季度口径当成全年，没有把营业利润当成净利润，也没有用非GAAP结果替代GAAP而不说明。
-  - 图表与正文结论一致，事实与分析推论有清楚区分。
+  - Every company fact, number and causal attribution is supported by the given data; there are no share prices, price targets, buy or sell ratings, or promises of returns.
+  - Quarterly figures are not presented as full-year figures, operating income is not treated as net income, and non-GAAP results do not replace GAAP results without saying so.
+  - The charts agree with the conclusions in the text, and facts are clearly separated from analytical inferences.

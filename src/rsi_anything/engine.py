@@ -315,7 +315,7 @@ class Ratchet:
                 outcome = self.strategy.play(arena, number, best)
                 row, win = outcome.row, outcome.win
                 if win is not None:
-                    # 已提交的胜出轮先落盘，账本追加前中断也能恢复。
+                    # Persist a committed winning round first, so an interruption before the ledger append can still be recovered.
                     artifacts.write_json(store.round_dir(number) / "result.json", asdict(row))
                     workspace.discard(champion_ws)
                     champion, champion_verdict, champion_ws = win
@@ -335,7 +335,7 @@ class Ratchet:
             previous_final = store.meta().get("final_snapshot_champion")
             if previous_final != champion or not final.exists():
                 if previous_final and final.exists():
-                    # 已完成运行继续得到新版本时，保留上次最终验收和真实调用。
+                    # When a finished run continues and produces a new version, keep the previous final acceptance and its real calls.
                     history = store.dir / "artifacts" / "final-history" / previous_final[:12]
                     history.parent.mkdir(parents=True, exist_ok=True)
                     final.rename(history)
@@ -467,7 +467,7 @@ class _Arena:
         before = "none" if self.best is None else f"{self.best:g}"
         message = f"rsi r{proposal.round}: {proposal.hypothesis or 'improvement'} ({before} -> {verdict.score:g})"
         self.r._checkpoint(self.store, phase="commit")
-        # 助手可能暂存了范围外文件；提交前重建暂存区，只纳入已评审的文件。
+        # The agent may have staged files outside the scope; rebuild the index before committing so only judged files go in.
         gitops.git(self.worktree, "reset")
         return gitops.commit_paths(self.worktree, proposal.changed, message[:200])
 

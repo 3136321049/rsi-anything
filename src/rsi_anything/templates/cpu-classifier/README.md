@@ -1,8 +1,8 @@
-# D04：CPU 手写数字分类
+# D04: CPU handwritten digit classification
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-用 scikit-learn 自带的 digits 数据训练分类器。1797 张 8×8 灰度数字图，按类别比例固定划分 75% 训练、25% 验证，划分种子固定为 `20261023`。默认三层决策树是可运行的简单起点；可尝试树深度、分类器和预处理。所有预处理只在训练集拟合。
+Train a classifier on the digits data that ship with scikit-learn: 1,797 grayscale 8×8 digit images, split by class proportion into a fixed 75% training set and 25% validation set, with the split seed fixed at `20261023`. The default three-level decision tree is a simple starting point that runs. You can try tree depth, other classifiers and preprocessing. All preprocessing is fitted only on the training set.
 
 ```bash
 rsi init cpu-classifier my-classifier
@@ -13,31 +13,31 @@ rsi check
 rsi run --agent codex --rounds 6
 ```
 
-安装必须使用运行 `rsi` 的同一个 Python。本包固定 scikit-learn 1.6.1、Matplotlib 3.9.4，需要 Python 3.9+，仅用 CPU；数据随 scikit-learn 提供，不下载训练集，不调用付费服务。首次绘图可能需要生成字体缓存。
+Install with the same Python that runs `rsi`. This package pins scikit-learn 1.6.1 and Matplotlib 3.9.4, needs Python 3.9+, and uses only the CPU. The data come with scikit-learn, so no training set is downloaded and no paid service is called. The first plot may need to build a font cache.
 
-AI 只能改 `training.json`。`model` 可为 `tree`、`knn`、`svm`、`random_forest`；`scaling` 可为 `none`、`standard`、`minmax`；`pca_components` 为 0（不用 PCA）或 2–64。`params` 随模型填写：
+The AI may change only `training.json`. `model` can be `tree`, `knn`, `svm` or `random_forest`; `scaling` can be `none`, `standard` or `minmax`; `pca_components` is 0 (no PCA) or 2–64. Fill in `params` to match the model:
 
-| 模型 | 可调参数 |
+| Model | Tunable parameters |
 |---|---|
-| tree | `max_depth`：1–40 或 null；`min_samples_leaf`：1–30；`criterion`：gini/entropy/log_loss |
-| knn | `n_neighbors`：1–50；`weights`：uniform/distance；`p`：1/2 |
-| svm | `C`：0.001–1000；`gamma`：scale/auto 或 0.000001–10；`kernel`：rbf/linear/poly/sigmoid |
-| random_forest | `n_estimators`：10–200；`max_depth`、`min_samples_leaf` 同上；`max_features` 按 scikit-learn 文档填写 |
+| tree | `max_depth`: 1–40 or null; `min_samples_leaf`: 1–30; `criterion`: gini/entropy/log_loss |
+| knn | `n_neighbors`: 1–50; `weights`: uniform/distance; `p`: 1/2 |
+| svm | `C`: 0.001–1000; `gamma`: scale/auto or 0.000001–10; `kernel`: rbf/linear/poly/sigmoid |
+| random_forest | `n_estimators`: 10–200; `max_depth` and `min_samples_leaf` as above; `max_features` as described in the scikit-learn docs |
 
-得分为固定验证集正确率，训练加预测超过 30 秒不接受；外层评审超时 120 秒负责停止进程。耗时受机器影响，不作为分数。这个验证集会被反复用于优化，**不能称为独立盲测结果**。
+The score is accuracy on the fixed validation set. A candidate whose training plus prediction takes more than 30 seconds isn't accepted; the outer evaluation timeout of 120 seconds is what stops the process. Timing depends on the machine and isn't part of the score. This validation set is used again and again for optimization, so **its results can't be called independent blind-test results**.
 
-`out/report.md` 汇总结果；`confusion.png` 展示混淆矩阵（纵轴为实际类别，横轴为预测类别）；`mistakes.png` 展示前 12 个错例，每张注明样本编号与“实际数字 → 预测数字”；`predictions.json` 保存全部样本编号与预测；`mistakes.json` 保存全部错例；`training.json` 保存本轮配置；`split.json` 保存划分；`metrics.json` 记录指标、耗时、版本、数据与划分 SHA256。没有中文字体时图片只显示数字，文字说明仍在报告中。配置中的 `outputs: [out]` 供引擎保存逐轮产物。
+`out/report.md` summarizes the results. `confusion.png` shows the confusion matrix (the vertical axis is the actual class, the horizontal axis the predicted class). `mistakes.png` shows the first 12 mistakes, each labeled with its sample ID and "actual digit → predicted digit". `predictions.json` holds every sample ID and its prediction; `mistakes.json` holds all mistakes; `training.json` holds this round's configuration; `split.json` holds the split; `metrics.json` records the metrics, timing, versions, and the SHA256 of the data and the split. The images are labeled in English, and the written explanation is in the report. `outputs: [out]` in the configuration lets the engine save each round's outputs.
 
-替换输入：把 `judge/data.json` 的 `source` 改为 `csv`，将数据放在 `judge/dataset.csv`。首行表头，随后每行 64 个有限数值像素特征和最后一列 `target`（0–9），至少 100 行，每类至少两个样本。像素按 8×8 排列；修改输入或划分后提交，再开新实验。自定义图像也应保留可用的类别数量供分层划分。
+Replacing inputs: set `source` in `judge/data.json` to `csv` and put the data in `judge/dataset.csv`. The first row is a header. Each following row holds 64 finite numeric pixel features and a final `target` column (0–9). You need at least 100 rows and at least two samples per class. Pixels are laid out 8×8. Commit after changing the inputs or the split, then start a new experiment. Custom images should also keep a usable number of classes for the stratified split.
 
-## 实际组件与来源
+## Components used and sources
 
-2026-10-23 查阅官方资料，选用 scikit-learn 1.6.1 / Matplotlib 3.9.4。`judge/evaluate.py` 直接调用数据读取、固定划分、Pipeline、分类器和绘图，没有接入其他优化引擎。
+Official documentation was checked on 2026-10-23, and scikit-learn 1.6.1 / Matplotlib 3.9.4 were chosen. `judge/evaluate.py` calls data loading, the fixed split, Pipeline, the classifiers and plotting directly, without any other optimization engine.
 
-- [scikit-learn digits 数据](https://scikit-learn.org/1.6/modules/generated/sklearn.datasets.load_digits.html)、[官方数字识别示例](https://scikit-learn.org/stable/auto_examples/classification/plot_digits_classification.html)：解决无需外部数据即可实际训练的问题。
-- [train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html)：固定随机种子和分层抽样；训练与验证不重叠。
-- [DecisionTreeClassifier](https://scikit-learn.org/1.6/modules/generated/sklearn.tree.DecisionTreeClassifier.html)、[SVC](https://scikit-learn.org/1.6/modules/generated/sklearn.svm.SVC.html)：提供可比较的 CPU 分类器。
-- [KNeighborsClassifier](https://scikit-learn.org/1.6/modules/generated/sklearn.neighbors.KNeighborsClassifier.html)、[RandomForestClassifier](https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.RandomForestClassifier.html)：支持邻居数量与树集成参数的实际训练；[Pipeline](https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.Pipeline.html) 保证预处理只在训练数据上拟合。
-- [Matplotlib subplots](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html)：生成可导出的混淆矩阵与错例图，增加真实作品展示。
+- [scikit-learn digits data](https://scikit-learn.org/1.6/modules/generated/sklearn.datasets.load_digits.html), [official digit recognition example](https://scikit-learn.org/stable/auto_examples/classification/plot_digits_classification.html): make real training possible without external data.
+- [train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html): fixed random seed and stratified sampling; training and validation don't overlap.
+- [DecisionTreeClassifier](https://scikit-learn.org/1.6/modules/generated/sklearn.tree.DecisionTreeClassifier.html), [SVC](https://scikit-learn.org/1.6/modules/generated/sklearn.svm.SVC.html): CPU classifiers to compare.
+- [KNeighborsClassifier](https://scikit-learn.org/1.6/modules/generated/sklearn.neighbors.KNeighborsClassifier.html), [RandomForestClassifier](https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.RandomForestClassifier.html): real training with neighbor-count and tree-ensemble parameters. [Pipeline](https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.Pipeline.html) ensures preprocessing is fitted only on training data.
+- [Matplotlib subplots](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html): produce exportable confusion-matrix and mistake images, so there's a real artifact to look at.
 
-基线与验收器测试通过不等于多轮 Demo 验收。真实模型运行应另存 `examples/cpu-classifier/runs/`，保留全部轮次。
+Passing the baseline and evaluator tests isn't the same as accepting a multi-round demo. Real model runs should be saved separately under `examples/cpu-classifier/runs/`, keeping every round.

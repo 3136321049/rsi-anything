@@ -1,4 +1,4 @@
-"""网站须使用真实实验、中英文完整，并保留未评审轮次的边界。"""
+"""The site must use real experiments, be complete in English and Chinese, and keep the boundary of unjudged rounds."""
 import json
 import re
 import sys
@@ -79,7 +79,7 @@ def test_english_pages_and_data_have_no_untranslated_records(site):
         assert not [r for r in lab["rounds"] if site_i18n.CJK.search(r["hypothesis"] + r["note"])]
     body = (site / "index.html").read_text(encoding="utf-8").split('<script id="i18n"')[0]
     visible = re.sub(r"<[^>]+>", " ", body.split("<main", 1)[1])
-    assert not site_i18n.CJK.search(visible.replace("中文版", "").replace("中文", ""))  # 语言切换入口
+    assert not site_i18n.CJK.search(visible.replace("中文版", "").replace("中文", ""))  # language switch link
 
 
 def test_site_preserves_unjudged_model_rounds(site):
@@ -117,7 +117,7 @@ def test_visual_lab_chains_runs_and_keeps_every_frame(site):
     first, second = drawing["runs"]
     assert not first["continues"] and not first["ties"]
     assert second["continues"] and second["ties"] and second["first"] == 6
-    # 第二次运行的起点就是第一次的最终作品；之后的比较对象仍是那一版。
+    # The second run starts from the first run's final artifact; later rounds still compare against that version.
     assert drawing["rounds"][7]["previous_best"] == 2 and drawing["rounds"][7]["best_before"] == 75
     assert drawing["rounds"][drawing["best_round"]]["number"] == 6
     tie_lost = drawing["rounds"][11]
@@ -158,11 +158,11 @@ def test_case_files_resolve(site):
 def test_public_site_contains_only_selected_roots_and_downloads(site):
     for path in site.rglob("*"):
         assert not any(p in {".git", ".agents", ".venv", ".rsi", "__pycache__", "release"} for p in path.relative_to(site).parts)
-    for internal in ("AGENTS.md", "CLAUDE.md", "docs/HANDOFF.zh-CN.md", "docs/DEVLOG.zh-CN.md", "docs/COLLABORATION.zh-CN.md", "web"):
+    for internal in ("AGENTS.md", "CLAUDE.md", "docs/HANDOFF.md", "docs/DEVLOG.md", "docs/COLLABORATION.md", "web"):
         assert not (site / internal).exists(), internal
     assert not (site / "src/rsi_anything/engine.py").exists()
     assert (site / "dist" / build_site.WHEEL).is_file()
-    assert [p.name for p in (site / "dist").iterdir()] == [build_site.WHEEL]  # 源码包含内部文档，不上网站
+    assert [p.name for p in (site / "dist").iterdir()] == [build_site.WHEEL]  # the sdist contains internal docs and stays off the site
     for name in [*build_site.CASES, *build_site.VISUAL]:
         with zipfile.ZipFile(site / "downloads" / (name + ".zip")) as archive:
             assert archive.testzip() is None
@@ -192,17 +192,25 @@ LINK = re.compile(r"\[([^\]]+)\]\(([^)\s]+)\)")
 
 def english_docs():
     return [ROOT / "README.md", *(ROOT / "docs" / n for n in build_site.PUBLIC_DOCS if not n.endswith(".zh-CN.md")),
-            *ROOT.glob("src/rsi_anything/templates/*/*.en.md"), *ROOT.glob("examples/**/README.en.md")]
+            *ROOT.glob("src/rsi_anything/templates/*/README.md"), *ROOT.glob("src/rsi_anything/templates/*/THIRD_PARTY.md"),
+            *ROOT.glob("examples/**/README.md")]
+
+
+def chinese_docs():
+    return [*(ROOT / "docs" / n for n in build_site.PUBLIC_DOCS if n.endswith(".zh-CN.md")),
+            *ROOT.glob("src/rsi_anything/templates/*/*.zh-CN.md"), *ROOT.glob("examples/**/README.zh-CN.md")]
 
 
 def test_public_docs_have_english_versions():
-    chinese = [*(ROOT / "docs" / n for n in build_site.PUBLIC_DOCS if n.endswith(".zh-CN.md")),
-               *ROOT.glob("src/rsi_anything/templates/*/README.md"), *ROOT.glob("src/rsi_anything/templates/*/THIRD_PARTY.md"),
-               *ROOT.glob("examples/**/README.md")]
+    chinese = chinese_docs()
     assert len(chinese) > 30
     for path in chinese:
         rel = path.relative_to(ROOT).as_posix()
         assert build_site.english_doc(rel, ROOT) != rel, rel
+    for path in english_docs():
+        rel = path.relative_to(ROOT).as_posix()
+        if rel.startswith(("src/", "examples/")):
+            assert build_site.chinese_doc(rel, ROOT) != rel, rel
 
 
 def test_english_docs_link_english_versions():
@@ -213,15 +221,28 @@ def test_english_docs_link_english_versions():
             target = (path.parent / href.split("#")[0]).resolve()
             assert target.exists(), (path, href)
             rel = target.relative_to(ROOT).as_posix()
-            # 只有语言切换链接指向中文原文
+            # only the language switch link points to the Chinese version
             assert label == "简体中文" or build_site.english_doc(rel, ROOT) == rel, (path, href)
+
+
+def test_chinese_guides_link_chinese_versions():
+    for path in chinese_docs():
+        if not path.relative_to(ROOT).as_posix().startswith(("src/", "examples/")):
+            continue
+        for label, href in LINK.findall(path.read_text(encoding="utf-8")):
+            if href.startswith(("http:", "https:", "mailto:", "#")):
+                continue
+            target = (path.parent / href.split("#")[0]).resolve()
+            assert target.exists(), (path, href)
+            rel = target.relative_to(ROOT).as_posix()
+            assert label == "English" or build_site.chinese_doc(rel, ROOT) == rel, (path, href)
 
 
 def test_english_pages_open_english_docs(site):
     start = (site / "start/index.html").read_text(encoding="utf-8")
     assert 'data-doc="docs/INSTALL.md"' in start and 'data-doc="docs/INSTALL.zh-CN.md"' not in start
     assert 'data-doc="docs/INSTALL.zh-CN.md"' in (site / "zh/start/index.html").read_text(encoding="utf-8")
-    for lang, suffix in (("en", ".en.md"), ("zh", "/README.md")):
+    for lang, suffix in (("en", "/README.md"), ("zh", "/README.zh-CN.md")):
         data = json.loads((site / f"data/{lang}/cases.json").read_text(encoding="utf-8"))
         links = [item["url"] for domain in data["domains"] for item in
                  [domain["probe"], *(c[k] for c in domain["cases"] for k in ("readme", "template_readme"))] if item]

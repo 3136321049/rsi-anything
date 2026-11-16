@@ -14,8 +14,8 @@ const number = value => value == null ? "—" : Number(value).toLocaleString(loc
 const clock = seconds => `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const unitText = unit => /^[A-Za-z]/.test(unit || "") ? " " + unit : unit || "";
-// 模板与案例说明：中文页读 README.md，英文页读 README.en.md。
-const guide = folder => `${folder}/${lang === "zh" ? "README.md" : "README.en.md"}`;
+// Template and case guides: English pages read README.md, Chinese pages read README.zh-CN.md.
+const guide = folder => `${folder}/${lang === "zh" ? "README.zh-CN.md" : "README.md"}`;
 
 function t(key, vars) {
   const value = key.split(".").reduce((node, part) => node?.[part], T);
@@ -80,7 +80,7 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") setMenu(fals
 addEventListener("scroll", () => header.classList.toggle("scrolled", scrollY > 8), { passive: true });
 $$(`[data-nav="${page === "start" ? "start" : page === "cases" ? "cases" : ""}"]`).forEach(a => a.setAttribute("aria-current", "page"));
 
-// 深浅主题：默认跟随系统；访客点过就记住选择（<head> 里的小脚本在首帧前恢复）。
+// Light/dark theme: follows the system by default; once a visitor picks one it is remembered (a small script in <head> restores it before the first paint).
 const themeButton = $(".theme-toggle");
 const systemDark = matchMedia("(prefers-color-scheme: dark)");
 const currentTheme = () => document.documentElement.dataset.theme || (systemDark.matches ? "dark" : "light");
@@ -94,20 +94,20 @@ function paintTheme() {
 themeButton?.addEventListener("click", () => {
   const next = currentTheme() === "dark" ? "light" : "dark";
   document.documentElement.dataset.theme = next;
-  try { localStorage.setItem("darwin-theme", next); } catch { /* 无痕模式 */ }
+  try { localStorage.setItem("darwin-theme", next); } catch { /* private browsing */ }
   paintTheme();
 });
 systemDark.addEventListener?.("change", paintTheme);
 paintTheme();
 
-function remember(choice) { try { localStorage.setItem("darwin-lang", choice); } catch { /* 无痕模式 */ } }
+function remember(choice) { try { localStorage.setItem("darwin-lang", choice); } catch { /* private browsing */ } }
 $$("[data-lang-switch]").forEach(a => a.addEventListener("click", () => {
   remember(a.dataset.langSwitch);
   a.href = a.href.split(/[?#]/)[0] + location.search + location.hash;
 }));
 (function suggestLanguage() {
   let saved = null;
-  try { saved = localStorage.getItem("darwin-lang"); } catch { /* 无痕模式 */ }
+  try { saved = localStorage.getItem("darwin-lang"); } catch { /* private browsing */ }
   if (saved || lang !== "en" || !/^zh\b/i.test(navigator.language || "")) return;
   const link = $(".nav-lang");
   if (!link) return;

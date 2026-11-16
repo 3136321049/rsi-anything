@@ -1,4 +1,4 @@
-"""随机初始化的两次矩阵乘法与 Softmax，独立于任何语言模型或服务。"""
+"""Two randomly initialized matrix multiplications around a softmax, independent of any language model or service."""
 import math
 import torch
 

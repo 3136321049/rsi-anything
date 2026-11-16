@@ -1,5 +1,5 @@
-# 产品笔记写作手册
+# Product post writing guide
 
-先介绍产品，再罗列特点，最后邀请读者了解详情。
-语气友好，使用短段落。内容只能来自简报，不添加没有给出的价格、用户评价和效果承诺。
-标题不超过20字，正文控制在180到400个中文字符左右。
+Introduce the product first, then list its features, and finally invite the reader to find out more.
+Keep the tone friendly and use short paragraphs. Use only what the brief gives; do not add prices, customer reviews or promised results that are not in it.
+Keep the title to 60 characters or fewer, and the body to roughly 120 to 250 words.

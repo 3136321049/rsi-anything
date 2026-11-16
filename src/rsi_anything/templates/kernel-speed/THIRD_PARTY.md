@@ -1,8 +1,8 @@
-# 公开来源与许可声明
+# Public sources and license notice
 
-[English](THIRD_PARTY.en.md)
+[简体中文](THIRD_PARTY.zh-CN.md)
 
-Softmax 的融合、归约和掩码方法参考 Triton v3.2.0 的公开教程。以下保留该项目的原始版权和许可，网址为 https://github.com/triton-lang/triton/blob/v3.2.0/LICENSE 。本模板的评测编排、输入及推理模块由本项目独立编写。
+The Softmax fusion, reduction and masking approach draws on the public Triton v3.2.0 tutorial. That project's original copyright and license are kept below; the URL is https://github.com/triton-lang/triton/blob/v3.2.0/LICENSE . This template's evaluation harness, inputs and inference module were written independently by this project.
 
 ```text
 Copyright 2018-2020 Philippe Tillet

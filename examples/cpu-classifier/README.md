@@ -1,28 +1,28 @@
-# D04：CPU 手写数字分类的三轮实验
+# D04: Three rounds of CPU handwritten digit classification
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-2026-10-24 用个人 ChatGPT 账号的 Codex CLI 真实运行 3 轮，固定优化 `training.json`，评分由 scikit-learn 在 CPU 上实际训练与预测得到，没有模型评委。固定验证集包含 450 张数字图，训练集 1347 张；数据和划分整个实验保持一致。
+On 2026-10-24, the Codex CLI on a personal ChatGPT account ran 3 real rounds, optimizing only `training.json`. Scores come from real training and prediction with scikit-learn on the CPU; there is no model judge. The fixed validation set has 450 digit images and the training set 1,347. The data and the split stayed the same for the whole experiment.
 
-| 轮次 | 正式状态 | 正式正确率 | 正式错分数 | 结果 |
+| Round | Formal status | Formal accuracy | Formal errors | Result |
 |---|---|---:|---:|---|
-| 初始 | 基线 | 46.889% | 239/450 | 三层决策树 |
-| 第 1 轮 | 保留 | 99.333% | 3/450 | 改为 RBF 核 SVM，C=10、gamma=scale，不缩放、不降维 |
-| 第 2 轮 | 无修改 | — | — | 助手尝试调整 gamma 后自行恢复配置，没有进入正式评审 |
-| 第 3 轮 | 无修改 | — | — | 助手尝试 PCA 后自行恢复配置，没有进入正式评审 |
+| Start | Baseline | 46.889% | 239/450 | Three-level decision tree |
+| Round 1 | Kept | 99.333% | 3/450 | Switched to an RBF-kernel SVM, C=10, gamma=scale, no scaling, no dimensionality reduction |
+| Round 2 | No change | — | — | The agent tried adjusting gamma, then restored the configuration itself; the round never reached formal review |
+| Round 3 | No change | — | — | The agent tried PCA, then restored the configuration itself; the round never reached formal review |
 
-最终保留第 1 轮配置，真实运行因达到 3 轮停止。最终原始训练加预测耗时 0.0248 秒，耗时依赖机器，不作为模型质量分数。正式指标从 46.889% 提升到 99.333%，不能把两次无修改轮次画成新的正式评分点。
+The round-1 configuration was kept in the end, and the real run stopped after reaching 3 rounds. The final raw training-plus-prediction time was 0.0248 seconds. Timing depends on the machine and isn't a model-quality score. The formal metric rose from 46.889% to 99.333%; the two no-change rounds must not be drawn as new formal score points.
 
-[完整运行报告](runs/20261024-001122-cpu-digits-classifier/report.html) · [初始错例](runs/20261024-001122-cpu-digits-classifier/artifacts/baseline/files/out/mistakes.png) · [最终错例](runs/20261024-001122-cpu-digits-classifier/artifacts/final/files/out/mistakes.png) · [最终混淆矩阵](runs/20261024-001122-cpu-digits-classifier/artifacts/final/files/out/confusion.png) · [最终配置](runs/20261024-001122-cpu-digits-classifier/artifacts/final/files/training.json) · [独立复验](runs/20261024-001122-cpu-digits-classifier/verification.json)
+[Full run report](runs/20261024-001122-cpu-digits-classifier/report.html) · [Baseline mistakes](runs/20261024-001122-cpu-digits-classifier/artifacts/baseline/files/out/mistakes.png) · [Final mistakes](runs/20261024-001122-cpu-digits-classifier/artifacts/final/files/out/mistakes.png) · [Final confusion matrix](runs/20261024-001122-cpu-digits-classifier/artifacts/final/files/out/confusion.png) · [Final configuration](runs/20261024-001122-cpu-digits-classifier/artifacts/final/files/training.json) · [Independent verification](runs/20261024-001122-cpu-digits-classifier/verification.json)
 
-调用显式请求 `gpt-6.1-sol`、`medium` 思考强度，使用隔离配置。CLI 没有返回服务端实际型号，`actual_model` 保持 `null`；调用量按原始返回保存，美元费用未返回。初始、每轮与最终产物全部保留，不使用手写候选序列。
+The calls explicitly requested `gpt-6.1-sol` with `medium` reasoning effort and an isolated configuration. The CLI didn't return the actual model from the service, so `actual_model` stays `null`. Usage is saved as originally returned; the cost in dollars wasn't returned. The baseline, per-round and final artifacts are all kept, and no hand-written sequence of candidates was used.
 
-导出后的初始、第 1 轮与最终配置已分别放进新临时目录，删除旧输出后，用冻结评审重新训练；分数、数据 SHA256、划分 SHA256 与原记录一致，最终仍错 3 张。第 2、3 轮保存的 `out` 是助手内部试验输出，其配置分别是改变 gamma、使用 PCA；同轮 `training.json` 已恢复为冠军配置，因此这些输出不属于正式候选评审。独立复验明确标出这一差异，未覆盖原记录。
+The exported baseline, round-1 and final configurations were each placed in a new temporary folder. After the old outputs were deleted, the frozen evaluator retrained each one. The scores and the SHA256 of the data and the split matched the original records, and the final version still misclassified 3 images. The `out` folders saved in rounds 2 and 3 are the agent's internal trial outputs, from configurations that changed gamma and used PCA respectively. `training.json` in those rounds had already been restored to the champion configuration, so these outputs aren't part of any formal candidate review. The independent verification marks this difference explicitly and doesn't overwrite the original records.
 
-复现入口：先在同一 Python 环境安装模板的 `requirements.txt`，准备个人 Codex 登录，再从仓库根目录执行：
+To reproduce, first install the template's `requirements.txt` in the same Python environment and set up a personal Codex login. Then run from the repository root:
 
 ```bash
 python scripts/run_demo.py cpu-classifier --model gpt-6.1-sol --rounds 3 --minutes 25 --codex-isolated --continue-after-target
 ```
 
-需要指定 CLI 路径时设置 `RSI_CODEX_BIN`。评审固定使用 scikit-learn 1.6.1；本次 Python 为 3.11.14。该验证集被反复用于调参，这些数字只说明此固定任务的改善，不是独立新数据上的泛化成绩。
+To use a specific CLI path, set `RSI_CODEX_BIN`. The evaluator is pinned to scikit-learn 1.6.1; this run used Python 3.11.14. The validation set was used repeatedly for tuning, so these numbers only describe improvement on this fixed task, not generalization to independent new data.

@@ -1,8 +1,8 @@
 name: reusable-writing-guide
 goal: |
-  改进 writing-guide.md，让固定写手按照它为不同产品写出具体、有用、符合事实的小红书笔记。
-  每轮只改手册，不改产品资料和评分。手册应该教会写手如何理解读者、选择开头、组织信息和给出自然的行动提示。
-  评审会给出三个简报的实际生成稿；优先修复共性问题，不把某份简报的答案硬写进手册。
+  Improve writing-guide.md so that a fixed writer model following it produces specific, useful and factually accurate Xiaohongshu (RedNote) posts for different products.
+  Each round, change only the guide, not the product briefs or the scoring. The guide should teach the writer how to understand the reader, choose an opening, organize information and give a natural call to action.
+  The judge shows the actual drafts for all three briefs; fix shared problems first, and do not hard-code the answer for any single brief into the guide.
 artifact: [writing-guide.md]
 outputs: [out]
 judge:

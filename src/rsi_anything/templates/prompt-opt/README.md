@@ -1,8 +1,8 @@
-# 外卖客服八分类提示词
+# Eight-class food-delivery support prompt
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-修改 `prompt.md`，让固定任务模型把消息分为退款、延迟配送、错餐、取消/修改订单、账号、支付、表扬或其他。开发集48条、留出集29条均为本项目构造的中英文示例，不含真实用户资料。
+Edit `prompt.md` so a fixed task model sorts each message into refund, late delivery, wrong item, cancel or change order, account, payment, praise, or other. The 48-message dev set and the 29-message held-out set are Chinese and English examples written for this project, with no real user data.
 
 ```bash
 rsi init prompt-opt prompt-demo
@@ -12,8 +12,8 @@ rsi run --agent codex --model gpt-6.1-sol --rounds 5
 rsi report
 ```
 
-先登录自己的编程助手；型号按个人账号可用情况明确指定。开发集准确率用于接受改动，至少提升2个百分点；开始和结束另评留出集。所有 `out/development.json`、`out/holdout.json` 与错例说明随对应阶段保存。模型分数有波动。
+Sign in to your own coding agent first, and name the models explicitly based on what your personal account can use. Dev-set accuracy decides whether a change is accepted, and it must improve by at least 2 percentage points. The held-out set is evaluated separately at the start and at the end. All `out/development.json` and `out/holdout.json` files and the notes on mistakes are saved with the stage they belong to. Model scores fluctuate.
 
-替换输入：编辑 `judge/dev.jsonl` 和 `holdout/test.jsonl`，每行含 `text` 与 `label`。修改标签集合时同时修改 `judge/evaluate.py` 中的定义。先提交完整材料，再开始新实验。API模型默认逐条评价；CLI默认每批20条，可用 `RSI_TASK_BATCH` 和 `RSI_TASK_WORKERS` 控制。
+Replacing inputs: edit `judge/dev.jsonl` and `holdout/test.jsonl`; each line has `text` and `label`. If you change the label set, also change its definition in `judge/evaluate.py`. Commit the complete material first, then start a new experiment. API models are evaluated one message at a time by default; CLI models default to batches of 20. Use `RSI_TASK_BATCH` and `RSI_TASK_WORKERS` to control this.
 
-本模板由项目自行实现，未接入外部提示词优化框架。历史实验及未提升结果见仓库 `examples/prompt-opt/`。
+This template is the project's own implementation and doesn't use an external prompt-optimization framework. Past experiments, including results with no improvement, are in `examples/prompt-opt/` in the repository.

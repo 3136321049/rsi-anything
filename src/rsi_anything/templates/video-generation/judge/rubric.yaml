@@ -1,26 +1,26 @@
 task: |
-  查看附带的生成视频静帧，判断实际可见画面满足晨光陶瓷杯简报的程度。
-  只评价静帧能支持的内容。不能根据提示词、模型名、分数目标或元数据假定画面已经满足要求。
-  不评价声音，也不声称静帧证明了运动连续性；蒸汽如果不可见，应如实说明。
+  Look at the attached still frames of the generated video and judge how well the visible image actually meets the brief for a ceramic mug in morning light.
+  Judge only what the still frames can support. Do not assume the image meets the requirements because of the prompt, the model name, the score target or metadata.
+  Do not judge sound, and do not claim the still frames prove continuous motion; if the steam is not visible, say so.
 context: [judge/brief.md]
 criteria:
   - name: subject
     weight: 30
-    question: 能否清楚看见完整的浅米白陶瓷杯，材质可信、比例自然、主体突出？
-    anchors: {1: 主体缺失或明显错物体, 5: 有杯子但颜色材质或结构欠佳, 8: 杯子完整自然且突出, 10: 主体与材质细节都清晰克制}
+    question: Is a complete light off-white ceramic mug clearly visible, with believable material, natural proportions and a prominent place in the frame?
+    anchors: {1: subject missing or clearly the wrong object, 5: a mug is there but its color, material or structure is off, 8: a complete, natural mug that stands out, 10: subject and material details are both clear and restrained}
   - name: setting
     weight: 25
-    question: 木桌、侧窗晨光和简洁背景是否形成统一的安静温暖环境？
-    anchors: {1: 环境不符, 5: 部分元素到位但光线杂乱, 8: 场景清楚统一, 10: 光线与背景共同强化产品感}
+    question: Do the wooden table, side-window morning light and simple background form one quiet, warm setting?
+    anchors: {1: setting does not match, 5: some elements are in place but the light is messy, 8: a clear, unified scene, 10: light and background together strengthen the product feel}
   - name: steam
     weight: 20
-    question: 静帧里能否看见自然细微的蒸汽，而非厚烟、遮挡或扭曲？
-    anchors: {1: 不可见或明显异常, 5: 可见但表现生硬, 8: 细微自然且不遮挡主体, 10: 蒸汽与光照结合良好且各抽帧无明显异常}
+    question: Can natural, faint steam be seen in the still frames, rather than thick smoke, occlusion or distortion?
+    anchors: {1: not visible or clearly abnormal, 5: visible but stiff, 8: faint, natural and not covering the subject, 10: steam works well with the light and no sampled frame shows obvious problems}
   - name: composition
     weight: 25
-    question: 主体位置、留白、背景层次与画面干净程度是否适合作为产品氛围片？
-    anchors: {1: 杂乱或裁切严重, 5: 基本可用但普通, 8: 构图有重点且自然, 10: 每个静帧都保持清晰主体和一致氛围}
+    question: Are the subject placement, negative space, background depth and overall cleanliness of the image right for a product mood clip?
+    anchors: {1: cluttered or badly cropped, 5: usable but ordinary, 8: focused and natural composition, 10: every still frame keeps a clear subject and a consistent mood}
 gates: {min_chars: 0}
 checks:
-  - 静帧没有明显的人脸、品牌标志、水印或额外文字。
-  - 主体没有明显破碎、重复杯柄或严重几何形变。
+  - The still frames show no obvious faces, brand logos, watermarks or extra text.
+  - The subject shows no obvious breakage, duplicated mug handles or severe geometric deformation.

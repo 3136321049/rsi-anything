@@ -1,4 +1,4 @@
-"""固定数据划分，拟合预处理与分类器，保存逐样本结果和可读图。"""
+"""Fix the data split, fit preprocessing and the classifier, and save per-sample results and readable plots."""
 import hashlib
 import json
 import os
@@ -12,7 +12,7 @@ for variable in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
 
 def integer(value, low, high, name):
     if isinstance(value, bool) or not isinstance(value, int) or not low <= value <= high:
-        raise ValueError(f"{name} 应为 {low}..{high} 的整数")
+        raise ValueError(f"{name} must be an integer in {low}..{high}")
     return value
 
 
@@ -27,24 +27,24 @@ def build_pipeline(config, seed):
 
     params = config.get("params", {})
     if not isinstance(params, dict):
-        raise ValueError("params 应为对象")
+        raise ValueError("params must be an object")
     model = config.get("model", "tree")
     allowed = {"tree": {"max_depth", "min_samples_leaf", "criterion"},
                "knn": {"n_neighbors", "weights", "p"}, "svm": {"C", "gamma", "kernel"},
                "random_forest": {"n_estimators", "max_depth", "min_samples_leaf", "max_features"}}
     if model not in allowed or set(params) - allowed[model]:
-        raise ValueError("未知分类器或参数，请按 README.md 配置")
+        raise ValueError("unknown classifier or parameter; configure it as described in README.md")
     for key, low, high in (("max_depth", 1, 40), ("min_samples_leaf", 1, 30),
                            ("n_neighbors", 1, 50), ("n_estimators", 10, 200), ("p", 1, 2)):
         if key in params and not (key == "max_depth" and params[key] is None):
             integer(params[key], low, high, key)
     if "C" in params and (isinstance(params["C"], bool) or not isinstance(params["C"], (int, float))
                            or not 0.001 <= params["C"] <= 1000):
-        raise ValueError("C 应在 0.001..1000 之间")
+        raise ValueError("C must be between 0.001 and 1000")
     if "gamma" in params and params["gamma"] not in ("scale", "auto"):
         gamma = params["gamma"]
         if isinstance(gamma, bool) or not isinstance(gamma, (int, float)) or not 1e-6 <= gamma <= 10:
-            raise ValueError("gamma 应为 scale、auto 或 1e-6..10 的数值")
+            raise ValueError("gamma must be scale, auto or a number in 1e-6..10")
     constructors = {
         "tree": lambda: DecisionTreeClassifier(random_state=seed, **params),
         "knn": lambda: KNeighborsClassifier(n_jobs=1, **params),
@@ -58,10 +58,10 @@ def build_pipeline(config, seed):
     elif scaling == "minmax":
         steps.append(("scale", MinMaxScaler()))
     elif scaling != "none":
-        raise ValueError("scaling 应为 none、standard 或 minmax")
+        raise ValueError("scaling must be none, standard or minmax")
     components = integer(config.get("pca_components", 0), 0, 64, "pca_components")
     if components == 1:
-        raise ValueError("pca_components 应为 0 或 2..64")
+        raise ValueError("pca_components must be 0 or 2..64")
     if components:
         steps.append(("pca", PCA(n_components=components, svd_solver="full", random_state=seed)))
     return Pipeline(steps + [("classifier", constructors[model]())])
@@ -82,13 +82,13 @@ def run(out):
     elif data_config["source"] == "csv":
         matrix = np.loadtxt(data_config["csv"], delimiter=",", skiprows=1)
         if matrix.ndim != 2 or matrix.shape[1] != 65 or len(matrix) < 100:
-            raise ValueError("自定义 CSV 需要至少 100 行，每行 64 个像素特征和一个 target")
+            raise ValueError("a custom CSV needs at least 100 rows, each with 64 pixel features and one target")
         x, y = matrix[:, :64], matrix[:, 64]
         if not np.isfinite(matrix).all() or not np.isin(y, np.arange(10)).all():
-            raise ValueError("数据必须有限，target 必须为 0..9 的整数")
+            raise ValueError("data must be finite and target must be an integer 0..9")
         y = y.astype(int)
     else:
-        raise ValueError("source 应为 digits 或 csv")
+        raise ValueError("source must be digits or csv")
     ids = np.arange(len(y))
     train_ids, valid_ids = train_test_split(ids, test_size=data_config["validation_fraction"],
                                            stratify=y, random_state=data_config["split_seed"])
@@ -116,12 +116,12 @@ def run(out):
         (out / name).write_text(json.dumps(content, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     plot(out, x, matrix, mistakes, score)
     weakness = sorted((row["recall"], label) for label, row in metrics["classification"].items() if label.isdigit())[:3]
-    feedback = f"验证集正确率 {score:.2f}%，错分 {len(mistakes)}/{len(valid_ids)}；训练和预测 {seconds:.3f} 秒。"
-    feedback += "召回率较低的数字：" + "、".join(f"{label}={recall:.1%}" for recall, label in weakness)
-    text = ("# CPU 手写数字分类\n\n" + feedback + "\n\n"
-            "这是优化过程中反复使用的固定验证集，结果不代表独立新数据上的泛化效果。\n\n"
-            "![混淆矩阵](confusion.png)\n\n![错分图片](mistakes.png)\n\n"
-            "## 当前配置\n\n```json\n" + json.dumps(config, ensure_ascii=False, indent=2) + "\n```\n")
+    feedback = f"Validation accuracy {score:.2f}%, misclassified {len(mistakes)}/{len(valid_ids)}; training and prediction took {seconds:.3f} s. "
+    feedback += "Digits with the lowest recall: " + ", ".join(f"{label}={recall:.1%}" for recall, label in weakness)
+    text = ("# CPU handwritten digit classification\n\n" + feedback + "\n\n"
+            "This fixed validation set is reused throughout optimization, so the result does not measure generalization to new, independent data.\n\n"
+            "![Confusion matrix](confusion.png)\n\n![Misclassified images](mistakes.png)\n\n"
+            "## Current configuration\n\n```json\n" + json.dumps(config, ensure_ascii=False, indent=2) + "\n```\n")
     (out / "report.md").write_text(text, encoding="utf-8")
     return {"score": round(score, 3), "gates": {"finite_predictions": bool(np.isfinite(predicted).all()),
             "time_budget": seconds <= data_config["maximum_seconds"]}, "feedback": feedback, "metrics": metrics}
@@ -131,13 +131,6 @@ def plot(out, x, matrix, mistakes, score):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    from matplotlib import font_manager
-
-    available = {font.name for font in font_manager.fontManager.ttflist}
-    chinese_font = next((name for name in ("PingFang SC", "Arial Unicode MS", "Noto Sans CJK SC",
-                                          "Microsoft YaHei", "WenQuanYi Micro Hei") if name in available), None)
-    if chinese_font:
-        plt.rcParams["font.sans-serif"] = [chinese_font]
 
     fig, axis = plt.subplots(figsize=(6, 5))
     image = axis.imshow(matrix, cmap="Blues")
@@ -145,8 +138,8 @@ def plot(out, x, matrix, mistakes, score):
         for col in range(10):
             axis.text(col, row, str(matrix[row, col]), ha="center", va="center", fontsize=8,
                       color="white" if matrix[row, col] > matrix.max() / 2 else "black")
-    axis.set(xticks=range(10), yticks=range(10), xlabel="预测数字" if chinese_font else "",
-             ylabel="实际数字" if chinese_font else "", title=f"正确率 {score:.2f}%" if chinese_font else f"{score:.2f}%")
+    axis.set(xticks=range(10), yticks=range(10), xlabel="Predicted digit",
+             ylabel="Actual digit", title=f"Accuracy {score:.2f}%")
     fig.colorbar(image, ax=axis)
     fig.tight_layout()
     fig.savefig(out / "confusion.png", dpi=140)
@@ -157,8 +150,7 @@ def plot(out, x, matrix, mistakes, score):
         axis.set_title(f"#{mistake['sample_id']}  {mistake['expected']} → {mistake['predicted']}", fontsize=9)
     for axis in axes.flat:
         axis.axis("off")
-    if chinese_font:
-        fig.suptitle("前 12 个错例：实际数字 → 预测数字" if mistakes else "本验证集没有错例")
+    fig.suptitle("First 12 mistakes: actual digit → predicted digit" if mistakes else "No mistakes on this validation set")
     fig.tight_layout()
     fig.savefig(out / "mistakes.png", dpi=140)
     plt.close(fig)
@@ -176,13 +168,13 @@ def main():
         payload = run(out)
     except ImportError as exc:
         payload = {"score": 0, "gates": {"dependencies": False},
-                   "feedback": f"缺少依赖：{exc}。请用运行 rsi 的 Python 安装 requirements.txt。"}
+                   "feedback": f"Missing dependency: {exc}. Install requirements.txt with the Python that runs rsi."}
     except Exception as exc:
         payload = {"score": 0, "gates": {"training_completed": False},
-                   "feedback": f"训练失败：{type(exc).__name__}: {exc}"}
+                   "feedback": f"Training failed: {type(exc).__name__}: {exc}"}
     (out / "metrics.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     if not all(payload["gates"].values()):
-        (out / "report.md").write_text("# CPU 分类检查\n\n" + payload["feedback"] + "\n", encoding="utf-8")
+        (out / "report.md").write_text("# CPU classifier check\n\n" + payload["feedback"] + "\n", encoding="utf-8")
     if os.environ.get("RSI_RESULT"):
         Path(os.environ["RSI_RESULT"]).write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
     else:

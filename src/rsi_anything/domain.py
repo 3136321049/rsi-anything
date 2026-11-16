@@ -16,7 +16,7 @@ REVERT = "REVERT"            # judged, not better (or a gate failed)
 NO_CHANGE = "NO_CHANGE"      # the agent changed nothing inside the artifact paths
 AGENT_FAIL = "AGENT_FAIL"    # the agent crashed or timed out
 JUDGE_FAIL = "JUDGE_FAIL"    # the judge could not produce a verdict
-INTERRUPTED = "INTERRUPTED"  # 中断轮保留现场，续跑时不默默重复这一轮。
+INTERRUPTED = "INTERRUPTED"  # An interrupted round keeps its state; resuming never silently repeats it.
 
 
 def now() -> str:

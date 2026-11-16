@@ -1,26 +1,26 @@
 task: |
-  根据给定合成合同和自拟检查指南梳理问题。高质量输出应让双方知道改哪句、为什么改、怎样形成明确约定。
-  本例不判断法律效力，不提供真实法律意见。程序覆盖记录只确认条款定位，不代表建议质量。
+  Work through the problems in the given synthetic contract using the authors' own review guide. A high-quality output tells both parties which sentence to change, why, and how to turn it into a clear agreement.
+  This example does not judge legal validity and gives no real legal advice. The program's coverage record only confirms that clauses were located; it says nothing about the quality of the suggestions.
 context: [judge/contract.json, judge/review-guide.json]
 criteria:
   - name: coverage
     weight: 30
-    question: 七类预设问题覆盖了哪些？是否将关键争议完整说明而不只是列名称？
-    anchors: {1: 只发现一两类且解释不清, 5: 覆盖约一半且有实质说明, 8: 基本覆盖七类并突出重要问题, 10: 完整覆盖且各类边界清楚无重复}
+    question: Which of the seven preset issue types are covered? Is each key dispute fully explained rather than only named?
+    anchors: {1: finds only one or two types and explains them poorly, 5: covers about half with real explanation, 8: covers nearly all seven and highlights the important ones, 10: complete coverage with clear boundaries between types and no repetition}
   - name: consequence
     weight: 25
-    question: 每条风险是否紧扣原合同文字，说明会出现什么具体分歧？
-    anchors: {1: 只有风险很大, 5: 解释泛泛但相关, 8: 清楚说明不同理解与实际后果, 10: 区分双方关切并指出最需要先确认的事项}
+    question: Is each risk tied closely to the original contract wording, and does it say what concrete disagreement could arise?
+    anchors: {1: only says the risk is big, 5: generic but relevant explanation, 8: clearly explains the different readings and their practical consequences, 10: separates the two parties' concerns and points out what must be settled first}
   - name: revision
     weight: 30
-    question: 修改建议是否可执行，明确范围、触发条件、时间或处理方法，并标明未确认的数字？
-    anchors: {1: 只写建议完善, 5: 有方向但仍留下关键歧义, 8: 具体可讨论且能解决原问题, 10: 条款草案完整克制且与其他条款协调}
+    question: Are the suggested changes workable, stating the scope, trigger, timing or handling, and marking numbers that are not yet agreed?
+    anchors: {1: only says "improve this", 5: has a direction but leaves key ambiguities, 8: specific, discussable and fixes the original problem, 10: complete, restrained draft clauses that fit with the other clauses}
   - name: presentation
     weight: 15
-    question: 非法律专业读者能否迅速找到问题、原文和下一步？
-    anchors: {1: 空泛术语多, 5: 可读但各条像重复模板, 8: 清楚简洁并有优先顺序, 10: 能直接作为双方讨论清单}
-gates: {min_chars: 300, max_chars: 12000}
+    question: Can a reader without legal training quickly find each problem, the original text and the next step?
+    anchors: {1: lots of vague jargon, 5: readable but every item reads like the same template, 8: clear, concise and prioritized, 10: usable directly as a discussion checklist for both parties}
+gates: {min_chars: 1000, max_chars: 40000}
 checks:
-  - 没有杜撰法条、判例或司法辖区，没有断言合同必然无效、必然胜诉或某方已违法。
-  - 引用对应真实给定条款，建议新增的时间和数字明确属于待双方确认的方案，而不是原合同事实。
-  - 所提建议没有把乙方无法控制的第三方知识产权直接转让，也没有扩大客户资料任意使用范围。
+  - Invents no statutes, case law or jurisdictions, and does not assert that the contract is certainly void, that a party will certainly win, or that a party has broken the law.
+  - Quotes match the actual given clauses, and any new times or numbers proposed are clearly options for both parties to confirm, not facts of the original contract.
+  - No suggestion transfers third-party intellectual property that the Designer does not control, and none widens the permitted use of customer data.

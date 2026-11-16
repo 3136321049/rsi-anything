@@ -1,4 +1,4 @@
-"""评分工具包：门槛与说明、“结果未知”、页面文字与渲染失败时的处理。"""
+"""Scoring toolkit: gates and notes, "result unknown", page text, and handling of render failures."""
 from __future__ import annotations
 
 import json
@@ -98,7 +98,7 @@ def _png_rows(path: Path) -> list[bytes]:
 @pytest.mark.skipif(sdk.find_browser() is None, reason="no Chrome-family browser on this machine")
 def test_phone_width_is_laid_out_and_painted_in_full(tmp_path):
     page = tmp_path / "w.html"
-    # 页面全黑、比截图更高：手机宽度下应整张都是黑的，底部不能出现未绘制的白色。
+    # The page is all black and taller than the screenshot: at phone width it must be black throughout, with no unpainted white at the bottom.
     page.write_text("<!doctype html><meta name=viewport content='width=device-width'><style>html,body{margin:0;"
                     "background:#000}div{height:3000px}@media (min-width:401px){html,body{background:#f00}}</style><div></div>")
     png = sdk.screenshot(page, tmp_path / "w.png", 390, 1400)

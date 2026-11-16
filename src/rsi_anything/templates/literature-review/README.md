@@ -1,12 +1,12 @@
-# D10：给定资料综述
+# D10: Literature review from supplied sources
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-围绕“数字工具怎样改变记忆内容与信息位置”，将两篇真实研究和 UNESCO 指南的摘要组织成读书会综述。助手修改 `review.md` 与 `evidence.json`，改善中心问题、证据组织和研究局限。默认初稿由人编写，没有预设后续候选或分数。
+This template organizes summaries of two real studies and a UNESCO guidance document into a review for a reading group, built around the question "how do digital tools change what we remember and where information is located?" The agent edits `review.md` and `evidence.json` to improve the central question, how the evidence is organized, and the account of research limits. The default starting draft was written by a person; there are no preset later candidates or scores.
 
-## 启动
+## Getting started
 
-配置好个人编程助手或个人模型账号后执行：
+After setting up your own coding agent or personal model account, run:
 
 ```sh
 rsi init literature-review demo-literature-review
@@ -15,22 +15,22 @@ python3 judge/prepare.py
 rsi run --rounds 6
 ```
 
-准备脚本不联网、不调用模型；实际多轮运行使用个人账号资源。可以用 `rsi run --agent codex --rounds 6` 指定助手，评委在 `rsi.yaml` 中设置。
+The prepare script doesn't go online or call a model; the actual multi-round run uses your own account's resources. Use `rsi run --agent codex --rounds 6` to choose the agent; the judge is set in `rsi.yaml`.
 
-## 引用与评价
+## Citations and evaluation
 
-冻结的 `judge/sources.json` 包含来源标题、作者、年份、证据类型、摘要、局限及准确链接。摘要均由项目作者改写，不是原文引语。正文用 `[S1]`、`[S2]`、`[S3]` 引用。
+The frozen `judge/sources.json` contains each source's title, authors, year, evidence type, summary, limits and exact link. All summaries were rewritten by the project author; they aren't quotations from the originals. The text cites them as `[S1]`, `[S2]` and `[S3]`.
 
-`evidence.json` 的 `claims` 列表至少包含三条不同的正文原句，每条 `sources` 是相关来源编号，引用须与原句在同一段。程序检查编号、正文原句、引用位置和覆盖情况；模型检查来源是否支持相邻论断、实验与综述及政策是否混淆。不能把旧检索研究当成生成式 AI 效果的直接证明。
+The `claims` list in `evidence.json` must contain at least three different sentences quoted verbatim from the text. Each claim's `sources` lists the relevant source IDs, and the citation must be in the same paragraph as the sentence. The program checks the IDs, the quoted sentences, citation positions and coverage. The model checks whether the sources support the neighboring claims, and whether experiments are confused with reviews and policy. Older retrieval research can't be presented as direct proof of the effects of generative AI.
 
-## 输出与替换输入
+## Outputs and replacing the inputs
 
-`out/review.html`、`review.md` 保存正文及来源，`source-map.json` 保存逐条证据映射；另有评审用的 `evaluation.md`、`gates.json` 和 `notes.txt`。HTML 可离线阅读。`outputs: [out]` 交给主循环保存每轮产物，助手不直接修改 `out/`。
+`out/review.html` and `review.md` hold the text and sources, and `source-map.json` holds the claim-by-claim evidence mapping; `evaluation.md`, `gates.json` and `notes.txt` are for the review. The HTML can be read offline. `outputs: [out]` lets the main loop save each round's outputs; the agent doesn't edit `out/` directly.
 
-换主题时先更新 `judge/sources.json` 的来源与摘要，再修改初稿、证据映射、目标和评分细则；资料数量变化时同步修改准备脚本中的最低映射条数。先提交新输入再开新运行。资料无法回答的问题应保留为研究问题，不能补造文献、数字或引语。
+To change the topic, first update the sources and summaries in `judge/sources.json`, then update the starting draft, the evidence mapping, the goal and the scoring rubric. If the number of sources changes, update the minimum number of mappings in the prepare script to match. Commit the new inputs before starting a new run. Questions the sources can't answer should stay as research questions; don't make up literature, numbers or quotations.
 
-## 依赖与状态
+## Dependencies and status
 
-准备脚本只用 Python 标准库，循环沿用项目的 PyYAML 和模型接口。未接入文献搜索服务或额外优化框架。来源核查日期为 2026-10-23，运行只使用保存的摘要。
+The prepare script uses only the Python standard library, and the loop uses the project's existing PyYAML and model interfaces. No literature-search service or extra optimization framework is used. Sources were checked on 2026-10-23, and runs use only the saved summaries.
 
-已完成真实三轮实验，最终保留分数从 61 提高到 91.5；后两轮候选被拒绝。综述版本、来源映射及独立复验记录保存在仓库 `examples/literature-review/`。评价限于给定资料与本例规则。
+A real three-round experiment is complete: the final kept score rose from 61 to 91.5, and the candidates from the last two rounds were rejected. Review versions, source mappings and independent verification records are saved in the repository under `examples/literature-review/`. The evaluation is limited to the supplied sources and this example's rules.

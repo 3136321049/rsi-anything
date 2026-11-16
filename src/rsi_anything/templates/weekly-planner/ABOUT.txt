@@ -1,1 +1,1 @@
-安排一周工作外的生活：检查冲突、任务覆盖和时间偏好，生成可读日程。
+Plan a week of life outside work: checks conflicts, task coverage and time preferences, and renders a readable schedule.

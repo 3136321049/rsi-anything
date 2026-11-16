@@ -2,7 +2,7 @@
 
 [English](PLAN.md)
 
-更新日期：2026-10-29。首发范围和资源例外以[任务书](GOAL-FIRST-RELEASE.zh-CN.md)为准，实时工作状态见[执行表](GOAL-PROGRESS.zh-CN.md)。本文说明当前保留的实现。
+更新日期：2026-10-29。首发范围和资源例外以[任务书](GOAL-FIRST-RELEASE.md)为准，实时工作状态见[执行表](GOAL-PROGRESS.md)。本文说明当前保留的实现。
 
 ## 目标
 

@@ -1,28 +1,28 @@
-# D11：虚构设计服务合同的三轮审阅
+# D11: Three review rounds on a fictional design-services contract
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-输入完全由项目作者编写，不是用户的真实合同。AI 从只讨论两类问题，扩展到交付范围、付款、变更排期、验收返工、素材权利、终止结算和客户资料七类问题，并给出供双方讨论的条款草案。
+The input was written entirely by the project author; it isn't a user's real contract. The AI went from discussing only two issue categories to covering seven: delivery scope, payment, changes and scheduling, acceptance and rework, rights in materials, termination and settlement, and client data. It also wrote draft clauses for both parties to discuss.
 
-| 版本 | 得分 | 处理结果 |
+| Version | Score | Outcome |
 |---|---:|---|
-| 初始 | 41 | 有效定位 2/7 类问题 |
-| 第 1 轮 | 91.5 | 保留，有效定位 7/7 类问题 |
-| 第 2 轮 | 0 | 拒绝，I6 建议长度超过固定上限，未调用模型评委 |
-| 第 3 轮 | 87 | 拒绝，没有超过当前保留稿 |
+| Starting | 41 | Validly located 2/7 issue categories |
+| Round 1 | 91.5 | Kept; validly located 7/7 issue categories |
+| Round 2 | 0 | Rejected; the I6 suggestion exceeded the fixed length limit, so the model judge wasn't called |
+| Round 3 | 87 | Rejected; did not beat the currently kept draft |
 
-[打开完整实验报告](runs/20261024-002852-design-contract-review/report.html) · [阅读最终讨论稿](runs/20261024-002852-design-contract-review/artifacts/final/files/out/review.html) · [结构化问题清单](runs/20261024-002852-design-contract-review/artifacts/final/files/review.json) · [独立核验记录](runs/20261024-002852-design-contract-review/verification.json)
+[Open the full experiment report](runs/20261024-002852-design-contract-review/report.html) · [Read the final discussion draft](runs/20261024-002852-design-contract-review/artifacts/final/files/out/review.html) · [Structured issue list](runs/20261024-002852-design-contract-review/artifacts/final/files/review.json) · [Independent verification record](runs/20261024-002852-design-contract-review/verification.json)
 
-第 2 轮的 I6 建议有 1205 字，超过 1200 字上限，因此程序未将其计入有效覆盖并在评分前拒绝。该轮仍包含七个问题编号；0 分表示没有通过这项固定要求，不能解释成“没有发现问题”或“法律分析全部错误”。原候选和失败原因完整保留。
+In round 2, the I6 suggestion was 1205 characters, over the 1200-character limit, so the program didn't count it as valid coverage and rejected the round before scoring. That round still included all seven issue IDs. The score of 0 means it failed this fixed requirement; it can't be read as "found no issues" or "the legal analysis was all wrong". The original candidate and the reason for the failure are kept in full.
 
-已逐条阅读最终稿，独立核对七处条款定位、原句及建议长度。草案把新增金额、期限和许可范围明确标为待双方确认，没有编造法条、判例或断言真实合同效力，也没有假设能直接转让第三方权利。建议仍偏长，附件和待确认事项需要参与方继续整理；覆盖编号完整不等于可以直接签署。
+The final draft was read item by item, and the seven clause locations, quoted sentences and suggestion lengths were checked independently. The draft clearly marks new amounts, deadlines and license scopes as pending confirmation by both parties. It doesn't invent statutes or case law, doesn't assert the validity of a real contract, and doesn't assume third-party rights can be transferred directly. The suggestions are still long, and the parties would need to keep working on the attachments and open items. Full ID coverage doesn't mean the contract is ready to sign.
 
-导出的初始、三轮候选和最终版本分别重跑冻结准备脚本，生成文件逐字节一致。写手和模型评委均通过个人 Codex 显式请求 `gpt-6.1-sol`、`medium`；实际型号和费用未由 CLI 返回，保持未知。模型评分不是律师审查结论，本例不构成法律意见。
+The exported starting version, the three round candidates and the final version were each rerun through the frozen prepare script, and the generated files matched byte for byte. Both the agent and the model judge explicitly requested `gpt-6.1-sol` at `medium` through a personal Codex account; the CLI didn't return the actual model or cost, so both stay unknown. A model score isn't a lawyer's review, and this example isn't legal advice.
 
-从项目根目录使用自己的个人 Codex 登录另开实验：
+To start a new experiment with your own personal Codex login, run this from the project root:
 
 ```bash
 python3 scripts/run_demo.py contract-review --model gpt-6.1-sol --jury cli:codex:gpt-6.1-sol --rounds 3 --minutes 25 --codex-isolated --continue-after-target
 ```
 
-检查指南为作者自拟，只参考 [business.gov.au 的合同写作要素](https://business.gov.au/people/contractors/prepare-a-contract)，本次于 2026-10-24 打开原页核对。不将其中的澳大利亚法律说明用于这份虚构合同。
+The review guide was written by the author and only draws on [the contract essentials from business.gov.au](https://business.gov.au/people/contractors/prepare-a-contract); the original page was opened and checked on 2026-10-24 for this run. Its notes on Australian law aren't applied to this fictional contract.

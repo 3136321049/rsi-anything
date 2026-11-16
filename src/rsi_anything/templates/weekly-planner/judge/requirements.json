@@ -1,22 +1,22 @@
 {
-  "title": "工作之外的一周",
+  "title": "A week outside work",
   "awake": {"start": "07:00", "end": "23:00"},
   "max_flexible_minutes_per_day": 240,
   "fixed": [
-    {"title": "上班通勤", "days": [1, 2, 3, 4, 5], "start": "08:30", "end": "09:00"},
-    {"title": "工作", "days": [1, 2, 3, 4, 5], "start": "09:00", "end": "18:00"},
-    {"title": "下班通勤", "days": [1, 2, 3, 4, 5], "start": "18:00", "end": "18:30"},
-    {"title": "晚饭", "days": [1, 2, 3, 4, 5, 6, 7], "start": "19:00", "end": "19:30"},
-    {"title": "朋友聚会", "days": [3], "start": "20:00", "end": "21:00"}
+    {"title": "Commute to work", "days": [1, 2, 3, 4, 5], "start": "08:30", "end": "09:00"},
+    {"title": "Work", "days": [1, 2, 3, 4, 5], "start": "09:00", "end": "18:00"},
+    {"title": "Commute home", "days": [1, 2, 3, 4, 5], "start": "18:00", "end": "18:30"},
+    {"title": "Dinner", "days": [1, 2, 3, 4, 5, 6, 7], "start": "19:00", "end": "19:30"},
+    {"title": "Meetup with friends", "days": [3], "start": "20:00", "end": "21:00"}
   ],
   "tasks": [
-    {"id": "exercise", "title": "锻炼", "sessions": 3, "minutes": 45, "weight": 2, "days": [1, 2, 3, 4, 5, 6, 7], "preferred": [{"days": [1, 2, 3, 4, 5, 6, 7], "start": "07:00", "end": "08:30"}]},
-    {"id": "reading", "title": "阅读", "sessions": 3, "minutes": 45, "weight": 1, "days": [1, 2, 3, 4, 5, 6, 7], "preferred": [{"days": [1, 2, 3, 4, 5, 6, 7], "start": "20:30", "end": "22:30"}]},
-    {"id": "study", "title": "系统学习", "sessions": 2, "minutes": 90, "weight": 3, "days": [1, 2, 3, 4, 5, 6, 7], "preferred": [{"days": [2, 4], "start": "20:00", "end": "22:00"}, {"days": [6, 7], "start": "09:00", "end": "12:00"}]},
-    {"id": "groceries", "title": "采购", "sessions": 1, "minutes": 60, "weight": 1, "days": [1, 2, 3, 4, 5, 6, 7], "preferred": [{"days": [6], "start": "09:00", "end": "12:00"}]},
-    {"id": "mealprep", "title": "准备下周餐食", "sessions": 1, "minutes": 90, "weight": 2, "days": [6, 7], "preferred": [{"days": [7], "start": "15:00", "end": "18:00"}]},
-    {"id": "family", "title": "陪伴家人", "sessions": 1, "minutes": 120, "weight": 3, "days": [6, 7], "preferred": [{"days": [7], "start": "10:00", "end": "13:00"}]},
-    {"id": "admin", "title": "整理账单", "sessions": 1, "minutes": 30, "weight": 1, "days": [1, 2, 3, 4, 5, 6, 7], "preferred": [{"days": [3], "start": "18:30", "end": "19:00"}]},
-    {"id": "rest", "title": "留出休息", "sessions": 2, "minutes": 60, "weight": 2, "days": [1, 2, 3, 4, 5, 6, 7], "preferred": [{"days": [6, 7], "start": "14:00", "end": "18:00"}]}
+    {"id": "exercise", "title": "Exercise", "sessions": 3, "minutes": 45, "weight": 2, "days": [1, 2, 3, 4, 5, 6, 7], "preferred": [{"days": [1, 2, 3, 4, 5, 6, 7], "start": "07:00", "end": "08:30"}]},
+    {"id": "reading", "title": "Reading", "sessions": 3, "minutes": 45, "weight": 1, "days": [1, 2, 3, 4, 5, 6, 7], "preferred": [{"days": [1, 2, 3, 4, 5, 6, 7], "start": "20:30", "end": "22:30"}]},
+    {"id": "study", "title": "Structured study", "sessions": 2, "minutes": 90, "weight": 3, "days": [1, 2, 3, 4, 5, 6, 7], "preferred": [{"days": [2, 4], "start": "20:00", "end": "22:00"}, {"days": [6, 7], "start": "09:00", "end": "12:00"}]},
+    {"id": "groceries", "title": "Grocery shopping", "sessions": 1, "minutes": 60, "weight": 1, "days": [1, 2, 3, 4, 5, 6, 7], "preferred": [{"days": [6], "start": "09:00", "end": "12:00"}]},
+    {"id": "mealprep", "title": "Meal prep for next week", "sessions": 1, "minutes": 90, "weight": 2, "days": [6, 7], "preferred": [{"days": [7], "start": "15:00", "end": "18:00"}]},
+    {"id": "family", "title": "Family time", "sessions": 1, "minutes": 120, "weight": 3, "days": [6, 7], "preferred": [{"days": [7], "start": "10:00", "end": "13:00"}]},
+    {"id": "admin", "title": "Sort out bills", "sessions": 1, "minutes": 30, "weight": 1, "days": [1, 2, 3, 4, 5, 6, 7], "preferred": [{"days": [3], "start": "18:30", "end": "19:00"}]},
+    {"id": "rest", "title": "Downtime", "sessions": 2, "minutes": 60, "weight": 2, "days": [1, 2, 3, 4, 5, 6, 7], "preferred": [{"days": [6, 7], "start": "14:00", "end": "18:00"}]}
   ]
 }

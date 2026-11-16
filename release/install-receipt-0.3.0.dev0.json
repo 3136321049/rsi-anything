@@ -2,7 +2,7 @@
   "status": "verified",
   "checked_at": "2026-10-30",
   "completed_at_utc": "2026-10-30T07:58:09.197276+00:00",
-  "purpose": "仅验证安装、命令入口、新命令、离线截图与导出；测试代理不修改文件，不算真实模型实验。",
+  "purpose": "Verifies only installation, command entry points, new commands, offline screenshots and export; the test agent does not modify files and does not count as a real model experiment.",
   "wheel": "dist/rsi_anything-0.3.0.dev0-py3-none-any.whl",
   "wheel_sha256": "4b7bb84de596baf8f8cf6246cdab85a4ab24e2abcac65169deb30cd69b1c413a",
   "python": "3.11",

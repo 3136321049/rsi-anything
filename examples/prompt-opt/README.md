@@ -1,20 +1,20 @@
-# D03：客服提示词优化
+# D03: Support prompt optimization
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-完整三轮实验：`runs/20261023-234624-support-intent-prompt/`。
+Full three-round experiment: `runs/20261023-234624-support-intent-prompt/`.
 
-- 初始开发集89.6%，三轮候选分别89.6%、83.3%、89.6%，均未超过所需提升幅度，最终保留初始提示词。
-- 初始和最终留出集均82.8%（24/29），实际调用无失败。
-- 每轮提示词和错例、初始及最终留出结果均已导出。本例展示了完整迭代与拒绝，没有获得分数提升。
-- 写手显式请求 `gpt-6.1-sol`，任务模型显式请求 `cli:codex:gpt-5.6-sol`；CLI未提供服务端实际型号确认，按未知记录。
-- `USAGE.zh-CN.md` 解释历史导出中复制调用记录的去重口径；原始记录未改。
-- `runs/2026-10-21-codex-partial/` 是更早的部分实验，不能与本次拼成一条提升曲线。
+- The starting prompt scored 89.6% on the dev set, and the three round candidates scored 89.6%, 83.3% and 89.6%. None cleared the required improvement threshold, so the starting prompt was kept.
+- The starting and final prompts both scored 82.8% (24/29) on the held-out set, with no failed calls.
+- Every round's prompt and mistakes, plus the starting and final held-out results, were exported. This example shows a complete iteration with rejections; the score did not improve.
+- The agent explicitly requested `gpt-6.1-sol`, and the task model explicitly requested `cli:codex:gpt-5.6-sol`. The CLI gave no service-side confirmation of the actual model, so it's recorded as unknown.
+- `USAGE.zh-CN.md` (Chinese) explains how call records that were copied in the historical export are deduplicated; the original records are unchanged.
+- `runs/2026-10-21-codex-partial/` is an earlier partial experiment. It can't be joined with this run into a single improvement curve.
 
-复现新实验：
+To reproduce as a new experiment:
 
 ```bash
 python scripts/run_demo.py prompt-opt --model gpt-6.1-sol --task-model cli:codex:gpt-5.6-sol --rounds 3 --minutes 30 --codex-isolated
 ```
 
-个人Codex需已登录且支持这些型号；初始化和替换输入见模板README。模型输出有波动，重跑会单独形成新记录。
+Your personal Codex must be signed in and support these models. For setup and replacing inputs, see the template README. Model outputs fluctuate, and each rerun creates its own new record.

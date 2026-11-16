@@ -51,23 +51,23 @@ def _cost_summary(store: RunStore) -> str:
         receipt = root / "holdout.json"
         fallback = json.loads(receipt.read_text()).get("metrics", {}).get("cost_usd") if receipt.exists() else None
         include(root / "holdout-usage.jsonl", fallback)
-    detail = f"已记录费用 ${sum(costs):.4f}（仅含工具返回的费用，不是总账单）" if costs else "调用费用：工具未提供"
-    return (f"已保存 {count} 条模型调用记录；" if count else "") + detail
+    detail = f"Recorded cost ${sum(costs):.4f} (only costs the tools reported, not the full bill)" if costs else "Call cost: not reported by the tools"
+    return (f"Saved {count} model call records; " if count else "") + detail
 
 
 def _versions(store: RunStore) -> list[tuple[str, str]]:
     versions = []
     for row in store.rows():
         if row.get("artifacts"):
-            versions.append(("初始产物" if row["round"] == 0 else f"第 {row['round']} 轮 · {row['status']}", row["artifacts"]))
+            versions.append(("Starting artifacts" if row["round"] == 0 else f"Round {row['round']} · {row['status']}", row["artifacts"]))
     active = store.meta().get("active_round")
     if active and not any(row["round"] == active for row in store.rows()):
         rel = f"rounds/r{active:03d}/artifacts"
         if (store.dir / rel / "manifest.json").exists():
-            versions.append((f"第 {active} 轮 · 尚未完成", rel))
+            versions.append((f"Round {active} · not finished", rel))
     final = store.meta().get("final_artifacts")
     if final:
-        versions.append(("最终产物", final))
+        versions.append(("Final artifacts", final))
     return versions
 
 
@@ -84,17 +84,20 @@ def _artifact_notice(store: RunStore, rel: str, manifest: dict) -> str:
     incomplete = (status == "INTERRUPTED" or evaluation == "round_incomplete"
                   or bool(active and not row and rel == f"rounds/r{active:03d}/artifacts"))
     if incomplete and source != "agent_workspace":
-        origin = "评审目录" if source == "judge_workspace" else "现场（历史记录未注明目录来源）"
-        return f"来源：中断轮的{origin}。尚无完整正式轮次结论；正式分数只认账本记录和评审结论。"
+        origin = "judge workspace" if source == "judge_workspace" else "live workspace (the historical record does not name the directory)"
+        return (f"Source: the {origin} of an interrupted round. There is no complete formal round result yet; "
+                "formal scores come only from the ledger and the judge verdicts.")
     if source == "agent_workspace" or status in {"NO_CHANGE", "AGENT_FAIL", "INTERRUPTED"} or evaluation == "unreviewed":
-        return "来源：助手工作目录，未经本轮正式评审。out/ 可能是助手自测或遗留文件，不能用作正式结果；正式分数只认账本记录和评审结论。"
+        return ("Source: the agent working directory, not formally judged this round. out/ may hold the agent self-tests or leftover files "
+                "and cannot be used as a formal result; formal scores come only from the ledger and the judge verdicts.")
     if status == "JUDGE_FAIL" or evaluation == "judge_failed":
-        return "来源：评审目录。本轮评审失败，目录中的文件仅供排查，不代表有效正式结果。"
+        return "Source: the judge workspace. Judging failed this round; the files here are for debugging only and are not a valid formal result."
     if manifest.get("source_snapshot"):
-        return "来源：已保存的评审版本 " + manifest["source_snapshot"] + "。复制最终作品不会新增评分；正式分数以账本和评审结论为准。"
+        return ("Source: the saved judged version " + manifest["source_snapshot"]
+                + ". Copying the final artifact adds no new score; formal scores follow the ledger and the judge verdicts.")
     if source == "judge_workspace" or status in {"BASELINE", "KEEP", "REVERT"}:
-        return "来源：独立评审目录。正式分数以账本记录和评审结论为准。"
-    return "历史快照没有提供评审来源；目录内自带的指标不能代替正式账本。"
+        return "Source: a separate judge workspace. Formal scores follow the ledger and the judge verdicts."
+    return "This historical snapshot does not say where it was judged; metrics stored inside it cannot replace the formal ledger."
 
 
 def _artifact_html(store: RunStore) -> str:
@@ -114,15 +117,15 @@ def _artifact_html(store: RunStore) -> str:
                 body = f'<img loading="lazy" alt="{html.escape(name, quote=True)}" src="{url}">'
             elif suffix in {".txt", ".md", ".json", ".yaml", ".yml", ".py", ".csv", ".html"} and file.exists():
                 text = file.read_text(encoding="utf-8", errors="replace")
-                body = "<pre>" + html.escape(text[:12000]) + ("\n…完整内容见文件链接" if len(text) > 12000 else "") + "</pre>"
+                body = "<pre>" + html.escape(text[:12000]) + ("\n… see the file link for the full content" if len(text) > 12000 else "") + "</pre>"
             else:
                 body = f'<span class="muted">{item.get("bytes", 0):,} bytes</span>'
             blocks.append(f"<div class='artifact'><p>{link}</p>{body}</div>")
         missing = manifest.get("missing_patterns") or []
         if missing:
-            blocks.append("<p class='muted'>没有生成：" + html.escape(", ".join(missing)) + "</p>")
-        sections.append(f"<details><summary>{html.escape(label)}</summary>{''.join(blocks) or '<p>没有保存的文件。</p>'}</details>")
-    return "<h2>产物版本</h2>" + "".join(sections) if sections else ""
+            blocks.append("<p class='muted'>Not generated: " + html.escape(", ".join(missing)) + "</p>")
+        sections.append(f"<details><summary>{html.escape(label)}</summary>{''.join(blocks) or '<p>No saved files.</p>'}</details>")
+    return "<h2>Artifact versions</h2>" + "".join(sections) if sections else ""
 
 
 def terminal(store: RunStore) -> str:
@@ -157,16 +160,16 @@ def markdown(store: RunStore) -> str:
         out.append(f"| {r['round']} | {r['status']} | {_fmt(r.get('score'))} | {_fmt(r.get('best'))} | {change[:160]} | {why[:160]} |")
     if meta.get("stop_reason"):
         out += ["", f"Stopped: {meta['stop_reason']}."]
-    out += ["", f"运行状态：{meta.get('status', '历史记录未提供')}。{_cost_summary(store)}。"]
+    out += ["", f"Run status: {meta.get('status', 'not in the historical record')}. {_cost_summary(store)}."]
     if (store.dir / "config" / "execution.json").exists():
-        out += ["", "[任务配置](config/rsi.yaml) · [模型与运行参数](config/execution.json)"]
+        out += ["", "[Task config](config/rsi.yaml) · [Model and run parameters](config/execution.json)"]
     versions = _versions(store)
     if versions:
-        out += ["", "## 产物版本", ""]
+        out += ["", "## Artifact versions", ""]
         for label, rel in versions:
             manifest = _manifest(store, rel)
             links = [f"[{item['path']}]({quote(rel + '/files/' + item['path'], safe='/')})" for item in manifest.get("files", [])]
-            out.append(f"- {label}：" + (" · ".join(links) or "没有保存的文件"))
+            out.append(f"- {label}: " + (" · ".join(links) or "no saved files"))
             out.append("  " + _artifact_notice(store, rel, manifest))
     holdout = meta.get("holdout") or {}
     if holdout:
@@ -230,7 +233,7 @@ def html_page(store: RunStore, repo: Path) -> str:
     holdout = meta.get("holdout") or {}
     configuration = ""
     if (store.dir / "config" / "execution.json").exists():
-        configuration = '<p><a href="config/rsi.yaml">任务配置</a> · <a href="config/execution.json">模型与运行参数</a></p>'
+        configuration = '<p><a href="config/rsi.yaml">Task config</a> · <a href="config/execution.json">Model and run parameters</a></p>'
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RSI run {esc(store.run_id)}</title>
@@ -254,7 +257,7 @@ details {{ border:1px solid var(--line); border-radius:8px; padding:12px; margin
 </style></head><body><main>
 <h1>{esc(meta.get('contract', 'RSI run'))}</h1>
 <div class="muted">{esc(meta.get('goal', ''))}</div>
-<p class="muted">运行状态：{esc(meta.get('status', '历史记录未提供'))}。{esc(_cost_summary(store))}。</p>
+<p class="muted">Run status: {esc(meta.get('status', 'not in the historical record'))}. {esc(_cost_summary(store))}.</p>
 {configuration}
 <div class="stats">
 <div class="stat"><span class="muted">baseline</span><b>{_fmt(first.get('score'))}</b></div>

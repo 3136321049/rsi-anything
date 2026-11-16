@@ -1,1 +1,1 @@
-优化 Triton Softmax GPU 算子，分别验证数值、单算子耗时和小型推理模块耗时；需要已授权 CUDA 设备。
+engineering: optimize a Triton softmax GPU kernel; checks numerics, operator time and a small inference module separately (needs an authorized CUDA device)

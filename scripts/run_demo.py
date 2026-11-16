@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""在独立实验仓库里运行模板，并将完整或中断记录导出到 examples。"""
+"""Run a template in its own experiment repository and export the complete or interrupted records to examples."""
 from __future__ import annotations
 
 import argparse
@@ -29,24 +29,24 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("template")
     parser.add_argument("--agent", default="codex")
-    parser.add_argument("--model", required=True, help="显式固定写手型号")
+    parser.add_argument("--model", required=True, help="pin the writer model explicitly")
     parser.add_argument("--jury", nargs="+")
     parser.add_argument("--task-model")
     parser.add_argument("--rounds", type=int, default=5)
     parser.add_argument("--minutes", type=float, default=90)
-    parser.add_argument("--continue-after-target", action="store_true", help="新实验不按目标分数提前结束，仍受轮数和停滞条件限制")
-    parser.add_argument("--project", type=Path, help="续跑时指定原实验目录")
-    parser.add_argument("--resume", help="明确指定原 run id，避免无意重复实验")
+    parser.add_argument("--continue-after-target", action="store_true", help="a new experiment does not stop early at the target score; round and stall limits still apply")
+    parser.add_argument("--project", type=Path, help="the original experiment directory, when resuming")
+    parser.add_argument("--resume", help="the original run id, named explicitly so no experiment is repeated by accident")
     parser.add_argument("--codex-isolated", action="store_true")
     parser.add_argument("--allow-commands", action="store_true")
     args = parser.parse_args()
     if args.rounds < 1 or args.minutes <= 0:
-        parser.error("轮数与时间必须大于零")
+        parser.error("rounds and minutes must be greater than zero")
     if bool(args.project) != bool(args.resume):
-        parser.error("--project 与 --resume 必须同时给出")
+        parser.error("--project and --resume must be given together")
     template = ROOT / "src" / "rsi_anything" / "templates" / args.template
     if not template.is_dir() or not (template / "rsi.yaml").is_file():
-        parser.error("模板不存在")
+        parser.error("template not found")
     if args.codex_isolated:
         os.environ["RSI_CODEX_ISOLATED"] = "1"
         os.environ.setdefault("RSI_CODEX_REASONING_EFFORT", "medium")
@@ -64,7 +64,7 @@ def main():
             print(result.stdout, end="", flush=True)
             if result.returncode:
                 print(result.stderr, file=sys.stderr)
-                raise RuntimeError("模板素材准备失败，已保留目录，可检查后重新启动")
+                raise RuntimeError("Preparing the template material failed; the directory is kept so you can inspect it and start again")
         config_path = project / "rsi.yaml"
         config = yaml.safe_load(config_path.read_text())
         config.setdefault("agent", {}).update(use=args.agent, model=args.model)
@@ -79,12 +79,12 @@ def main():
         gitops.git(project, "config", "user.name", "3136321049")
         gitops.git(project, "config", "user.email", "3136321049@users.noreply.github.com")
         gitops.git(project, "add", "--all")
-        gitops.git(project, "commit", "-q", "-m", f"准备 {args.template} 实验输入与评价")
+        gitops.git(project, "commit", "-q", "-m", f"Prepare {args.template} experiment inputs and evaluation")
     if gitops.toplevel(project) != project:
-        raise RuntimeError("实验必须位于独立 Git 仓库，不能修改主开发工作区")
-    print(f"实验目录：{project.relative_to(ROOT) if project.is_relative_to(ROOT) else project.name}", flush=True)
+        raise RuntimeError("The experiment must live in its own Git repository; it must not modify the main development worktree")
+    print(f"Experiment directory: {project.relative_to(ROOT) if project.is_relative_to(ROOT) else project.name}", flush=True)
     contract = load(project)
-    # 从已保存配置续跑，不覆盖原实验的模型和预算。
+    # Resume from the saved config without overwriting the original experiment's model and budget.
     agent = make_agent(contract.agent, allow_commands=args.allow_commands)
     previous = set(ledger.list_runs(project))
     try:
@@ -98,7 +98,7 @@ def main():
             store = RunStore(project, target)
             destination = ROOT / "examples" / args.template / "runs" / target
             export_run(store, project, destination)
-            print(f"保存记录：{destination.relative_to(ROOT)}", flush=True)
+            print(f"Saved records: {destination.relative_to(ROOT)}", flush=True)
 
 
 if __name__ == "__main__":

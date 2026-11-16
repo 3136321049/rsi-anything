@@ -1,32 +1,32 @@
 task: |
-  把 WHO 身体活动资料转成久坐办公的一般健康成人能看懂的公众科普。
-  有用的解释和行动入口应与准确性同时出现，不能只靠免责声明获得高分。
+  Turn the WHO physical activity material into a public explainer that generally healthy adults with desk jobs can understand.
+  Useful explanations and a way to get started must come together with accuracy; a disclaimer alone cannot earn a high score.
 context: [judge/sources.json]
 criteria:
   - name: accuracy
     weight: 30
-    question: 是否准确解释每周活动量、可替代关系、肌肉强化和减少久坐，没有夸大效果？
-    anchors: {1: 数字含义或适用对象错误, 5: 事实大致正确但解释少, 8: 准确清楚且避免常见误读, 10: 用简明例子解释数量与强度而不形成个人处方}
+    question: Does it accurately explain the weekly amounts, how they can substitute for each other, muscle strengthening and reducing sedentary time, without exaggerating the effects?
+    anchors: {1: wrong meaning of the numbers or wrong audience, 5: facts roughly right but little explanation, 8: accurate, clear and avoids common misreadings, 10: explains amount and intensity with simple examples without turning into a personal prescription}
   - name: plain_language
     weight: 25
-    question: 普通读者能否一遍看懂，必要术语是否解释？
-    anchors: {1: 指南术语堆积, 5: 通顺但像摘抄, 8: 用日常语言解释活动类型与关系, 10: 简洁自然且能消除读者的具体困惑}
+    question: Can an ordinary reader understand it in one read, and are necessary terms explained?
+    anchors: {1: a pile of guideline jargon, 5: fluent but reads like an excerpt, 8: explains the types of activity and how they relate in everyday language, 10: concise and natural, clearing up readers' specific confusions}
   - name: usable_start
     weight: 25
-    question: 是否说明少量也有价值、逐步增加以及如何融入日常，避免把建议写成一次性达标任务？
-    anchors: {1: 只说应该多运动, 5: 有一般建议但难开始, 8: 有合理且可选择的日常例子, 10: 兼顾工作限制与渐进原则且不替读者制定个人强度}
+    question: Does it say that a little activity is worthwhile, that you can build up gradually, and how to fit activity into daily life, rather than presenting the recommendation as a target to hit all at once?
+    anchors: {1: only says to exercise more, 5: general advice that is hard to start on, 8: sensible everyday examples to choose from, 10: respects work constraints and gradual progress without setting a personal intensity for the reader}
   - name: misconception
     weight: 10
-    question: 是否解释有氧、肌肉强化、减少久坐不是完全等价的目标？
-    anchors: {1: 混为一谈, 5: 分别提到但不解释, 8: 澄清容易出现的混淆, 10: 用短小场景帮助读者判断而不作治疗建议}
+    question: Does it explain that aerobic activity, muscle strengthening and reducing sedentary time are not interchangeable goals?
+    anchors: {1: lumps them together, 5: mentions each but does not explain, 8: clears up the likely confusion, 10: uses short scenarios to help readers judge without giving treatment advice}
   - name: scope
     weight: 10
-    question: 是否自然说明适用范围、来源与个体差异，既有边界又保留有效信息？
-    anchors: {1: 普遍适用承诺或只有免责文字, 5: 有用途说明, 8: 边界清楚且不打断阅读, 10: 告知资料能回答什么与不能替代什么}
+    question: Does it naturally state who it applies to, its sources and individual differences, keeping clear limits while still giving useful information?
+    anchors: {1: promises it applies to everyone or is only a disclaimer, 5: states its purpose, 8: clear limits that do not interrupt reading, 10: tells readers what the material can answer and what it cannot replace}
 gates:
-  min_chars: 300
-  max_chars: 4500
+  min_chars: 1000
+  max_chars: 18000
 checks:
-  - 公众科普信息与冻结的 WHO 资料一致，没有杜撰疗效、疾病风险百分比或医学来源。
-  - 没有把一般健康成人建议直接套给儿童、孕产期、慢性病或康复人群，也没有个体化运动处方、诊断、用药剂量或停药建议。
-  - 没有把任何轻微身体动作等同于达到中高强度有氧目标，没有暗示达到有氧量就无需肌肉强化或减少久坐。
+  - The public health information agrees with the frozen WHO material and invents no treatment effects, disease-risk percentages or medical sources.
+  - It does not apply the recommendations for generally healthy adults directly to children, pregnancy and postpartum, chronic conditions or rehabilitation, and gives no individualized exercise prescription, diagnosis, medication dose or advice to stop medication.
+  - It does not equate any light movement with meeting the moderate- to vigorous-intensity aerobic target, and does not imply that meeting the aerobic amount removes the need for muscle strengthening or less sedentary time.

@@ -1,1 +1,1 @@
-D13 百分比讲义：让受限学生模型读讲义答固定练习，实际计算正确率。
+education: a percentages lesson; a restricted student model reads it and answers fixed exercises, graded by computed answers

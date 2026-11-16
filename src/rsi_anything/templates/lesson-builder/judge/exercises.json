@@ -1,95 +1,95 @@
 {
-  "origin": "项目作者原创固定练习；无真实学生数据。",
+  "origin": "Original fixed exercises written by the project authors; no real student data.",
   "exercises": [
     {
       "id": "P1",
-      "topic": "基本求部分",
-      "question": "一批练习本共240本，其中35%是方格本。方格本有多少本？",
+      "topic": "Basic part of a whole",
+      "question": "A batch of 240 exercise books contains 35% graph-paper books. How many graph-paper books are there?",
       "expected": 84,
-      "unit": "本",
+      "unit": "books",
       "tolerance": 0.0001,
-      "solution": "240×0.35=84。"
+      "solution": "240 × 0.35 = 84."
     },
     {
       "id": "P2",
-      "topic": "还原原量",
-      "question": "书店打八折后一本书售价72元。原价是多少元？",
+      "topic": "Recovering the original amount",
+      "question": "In a sale a bookshop sells a book at 20% off for 72 dollars. What was the original price in dollars?",
       "expected": 90,
-      "unit": "元",
+      "unit": "dollars",
       "tolerance": 0.0001,
-      "solution": "打八折保留原价的0.8，72÷0.8=90。"
+      "solution": "20% off keeps 0.8 of the original price, so 72 ÷ 0.8 = 90."
     },
     {
       "id": "P3",
-      "topic": "增长率",
-      "question": "某社团人数从40人增加到50人。增长率是多少百分比？答案填百分数前的数值。",
+      "topic": "Percent increase",
+      "question": "A club grows from 40 members to 50 members. What is the percent increase? Give the number before the percent sign.",
       "expected": 25,
       "unit": "%",
       "tolerance": 0.0001,
-      "solution": "增加10人，以原来的40人为基数，10÷40×100=25。"
+      "solution": "It grew by 10 members; with the original 40 as the base, 10 ÷ 40 × 100 = 25."
     },
     {
       "id": "P4",
-      "topic": "减少率",
-      "question": "一项活动的报名人数由125人减少到100人。减少率是多少百分比？答案填百分数前的数值。",
+      "topic": "Percent decrease",
+      "question": "Sign-ups for an event fall from 125 people to 100 people. What is the percent decrease? Give the number before the percent sign.",
       "expected": 20,
       "unit": "%",
       "tolerance": 0.0001,
-      "solution": "减少25人，以原来的125人为基数，25÷125×100=20。"
+      "solution": "It fell by 25 people; with the original 125 as the base, 25 ÷ 125 × 100 = 20."
     },
     {
       "id": "P5",
-      "topic": "连续变化",
-      "question": "一件商品原价200元，先涨价10%，再降价10%。最后价格是多少元？",
+      "topic": "Successive changes",
+      "question": "An item originally costs 200 dollars. Its price is first raised by 10% and then lowered by 10%. What is the final price in dollars?",
       "expected": 198,
-      "unit": "元",
+      "unit": "dollars",
       "tolerance": 0.0001,
-      "solution": "200×1.1×0.9=198，两个百分比的基数不同。"
+      "solution": "200 × 1.1 × 0.9 = 198; the two percentages have different bases."
     },
     {
       "id": "P6",
-      "topic": "百分点",
-      "question": "某问卷中支持比例由30%升到42%。上升了多少个百分点？",
+      "topic": "Percentage points",
+      "question": "In a survey, the share of people in favor rises from 30% to 42%. By how many percentage points did it rise?",
       "expected": 12,
-      "unit": "个百分点",
+      "unit": "percentage points",
       "tolerance": 0.0001,
-      "solution": "42%-30%=12个百分点。"
+      "solution": "42% - 30% = 12 percentage points."
     },
     {
       "id": "P7",
-      "topic": "变化后还原",
-      "question": "一袋米取出原有重量的25%后，剩下18千克。原有多少千克？",
+      "topic": "Recovering the amount after a change",
+      "question": "After 25% of the rice in a bag is taken out, 18 kilograms remain. How many kilograms were in the bag at first?",
       "expected": 24,
-      "unit": "千克",
+      "unit": "kilograms",
       "tolerance": 0.0001,
-      "solution": "剩下75%，18÷0.75=24。"
+      "solution": "75% remains, so 18 ÷ 0.75 = 24."
     },
     {
       "id": "P8",
-      "topic": "整体变化",
-      "question": "甲班有30人，其中40%参加合唱；乙班有20人，其中25%参加合唱。两班合计有多少百分比参加合唱？答案填百分数前的数值。",
+      "topic": "Rate for a combined whole",
+      "question": "Class A has 30 students and 40% of them sing in the choir; Class B has 20 students and 25% of them sing in the choir. What percentage of the two classes together sings in the choir? Give the number before the percent sign.",
       "expected": 34,
       "unit": "%",
       "tolerance": 0.0001,
-      "solution": "人数为12+5=17，整体为50，17÷50×100=34。"
+      "solution": "12 + 5 = 17 students out of a whole of 50, so 17 ÷ 50 × 100 = 34."
     },
     {
       "id": "P9",
-      "topic": "反向变化率",
-      "question": "一个数先减少20%后，要回到原来的数，需要在减少后的基础上增加多少百分比？答案填百分数前的数值。",
+      "topic": "Reversing a change",
+      "question": "A number is first decreased by 20%. By what percentage must the decreased number be increased to get back to the original number? Give the number before the percent sign.",
       "expected": 25,
       "unit": "%",
       "tolerance": 0.0001,
-      "solution": "减少后是原量0.8，需增加0.2÷0.8=25%。"
+      "solution": "After the decrease it is 0.8 of the original, so it needs an increase of 0.2 ÷ 0.8 = 25%."
     },
     {
       "id": "P10",
-      "topic": "比例与部分",
-      "question": "一杯糖水总重150克，其中糖占12%。加入50克水后，糖占总重多少百分比？答案填百分数前的数值。",
+      "topic": "Rate and part",
+      "question": "A glass of sugar water weighs 150 grams in total, and sugar makes up 12% of it. After 50 grams of water are added, what percentage of the total weight is sugar? Give the number before the percent sign.",
       "expected": 9,
       "unit": "%",
       "tolerance": 0.0001,
-      "solution": "糖18克不变，总重200克，18÷200×100=9。"
+      "solution": "The 18 grams of sugar do not change and the total becomes 200 grams, so 18 ÷ 200 × 100 = 9."
     }
   ]
 }

@@ -1,4 +1,4 @@
-"""检查 CUDA 环境、固定数值用例，再分别测单算子和推理模块。"""
+"""Check the CUDA environment and the fixed numerical cases, then time the single operator and the inference module separately."""
 import argparse
 import hashlib
 import importlib.metadata
@@ -22,21 +22,21 @@ def probe():
         except importlib.metadata.PackageNotFoundError:
             pass
     if info["system"] != "Linux" or info["machine"] not in ("x86_64", "AMD64"):
-        info["reason"] = "本模板要求 Linux x86_64 和 NVIDIA CUDA GPU；当前平台不支持此路径。"
+        info["reason"] = "This template requires Linux x86_64 and an NVIDIA CUDA GPU; the current platform is not supported."
         return info
     if not info["torch"] or not info["triton"]:
-        info["reason"] = "缺少 PyTorch 或 Triton；请在已授权的个人 CUDA 机器按 README 安装。"
+        info["reason"] = "PyTorch or Triton is missing; install them on an authorized personal CUDA machine as described in the README."
         return info
     try:
         import torch
         if not torch.cuda.is_available() or not torch.version.cuda:
-            info["reason"] = "没有可用的 NVIDIA CUDA 设备，或安装的是 CPU 版 PyTorch。"
+            info["reason"] = "No NVIDIA CUDA device is available, or the CPU build of PyTorch is installed."
             return info
         properties = torch.cuda.get_device_properties(0)
         info.update(cuda=torch.version.cuda, device=properties.name, capability=list(torch.cuda.get_device_capability(0)),
                     memory_bytes=properties.total_memory)
         if info["capability"][0] < 8:
-            info["reason"] = "本模板首版限定 NVIDIA 计算能力 8.0 及以上设备。"
+            info["reason"] = "This first version of the template is limited to NVIDIA devices with compute capability 8.0 or higher."
             return info
         try:
             result = subprocess.run(["nvidia-smi", "--query-gpu=driver_version", "--format=csv,noheader"],
@@ -47,7 +47,7 @@ def probe():
         info["status"] = "ready_not_measured"
         return info
     except Exception as exc:
-        info["reason"] = f"CUDA 环境检查失败：{type(exc).__name__}: {exc}"
+        info["reason"] = f"CUDA environment check failed: {type(exc).__name__}: {exc}"
         return info
 
 
@@ -66,9 +66,9 @@ def validate(torch, x, expected, implementation, tolerance):
     got = implementation(x)
     torch.cuda.synchronize()
     if not isinstance(got, torch.Tensor) or got.shape != x.shape or got.dtype != x.dtype or got.device != x.device:
-        return {"passed": False, "error": "输出形状、类型或设备与输入不同"}
+        return {"passed": False, "error": "output shape, dtype or device differs from the input"}
     if not torch.equal(x, before):
-        return {"passed": False, "error": "候选修改了输入"}
+        return {"passed": False, "error": "the candidate modified its input"}
     finite = bool(torch.isfinite(got).all().item())
     error = float((got.float() - expected.float()).abs().max().item())
     correct = finite and bool(torch.allclose(got, expected, **tolerance))
@@ -83,7 +83,7 @@ def median_timing(torch, functions, config):
             function()
     torch.cuda.synchronize()
     for sample in range(config["samples"]):
-        # 轮换先后顺序，减少固定先测某一实现的偏差。
+        # Rotate the order so no implementation is always measured first.
         order = names[sample % len(names):] + names[:sample % len(names)]
         for name in order:
             start, end = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
@@ -102,7 +102,7 @@ def median_timing(torch, functions, config):
         record["gpu_us_median"] = statistics.median(record["gpu_us_samples"])
         record["wall_us_median"] = statistics.median(record["wall_us_samples"])
         if record["gpu_us_median"] <= 0 or not math.isfinite(record["gpu_us_median"]):
-            raise RuntimeError("计时未获得有效正数，不能计算加速倍数")
+            raise RuntimeError("timing did not produce a valid positive value, so no speedup can be computed")
     return records
 
 
@@ -126,7 +126,7 @@ def run(info):
         cold_ms = 1000 * (time.perf_counter() - cold_started)
         if not all(check["passed"] for check in checks):
             return {"status": "numerical_failure", "score": 0, "gates": {"correct": False},
-                    "feedback": "至少一个固定数值用例未通过，不计性能成绩。", "metrics": {"checks": checks}}, []
+                    "feedback": "At least one fixed numerical case failed, so no performance score is given.", "metrics": {"checks": checks}}, []
         for index, case in enumerate(spec["benchmark"]):
             x = tensor(torch, case, spec["seed"] + len(spec["correctness"]) + index)
             timings = median_timing(torch, {"composed": lambda: composed_softmax(x), "torch_native": lambda: native_softmax(x),
@@ -141,7 +141,7 @@ def run(info):
         module_error = float((expected - actual).abs().max().item())
         if not module_correct:
             return {"status": "numerical_failure", "score": 0, "gates": {"module_correct": False},
-                    "feedback": "小型推理模块替换后数值检查未通过。", "metrics": {"checks": checks,
+                    "feedback": "The numerical check failed after swapping the candidate into the small inference module.", "metrics": {"checks": checks,
                     "operator": benchmarks, "module_max_abs_error": module_error}}, benchmarks
         module_timings = median_timing(torch, {"torch_native": lambda: forward(x, weight, values, native_softmax),
                                               "candidate": lambda: forward(x, weight, values, softmax)}, spec["timing"])
@@ -155,7 +155,7 @@ def run(info):
                "cases_sha256": hashlib.sha256(Path("judge/cases.json").read_bytes()).hexdigest()}
     return {"status": "measured", "score": round(operator_speedup, 6),
             "gates": {"correct": True, "module_correct": True},
-            "feedback": f"单算子相对 torch.softmax 几何平均 {operator_speedup:.3f} 倍；小型模块单独测得 {module_speedup:.3f} 倍。",
+            "feedback": f"Single operator: {operator_speedup:.3f}x geometric-mean speedup over torch.softmax; small module measured separately: {module_speedup:.3f}x.",
             "metrics": metrics}, benchmarks
 
 
@@ -163,10 +163,10 @@ def write_outputs(info, payload, out):
     out.mkdir(exist_ok=True)
     (out / "environment.json").write_text(json.dumps(info, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (out / "metrics.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    report = ["# GPU Softmax 检查", "", payload["feedback"], "", f"状态：{payload['status']}", ""]
+    report = ["# GPU Softmax check", "", payload["feedback"], "", f"Status: {payload['status']}", ""]
     metrics = payload.get("metrics", {})
     if payload["status"] == "measured":
-        report += ["## 单算子稳态中位数", "", "| 形状/精度 | 组合实现 µs | torch 内置 µs | 候选 µs | 相对内置倍数 |",
+        report += ["## Single operator, steady-state medians", "", "| Shape/dtype | Composed µs | torch built-in µs | Candidate µs | Speedup vs built-in |",
                    "|---|---:|---:|---:|---:|"]
         for row in metrics["operator"]:
             timing = row["timing"]
@@ -174,32 +174,32 @@ def write_outputs(info, payload, out):
                           f"{timing['torch_native']['gpu_us_median']:.3f} | {timing['candidate']['gpu_us_median']:.3f} | "
                           f"{row['speedup_vs_torch_native']:.3f} |")
         module = metrics["module"]
-        report += ["", "## 随机初始化小模块", "", f"框架版 {module['timing']['torch_native']['gpu_us_median']:.3f} µs；"
-                   f"候选替换版 {module['timing']['candidate']['gpu_us_median']:.3f} µs；模块倍数 {module['speedup']:.3f}。",
-                   "", "模块使用合成输入和随机参数，不是语言生成任务，也没有测端到端服务。"
-                   "全部重复样本、CPU同步墙钟时间、数值误差和冷启动检查耗时在 metrics.json。"]
+        report += ["", "## Randomly initialized small module", "", f"Framework version {module['timing']['torch_native']['gpu_us_median']:.3f} µs; "
+                   f"with the candidate swapped in {module['timing']['candidate']['gpu_us_median']:.3f} µs; module speedup {module['speedup']:.3f}x.",
+                   "", "The module uses synthetic inputs and random parameters; it is not a language generation task and does not measure an end-to-end service. "
+                   "All repeated samples, CPU-synchronized wall-clock times, numerical errors and cold-start check times are in metrics.json."]
     else:
-        report += ["当前没有有效 GPU 性能结果；不展示模拟分数或加速倍数。"]
+        report += ["There is no valid GPU performance result yet; no simulated score or speedup is shown."]
     (out / "report.md").write_text("\n".join(report) + "\n", encoding="utf-8")
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--probe", action="store_true", help="只检查硬件与依赖，不编译或运行候选")
+    parser.add_argument("--probe", action="store_true", help="only check hardware and dependencies; do not compile or run the candidate")
     args = parser.parse_args()
     info = probe()
     if info["status"] != "ready_not_measured" or args.probe:
         payload = {"status": info["status"], "score": None, "gates": {"environment": info["status"] == "ready_not_measured"},
-                   "feedback": info["reason"] or "环境可用，尚未编译、校验或计时。", "metrics": {"environment": info}}
+                   "feedback": info["reason"] or "The environment is available; nothing has been compiled, checked or timed yet.", "metrics": {"environment": info}}
     else:
         try:
             payload, _ = run(info)
         except Exception as exc:
             payload = {"status": "execution_failed", "score": None, "gates": {"execution": False},
-                       "feedback": f"GPU 执行失败，未获得成绩：{type(exc).__name__}: {exc}", "metrics": {"environment": info}}
+                       "feedback": f"GPU execution failed and no score was obtained: {type(exc).__name__}: {exc}", "metrics": {"environment": info}}
     write_outputs(info, payload, Path("out"))
     print(json.dumps(payload, ensure_ascii=False, indent=2))
-    # 没有实测结果时不写虚构分数；命令式评审会记录评审失败并停止基线启动。
+    # Without a measured result, write no made-up score; the command judge records a judge failure and stops the baseline.
     import os
     if payload["score"] is not None and os.environ.get("RSI_RESULT"):
         Path(os.environ["RSI_RESULT"]).write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")

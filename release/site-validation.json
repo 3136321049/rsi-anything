@@ -1,7 +1,7 @@
 {
   "date": "2026-10-27",
   "source_base": "8abdc83",
-  "kind": "静态作品网站（中英双语）",
+  "kind": "Static showcase website (English and Chinese)",
   "pages": [
     "/",
     "/labs/code/",
@@ -21,26 +21,26 @@
     "passed": 127,
     "skipped": 1,
     "seconds": 20.57,
-    "skip_reason": "分类器可选训练依赖未安装"
+    "skip_reason": "Optional classifier training dependencies not installed"
   },
   "browser": {
     "desktop": true,
     "narrow_frame_width": 390,
-    "engine": "无头 Chromium",
+    "engine": "Headless Chromium",
     "checks": [
-      "两种语言 12 个页面无横向溢出、无脚本错误",
-      "首页回放切换三个运行，拒绝分支与当前最好版本分开显示",
-      "语言切换保留当前页面与轮次参数",
-      "代码轮次、案例切换与逐行差异",
-      "混淆矩阵方格筛选与预测表",
-      "全部实验筛选、资源例外空状态、版本并排与文字差异",
-      "文档预览、复制命令与旧集合页地址跳转",
-      "英文页的安装、扩展、来源、模板与案例说明打开英文版，文档内语言链接可在中英文之间切换；中文页仍打开中文版"
+      "12 pages in both languages have no horizontal overflow and no script errors",
+      "Home-page replay switches between three runs; rejected branches are shown separately from the current best version",
+      "Language switching keeps the current page and round parameters",
+      "Code rounds, case switching and line-by-line diffs",
+      "Confusion-matrix cell filtering and prediction table",
+      "All Experiments filtering, empty states for resource exceptions, side-by-side versions and text diffs",
+      "Document preview, copy-command and redirect from the old collection page address",
+      "On English pages the install, extending, sources, template and case docs open the English version, and in-document language links switch between Chinese and English; Chinese pages still open the Chinese version"
     ],
     "limits": [
-      "无头 Chromium 不支持 H.264，视频实际播放需在正式浏览器复核",
-      "窄屏为 390px 视口检查，未使用实体手机",
-      "尚未部署到正式入口"
+      "Headless Chromium does not support H.264; actual video playback needs re-checking in a regular browser",
+      "Narrow screen checked with a 390px viewport, not a physical phone",
+      "Not yet deployed to the official entry point"
     ]
   },
   "data_checks": {
@@ -65,11 +65,11 @@
     "case_notes": 16,
     "probe_notes": 2,
     "third_party": 1,
-    "kept_verbatim": "程序逐字匹配的中文与任务数据"
+    "kept_verbatim": "Chinese text and task data that programs match verbatim"
   },
   "downloads": {
     "wheel": "dist/rsi_anything-0.2.0.dev0-py3-none-any.whl",
     "source_package_on_site": false,
-    "note": "源码包含内部开发文档，不上网站；wheel 为首发构建快照，未重新打包"
+    "note": "Source includes internal development docs and is not put on the website; the wheel is the first-release build snapshot and was not repackaged"
   }
 }

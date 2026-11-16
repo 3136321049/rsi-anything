@@ -1,28 +1,28 @@
-# D10：围绕一个问题组织资料综述
+# D10: Organizing a literature review around one question
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-这次实验把两篇认知研究摘要和 UNESCO 指南组织成读书会文章，讨论数字工具怎样改变内容记忆与信息位置记忆。最终稿明确区分实验发现、理论框架、政策要求和作者推论，提出可检验的后续问题，没有把旧检索研究直接当作生成式 AI 效果的证据。
+This experiment turned two cognitive-research summaries and the UNESCO guidance into a reading-group article on how digital tools change memory for content and memory for where information is located. The final draft clearly separates experimental findings, the theoretical framework, policy requirements and the author's inferences, and proposes follow-up questions that can be tested. It doesn't treat older retrieval research as direct evidence of the effects of generative AI.
 
-| 版本 | 得分 | 处理结果 |
+| Version | Score | Outcome |
 |---|---:|---|
-| 初始 | 61 | 建立基线 |
-| 第 1 轮 | 91.5 | 保留；建立中心问题，用认知外包框架串联资料 |
-| 第 2 轮 | 68.5 | 拒绝，保留候选全文与原因 |
-| 第 3 轮 | 70 | 拒绝，最终仍使用第 1 轮 |
+| Starting | 61 | Baseline |
+| Round 1 | 91.5 | Kept; sets up a central question and uses a cognitive-offloading framework to connect the sources |
+| Round 2 | 68.5 | Rejected; the full candidate text and the reasons are kept |
+| Round 3 | 70 | Rejected; round 1 remains the final version |
 
-[打开完整实验报告](runs/20261024-000801-cognitive-offloading-review/report.html) · [阅读最终综述与来源映射](runs/20261024-000801-cognitive-offloading-review/artifacts/final/files/out/review.html) · [最终 Markdown](runs/20261024-000801-cognitive-offloading-review/artifacts/final/files/out/review.md) · [核验记录](runs/20261024-000801-cognitive-offloading-review/verification.json)
+[Open the full experiment report](runs/20261024-000801-cognitive-offloading-review/report.html) · [Read the final review and source map](runs/20261024-000801-cognitive-offloading-review/artifacts/final/files/out/review.html) · [Final Markdown](runs/20261024-000801-cognitive-offloading-review/artifacts/final/files/out/review.md) · [Verification record](runs/20261024-000801-cognitive-offloading-review/verification.json)
 
-已阅读最终全文，独立核对五条证据映射都确实出现在正文，引用位于相同段落并覆盖三份资料。导出的五个版本分别重新执行原冻结准备脚本，所有生成文件逐字节一致；浏览器中正文、来源类型和证据映射可以阅读。
+The full final text was read, and all five evidence mappings were checked independently: each one really appears in the text, its citation is in the same paragraph, and together they cover all three sources. Each of the five exported versions was rerun through the original frozen prepare script, and every generated file matched byte for byte. In a browser, the text, source types and evidence mappings are all readable.
 
-第 2、3 轮各有两项评委引文没有通过当时的原文匹配，触发最高 3 分的限制。旧规则可能误判多处原句拼接引用，本次没有保留原始评委 JSON，无法继续确认具体原因。因此这两轮分数不能单独用于判断文章质量下降。全部正式结果保留，未用重评覆盖。
+In rounds 2 and 3, two of the judge's evidence quotes in each round failed the text match used at the time, which triggered the 3-point cap. The old rule may have wrongly rejected quotes stitched together from several sentences; the raw judge JSON wasn't kept for this run, so the exact cause can't be confirmed. The scores of these two rounds therefore can't, on their own, show that the article got worse. All formal results are kept and weren't overwritten by re-scoring.
 
-写手和评委都通过个人 Codex 显式请求 `gpt-6.1-sol`、`medium`；实际型号和费用未返回，保持未知。这里展示给定摘要下的文章组织与改写能力，不是系统综述、真实教育实验或独立专家认可。
+Both the agent and the judge explicitly requested `gpt-6.1-sol` at `medium` through a personal Codex account; the actual model and cost weren't returned and stay unknown. This shows how an article is organized and rewritten from the supplied summaries. It isn't a systematic review, a real education experiment or independent expert endorsement.
 
-从项目根目录使用自己的个人 Codex 登录另开实验：
+To start a new experiment with your own personal Codex login, run this from the project root:
 
 ```bash
 python3 scripts/run_demo.py literature-review --model gpt-6.1-sol --jury cli:codex:gpt-6.1-sol --rounds 3 --minutes 25 --codex-isolated --continue-after-target
 ```
 
-来源为 [Sparrow 等人的记忆实验](https://pubmed.ncbi.nlm.nih.gov/21764755/)、[Risko 与 Gilbert 的认知外包综述](https://pubmed.ncbi.nlm.nih.gov/27542527/) 和 [UNESCO 生成式 AI 教育与研究指南](https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research?hub=387)。本次在 2026-10-24 核对了官方索引；生成时使用的摘要、来源与局限完整冻结在实验记录中。
+The sources are [the memory experiments by Sparrow et al.](https://pubmed.ncbi.nlm.nih.gov/21764755/), [Risko and Gilbert's review of cognitive offloading](https://pubmed.ncbi.nlm.nih.gov/27542527/) and [UNESCO's guidance on generative AI in education and research](https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research?hub=387). The official indexes were checked on 2026-10-24 for this run; the summaries, sources and limits used during generation are frozen in full in the experiment record.

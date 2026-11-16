@@ -1,8 +1,8 @@
 name: percent-lesson
 goal: |
-  修改 lesson.md，为初中学生解释百分比、变化率、还原原量、连续变化和百分点的区别。
-  可以调整结构、例题与逐步解释，遵循 judge/brief.md；不要逐题抄写 judge/exercises.json 的测试题答案。
-  评分时受限学生模型只看到讲义和题目，需给答案、推理及讲义原句依据；程序按固定答案实际判分。
+  Revise lesson.md so it explains to middle-school students percentages, percent change, recovering the original amount, successive changes, and the difference between percent and percentage points.
+  You may change the structure, worked examples and step-by-step explanations; follow judge/brief.md, and do not copy the test questions or answers from judge/exercises.json.
+  During scoring a restricted student model sees only the lesson and the questions, and must give an answer, its reasoning, and a supporting sentence quoted from the lesson; a program grades the answers against a fixed key.
 artifact: [lesson.md]
 judge:
   type: command

@@ -1,10 +1,10 @@
 name: adult-activity-explainer
 goal: |
-  面向久坐办公的一般健康成人，改进 explainer.md，解释 WHO 身体活动建议，帮助读者理解并开始行动。
-  只使用 judge/sources.json：中高强度有氧活动、肌肉强化、减少久坐、从少量逐步增加。
-  关键数量必须通过 {{资料键}} 写入，资料键在 judge/sources.json 的 values 中；来源用 [W1]、[W2]。
-  可以写一般生活场景例子，不制定个人训练处方，不加入药物、诊断或疾病治疗承诺。
-  保留一般健康成人、健康科普及不能替代个体医疗建议的适用说明。
+  Improve explainer.md for generally healthy adults with desk jobs: explain the WHO physical activity recommendations and help readers understand them and get started.
+  Use only judge/sources.json: moderate- to vigorous-intensity aerobic activity, muscle strengthening, reducing sedentary time, and starting small and building up gradually.
+  Write the key quantities only as {{data key}} placeholders; the keys are in the values of judge/sources.json. Cite sources as [W1], [W2].
+  You may use everyday examples, but do not write personal training prescriptions or add medication, diagnosis or promises of treating disease.
+  Keep the statements that this is for generally healthy adults, that it is health education, and that it is not a substitute for individual medical advice.
 artifact: [explainer.md]
 judge:
   type: rubric

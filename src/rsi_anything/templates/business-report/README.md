@@ -1,12 +1,12 @@
-# D08：固定资料经营分析
+# D08: Business analysis on fixed data
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-用 Apple 官方历史财报演示报告逐轮改进：助手修改 `report.md` 和 `charts.json`，程序计算数字与图表，模型评委评价结论、解释和阅读体验。默认初稿由人编写；没有预设后续候选或分数。
+This template uses Apple's official historical financial statements to show a report improving round by round. The agent edits `report.md` and `charts.json`, a program computes the figures and charts, and a model judge rates the conclusions, explanations and readability. The default starting draft was written by a person; there are no preset later candidates or scores.
 
-## 启动
+## Getting started
 
-配置好个人编程助手或个人模型账号后执行：
+After setting up your own coding agent or personal model account, run:
 
 ```sh
 rsi init business-report demo-business-report
@@ -15,24 +15,24 @@ python3 judge/prepare.py
 rsi run --rounds 6
 ```
 
-准备脚本不联网、不调用模型；实际多轮运行使用个人账号资源。可以用 `rsi run --agent codex --rounds 6` 指定助手，评委在 `rsi.yaml` 中设置。
+The prepare script doesn't go online or call a model; the actual multi-round run uses your own account's resources. Use `rsi run --agent codex --rounds 6` to choose the agent; the judge is set in `rsi.yaml`.
 
-## 资料与数字
+## Data and figures
 
-`judge/facts.json` 保存 Apple 官方发布的全年 GAAP 数字、来源和口径说明。正文里的 `{{revenue_2024}}` 等键会被替换成含单位的数值；同比与服务占比实际计算。财年 2023、2024 可以直接写，其余阿拉伯数字需使用资料键。全部键的命名见输入中的 `template_keys`。
+`judge/facts.json` holds Apple's officially published full-year GAAP figures, with sources and notes on how each figure is defined. Keys such as `{{revenue_2024}}` in the text are replaced with values that include units; year-over-year changes and the services share are computed from the data. Fiscal years 2023 and 2024 can be written directly; any other number written in digits must use a data key. All key names are listed under `template_keys` in the input.
 
-`charts.json` 的 `metrics` 可选择一至三个不同指标：`revenue`、`products`、`services`、`operating_income`、`net_income`。图表数据来自冻结资料，助手不能另填数字。
+`metrics` in `charts.json` can select one to three different metrics: `revenue`, `products`, `services`, `operating_income`, `net_income`. Chart data comes from the frozen data; the agent can't fill in its own numbers.
 
-程序核对数字键、引用编号、关键指标和图表选择；模型评委判断论点是否有依据，是否区分营业利润与净利润、季度与全年、事实与推论。提高模型分数后还需赢过旧稿才保留。
+The program checks number keys, citation IDs, key metrics and the chart selection. The model judge assesses whether claims are supported, and whether the report keeps operating income apart from net income, quarterly from full-year figures, and facts from inferences. A candidate with a higher model score must also beat the previous draft head to head before it is kept.
 
-## 输出与替换输入
+## Outputs and replacing the inputs
 
-`out/report.html` 和 `out/report.md` 是成稿，`chart-*.mmd` 是 Mermaid 图表，`metrics.json` 是核对用数字；`evaluation.md`、`gates.json`、`notes.txt` 供评审使用。HTML 图形需联网加载 Mermaid 11，离线时正文与同页数据表仍可阅读。`outputs: [out]` 交给主循环保存每轮产物，助手不直接改 `out/`。
+`out/report.html` and `out/report.md` are the finished report, the `chart-*.mmd` files are Mermaid charts, and `metrics.json` holds the figures used for checking; `evaluation.md`, `gates.json` and `notes.txt` are for the review. The HTML charts need an internet connection to load Mermaid 11; offline, the text and the data table on the same page are still readable. `outputs: [out]` lets the main loop save each round's outputs; the agent doesn't edit `out/` directly.
 
-换公司或年份时先更新 `judge/facts.json` 的来源、数据、单位与说明，再同步修改准备脚本中的两年口径、初稿、目标和评分细则；保持原指标结构最省事。提交新输入后开新运行，不在一次运行中修改资料。
+To switch to another company or year, first update the sources, data, units and notes in `judge/facts.json`, then update the two-year basis in the prepare script, the starting draft, the goal and the scoring rubric to match. Keeping the existing metric structure is the least work. Commit the new inputs, then start a new run; don't change the data within a run.
 
-## 依赖与状态
+## Dependencies and status
 
-准备脚本只用 Python 标准库，循环沿用项目的 PyYAML 和模型接口。未接入额外优化框架或公司服务。来源核查日期为 2026-10-23；演示使用保存的历史资料，不是最新财报，不构成投资建议。
+The prepare script uses only the Python standard library, and the loop uses the project's existing PyYAML and model interfaces. No extra optimization framework or company service is used. Sources were checked on 2026-10-23. The demo uses saved historical data, not the latest financial report, and isn't investment advice.
 
-已完成真实三轮实验，最终保留分数从 53.5 提高到 74；后两轮候选被拒绝。报告版本、图表与数值核对记录保存在仓库 `examples/business-report/`。分数反映固定资料下的报告评价，不代表投资收益。
+A real three-round experiment is complete: the final kept score rose from 53.5 to 74, and the candidates from the last two rounds were rejected. Report versions, charts and the figure-check records are saved in the repository under `examples/business-report/`. Scores reflect how the report was rated on fixed data, not investment returns.

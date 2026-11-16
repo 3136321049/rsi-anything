@@ -1,4 +1,4 @@
-"""后台命令超时或被取消时，清理它启动的子进程。"""
+"""Clean up the child processes a background command started when it times out or is cancelled."""
 from __future__ import annotations
 
 import os
@@ -15,7 +15,7 @@ def run(command, *, timeout, input=None, stdin=None, **kwargs):
     try:
         stdout, stderr = process.communicate(input, timeout=timeout)
     except BaseException:
-        # POSIX 的独立进程组包含包装程序及其子进程，父进程先退出也能清理。
+        # On POSIX the separate process group holds the wrapper and its children, so cleanup works even if the parent exits first.
         if os.name == "posix":
             try:
                 os.killpg(process.pid, signal.SIGKILL)

@@ -91,7 +91,7 @@ def _quote_found(quote: Any, artifact: str) -> bool:
         return False
     if needle in hay:
         return True
-    # 多篇作品的评委可能用相邻引号列出几段真实原文，逐段核对。
+    # A judge of several pieces may list a few real quotes in adjacent quotation marks; check each one.
     quoted = list(re.finditer(r'“([^”]+)”|"([^\"]+)"', str(quote)))
     outside = re.sub(r'“[^”]+”|"[^\"]+"', "", str(quote))
     if len(quoted) > 1 and not outside.strip(" \t\r\n;；,，/、"):

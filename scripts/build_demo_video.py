@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""用真实作品和数据制作无声短演示，不重跑实验、不重新生成模型内容。"""
+"""Make a short silent demo from real artifacts and data; reruns no experiments and regenerates no model content.
+
+The on-screen card text and demo-video.json metadata are kept in Chinese on purpose: they must match the committed
+examples/showcase-media/openrsi-demo.mp4 (its SHA256 is recorded). Translating them means re-rendering the video."""
 from __future__ import annotations
 
 import hashlib
@@ -21,10 +24,10 @@ def run(args):
 
 def main():
     if not shutil.which("ffmpeg"):
-        raise SystemExit("需要 FFmpeg")
+        raise SystemExit("FFmpeg is required")
     font = next((path for path in FONTS if Path(path).exists()), None)
     if not font:
-        raise SystemExit("需要 Noto Sans CJK 或系统中文字体")
+        raise SystemExit("Noto Sans CJK or a system Chinese font is required")
     OUT.mkdir(parents=True, exist_ok=True)
     sources = []
     with tempfile.TemporaryDirectory(prefix="rsi-demo-video-") as temp:
@@ -81,7 +84,7 @@ def main():
         "source_kind": "已有真实实验与产物的展示剪辑，不是新的优化实验", "sources": sources,
         "source_note": "历史演讲片段来源与公共领域标记见 video-cut/inputs/public-speech/source.json。模型分数不代表真实业务收益。",
         "sha256": hashlib.sha256(target.read_bytes()).hexdigest(), "probe": probe, "decode_ok": True}, ensure_ascii=False, indent=2) + "\n")
-    print("演示视频已生成并解码验证：", target.relative_to(ROOT))
+    print("Demo video built and decode-checked:", target.relative_to(ROOT))
 
 
 if __name__ == "__main__":

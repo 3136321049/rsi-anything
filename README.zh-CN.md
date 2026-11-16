@@ -13,11 +13,11 @@ DARWIN 是 RiseAI 的进化实验室，底层是 Open RSI 工具包（`rsi-anyth
 | 案例 | 这次具体发生了什么 | 记录 |
 |---|---|---|
 | 模糊搜索提速 | 连续三轮保留：1× → 4.45× → 17.83× → 27.45×，每次计时前都先核对结果 | [代码实验室](https://www.riseai.top/darwin/zh/labs/code/) |
-| Python 记账修复 | 固定测试从 6/15 依次修到 9/15、12/15、15/15 | [源码与测试](examples/code-repair/README.md) |
+| Python 记账修复 | 固定测试从 6/15 依次修到 9/15、12/15、15/15 | [源码与测试](examples/code-repair/README.zh-CN.md) |
 | CPU 数字分类 | 验证集正确率从 46.889% 到 99.333%；后两轮没有正式新改动 | [模型实验室](https://www.riseai.top/darwin/zh/labs/experiments/) |
 | 演讲剪成短片 | 从 18.5 分提升并保留 75.5 分版本；之后一版 77 分，但新旧两次直接比较都没赢，被拒绝 | [视频实验室](https://www.riseai.top/darwin/zh/labs/video/) |
-| 客服提示词 | 三个候选都没有提升，保留原提示词（开发集 89.6%，留出集 82.8%） | [提示词与错例](examples/prompt-opt/README.md) |
-| 示例合同 | 保留 91.5 分讨论稿，定位 7/7 类问题；较弱候选照常保留 | [合同稿与复核](examples/contract-review/README.md) |
+| 客服提示词 | 三个候选都没有提升，保留原提示词（开发集 89.6%，留出集 82.8%） | [提示词与错例](examples/prompt-opt/README.zh-CN.md) |
+| 示例合同 | 保留 91.5 分讨论稿，定位 7/7 类问题；较弱候选照常保留 | [合同稿与复核](examples/contract-review/README.zh-CN.md) |
 
 这些结果属于对应任务与评价条件，不是跨任务的能力保证。固定验证集被反复用于调参，不能当作独立的泛化证据；模型评分也不是专家认证。停滞、拒绝和失败都完整保留。
 
@@ -69,7 +69,7 @@ rsi export --to ../my-first-result
 | D15 GPU 算子 | `kernel-speed` | Softmax 实现与启动参数 |
 | 视觉（新增） | `svg-drawing`、`landing-page` | 一幅 SVG 画，或一页网站，由能看图的评委按截图评分 |
 
-两个视觉模板是源码中新增的，还没有进入可下载的安装包，实跑见[鹈鹕](examples/svg-drawing/README.md)和[落地页](examples/landing-page/README.md)案例。**模板存在不等于完成实跑。** D01–D06、D08–D14 已完成多轮与独立验证；D07 和 D15 是上面说明的资源例外。空的 GPU 结果和失败的生成请求不会被模拟，也不计作完成。
+两个视觉模板是源码中新增的，还没有进入可下载的安装包，实跑见[鹈鹕](examples/svg-drawing/README.zh-CN.md)和[落地页](examples/landing-page/README.zh-CN.md)案例。**模板存在不等于完成实跑。** D01–D06、D08–D14 已完成多轮与独立验证；D07 和 D15 是上面说明的资源例外。空的 GPU 结果和失败的生成请求不会被模拟，也不计作完成。
 
 ## 多轮如何运行
 
@@ -104,4 +104,4 @@ python -m http.server 8765 --bind 127.0.0.1 --directory build/site
 
 项目代码采用 MIT 许可；第三方软件、模型、数据、视频和文献保留各自的条件，尤其默认回测行情及其派生产物仅限非商业使用。合同和医学示例是虚构练习或给定的公开资料，不是法律或医疗建议；回测描述的是历史模拟，不代表未来收益。详见[开源组件与资料来源](docs/OPEN-SOURCE.zh-CN.md)。
 
-参与开发请先读 [AGENTS.md](AGENTS.md)、[当前架构](docs/PLAN.zh-CN.md) 和[扩展模板](docs/EXTENDING.zh-CN.md)；换电脑继续开发见[跨电脑协作](docs/COLLABORATION.zh-CN.md)和[接手说明](docs/HANDOFF.zh-CN.md)。
+参与开发请先读 [AGENTS.md](AGENTS.md)、[当前架构](docs/PLAN.zh-CN.md) 和[扩展模板](docs/EXTENDING.zh-CN.md)；换电脑继续开发见[跨电脑协作](docs/COLLABORATION.md)和[接手说明](docs/HANDOFF.md)。

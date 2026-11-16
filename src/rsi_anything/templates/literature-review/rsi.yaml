@@ -1,10 +1,10 @@
 name: cognitive-offloading-review
 goal: |
-  为教育研究读书会写一篇关于“数字工具怎样改变我们记忆信息与信息位置”的中文资料综述。
-  修改 review.md 和 evidence.json，只使用 judge/sources.json 的三份摘要。
-  围绕一个问题综合比较实验、理论综述和政策建议，分清支持的结论与仍需研究的假设。
-  每个来源使用 [S1] 等引用；evidence.json 中 claim 必须是正文的一句原话，sources 对应来源编号。
-  至少三条证据映射并覆盖三个来源，不能把旧检索研究写成生成式AI的直接效果证明。
+  Write an English literature review for an education research reading group on "how digital tools change what we remember about information and where to find it".
+  Revise review.md and evidence.json, using only the three summaries in judge/sources.json.
+  Organize the review around one question and compare the experiment, the theoretical review and the policy guidance, separating supported conclusions from hypotheses that still need research.
+  Cite each source as [S1] and so on; in evidence.json each claim must be a sentence copied word for word from the review, and sources lists the matching source ids.
+  Give at least three evidence mappings covering all three sources, and do not present the older search-and-memory study as direct proof of the effects of generative AI.
 artifact: [review.md, evidence.json]
 judge:
   type: rubric

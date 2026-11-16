@@ -1,4 +1,4 @@
-"""不模拟 GPU 成绩，只验证模板及不可用环境的明确返回。"""
+"""GPU results are never simulated; only the template and its explicit result in an unavailable environment are checked."""
 import importlib.util
 import json
 import os
@@ -56,7 +56,7 @@ def test_probe_missing_dependencies_is_not_zero_score(monkeypatch, tmp_path):
     data = json.loads((tmp_path / "out/metrics.json").read_text())
     assert data["score"] is None and data["status"] == "environment_unavailable"
     assert not target.exists()
-    assert "模拟" in (tmp_path / "out/report.md").read_text()
+    assert "simulated" in (tmp_path / "out/report.md").read_text()
 
 
 def test_real_local_probe_cannot_run_candidate(tmp_path):

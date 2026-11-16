@@ -1,1 +1,1 @@
-D08 固定资料经营分析：真实来源输入、可改初稿、程序检查与模型评审。
+business: an Apple FY2024 operating report built from fixed real sources, with program checks and an LLM jury

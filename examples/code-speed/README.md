@@ -1,12 +1,12 @@
-# D01：模糊搜索提速
+# D01: Fuzzy search speedup
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-2026-10-21 的真实三轮运行将固定负载下的速度从基线提高到 **4.45、17.83、27.45 倍**，三轮均保留。分别改进距离计算、候选剪枝和可复用的名字统计，输出仍须通过参考实现的正确性检查。
+A real three-round run on 2026-10-21 raised speed on a fixed workload from the baseline to **4.45×, 17.83× and 27.45×**, and all three rounds were kept. The rounds improved, in turn, the distance calculation, candidate pruning and reusable per-name statistics. The output still had to pass the correctness check against the reference implementation.
 
-[运行报告](runs/2026-10-21-codex-3-rounds/report.html) · [原始账本](runs/2026-10-21-codex-3-rounds/ledger.jsonl) · [逐版正确性复核](runs/2026-10-21-codex-3-rounds/artifact-verification.json) · [模板与替换输入](../../src/rsi_anything/templates/code-speed/README.md)
+[Run report](runs/2026-10-21-codex-3-rounds/report.html) · [Raw ledger](runs/2026-10-21-codex-3-rounds/ledger.jsonl) · [Per-version correctness re-check](runs/2026-10-21-codex-3-rounds/artifact-verification.json) · [Template and replacing inputs](../../src/rsi_anything/templates/code-speed/README.md)
 
-初始、三轮候选与最终源码已按原始补丁重建，分别在运行目录的 `artifacts/baseline/`、`rounds/r001/artifacts/` 至 `rounds/r003/artifacts/`、`artifacts/final/`。本次复核全部正确；复核的耗时不替换历史分数。加速倍数依赖机器与输入规模。
+The starting source, the three round candidates and the final source were rebuilt from the original patches. They are in the run folder under `artifacts/baseline/`, `rounds/r001/artifacts/` to `rounds/r003/artifacts/`, and `artifacts/final/`. Every version passed this re-check; the re-check's timings don't replace the historical scores. Speedups depend on the machine and the input size.
 
 ```bash
 rsi init code-speed speed-demo
@@ -16,4 +16,4 @@ rsi run --agent codex --model gpt-6.1-sol --rounds 5
 rsi report
 ```
 
-该命令启动新实验，需要已登录的个人助手和可用型号。历史运行使用账号默认型号，没有额外返回的服务端型号确认。实现由本项目编写，循环思路参考 autoresearch，没有导入其运行引擎。
+This command starts a new experiment. It needs a personal agent you're signed in to and a model you can use. The historical run used the account's default model, and the service returned no separate confirmation of which model ran. The implementation is this project's own. The loop idea follows autoresearch; its run engine is not imported.

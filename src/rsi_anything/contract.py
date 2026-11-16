@@ -87,7 +87,7 @@ class Contract:
     holdout: Optional[JudgeSpec] = None
     context: str = ""
     assets: list[str] = field(default_factory=list)
-    outputs: list[str] = field(default_factory=list)  # 评审生成的报告、图表或视频，需要随轮次保存。
+    outputs: list[str] = field(default_factory=list)  # Reports, charts or videos the judge generates, saved with each round.
     strategy: str = "greedy"  # what a round does (strategy.py); plugins add more
     task_model: str = ""      # roles.task: the model the task itself calls, given to judges as $RSI_TASK_MODEL
     root: Path = Path(".")

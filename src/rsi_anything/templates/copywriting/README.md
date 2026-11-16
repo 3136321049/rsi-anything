@@ -1,8 +1,8 @@
-# 小红书文案迭代
+# Iterating on a Xiaohongshu post
 
-[English](README.en.md)
+[简体中文](README.zh-CN.md)
 
-为虚构“夜航自习室”的夜间会员写笔记。AI 每轮只改 `post.md`；产品事实固定在 `judge/brief.md`。基本规则检查长度和指定信息，模型按评分细则打分，并交换顺序比较新旧版本。
+Write a post about the night membership of the fictional "Night Voyage Study Room" (夜航自习室). Each round, the AI changes only `post.md`; the product facts are fixed in `judge/brief.md`. Basic rule checks cover length and required information. A model scores the post against the rubric and runs a head-to-head comparison of the new and current versions in both orders.
 
 ```bash
 rsi init copywriting post-demo
@@ -11,8 +11,8 @@ rsi run --agent codex --model gpt-6.1-sol --jury cli:codex:gpt-6.1-sol --rounds 
 rsi report
 ```
 
-使用自己的个人账号并明确写手/评委型号。分数只是该评委下的评价，不等于实际点击或销售效果。
+Use your own personal account and name the writing agent's and judge's models explicitly. A score is only this judge's assessment, not actual clicks or sales.
 
-替换输入：修改 `judge/brief.md` 中的产品、人群、价格和行动入口，再同步 `judge/rubric.yaml` 的必要信息/禁词检查，准备正常初稿 `post.md`，提交后新开实验。每轮正文和修改说明会保存，拒绝稿也保留。
+Replacing inputs: change the product, audience, price and call to action in `judge/brief.md`, and update the required-information and banned-phrase checks in `judge/rubric.yaml` to match. Prepare an ordinary first draft in `post.md`, commit, and start a new experiment. Each round's text and change notes are saved, and rejected drafts are kept too.
 
-本模板没有外部文案框架依赖。完整历史稿件见仓库 `examples/copywriting/`；跨多个简报改进写作方法使用另一个 `writing-guide` 模板。
+This template doesn't depend on any external copywriting framework. The full history of drafts is in `examples/copywriting/` in the repository. To improve a writing method across several briefs, use the separate `writing-guide` template.

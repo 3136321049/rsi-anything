@@ -1,4 +1,4 @@
-"""实时页面与分享页：只读运行目录，图片随版本保存，分享文件自带全部内容且去掉本机路径。"""
+"""Live and share pages: they only read the run directory, images are saved with each version, and a share file is self-contained with local paths removed."""
 from __future__ import annotations
 
 import json
@@ -19,7 +19,7 @@ PNG = bytes.fromhex("89504e470d0a1a0a0000000d4948445200000001000000010806000000"
 @pytest.fixture
 def finished(toy):
     project = toy([{"write": {"value.txt": "5"}, "hypothesis": "bigger"}, {"write": {"value.txt": "2"}}], rounds=2)
-    # 评审时生成一张图，模拟视觉类模板保存的渲染结果。
+    # Generate an image while judging, like the renders that visual templates save.
     judge = (project / "judge.py").read_text()
     (project / "judge.py").write_text("import os, pathlib\npathlib.Path('out').mkdir(exist_ok=True)\n"
                                       f"pathlib.Path('out/view.png').write_bytes({PNG!r})\n" + judge)

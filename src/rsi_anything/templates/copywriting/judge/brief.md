@@ -1,11 +1,11 @@
-# 产品资料（唯一可信的事实来源）
+# Product brief (the only trusted source of facts)
 
-- 店名：夜航自习室，位于某城市大学城商业街二楼，地铁站步行 6 分钟。
-- 新品：夜间会员，每天 18:00 到次日 02:00 可用。
-- 价格：月卡 199 元；首月体验价 129 元，限前 50 名。
-- 座位：42 个独立隔间，每个隔间有护眼台灯、两个插座和一个 USB-C 快充口。
-- 安静规则：自习区禁止通话；另设 4 个电话间，可以开线上会议。
-- 夜间福利：22:00 后免费热牛奶或无糖豆浆，每人每晚一杯。
-- 安全：01:30 后进出需要刷卡；店员值班到 02:00。
-- 目标读者：要考研、考公、考证，白天上班或上课，只有晚上能学习的人。
-- 预约：在店铺公众号「夜航自习室」回复「夜间」领取体验名额。
+- Name: Night Voyage Study Room, on the second floor of the University Town shopping street; 6 minutes' walk from the metro station.
+- New offer: the Night Membership, valid every day from 18:00 to 02:00 the next morning.
+- Price: ¥199 per month. First-month trial price ¥129, limited to the first 50 sign-ups.
+- Seats: 42 private booths. Each booth has an eye-friendly desk lamp, two power sockets and one USB-C fast charger.
+- Quiet rule: no calls in the study area. There are 4 phone booths for calls and online meetings.
+- Night perk: after 22:00, one free hot milk or unsweetened soy milk per person per night.
+- Safety: entry needs a key card after 01:30. Staff are on duty until 02:00.
+- Target readers: people preparing for graduate-school, civil-service or certification exams who work or attend classes during the day and can only study at night.
+- How to join: reply "NIGHT" to the store's official account "Night Voyage Study Room" to claim a trial spot.

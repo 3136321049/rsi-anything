@@ -1,4 +1,4 @@
-"""保存评审后的作品和生成文件，临时评审目录清理后仍能查看。"""
+"""Save judged artifacts and generated files so they stay viewable after the temporary judge directory is cleaned up."""
 from __future__ import annotations
 
 import hashlib
@@ -14,7 +14,7 @@ from .paths import matches, normalize
 
 
 def write_json(path: Path, data):
-    """先写同目录临时文件，避免中断时留下半份状态。"""
+    """Write a temporary file in the same directory first, so an interruption never leaves half-written state."""
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(path.name + ".tmp")
     with temporary.open("w", encoding="utf-8") as stream:
@@ -26,7 +26,7 @@ def write_json(path: Path, data):
 
 
 def save(source: Path, dest: Path, patterns: list[str], verdict: Optional[Verdict] = None) -> dict:
-    """保存相对项目目录的普通文件；外部素材链接不会被意外打包。"""
+    """Save regular files relative to the project directory; links to outside material are never packed by accident."""
     source = source.resolve()
     target_root = dest / "files"
     if target_root.exists():
@@ -61,7 +61,7 @@ def save(source: Path, dest: Path, patterns: list[str], verdict: Optional[Verdic
 
 
 def mark_incomplete(snapshot: Path):
-    """保留真实目录来源，标记这一轮尚无完整正式结论。"""
+    """Keep the real source directory and mark that this round has no complete formal result yet."""
     path = snapshot / "manifest.json"
     if path.exists():
         manifest = json.loads(path.read_text(encoding="utf-8"))
@@ -70,7 +70,7 @@ def mark_incomplete(snapshot: Path):
 
 
 def restore(snapshot: Path, dest: Path):
-    """恢复已保存的生成文件，续跑时无需再次渲染当前最好版本。"""
+    """Restore saved generated files so a resumed run need not render the current best version again."""
     manifest = json.loads((snapshot / "manifest.json").read_text(encoding="utf-8"))
     for item in manifest["files"]:
         rel = normalize(item["path"])
@@ -88,7 +88,7 @@ def verdict(snapshot: Path) -> Optional[Verdict]:
 
 
 def copy_snapshot(source: Path, dest: Path, *, source_snapshot: str = ""):
-    """复用作品和评分结论，调用记录留在真正执行它们的阶段。"""
+    """Reuse the artifact and its verdict; call records stay with the stage that actually made the calls."""
     if dest.exists():
         shutil.rmtree(dest)
     dest.mkdir(parents=True)

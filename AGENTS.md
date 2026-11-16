@@ -1,25 +1,27 @@
-# Open RSI 协作约定
+# Open RSI Collaboration Conventions
 
-本仓库是独立的个人 Demo 项目。当前开发主线为 `rebuild`；`main` 保留较早版本。开始前先检查当前分支、未提交修改和远端状态，保留其他人的工作。
+This repository is an independent personal demo project. The current development line is `rebuild`; `main` keeps an earlier version. Before starting, check the current branch, uncommitted changes and remote state, and preserve other people's work.
 
-## 开始接手
+## Getting Started
 
-依次阅读 `README.zh-CN.md`、`docs/COLLABORATION.zh-CN.md`、`docs/HANDOFF.zh-CN.md` 和 `docs/GOAL-PROGRESS.zh-CN.md`。架构看 `docs/PLAN.zh-CN.md`，工程结论看 `docs/DEVLOG.zh-CN.md`，资料来源看 `docs/OPEN-SOURCE.zh-CN.md`。本机若有 `.agents/WORKLOG.md`，可补充读取，但不能要求另一台电脑拥有它。
+Read `README.zh-CN.md`, `docs/COLLABORATION.md`, `docs/HANDOFF.md` and `docs/GOAL-PROGRESS.md` in that order. For architecture see `docs/PLAN.zh-CN.md`, for engineering conclusions `docs/DEVLOG.md`, for sources `docs/OPEN-SOURCE.zh-CN.md`. If this machine has `.agents/WORKLOG.md`, you may read it as a supplement, but never require another computer to have it.
 
-当前有 16 个领域、18 个模板。14 个领域有完整真实多轮（D16 视觉为首发后新增）；D07 为生成服务受限的部分实测，D15 待个人 GPU。完整运行不表示每轮提升。默认先查看 `examples/`，不要为了接手而重新运行所有模型任务。
+There are currently 16 domains and 18 templates. 14 domains have complete real multi-round runs (D16 visual was added after the first release); D07 is a partial real run limited by the generation service, and D15 awaits a personal GPU. A complete run does not mean every round improved. Look at `examples/` first by default; do not rerun all model tasks just to take over.
 
-## 修改与实验
+## Changes and Experiments
 
-只修改当前任务需要的内容，不覆盖已有未提交修改。涉及代码时运行对应测试；完整回归为 `python -m pytest -q`。模板独立放在 `src/rsi_anything/templates/`，多轮结果导出到 `examples/<模板>/runs/<运行号>/`，集合页用 `python scripts/build_showcase.py` 生成。
+Change only what the current task needs and do not overwrite existing uncommitted changes. When code is involved, run the relevant tests; the full regression is `python -m pytest -q`. Templates live separately in `src/rsi_anything/templates/`, multi-round results are exported to `examples/<template>/runs/<run-id>/`, and the collection page is generated with `python scripts/build_showcase.py`.
 
-保留原始账本、拒绝稿、失败与未知结果；修改固定资料或评价规则后另开运行。媒体、评分和宣传文字须对应真实保存的产物。没有个人 API 或 GPU 时完成可做部分并记录缺项，不自动付费或借用其他工作的资源。
+Keep the original ledgers, rejected drafts, failures and unknown results; start a new run after changing fixed materials or evaluation rules. Media, scores and promotional copy must correspond to artifacts that were actually saved. Without a personal API or GPU, finish what can be done and record what is missing; never pay automatically or borrow resources from other work.
 
-完成有价值的工作后，在 `docs/DEVLOG.zh-CN.md` 记录日期、工具、完成结果、验证和下一步；状态有变化时同步执行表与接手说明。只记录项目结论，不复制原始聊天、全局规则或机器配置。
+After completing valuable work, record the date, tools, results, verification and next steps in `docs/DEVLOG.md`; when the status changes, update the execution table and handoff notes as well. Record only project conclusions; do not copy raw chats, global rules or machine configuration.
 
-## 提交与隐私
+## Commits and Privacy
 
-仓库只接收本项目源码、公开或明确获准的资料、合成输入和经过核查的实验产物。严禁上传雇主工作资料、内部代码或文档、内部地址、真实业务样本、工作截图、账号凭据、浏览器状态和原始会话。不能通过改名、改写或翻译把非公开资料带入本项目。
+The repository accepts only this project's source code, public or explicitly approved materials, synthetic inputs and verified experiment artifacts. Never upload employer work materials, internal code or documents, internal addresses, real business samples, work screenshots, account credentials, browser state or raw sessions. Non-public material must not be brought into this project by renaming, rewriting or translating it.
 
-`.rsi/`、`.agents/`、虚拟环境、账号配置和缓存留在各自电脑。GitHub 同步代码、共享文档和已导出的结果；登录与运行环境由各电脑独立准备。提交前按明确文件清单暂存，再检查暂存内容、二进制媒体及提交说明；不要直接暂存整个目录。
+`.rsi/`, `.agents/`, virtual environments, account configuration and caches stay on each computer. GitHub syncs code, shared documents and exported results; login and runtime environments are prepared independently on each computer. Before committing, stage an explicit list of files, then review the staged content, binary media and commit message; do not stage whole directories.
 
-本仓库作者和提交者统一使用 `3136321049 <3136321049@users.noreply.github.com>`，不添加其他邮箱的共同作者尾注。推送前检查远端是否前进；不强推、不覆盖别人提交，不自动合并 `main` 或创建正式发布。
+Commit messages, code comments and documentation are written in English. Chinese is used only for the Chinese version of the website: `web/i18n/zh.json`, `records.zh.json`, the `*.zh-CN.md` twins and `README.zh-CN.md`.
+
+All authors and committers in this repository use `3136321049 <3136321049@users.noreply.github.com>`; do not add co-author trailers with other emails. Before pushing, check whether the remote has moved ahead; never force-push, never overwrite others' commits, and never automatically merge into `main` or create a formal release.

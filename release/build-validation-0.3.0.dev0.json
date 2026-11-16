@@ -2,7 +2,7 @@
   "status": "verified",
   "checked_at": "2026-10-30",
   "completed_at_utc": "2026-10-30T07:57:56.393008+00:00",
-  "purpose": "wheel 包内容核对：与当前源码逐字节一致、模板完整、无缓存与本机路径；未构建源码包。",
+  "purpose": "Wheel contents check: byte-identical to current source, templates complete, no caches or local paths; source package not built.",
   "build_command": [
     "uv",
     "build",

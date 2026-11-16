@@ -1,4 +1,4 @@
-"""固定写手根据当前手册和简报生成作品，每轮都真实调用模型。"""
+"""A fixed writer model drafts a post for each brief from the current guide; every round makes real model calls."""
 import html
 import json
 import os
@@ -17,32 +17,33 @@ def generate(root, split, ask=llm.ask):
     out.mkdir(exist_ok=True)
     posts, records, errors = [], [], []
     for brief in briefs:
-        prompt = ("根据下列写作手册为产品简报写一篇小红书笔记。所有事实以简报为准。直接输出标题和正文，不解释，不调用工具。\n\n"
-                  + "## 手册\n" + guide + "\n\n## 简报\n" + json.dumps(brief, ensure_ascii=False))
+        prompt = ("Following the writing guide below, write a Xiaohongshu (RedNote) post for the product brief. The brief is the only "
+                  "source of facts. Output only the title and the body: no explanations, no tool calls.\n\n"
+                  + "## Guide\n" + guide + "\n\n## Brief\n" + json.dumps(brief, ensure_ascii=False))
         try:
             reply = ask(model, prompt, timeout=600)
             text = reply.text.strip()
             if not text:
-                raise llm.LLMError("写手返回空稿")
+                raise llm.LLMError("the writer returned an empty draft")
         except llm.LLMError as exc:
             errors.append({"id": brief["id"], "error": str(exc)})
             continue
         (out / f"{brief['id']}.md").write_text(text + "\n")
-        facts = "；".join(brief["facts"])
-        posts.append(f"# 简报 {brief['id']}\n\n产品：{brief['name']}\n\n目标读者：{brief['reader']}\n\n给定事实：{facts}"
-                     f"\n\n给定行动入口：{brief['action']}\n\n## 生成稿\n\n{text}")
+        facts = "; ".join(brief["facts"])
+        posts.append(f"# Brief {brief['id']}\n\nProduct: {brief['name']}\n\nTarget reader: {brief['reader']}\n\nGiven facts: {facts}"
+                     f"\n\nGiven call to action: {brief['action']}\n\n## Generated draft\n\n{text}")
         records.append({"id": brief["id"], "requested_model": model.raw, "actual_model": reply.model or None,
                         "usage": reply.usage, "seconds": reply.seconds, "file": f"{brief['id']}.md"})
     combined = "\n\n---\n\n".join(posts)
     (out / "posts.md").write_text(combined + "\n")
-    (out / "posts.html").write_text('<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>手册生成的文案</title>'
+    (out / "posts.html").write_text('<!doctype html><html lang="en"><meta charset="utf-8"><title>Posts written from the guide</title>'
         '<style>body{max-width:850px;margin:40px auto;padding:20px;font:17px/1.8 system-ui}pre{white-space:pre-wrap}</style>'
-        '<h1>手册生成的文案</h1><pre>' + html.escape(combined) + '</pre></html>')
+        '<h1>Posts written from the guide</h1><pre>' + html.escape(combined) + '</pre></html>')
     (out / "generation.json").write_text(json.dumps({"split": split, "synthetic_briefs": True, "calls": records,
                                                       "errors": errors}, ensure_ascii=False, indent=2) + "\n")
     (out / "gates.json").write_text(json.dumps({"all_briefs_generated": len(records) == len(briefs),
                                                "guide_present": len(guide.strip()) >= 30}))
-    (out / "notes.txt").write_text(f"{split}：固定写手 {model.raw} 已生成 {len(records)}/{len(briefs)} 份简报的文案。")
+    (out / "notes.txt").write_text(f"{split}: fixed writer {model.raw} drafted posts for {len(records)}/{len(briefs)} briefs.")
     return records
 
 

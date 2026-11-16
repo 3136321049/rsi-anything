@@ -87,9 +87,9 @@ split = "holdout" if "holdout" in Path(sys.argv[1]).parts else "development"
 summary = {"split": split, "model": model.raw, "accuracy": round(accuracy, 1),
            "correct": correct, "total": len(examples), "errors": len(errors), "predictions": predictions}
 (out / f"{split}.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-lines = [f"# 客服分类结果：{split}", "", f"模型：`{model.raw}`", "",
-         f"准确率：{accuracy:.1f}%（{correct}/{len(examples)}）；调用失败：{len(errors)}", "", "## 错例", ""]
-lines += [f"- {p['text']}：预期 {p['expected']}，实际 {p['predicted']}" for p in predictions if not p["correct"]]
+lines = [f"# Support intent results: {split}", "", f"Model: `{model.raw}`", "",
+         f"Accuracy: {accuracy:.1f}% ({correct}/{len(examples)}); failed calls: {len(errors)}", "", "## Mistakes", ""]
+lines += [f"- {p['text']}: expected {p['expected']}, got {p['predicted']}" for p in predictions if not p["correct"]]
 (out / f"{split}.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 report_result(round(accuracy, 1), {"prompt_present": True},
               f"{correct}/{len(examples)} correct with {model.raw}. Most common mistakes: "

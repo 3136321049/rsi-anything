@@ -1,19 +1,19 @@
 {
-  "title": "Open RSI 实验与作品",
-  "description": "查看 AI 改了什么、评审保留了什么，以及最后留下的作品。",
+  "title": "Open RSI Experiments and Artifacts",
+  "description": "See what the AI changed, what the review kept, and the artifact that remained in the end.",
   "domains": [
     {
       "id": "D01",
-      "title": "让搜索更快",
-      "category": "工程",
-      "description": "保持搜索结果不变，逐轮优化算法。",
-      "metric": "加速倍数",
+      "title": "Make search faster",
+      "category": "Engineering",
+      "description": "Keep search results unchanged while optimizing the algorithm round by round.",
+      "metric": "Speedup",
       "unit": "×",
       "pending": "developing",
       "cases": [
         {
           "template": "code-speed",
-          "title": "模糊搜索",
+          "title": "Fuzzy search",
           "primary": [
             "search.py"
           ],
@@ -23,20 +23,20 @@
           ]
         }
       ],
-      "note": "历史产物由原始补丁重建，原运行分数保持不变。"
+      "note": "Historical artifacts were rebuilt from the original patches; the original run scores are unchanged."
     },
     {
       "id": "D02",
-      "title": "修好记账项目",
-      "category": "工程",
-      "description": "从金额精度、分账余数到月度汇总，逐类修复业务问题。",
-      "metric": "测试通过率",
+      "title": "Fix an expense tracker",
+      "category": "Engineering",
+      "description": "Fix business-logic bugs one category at a time, from amount precision and split remainders to monthly summaries.",
+      "metric": "Test pass rate",
       "unit": "%",
       "pending": "developing",
       "cases": [
         {
           "template": "code-repair",
-          "title": "Python 记账",
+          "title": "Python expense tracker",
           "primary": [
             "expense.py",
             "out/report.md"
@@ -50,17 +50,17 @@
     },
     {
       "id": "D03",
-      "title": "优化客服提示词",
-      "category": "模型",
-      "description": "在外卖客服八分类任务上修改提示词，并检查留出集。",
-      "metric": "开发集正确率",
+      "title": "Optimize a support prompt",
+      "category": "Models",
+      "description": "Edit the prompt for an eight-class food-delivery support task, and check the held-out set.",
+      "metric": "Development-set accuracy",
       "unit": "%",
       "pending": "developing",
       "require_holdout": true,
       "cases": [
         {
           "template": "prompt-opt",
-          "title": "客服八分类",
+          "title": "Eight-class support intents",
           "primary": [
             "prompt.md",
             "out/development.md"
@@ -71,20 +71,20 @@
           ]
         }
       ],
-      "note": "完整运行也可能没有提升；保留被拒绝的尝试和留出结果。"
+      "note": "A complete run may still bring no improvement; rejected attempts and held-out results are kept."
     },
     {
       "id": "D04",
-      "title": "训练数字分类器",
-      "category": "模型",
-      "description": "调整 CPU 分类器与预处理，直接查看错分图片如何变化。",
-      "metric": "验证集正确率",
+      "title": "Train a digit classifier",
+      "category": "Models",
+      "description": "Tune a CPU classifier and its preprocessing, and see directly how the misclassified images change.",
+      "metric": "Validation accuracy",
       "unit": "%",
       "pending": "developing",
       "cases": [
         {
           "template": "cpu-classifier",
-          "title": "手写数字",
+          "title": "Handwritten digits",
           "primary": [
             "out/mistakes.png",
             "out/confusion.png",
@@ -96,20 +96,20 @@
           ]
         }
       ],
-      "note": "固定验证集被反复用于调参。无修改轮次的内部试验输出不属于正式评审，比较默认使用初始和最终产物。"
+      "note": "The fixed validation set was used repeatedly for tuning. Internal trial outputs from rounds with no changes are not part of the formal review; comparisons use the baseline and final artifacts by default."
     },
     {
       "id": "D05",
-      "title": "打磨文案与写作方法",
-      "category": "创作",
-      "description": "既看一篇笔记的变化，也看写作手册在多份简报上的使用。",
-      "metric": "评审得分",
-      "unit": "分",
+      "title": "Polish copy and a writing method",
+      "category": "Creative",
+      "description": "See both how a single post changes and how a writing guide performs across several briefs.",
+      "metric": "Judge score",
+      "unit": "pts",
       "pending": "developing",
       "cases": [
         {
           "template": "copywriting",
-          "title": "单篇文案",
+          "title": "Single post",
           "primary": [
             "post.md"
           ],
@@ -119,7 +119,7 @@
         },
         {
           "template": "writing-guide",
-          "title": "可复用写作手册",
+          "title": "Reusable writing guide",
           "primary": [
             "writing-guide.md",
             "out/posts.html",
@@ -130,25 +130,25 @@
             "judge/briefs"
           ],
           "invalid_runs": {
-            "20261024-000057-reusable-writing-guide": "这次运行存在评分解析问题，30 分不作为有效质量结果；保留原记录供排查。"
+            "20261024-000057-reusable-writing-guide": "This run had a score-parsing problem, so the score of 30 is not treated as a valid quality result; the original record is kept for troubleshooting."
           }
         }
       ],
-      "note": "单篇文案和可复用手册分别验收；任一必需子案例未完成，领域不计已验收。"
+      "note": "The single post and the reusable guide are accepted separately; if any required sub-case is incomplete, the domain does not count as accepted."
     },
     {
       "id": "D06",
-      "title": "把口播剪成短片",
-      "category": "创作",
-      "description": "选句、重排、渲染，播放初剪、中间片段与最终成片。",
-      "metric": "内容评审得分",
-      "unit": "分",
+      "title": "Cut a speech into a short clip",
+      "category": "Creative",
+      "description": "Select sentences, reorder, and render; play the first cut, intermediate clips, and the final cut.",
+      "metric": "Content judge score",
+      "unit": "pts",
       "pending": "developing",
       "require_video": true,
       "cases": [
         {
           "template": "video-cut",
-          "title": "口播高光",
+          "title": "Speech highlights",
           "primary": [
             "out/cut.mp4",
             "out/cut.txt",
@@ -161,7 +161,7 @@
           ]
         }
       ],
-      "note": "首版评价选句、顺序、时长与句数；不把文字评分等同于完整视听质量。",
+      "note": "The first version evaluates sentence selection, order, duration, and sentence count; a text-based score is not treated as full audiovisual quality.",
       "extra_inputs": [
         "video-cut/inputs/public-speech/input.mp4",
         "video-cut/inputs/public-speech/sentences.json",
@@ -170,17 +170,17 @@
     },
     {
       "id": "D07",
-      "title": "按简报生成视频",
-      "category": "创作",
-      "description": "修改生成提示词和参数，查看真实生成的短片。",
-      "metric": "评审得分",
-      "unit": "分",
+      "title": "Generate a video from a brief",
+      "category": "Creative",
+      "description": "Edit the generation prompt and parameters, and watch the clips that were actually generated.",
+      "metric": "Judge score",
+      "unit": "pts",
       "pending": "developing",
       "require_video": true,
       "cases": [
         {
           "template": "video-generation",
-          "title": "短视频生成",
+          "title": "Short video generation",
           "primary": [
             "out/video.mp4",
             "generation.json",
@@ -191,22 +191,22 @@
           ]
         }
       ],
-      "note": "已取得初始和第1轮真实视频；后两轮服务未返回作品，质量未知。原始0分仅是旧失败编码，不画成质量下降。按资源例外保留部分实测，不计完整多轮验收。",
+      "note": "Real videos were obtained for the baseline and round 1; the service returned no artifact in the next two rounds, so their quality is unknown. The original score of 0 is only a legacy failure code and is not plotted as a drop in quality. Kept as partially measured under a resource exception, and not counted as a complete multi-round acceptance.",
       "resource_exception": true,
-      "resource_exception_label": "部分实测（服务受限）"
+      "resource_exception_label": "Partially measured (service limited)"
     },
     {
       "id": "D08",
-      "title": "写清经营变化",
-      "category": "研究",
-      "description": "对照固定公开财报资料，改善数字、论证与报告结构。",
-      "metric": "评审得分",
-      "unit": "分",
+      "title": "Explain business changes clearly",
+      "category": "Research",
+      "description": "Improve the figures, reasoning, and report structure against fixed public financial-report material.",
+      "metric": "Judge score",
+      "unit": "pts",
       "pending": "developing",
       "cases": [
         {
           "template": "business-report",
-          "title": "经营分析",
+          "title": "Business analysis",
           "primary": [
             "out/report.html",
             "report.md",
@@ -219,20 +219,20 @@
           ]
         }
       ],
-      "note": "固定历史资料分析，不构成投资建议。"
+      "note": "Analysis of fixed historical data; not investment advice."
     },
     {
       "id": "D09",
-      "title": "比较策略与风险",
-      "category": "研究",
-      "description": "在固定历史上调整均线策略，同时看收益、成本和回撤。",
-      "metric": "收益与回撤折中得分",
-      "unit": "分",
+      "title": "Weigh strategy against risk",
+      "category": "Research",
+      "description": "Tune a moving-average strategy on fixed history, watching returns, costs, and drawdown together.",
+      "metric": "Return–drawdown trade-off score",
+      "unit": "pts",
       "pending": "developing",
       "cases": [
         {
           "template": "quant-backtest",
-          "title": "历史策略回测",
+          "title": "Historical strategy backtest",
           "primary": [
             "out/equity-drawdown.png",
             "strategy.json",
@@ -245,20 +245,20 @@
           ]
         }
       ],
-      "note": "收益提高可能伴随回撤扩大；不代表未来收益。行情及派生图表遵循 CC BY-NC-SA 4.0，代码许可另列。"
+      "note": "Higher returns may come with larger drawdowns; this does not indicate future returns. Market data and derived charts follow CC BY-NC-SA 4.0; the code license is listed separately."
     },
     {
       "id": "D10",
-      "title": "组织研究综述",
-      "category": "研究",
-      "description": "把给定研究资料整理成有证据、有边界的论述。",
-      "metric": "评审得分",
-      "unit": "分",
+      "title": "Structure a literature review",
+      "category": "Research",
+      "description": "Turn the given research material into an argument with evidence and clear limits.",
+      "metric": "Judge score",
+      "unit": "pts",
       "pending": "developing",
       "cases": [
         {
           "template": "literature-review",
-          "title": "资料综述",
+          "title": "Literature review",
           "primary": [
             "out/review.html",
             "review.md",
@@ -273,16 +273,16 @@
     },
     {
       "id": "D11",
-      "title": "梳理合同问题",
-      "category": "生活",
-      "description": "对照示例合同，补齐问题清单与修改建议。",
-      "metric": "评审得分",
-      "unit": "分",
+      "title": "Untangle contract issues",
+      "category": "Everyday",
+      "description": "Complete the issue list and revision suggestions for a synthetic contract.",
+      "metric": "Judge score",
+      "unit": "pts",
       "pending": "developing",
       "cases": [
         {
           "template": "contract-review",
-          "title": "示例合同",
+          "title": "Synthetic contract",
           "primary": [
             "out/review.html",
             "review.md",
@@ -294,20 +294,20 @@
           ]
         }
       ],
-      "note": "仅用于示例演示，不替代法律专业意见。"
+      "note": "For demonstration only; not a substitute for professional legal advice."
     },
     {
       "id": "D12",
-      "title": "让科普更易读",
-      "category": "生活",
-      "description": "在给定权威资料内，改进公众说明的组织与表达。",
-      "metric": "评审得分",
-      "unit": "分",
+      "title": "Make a health explainer easier to read",
+      "category": "Everyday",
+      "description": "Improve the structure and wording of a public explainer, staying within the given authoritative sources.",
+      "metric": "Judge score",
+      "unit": "pts",
       "pending": "developing",
       "cases": [
         {
           "template": "medical-explainer",
-          "title": "公众科普",
+          "title": "Public health explainer",
           "primary": [
             "out/explainer.html",
             "explainer.md"
@@ -319,20 +319,20 @@
           ]
         }
       ],
-      "note": "仅用于资料一致性和科普写作展示，不提供个人诊疗建议。"
+      "note": "Only for demonstrating source consistency and health-explainer writing; not personal medical advice."
     },
     {
       "id": "D13",
-      "title": "改进讲义和讲解",
-      "category": "生活",
-      "description": "围绕固定练习改善概念说明、例题与解释。",
-      "metric": "评审得分",
-      "unit": "分",
+      "title": "Improve a lesson and its explanations",
+      "category": "Everyday",
+      "description": "Improve concept explanations, worked examples, and walkthroughs against a fixed exercise set.",
+      "metric": "Judge score",
+      "unit": "pts",
       "pending": "developing",
       "cases": [
         {
           "template": "lesson-builder",
-          "title": "讲义与练习",
+          "title": "Lesson and exercises",
           "primary": [
             "out/lesson.html",
             "lesson.md",
@@ -347,16 +347,16 @@
     },
     {
       "id": "D14",
-      "title": "安排工作之外的一周",
-      "category": "生活",
-      "description": "检查时间冲突、任务覆盖和偏好，查看七日日程。",
-      "metric": "日程得分",
-      "unit": "分",
+      "title": "Plan the week outside work",
+      "category": "Everyday",
+      "description": "Check time conflicts, task coverage, and preferences, and view the seven-day schedule.",
+      "metric": "Schedule score",
+      "unit": "pts",
       "pending": "developing",
       "cases": [
         {
           "template": "weekly-planner",
-          "title": "一周规划",
+          "title": "Weekly plan",
           "primary": [
             "out/schedule.html",
             "out/schedule.md",
@@ -370,10 +370,10 @@
     },
     {
       "id": "D15",
-      "title": "优化 GPU 算子",
-      "category": "工程",
-      "description": "数值检查后比较 Softmax，再单独测小型推理模块。",
-      "metric": "单算子加速倍数",
+      "title": "Optimize a GPU kernel",
+      "category": "Engineering",
+      "description": "Compare Softmax after numeric checks, then measure a small inference module separately.",
+      "metric": "Single-kernel speedup",
       "unit": "×",
       "pending": "waiting",
       "require_gpu": true,
@@ -391,22 +391,22 @@
           ]
         }
       ],
-      "note": "当前没有兼容 GPU，按授权保留资源例外。模板与环境探测可查看，GPU 和模块性能数字留空，不计入实测通过数。",
+      "note": "No compatible GPU is currently available, so a resource exception is kept as authorized. The template and environment probe can be viewed; GPU and module performance numbers are left blank and are not counted as measured passes.",
       "resource_exception": true,
-      "resource_exception_label": "待GPU实测（资源例外）"
+      "resource_exception_label": "Awaiting GPU measurement (resource exception)"
     },
     {
       "id": "D16",
-      "title": "画得更好看",
-      "category": "创作",
-      "description": "评委只看渲染出的图：一幅矢量画、一页落地页，逐轮修改，留下更好看的版本。",
-      "metric": "看图评审得分",
-      "unit": "分",
+      "title": "Make it look better",
+      "category": "Creative",
+      "description": "The judge sees only the rendered picture: a vector drawing and a landing page, changed round by round, keeping the versions that look better.",
+      "metric": "Judge score from screenshots",
+      "unit": "pts",
       "pending": "developing",
       "cases": [
         {
           "template": "svg-drawing",
-          "title": "鹈鹕骑自行车",
+          "title": "Pelican on a bicycle",
           "primary": [
             "drawing.svg",
             "out/drawing.png"
@@ -418,7 +418,7 @@
         },
         {
           "template": "landing-page",
-          "title": "夜航自习室落地页",
+          "title": "Night Voyage landing page",
           "primary": [
             "index.html",
             "out/desktop.png",
@@ -433,7 +433,7 @@
           ]
         }
       ],
-      "note": "分数来自单个评委模型看截图、每次一个样本，只代表这份评分表。鹈鹕第二次运行加了同分并排比较（ties: compare），两次运行各自验收。"
+      "note": "Scores come from one judge model looking at screenshots, one sample at a time, and describe this rubric only. The second pelican run added side-by-side tie-breaking (ties: compare); each run is verified on its own."
     }
   ]
 }
