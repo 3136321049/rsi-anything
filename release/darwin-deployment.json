@@ -28,11 +28,11 @@
   "models_called": 0,
   "new_run_web_api": false,
   "browser_verification": "Headless Chrome checked the live home page with light and dark forced separately",
-  "source_commit": "310d328",
-  "release": "20261116-darwin-theme-v2 (previous release 20261025-darwin-path-v1 kept; can switch back)",
+  "source_commit": "6dd0719",
+  "release": "20261116-darwin-en-v3 (earlier releases kept for rollback)",
   "changes": [
-    "English is the default language; Chinese is at /zh/",
-    "Light and dark themes; follows the system by default, can be switched manually",
-    "Visual lab, All Experiments page and package 0.3.0.dev0"
+    "English default at /, Chinese at /zh/",
+    "Light and dark themes, following the system with a manual toggle",
+    "Docs, templates and READMEs in English; Chinese twins as README.zh-CN.md"
   ]
 }
