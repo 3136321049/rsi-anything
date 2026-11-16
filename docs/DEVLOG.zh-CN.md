@@ -11,7 +11,9 @@
 
 验证：`tests/test_site.py` 15 项通过；无头 Chrome 分别强制浅色与深色，检查首页与代码实验室截图。完整回归在本机有 39 项失败、19 项错误，改动前后相同，与本次修改无关（未逐项排查）。没有模型调用。
 
-下一步：重新部署 `build/site` 到 riseai.top/darwin（线上仍是 10-25 的中文版）。
+部署：同日更新到 https://www.riseai.top/darwin/（发布目录 `20261116-darwin-theme-v2`，上一版保留可切回），线上 CSP 为 `script-src 'self'`，因此主题恢复脚本放在 `assets/theme.js`。核查见 `release/darwin-deployment.json`。
+
+下一步：服务器根分区几乎写满（约 180MB 可用），后续部署前需先清理空间。
 
 ## 2026-10-30 · Claude Code：安装包 0.3.0.dev0 与开始使用页（第五批）
 
